@@ -1,32 +1,53 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import utils.FileUtils;
+
+import java.io.*;
+import java.nio.channels.FileChannel;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AndroidStarter {
-  static final String fileName = "settings.gradle";
   static final String BUILD_GRADLE_NAME = "build.gradle";
+  static final String SETTINGS_GRADLE_NAME = "settings.gradle";
   static final String MAIN_DIR_PATH = "src/main";
   static final String ANDROID_MANIFEST_XML_NAME = "AndroidManifest.xml";
+  static final String ANDROID_MODULE_NAME = "AndroidModule";
 
-  static String sourceDirPath;
-  static String androidManifestPath;
-  static String buildGradlePath;
-  static String layoutDirPath;
+  static String sampleSourceDirPath;
+  static String sampleAndroidManifestPath;
+  static String sampleBuildGradlePath;
+  static String sampleLayoutDirPath;
 
   static boolean isDebuggable = true;
 
   public static void main(String[] args) {
-    final String appDir = "/Users/kevin/Documents/git/AndroidStarter/AndroidSample";
+    /**
+     * Get sample project path through argument
+     */
+    String sampleHomePath = "/Users/kevin/Documents/git/AndroidStarterKit/AndroidSample";
+    String moduleHomePath;
+    try {
+      moduleHomePath = FileUtils.makePathWithSlash(new File(".").getCanonicalPath(), ANDROID_MODULE_NAME);
+    } catch (IOException e) {
+      printLog("Failed to find module");
+      e.printStackTrace();
+      return;
+    }
 
-    String moduleName = null;
-    String packagePath = null;
+    File rootPath = new File(".");
+    try {
+      printLog("Root Path : " + rootPath.getCanonicalPath());
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    String sampleModuleName = null;
+    String samplePackagePath = null;
 
     /**
      * Get module's name
      */
-    File settingsGradleFile = getFile(appDir, fileName);
+    File settingsGradleFile = FileUtils.getFileInDirectory(sampleHomePath, SETTINGS_GRADLE_NAME);
     if (settingsGradleFile.exists()) {
       try {
         Scanner scanner = new Scanner(settingsGradleFile);
@@ -35,7 +56,7 @@ public class AndroidStarter {
           String line = scanner.nextLine().replace("\'", "").replace(":", "");
 
           String[] tokens = line.split(" ");
-          moduleName = tokens[1];
+          sampleModuleName = tokens[1];
         }
       } catch (FileNotFoundException e) {
         e.printStackTrace();
@@ -43,8 +64,8 @@ public class AndroidStarter {
     }
 
 
-    if (moduleName != null) {
-      printLog("Success to find module name : " + moduleName);
+    if (sampleModuleName != null) {
+      printLog("Success to find module name : " + sampleModuleName);
     } else {
       printLog("Failed to find module name");
       return;
@@ -53,7 +74,7 @@ public class AndroidStarter {
     /**
      * Get package path from build.gradle
      */
-    File buildGradleFile = getFile(makePath(appDir, moduleName), BUILD_GRADLE_NAME);
+    File buildGradleFile = FileUtils.getFileInDirectory(FileUtils.makePathWithSlash(sampleHomePath, sampleModuleName), BUILD_GRADLE_NAME);
     if (buildGradleFile.exists()) {
       try {
         Scanner scanner = new Scanner(buildGradleFile);
@@ -62,8 +83,7 @@ public class AndroidStarter {
           String line = scanner.nextLine();
 
           if (line.contains("applicationId")) {
-            String applicationId = getStringBetweenQuotes(line);
-            packagePath = changeApplicationIdToPath(applicationId);
+            samplePackagePath = getStringBetweenQuotes(line).replaceAll("\\.", "/");
             break;
           }
         }
@@ -72,51 +92,59 @@ public class AndroidStarter {
       }
     }
 
-    if (packagePath != null) {
-      printLog("Success to find package path : " + packagePath);
+    if (samplePackagePath != null) {
+      printLog("Success to find package path : " + samplePackagePath);
     } else {
       printLog("Failed to find package path");
       return;
     }
 
-    sourceDirPath = makePath(appDir, moduleName, MAIN_DIR_PATH, "java", packagePath);
+    sampleSourceDirPath = FileUtils.makePathWithSlash(sampleHomePath, sampleModuleName, MAIN_DIR_PATH, "java", samplePackagePath);
 
     /**
      * Get name of default Activity
      */
-    File sourceDir = new File(sourceDirPath);
+    File sourceDir = new File(sampleSourceDirPath);
     if (sourceDir.list().length > 0) {
       printLog("Success to find Default Activity : " + sourceDir.list()[0]);
     } else {
       printLog("Failed to find Default Activity");
+      return;
     }
 
-    buildGradlePath = buildGradleFile.getPath();
-    androidManifestPath = makePath(appDir, moduleName, MAIN_DIR_PATH, ANDROID_MANIFEST_XML_NAME);
-    layoutDirPath = makePath(appDir, moduleName, MAIN_DIR_PATH, "res/layout");
+    sampleBuildGradlePath = buildGradleFile.getPath();
+    sampleAndroidManifestPath = FileUtils.makePathWithSlash(sampleHomePath, sampleModuleName, MAIN_DIR_PATH, ANDROID_MANIFEST_XML_NAME);
+    sampleLayoutDirPath = FileUtils.makePathWithSlash(sampleHomePath, sampleModuleName, MAIN_DIR_PATH, "res/layout");
 
-    System.out.println("Source Path : " + sourceDirPath);
-    System.out.println("build.gradle Path : " + buildGradlePath);
-    System.out.println("AndroidManifest Path : " + androidManifestPath);
-    System.out.println("layout path : " + layoutDirPath);
-  }
+//    System.out.println("Source Path : " + sampleSourceDirPath);
+//    System.out.println("build.gradle Path : " + sampleBuildGradlePath);
+//    System.out.println("AndroidManifest Path : " + sampleAndroidManifestPath);
+//    System.out.println("layout path : " + sampleLayoutDirPath);
 
-  public static File getFile(String dirPath, String fileName) {
-    File dir = new File(dirPath);
-    File file = new File(dir, fileName);
-    return file;
-  }
+    /**
+     * Starting to copy Module to Sample project
+     */
+    final String moduleLayoutDirPath = FileUtils.makePathWithSlash(moduleHomePath, "/app/src/main/res/layout");
 
-  public static String makePath(String... args) {
-    String path = "";
-    for (int i = 0, li = args.length; i < li; i++) {
-      path += args[i];
+//    try {
+//      FileUtils.copyFile(moduleLayoutDirPath, sampleLayoutDirPath, "activity_main.xml");
+//      FileUtils.copyFile(moduleLayoutDirPath, sampleLayoutDirPath, "layout_list_item.xml");
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//      return;
+//    }
 
-      if (i != li - 1) {
-        path += "/";
-      }
-    }
-    return path;
+    /**
+     * copy RecyclerViewActivity to MainActivity and change Package and Class name
+     */
+
+    /**
+     * copy dependencies in build.gralde
+     */
+
+    /**
+     * copy comdule only file or file with package
+     */
   }
 
   public static String getStringBetweenQuotes(String str) {
@@ -126,25 +154,6 @@ public class AndroidStarter {
       return matcher.group(1);
     }
     return null;
-  }
-
-  public static String changeApplicationIdToPath(String str) {
-    String path = null;
-    String[] tokens = str.split("\\.");
-
-    if (tokens.length == 0) {
-      return path;
-    } else {
-      path = "";
-    }
-
-    for (int i = 0, li = tokens.length; i < li; i++) {
-      path += tokens[i];
-      if (i != li - 1) {
-        path += "/";
-      }
-    }
-    return path;
   }
 
   public static void printLog(String log) {
