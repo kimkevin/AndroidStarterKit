@@ -1,5 +1,5 @@
 #!/bin/bash
 
-rm -rf AndroidSample
-cp -R AndroidSample.bak AndroidSample
+rm -rf AndroidSample/app
+cp -R AndroidSample.bak/app AndroidSample/app
 echo 'Success to recover sample module'
