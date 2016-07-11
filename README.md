@@ -4,7 +4,7 @@ ASK - Android Stater Kit [beta]
 Android Stater Kit is meant to start developing app **simply** and **quickly**.
 In this project we offer some `Android` modules that are most commonly used imported using command line.
 
-This AndroidModule contains the following module:
+This `AndroidModule` contains the following module:
 
 1. RecyclerView
 2. ListView (unsupported)
@@ -29,7 +29,11 @@ $ java AndroidStater your_project_path
 1. java AndroidStater -p /Users/kimkevin/android/AndroidSample -l recyclerview
 2. java AndroidStater -p /Users/kimkevin/android/AndroidSample -l listview
 
-#### License
+## License
 
 Copyright (c) 2013 “KimKevin” Yongjun Kim
+Licensed under the MIT license.
+
+## License
+Copyright (c) 2013 "Outsider" Jeonghoon Byun  
 Licensed under the MIT license.
