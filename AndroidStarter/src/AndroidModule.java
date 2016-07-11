@@ -13,7 +13,7 @@ public class AndroidModule {
   public AndroidModule() {
     File rootPath = new File(".");
     try {
-      homePath = rootPath.getCanonicalPath();
+      homePath = rootPath.getCanonicalPath().replace("/bin/production/AndroidStarter", "");
     } catch (IOException e) {
       e.printStackTrace();
     }

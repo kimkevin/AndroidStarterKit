@@ -86,12 +86,16 @@ public class Source {
      * Get name of default Activity
      */
     File sourceDir = new File(sourceDirPath);
-    if (sourceDir.list().length > 0) {
-      activityName = sourceDir.list()[0].replace(".java", "");
-      System.out.println("Success to find Default Activity : " + activityName);
-    } else {
+    for (int i = 0, li = sourceDir.list().length; i < li; i++) {
+      if (sourceDir.list()[i].contains(".java")) {
+        activityName = sourceDir.list()[i].replace(".java", "");
+      }
+    }
+
+    if (activityName == null) {
       System.out.println("Failed to find Default Activity");
-      return;
+    } else {
+      System.out.println("Success to find Default Activity : " + activityName);
     }
   }
 
@@ -132,8 +136,6 @@ public class Source {
 
           FileUtils.writeFile(new File(FileUtils.makePathWithSlash(source.sourceDirPath, activityName + ".java")), lines);
         } catch (FileNotFoundException e) {
-          e.printStackTrace();
-        } catch (IOException e) {
           e.printStackTrace();
         }
         break;

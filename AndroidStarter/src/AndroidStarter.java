@@ -4,11 +4,13 @@ public class AndroidStarter {
     /**
      * Get project path through arguments and module type
      */
-//    if (args.length <= 0) {
-//      System.out.println("Missed home path of your project");
-//      return;
-//    }
-    String YOUR_PROJECT_HOME_PATH = "/Users/kevin/Documents/git/AndroidStarterKit/AndroidSample";
+    if (args.length <= 0) {
+      System.out.println("Missed home path of your project");
+      return;
+    }
+
+    String YOUR_PROJECT_HOME_PATH = args[0];
+//    String YOUR_PROJECT_HOME_PATH = "/Users/kevin/Documents/git/AndroidStarterKit/AndroidSample";
     ModuleType type = ModuleType.RecyclerViewActivity;
 
     switch (type) {
