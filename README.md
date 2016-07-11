@@ -25,8 +25,8 @@ $ ./ask your_project_path
 $ cd bin/production/AndroidStater
 $ java AndroidStater your_project_path
 ```
-> Examples
-1. java AndroidStater -p /Users/kimkevin/android/AndroidSample -l recyclerview
+> Examples  
+1. java AndroidStater -p /Users/kimkevin/android/AndroidSample -l recyclerview  
 2. java AndroidStater -p /Users/kimkevin/android/AndroidSample -l listview
 
 ## License
