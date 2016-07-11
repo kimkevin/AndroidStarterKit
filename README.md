@@ -1,7 +1,7 @@
 ASK - Android Stater Kit [beta]
 =====
 
-Android Stater Kit is meant to start developing app **simply** and **quickly**.
+Android Stater Kit is meant to start developing app **simply** and **quickly**.  
 In this project we offer some `Android` modules that are most commonly used imported using command line.
 
 This `AndroidModule` contains the following module:
@@ -31,9 +31,5 @@ $ java AndroidStater your_project_path
 
 ## License
 
-Copyright (c) 2013 “KimKevin” Yongjun Kim
-Licensed under the MIT license.
-
-## License
-Copyright (c) 2013 "Outsider" Jeonghoon Byun  
+Copyright (c) 2013 “KimKevin” Yongjun Kim  
 Licensed under the MIT license.
