@@ -1,3 +1,3 @@
 public enum ModuleType {
-  RecyclerViewActivity
+  RecyclerView // ListView, GridView, etc
 }

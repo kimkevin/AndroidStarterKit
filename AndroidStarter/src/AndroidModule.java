@@ -1,11 +1,10 @@
-import utils.FileUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AndroidModule {
+  public static String APPLICATION_ID = "com.kimkevin.module";
   private Map<String, String> fileMap;
 
   private String homePath;
@@ -21,8 +20,8 @@ public class AndroidModule {
     fileMap = new HashMap<>();
     fileMap.put(FileNames.ACTIVITY_MAIN_XML, FileUtils.makePathWithSlash(homePath, "AndroidModule/app/src/main/res/layout"));
     fileMap.put(FileNames.LAYOUT_LIST_ITEM_XML, FileUtils.makePathWithSlash(homePath, "AndroidModule/app/src/main/res/layout"));
-    fileMap.put(FileNames.RECYCLERVIEWACTIVITY, FileUtils.makePathWithSlash(homePath, "AndroidModule/app/src/main/java/com/kimkevin/module"));
-    fileMap.put(FileNames.RECYCLERVIEWADAPTER, FileUtils.makePathWithSlash(homePath, "AndroidModule/app/src/main/java/com/kimkevin/module/adapter"));
+    fileMap.put(FileNames.RECYCLERVIEW_ACTIVITY, FileUtils.makePathWithSlash(homePath, "AndroidModule/app/src/main/java/com/kimkevin/module"));
+    fileMap.put(FileNames.RECYCLERVIEW_ADAPTER, FileUtils.makePathWithSlash(homePath, "AndroidModule/app/src/main/java/com/kimkevin/module/adapter"));
     fileMap.put(FileNames.BUILD_GRADLE, FileUtils.makePathWithSlash(homePath, "AndroidModule/app"));
   }
 

@@ -1,25 +1,33 @@
 
 public class AndroidStarter {
+  private static boolean isDebuggable = true;
+
   public static void main(String[] args) {
+    String projectPath;
+
     /**
-     * Get project path through arguments and module type
+     * Get project path and options through arguments
      */
-    if (args.length <= 0) {
+    if (!isDebuggable && args.length <= 0) {
       System.out.println("Missed home path of your project");
       return;
     }
 
-    String YOUR_PROJECT_HOME_PATH = args[0];
-//    String YOUR_PROJECT_HOME_PATH = "/Users/kevin/Documents/git/AndroidStarterKit/AndroidSample";
-    ModuleType type = ModuleType.RecyclerViewActivity;
+    if (isDebuggable) {
+      projectPath = "/Users/kevin/Documents/git/AndroidStarterKit/AndroidSample";
+    } else {
+      projectPath = args[0];
+    }
+
+    ModuleType type = ModuleType.RecyclerView;
 
     switch (type) {
-      case RecyclerViewActivity:
+      case RecyclerView:
         Source
-                .load(YOUR_PROJECT_HOME_PATH)
-                .with(ModuleType.RecyclerViewActivity)
+                .load(projectPath)
+                .with(ModuleType.RecyclerView)
                 .put(FileNames.BUILD_GRADLE)
-                .put(FileNames.RECYCLERVIEWADAPTER)
+                .put(FileNames.RECYCLERVIEW_ADAPTER)
                 .put(FileNames.ACTIVITY_MAIN_XML)
                 .put(FileNames.LAYOUT_LIST_ITEM_XML);
         break;

@@ -1,5 +1,3 @@
-import utils.FileUtils;
-
 import java.io.*;
 import java.util.Scanner;
 
@@ -99,11 +97,17 @@ public class Source {
     }
   }
 
-  public static Source load(String homePath) {
+  /**
+   * Begin a set source project root path
+   *
+   * @param rootPath is the home path of source project
+   * @return Source instance which has home path
+   */
+  public static Source load(String rootPath) {
     if (source == null) {
       synchronized (Source.class) {
         if (source == null) {
-          source = new Source(homePath);
+          source = new Source(rootPath);
         }
       }
     }
@@ -112,7 +116,10 @@ public class Source {
   }
 
   /**
-   * copy RecyclerViewActivity to MainActivity and change Package and Class name
+   * Ready a load with Source by passing module type
+   *
+   * @param moduleType {@link ModuleType} is supported by AndroidModule
+   * @return Source instance after loading default Activity
    */
   public Source with(ModuleType moduleType) {
     if (source.homePath == null) {
@@ -120,8 +127,8 @@ public class Source {
     }
 
     switch (moduleType) {
-      case RecyclerViewActivity:
-        File activityFile = new File(FileUtils.makePathWithSlash(module.getPath(FileNames.RECYCLERVIEWACTIVITY), FileNames.RECYCLERVIEWACTIVITY));
+      case RecyclerView:
+        File activityFile = new File(FileUtils.makePathWithSlash(module.getPath(FileNames.RECYCLERVIEW_ACTIVITY), FileNames.RECYCLERVIEW_ACTIVITY));
         try {
           String lines = "";
 
@@ -130,7 +137,7 @@ public class Source {
             String line = scanner.nextLine();
 
             line = line.replace("com.kimkevin.module", source.applicationId);
-            line = line.replace(FileNames.RECYCLERVIEWACTIVITY.replace(".java", ""), source.activityName);
+            line = line.replace(FileNames.RECYCLERVIEW_ACTIVITY.replace(".java", ""), source.activityName);
             lines += line + "\n";
           }
 
@@ -145,10 +152,10 @@ public class Source {
   }
 
   /**
-   * copy dependencies in build.gralde
-   */
-  /**
-   * copy comdule only file or file with package
+   * Copy a module file to a source project
+   *
+   * @param fileName is a name of module file
+   * @return Source instance after copying file to source project
    */
   public Source put(String fileName) {
     try {
@@ -157,9 +164,9 @@ public class Source {
         case FileNames.LAYOUT_LIST_ITEM_XML:
           FileUtils.copyFile(module.getPath(fileName), source.layoutDirPath, fileName);
           break;
-        case FileNames.RECYCLERVIEWADAPTER:
+        case FileNames.RECYCLERVIEW_ADAPTER:
           FileUtils.copyFile(module.getPath(fileName), source.sourceDirPath + "/adapter", fileName);
-          FileUtils.changePackageForSampleModule(
+          FileUtils.changeAppplicationId(
                   FileUtils.makePathWithSlash(source.sourceDirPath, "adapter", fileName),
                   source.applicationId);
           break;
@@ -173,6 +180,9 @@ public class Source {
     return source;
   }
 
+  /**
+   * Copy dependencies of build.gradle to build.gradle file of source project
+   */
   private void copyBuildGradle() {
     File moduleBuildGradleFile = new File(
             FileUtils.makePathWithSlash(module.getPath(FileNames.BUILD_GRADLE), FileNames.BUILD_GRADLE));
