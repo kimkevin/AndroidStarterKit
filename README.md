@@ -42,6 +42,7 @@ $ ./ask your_project_path
 $ cd bin/production/AndroidStater
 $ java AndroidStater your_project_path
 ```
+
 > Examples
 1. java AndroidStater /Users/kimkevin/android/AndroidSample -l recyclerview -o drawerlayout
 2. java AndroidStater /Users/kimkevin/android/AndroidSample -l listview -i glide
