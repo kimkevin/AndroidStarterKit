@@ -19,7 +19,7 @@ public class Source {
     module = new AndroidModule();
 
     /**
-     * Get module's name
+     * Get module'APP_MODULE_PATH name
      */
     String appModuleName = null;
     File settingsGradleFile = FileUtils.getFileInDirectory(homePath, FileNames.SETTINGS_GRADLE);
@@ -39,7 +39,7 @@ public class Source {
     }
 
     if (appModuleName != null) {
-      appModuleDirPath = FileUtils.makePathWithSlash(homePath, appModuleName);
+      appModuleDirPath = FileUtils.linkPathWithSlash(homePath, appModuleName);
       System.out.println("Success to find module name : " + appModuleName);
     } else {
       System.out.println("Failed to find module name");
@@ -51,7 +51,7 @@ public class Source {
      */
     String packagePath = null;
 
-    File buildGradleFile = FileUtils.getFileInDirectory(FileUtils.makePathWithSlash(homePath, appModuleName), FileNames.BUILD_GRADLE);
+    File buildGradleFile = FileUtils.getFileInDirectory(FileUtils.linkPathWithSlash(homePath, appModuleName), FileNames.BUILD_GRADLE);
     if (buildGradleFile.exists()) {
       try {
         Scanner scanner = new Scanner(buildGradleFile);
@@ -77,8 +77,8 @@ public class Source {
       return;
     }
 
-    sourceDirPath = FileUtils.makePathWithSlash(homePath, appModuleName, "src/main/java", packagePath);
-    layoutDirPath = FileUtils.makePathWithSlash(homePath, appModuleName, "src/main/res/layout");
+    sourceDirPath = FileUtils.linkPathWithSlash(homePath, appModuleName, "src/main/java", packagePath);
+    layoutDirPath = FileUtils.linkPathWithSlash(homePath, appModuleName, "src/main/res/layout");
 
     /**
      * Get name of default Activity
@@ -128,7 +128,7 @@ public class Source {
 
     switch (moduleType) {
       case RecyclerView:
-        File activityFile = new File(FileUtils.makePathWithSlash(module.getPath(FileNames.RECYCLERVIEW_ACTIVITY), FileNames.RECYCLERVIEW_ACTIVITY));
+        File activityFile = new File(FileUtils.linkPathWithSlash(module.getPath(FileNames.RECYCLERVIEW_ACTIVITY), FileNames.RECYCLERVIEW_ACTIVITY));
         try {
           String lines = "";
 
@@ -141,7 +141,7 @@ public class Source {
             lines += line + "\n";
           }
 
-          FileUtils.writeFile(new File(FileUtils.makePathWithSlash(source.sourceDirPath, activityName + ".java")), lines);
+          FileUtils.writeFile(new File(FileUtils.linkPathWithSlash(source.sourceDirPath, activityName + ".java")), lines);
         } catch (FileNotFoundException e) {
           e.printStackTrace();
         }
@@ -167,7 +167,7 @@ public class Source {
         case FileNames.RECYCLERVIEW_ADAPTER:
           FileUtils.copyFile(module.getPath(fileName), source.sourceDirPath + "/adapter", fileName);
           FileUtils.changeAppplicationId(
-                  FileUtils.makePathWithSlash(source.sourceDirPath, "adapter", fileName),
+                  FileUtils.linkPathWithSlash(source.sourceDirPath, "adapter", fileName),
                   source.applicationId);
           break;
         case FileNames.BUILD_GRADLE:
@@ -185,7 +185,7 @@ public class Source {
    */
   private void copyBuildGradle() {
     File moduleBuildGradleFile = new File(
-            FileUtils.makePathWithSlash(module.getPath(FileNames.BUILD_GRADLE), FileNames.BUILD_GRADLE));
+            FileUtils.linkPathWithSlash(module.getPath(FileNames.BUILD_GRADLE), FileNames.BUILD_GRADLE));
     try {
       boolean shudCopy = false;
       String moduleLines = "";
@@ -205,7 +205,7 @@ public class Source {
       String sourceLines = "";
 
       File sourceBuildGradleFile = new File(
-              FileUtils.makePathWithSlash(source.appModuleDirPath, FileNames.BUILD_GRADLE));
+              FileUtils.linkPathWithSlash(source.appModuleDirPath, FileNames.BUILD_GRADLE));
       scanner = new Scanner(sourceBuildGradleFile);
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();

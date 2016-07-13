@@ -22,7 +22,7 @@ public class FileUtils {
    * @param args are paths which are needed to one path
    * @return path was made by args
    */
-  public static String makePathWithSlash(String... args) {
+  public static String linkPathWithSlash(String... args) {
     String path = "";
     for (int i = 0, li = args.length; i < li; i++) {
       path += args[i];
@@ -58,14 +58,15 @@ public class FileUtils {
    * @param fileName
    * @throws IOException
    */
-  public static void copyFile(String moduleFilePath, String sourceFilePath, String fileName) throws IOException {
+  public static void copyFile(String moduleFilePath,
+                              String sourceFilePath, String fileName) throws IOException {
     File destDir = new File(sourceFilePath);
     if (!destDir.exists()) {
       destDir.mkdir();
     }
 
-    File sourceFile = new File(makePathWithSlash(moduleFilePath, fileName));
-    File destFile = new File(makePathWithSlash(sourceFilePath, fileName));
+    File sourceFile = new File(linkPathWithSlash(moduleFilePath, fileName));
+    File destFile = new File(linkPathWithSlash(sourceFilePath, fileName));
 
     if (!sourceFile.exists()) {
       return;

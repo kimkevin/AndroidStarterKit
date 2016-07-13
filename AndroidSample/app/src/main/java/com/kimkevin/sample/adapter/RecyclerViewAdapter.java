@@ -16,8 +16,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
   private List<Type> dataSet;
 
   public enum Type {
-    Mask,
-    NinePatchMask
+    Americano,
+    Cafelatte
   }
 
   public RecyclerViewAdapter(Context context, List<Type> dataSet) {
