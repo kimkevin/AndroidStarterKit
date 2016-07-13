@@ -16,6 +16,7 @@ This `AndroidModule` contains the following modules:
 ### Usage: AndroidStater [dir] [options]
 
 #### Options
+* -p, --path                  source project path (defaults to new project)
 * -h,  —help                  output usage information
 * -w,  —widget <view>         add <view> support (RecyclerView, ListView, SlidingTabLayout) (defaults to RecyclerView)
 * -o,  —options <view>        add <view> optional support (DrawerLayout(drawer), FloatingActionButton(fab))
