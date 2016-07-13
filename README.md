@@ -13,16 +13,21 @@ This `AndroidModule` contains the following modules:
 5. FloatingActionButton (unsupported)
 6. etc (Image Loader(glide, picasso), famous samples) (unsupported)
 
-### Usage: AndroidStater [dir] [options]
+### Usage: AndroidStater [options], [dir]
 
 #### Options
 
 ```bash
-* -p, --path                  source project path (defaults to new project)
 * -h, --help                  output usage information
 * -w, --widget <view>         add <view> support (RecyclerView, ListView, SlidingTabLayout) (defaults to RecyclerView)
 * -o, --options <view>        add <view> optional support (DrawerLayout(drawer), FloatingActionButton(fab))
 * -i, --imageLoader <engine>  add image loader <engine> support (Glide|Picasso)
+```
+
+#### Dir
+
+```bash
+* -p, --path                  source project path (defaults to new project)
 ```
 
 ### Run (only working RecyclerView with no option)
