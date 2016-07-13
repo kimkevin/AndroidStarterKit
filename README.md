@@ -16,11 +16,14 @@ This `AndroidModule` contains the following modules:
 ### Usage: AndroidStater [dir] [options]
 
 #### Options
+
+```bash
 * -p, --path                  source project path (defaults to new project)
-* -h,  —help                  output usage information
-* -w,  —widget <view>         add <view> support (RecyclerView, ListView, SlidingTabLayout) (defaults to RecyclerView)
-* -o,  —options <view>        add <view> optional support (DrawerLayout(drawer), FloatingActionButton(fab))
-* -i,  —imageLoader <engine> 	add image loader <engine> support (Glide|Picasso)
+* -h, --help                  output usage information
+* -w, --widget <view>         add <view> support (RecyclerView, ListView, SlidingTabLayout) (defaults to RecyclerView)
+* -o, --options <view>        add <view> optional support (DrawerLayout(drawer), FloatingActionButton(fab))
+* -i, --imageLoader <engine>  add image loader <engine> support (Glide|Picasso)
+```
 
 ### Run (only working RecyclerView with no option)
 
