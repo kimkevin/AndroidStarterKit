@@ -11,9 +11,26 @@ This `AndroidModule` contains the following modules:
 3. SlidingTabLayout (unsupported)
 4. DrawerLayout (unsupported)
 5. FloatingActionButton (unsupported)
-6. etc (could be famous samples)
+6. etc (Image Loader(glide, picasso), famous samples) (unsupported)
 
-#### Getting Started
+### Usage: AndroidStater [options], [dir]
+
+#### Options
+
+```bash
+* -h, --help                  output usage information
+* -w, --widget <view>         add <view> support (RecyclerView, ListView, SlidingTabLayout) (defaults to RecyclerView)
+* -o, --options <view>        add <view> optional support (DrawerLayout(drawer), FloatingActionButton(fab))
+* -i, --imageLoader <engine>  add image loader <engine> support (Glide|Picasso)
+```
+
+#### Dir
+
+```bash
+* -p, --path                  source project path (defaults to new project)
+```
+
+### Run (only working RecyclerView with no option)
 
 ```bash
 # Make your new project
@@ -25,11 +42,12 @@ $ ./ask your_project_path
 $ cd bin/production/AndroidStater
 $ java AndroidStater your_project_path
 ```
-> Examples  
-1. java AndroidStater -p /Users/kimkevin/android/AndroidSample -l recyclerview  
-2. java AndroidStater -p /Users/kimkevin/android/AndroidSample -l listview
 
-#### License
+> Examples  
+1. java AndroidStater /Users/kimkevin/android/AndroidSample -l recyclerview -o drawerlayout  
+2. java AndroidStater /Users/kimkevin/android/AndroidSample -l listview -i glide
+
+### License
 
 Copyright (c) 2013 “KimKevin” Yongjun Kim  
 Licensed under the MIT license.
