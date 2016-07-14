@@ -1,4 +1,6 @@
 import java.io.*;
+import java.util.Base64;
+import java.util.List;
 import java.util.Scanner;
 
 public class Source {
@@ -171,7 +173,14 @@ public class Source {
                   source.applicationId);
           break;
         case FileNames.BUILD_GRADLE:
-          copyBuildGradle();
+          File file = new File(FileUtils.linkPathWithSlash(source.appModuleDirPath, FileNames.BUILD_GRADLE));
+          List<String> stringList = FileUtils.readFile(file);
+          stringList = FileUtils.addLineToEntry("dependencies",
+                  "compile 'com.android.support:recyclerview-v7:23.3.0'", stringList);
+          stringList = FileUtils.addLineToEntry("dependencies",
+                  "compile 'com.android.support:cardview-v7:23.3.0'", stringList);
+
+          FileUtils.writeFile(file, FileUtils.getString(stringList));
           break;
       }
     } catch (IOException e) {

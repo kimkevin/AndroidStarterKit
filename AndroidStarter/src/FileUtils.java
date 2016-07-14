@@ -1,5 +1,7 @@
 import java.io.*;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -52,6 +54,28 @@ public class FileUtils {
   }
 
   /**
+   * Read content from file
+   * @param file is target file to read
+   * @return content is the strings in file
+   */
+  public static List<String> readFile(File file) {
+    Scanner scanner;
+    List<String> stringList = new ArrayList<>();
+
+    try {
+      scanner = new Scanner(file);
+
+      while (scanner.hasNextLine()) {
+        stringList.add(scanner.nextLine());
+      }
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
+
+    return stringList;
+  }
+
+  /**
    * Copy file of AndroidModule to file of source project.
    * @param moduleFilePath is path of source file
    * @param sourceFilePath is path of module
@@ -96,6 +120,20 @@ public class FileUtils {
   }
 
   /**
+   * Get String from String List
+   * @param strList is a content of file
+   * @return String of a content
+   */
+  public static String getString(List<String> strList) {
+    StringBuffer stringBuffer = new StringBuffer();
+    for (String str : strList) {
+      stringBuffer.append(FileUtils.addNewLine(str));
+    }
+
+    return stringBuffer.toString();
+  }
+
+  /**
    * Change applicationId of AndroidModule to applicationId of source project
    * @param filePath is the file path in source project
    * @param applicationId of source project
@@ -136,5 +174,27 @@ public class FileUtils {
       return matcher.group(1);
     }
     return null;
+  }
+
+  public static List<String> addLineToEntry(String entry, String line, List<String> stringList) {
+    boolean isFoundScope = false;
+
+    for (int i = 0, li = stringList.size(); i < li; i++) {
+      String str = stringList.get(i);
+      if (str.contains(entry)) {
+        isFoundScope = true;
+      }
+
+      if (isFoundScope && str.contains("}")) {
+        stringList.add(i, line);
+        return stringList;
+      }
+    }
+
+    return stringList;
+  }
+
+  public static String addNewLine(String line) {
+    return line + "\n";
   }
 }

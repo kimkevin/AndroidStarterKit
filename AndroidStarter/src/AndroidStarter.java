@@ -1,6 +1,6 @@
 
 public class AndroidStarter {
-  private static boolean isDebuggable = false;
+  private static boolean isDebuggable = true;
 
   public static void main(String[] args) {
     String projectPath;
