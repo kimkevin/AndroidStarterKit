@@ -12,22 +12,24 @@ import com.kimkevin.module.R;
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
-  private Context mContext;
+  private Context context;
   private List<Type> dataSet;
 
   public enum Type {
-    Mask,
-    NinePatchMask
+    Americano,
+    Cafelatte,
+    CafeMocha,
+    Cappuccino
   }
 
   public RecyclerViewAdapter(Context context, List<Type> dataSet) {
-    mContext = context;
+    this.context = context;
     this.dataSet = dataSet;
   }
 
   @Override
   public RecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    View v = LayoutInflater.from(mContext).inflate(R.layout.layout_list_item, parent, false);
+    View v = LayoutInflater.from(context).inflate(R.layout.layout_list_item, parent, false);
     return new ViewHolder(v);
   }
 
@@ -37,13 +39,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     holder.title.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+        // TODO : do something by data type
         switch (dataSet.get(position)) {
-          case Mask: {
+          case Americano:
             break;
-          }
-          case NinePatchMask: {
+          case Cafelatte:
             break;
-          }
+          case CafeMocha:
+            break;
+          case Cappuccino:
+            break;
         }
       }
     });
@@ -59,6 +64,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     ViewHolder(View itemView) {
       super(itemView);
+
       title = (TextView) itemView.findViewById(R.id.title);
     }
   }

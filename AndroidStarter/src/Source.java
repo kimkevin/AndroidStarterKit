@@ -19,7 +19,7 @@ public class Source {
     module = new AndroidModule();
 
     /**
-     * Get module'APP_MODULE_PATH name
+     * Get module's name
      */
     String appModuleName = null;
     File settingsGradleFile = FileUtils.getFileInDirectory(homePath, FileNames.SETTINGS_GRADLE);

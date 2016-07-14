@@ -16,15 +16,21 @@ public class RecyclerViewActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    // Initialize recycler view
+    /**
+     * find resource of RecyclerView and initialize it.
+     */
     RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     List<RecyclerViewAdapter.Type> dataSet = new ArrayList<>();
-    dataSet.add(RecyclerViewAdapter.Type.Mask);
-    dataSet.add(RecyclerViewAdapter.Type.NinePatchMask);
+    dataSet.add(RecyclerViewAdapter.Type.Americano);
+    dataSet.add(RecyclerViewAdapter.Type.Cafelatte);
+    dataSet.add(RecyclerViewAdapter.Type.CafeMocha);
+    dataSet.add(RecyclerViewAdapter.Type.Cappuccino);
 
-    // Set adapter
+    /**
+     * set RecyclerViewAdapter to RecyclerView with Data.
+     */
     recyclerView.setAdapter(new RecyclerViewAdapter(this, dataSet));
   }
 }
