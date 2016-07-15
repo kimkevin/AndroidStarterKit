@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.Base64;
 import java.util.List;
 import java.util.Scanner;
 
@@ -176,10 +175,11 @@ public class Source {
           File file = new File(FileUtils.linkPathWithSlash(source.appModuleDirPath, FileNames.BUILD_GRADLE));
           List<String> stringList = FileUtils.readFile(file);
           stringList = FileUtils.addLineToEntry("dependencies",
-                  "compile 'com.android.support:recyclerview-v7:23.3.0'", stringList);
+                  "compile 'com.android.support:recyclerview-v7:23.3.0'",
+                  stringList);
           stringList = FileUtils.addLineToEntry("dependencies",
-                  "compile 'com.android.support:cardview-v7:23.3.0'", stringList);
-
+                  "compile 'com.android.support:cardview-v7:23.3.0'",
+                  stringList);
           FileUtils.writeFile(file, FileUtils.getString(stringList));
           break;
       }
@@ -187,49 +187,5 @@ public class Source {
       e.printStackTrace();
     }
     return source;
-  }
-
-  /**
-   * Copy dependencies of build.gradle to build.gradle file of source project
-   */
-  private void copyBuildGradle() {
-    File moduleBuildGradleFile = new File(
-            FileUtils.linkPathWithSlash(module.getPath(FileNames.BUILD_GRADLE), FileNames.BUILD_GRADLE));
-    try {
-      boolean shudCopy = false;
-      String moduleLines = "";
-      Scanner scanner = new Scanner(moduleBuildGradleFile);
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
-
-        if (line.contains("dependencies")) {
-          shudCopy = true;
-        }
-
-        if (shudCopy) {
-          moduleLines += line + "\n";
-        }
-      }
-
-      String sourceLines = "";
-
-      File sourceBuildGradleFile = new File(
-              FileUtils.linkPathWithSlash(source.appModuleDirPath, FileNames.BUILD_GRADLE));
-      scanner = new Scanner(sourceBuildGradleFile);
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
-
-        if (line.contains("dependencies")) {
-          sourceLines += moduleLines;
-          break;
-        }
-
-        sourceLines += line + "\n";
-      }
-
-      FileUtils.writeFile(sourceBuildGradleFile, sourceLines);
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    }
   }
 }

@@ -7,6 +7,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FileUtils {
+
+  public static final String DEFAULT_INDENT = "    ";
+
   /**
    * Get file in directory
    * @param dirPath to find the file by name in directory
@@ -66,7 +69,8 @@ public class FileUtils {
       scanner = new Scanner(file);
 
       while (scanner.hasNextLine()) {
-        stringList.add(scanner.nextLine());
+        String e = scanner.nextLine();
+        stringList.add(e);
       }
     } catch (FileNotFoundException e) {
       e.printStackTrace();
@@ -176,17 +180,36 @@ public class FileUtils {
     return null;
   }
 
+  /**
+   * Add line to specific Entry by a string list of scope
+   *
+   * @param entry is keyword to find scope
+   * @param line is a string that is needed to add
+   * @param stringList is string list of scope
+   * @return string list was added to line such as external library
+   */
   public static List<String> addLineToEntry(String entry, String line, List<String> stringList) {
     boolean isFoundScope = false;
+    String indent = "";
 
     for (int i = 0, li = stringList.size(); i < li; i++) {
       String str = stringList.get(i);
       if (str.contains(entry)) {
         isFoundScope = true;
+
+        if (i + 1 < li) {
+          indent = getIndentOfLine(stringList.get(i + 1));
+        } else {
+          indent = DEFAULT_INDENT;
+        }
       }
 
       if (isFoundScope && str.contains("}")) {
-        stringList.add(i, line);
+        if (stringList.contains(indent + line)) {
+          continue;
+        }
+
+        stringList.add(i, indent + line);
         return stringList;
       }
     }
@@ -194,7 +217,29 @@ public class FileUtils {
     return stringList;
   }
 
-  public static String addNewLine(String line) {
+  /**
+   * Add intent to line
+   * @param line is a string
+   * @return new string with indent
+   */
+  private static String getIndentOfLine(String line) {
+    String intent = "";
+    for (int i = 0, li = line.length(); i < li; i++) {
+      if (line.toCharArray()[i] == ' ') {
+        intent += " ";
+      } else {
+        return intent;
+      }
+    }
+    return DEFAULT_INDENT;
+  }
+
+  /**
+   * Add '\n' to line
+   * @param line is a string without new-line character
+   * @return new string with new-line character
+   */
+  private static String addNewLine(String line) {
     return line + "\n";
   }
 }
