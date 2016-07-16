@@ -181,20 +181,20 @@ public class FileUtils {
   }
 
   /**
-   * Add line to specific Entry by a string list of scope
+   * Add line to specific object by a string list of scope
    *
-   * @param entry is keyword to find scope
+   * @param objectName is keyword to find scope
    * @param line is a string that is needed to add
    * @param stringList is string list of scope
    * @return string list was added to line such as external library
    */
-  public static List<String> addLineToEntry(String entry, String line, List<String> stringList) {
+  public static List<String> addLineToObject(String objectName, String line, List<String> stringList) {
     boolean isFoundScope = false;
     String indent = "";
 
     for (int i = 0, li = stringList.size(); i < li; i++) {
       String str = stringList.get(i);
-      if (str.contains(entry)) {
+      if (str.contains(objectName)) {
         isFoundScope = true;
 
         if (i + 1 < li) {

@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.List;
 import java.util.Scanner;
 
 public class Source {
@@ -137,7 +136,7 @@ public class Source {
           while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
 
-            line = line.replace("com.kimkevin.module", source.applicationId);
+            line = line.replace(AndroidModule.APPLICATION_ID, source.applicationId);
             line = line.replace(FileNames.RECYCLERVIEW_ACTIVITY.replace(".java", ""), source.activityName);
             lines += line + "\n";
           }
@@ -172,15 +171,9 @@ public class Source {
                   source.applicationId);
           break;
         case FileNames.BUILD_GRADLE:
-          File file = new File(FileUtils.linkPathWithSlash(source.appModuleDirPath, FileNames.BUILD_GRADLE));
-          List<String> stringList = FileUtils.readFile(file);
-          stringList = FileUtils.addLineToEntry("dependencies",
-                  "compile 'com.android.support:recyclerview-v7:23.3.0'",
-                  stringList);
-          stringList = FileUtils.addLineToEntry("dependencies",
-                  "compile 'com.android.support:cardview-v7:23.3.0'",
-                  stringList);
-          FileUtils.writeFile(file, FileUtils.getString(stringList));
+          BuildGradleFile buildGradleFile = new BuildGradleFile(source.appModuleDirPath);
+          buildGradleFile.addDependency(BuildGradleConfig.RECYCLERVIEW_LIBRARY,
+                  BuildGradleConfig.CARDVIEW_LIBRARY);
           break;
       }
     } catch (IOException e) {
