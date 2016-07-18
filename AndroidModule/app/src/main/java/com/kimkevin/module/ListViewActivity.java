@@ -6,8 +6,7 @@ import android.widget.ListView;
 
 import com.kimkevin.module.adapter.ListViewAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 public class ListViewActivity extends AppCompatActivity{
 
@@ -21,15 +20,9 @@ public class ListViewActivity extends AppCompatActivity{
      */
     ListView listView = (ListView) findViewById(R.id.list_view);
 
-    List<ListViewAdapter.Type> dataSet = new ArrayList<>();
-    dataSet.add(ListViewAdapter.Type.Americano);
-    dataSet.add(ListViewAdapter.Type.Cafelatte);
-    dataSet.add(ListViewAdapter.Type.CafeMocha);
-    dataSet.add(ListViewAdapter.Type.Cappuccino);
-
     /**
      * set RecyclerViewAdapter to RecyclerView with Data.
      */
-    listView.setAdapter(new ListViewAdapter(this, dataSet));
+    listView.setAdapter(new ListViewAdapter(this, Arrays.asList(CoffeeType.values())));
   }
 }

@@ -7,24 +7,17 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.kimkevin.module.CoffeeType;
 import com.kimkevin.module.R;
 
 import java.util.List;
 
 public class ListViewAdapter extends BaseAdapter{
-  private Context context;
-  private List<Type> dataSet;
+  private List<CoffeeType> dataSet;
   private LayoutInflater inflater;
 
-  public enum Type {
-    Americano,
-    Cafelatte,
-    CafeMocha,
-    Cappuccino
-  }
 
-  public ListViewAdapter(Context context, List<Type> dataSet) {
-    this.context = context;
+  public ListViewAdapter(Context context, List<CoffeeType> dataSet) {
     this.dataSet = dataSet;
     this.inflater = (LayoutInflater) context.getSystemService(
         Context.LAYOUT_INFLATER_SERVICE);

@@ -7,8 +7,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.kimkevin.module.adapter.RecyclerViewAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 public class RecyclerViewActivity extends AppCompatActivity {
   @Override
@@ -22,16 +21,11 @@ public class RecyclerViewActivity extends AppCompatActivity {
     RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-    List<RecyclerViewAdapter.Type> dataSet = new ArrayList<>();
-    dataSet.add(RecyclerViewAdapter.Type.Americano);
-    dataSet.add(RecyclerViewAdapter.Type.Cafelatte);
-    dataSet.add(RecyclerViewAdapter.Type.CafeMocha);
-    dataSet.add(RecyclerViewAdapter.Type.Cappuccino);
-
     /**
      * set RecyclerViewAdapter to RecyclerView with Data.
      */
-    recyclerView.setAdapter(new RecyclerViewAdapter(this, dataSet));
+    recyclerView.setAdapter(new
+        RecyclerViewAdapter(this, Arrays.asList(CoffeeType.values())));
   }
 }
 

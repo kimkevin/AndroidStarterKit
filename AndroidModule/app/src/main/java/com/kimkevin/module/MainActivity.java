@@ -18,7 +18,8 @@ public class MainActivity extends AppCompatActivity {
 
     ListView listView = (ListView) findViewById(R.id.list_view);
 
-    MainBaseAdapter adapter = new MainBaseAdapter(this, Arrays.asList(WidgetType.values()));
+    MainBaseAdapter adapter = new MainBaseAdapter(this,
+        Arrays.asList(WidgetType.values()));
     listView.setAdapter(adapter);
   }
 }

@@ -11,7 +11,8 @@ import android.widget.TextView;
 import com.kimkevin.module.ListViewActivity;
 import com.kimkevin.module.R;
 import com.kimkevin.module.RecyclerViewActivity;
-import com.kimkevin.module.SlidingTabLayoutActivity;
+import com.kimkevin.module.SlidingIconTabActivity;
+import com.kimkevin.module.SlidingTabActivity;
 
 import java.util.List;
 
@@ -72,13 +73,14 @@ public class MainBaseAdapter extends BaseAdapter {
             intent = new Intent(context, ListViewActivity.class);
             break;
           case SlidingTabLayout:
-            intent = new Intent(context, SlidingTabLayoutActivity.class);
+            intent = new Intent(context, SlidingTabActivity.class);
+            break;
+          case SlidingIconTabLayout:
+            intent = new Intent(context, SlidingIconTabActivity.class);
             break;
         }
 
-        if (intent != null) {
-          context.startActivity(intent);
-        }
+        context.startActivity(intent);
       }
     });
 

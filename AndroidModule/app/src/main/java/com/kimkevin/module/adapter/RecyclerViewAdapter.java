@@ -7,22 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.kimkevin.module.CoffeeType;
 import com.kimkevin.module.R;
 
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
   private Context context;
-  private List<Type> dataSet;
+  private List<CoffeeType> dataSet;
 
-  public enum Type {
-    Americano,
-    Cafelatte,
-    CafeMocha,
-    Cappuccino
-  }
-
-  public RecyclerViewAdapter(Context context, List<Type> dataSet) {
+  public RecyclerViewAdapter(Context context, List<CoffeeType> dataSet) {
     this.context = context;
     this.dataSet = dataSet;
   }
@@ -39,17 +33,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     holder.title.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        // TODO : do something by data type
-        switch (dataSet.get(position)) {
-          case Americano:
-            break;
-          case Cafelatte:
-            break;
-          case CafeMocha:
-            break;
-          case Cappuccino:
-            break;
-        }
+
       }
     });
   }
