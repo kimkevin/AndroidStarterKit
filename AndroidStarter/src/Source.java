@@ -118,15 +118,15 @@ public class Source {
   /**
    * Ready a load with Source by passing module type
    *
-   * @param moduleType {@link ModuleType} is supported by AndroidModule
+   * @param widgetType {@link WidgetType} is supported by AndroidModule
    * @return Source instance after loading default Activity
    */
-  public Source with(ModuleType moduleType) {
+  public Source with(WidgetType widgetType) {
     if (source.homePath == null) {
       throw new NullPointerException("Failed : There is no HOME PATH");
     }
 
-    switch (moduleType) {
+    switch (widgetType) {
       case RecyclerView:
         File activityFile = new File(FileUtils.linkPathWithSlash(module.getPath(FileNames.RECYCLERVIEW_ACTIVITY), FileNames.RECYCLERVIEW_ACTIVITY));
         try {

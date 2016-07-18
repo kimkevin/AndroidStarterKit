@@ -19,13 +19,13 @@ public class AndroidStarter {
       projectPath = args[0];
     }
 
-    ModuleType type = ModuleType.RecyclerView;
+    WidgetType type = WidgetType.RecyclerView;
 
     switch (type) {
       case RecyclerView:
         Source
                 .load(projectPath)
-                .with(ModuleType.RecyclerView)
+                .with(WidgetType.RecyclerView)
                 .put(FileNames.BUILD_GRADLE)
                 .put(FileNames.RECYCLERVIEW_ADAPTER)
                 .put(FileNames.ACTIVITY_MAIN_XML)
