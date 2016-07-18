@@ -14,7 +14,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+    setContentView(R.layout.activity_recyclerview_main);
 
     /**
      * find resource of RecyclerView and initialize it.

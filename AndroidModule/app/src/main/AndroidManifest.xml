@@ -16,7 +16,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".RecyclerViewActivity" />
+        <activity android:name=".RecyclerViewActivity" android:label="RecyclerViewActivity"/>
+        <activity android:name=".ListViewActivity" android:label="ListViewActivity"/>
+        <activity android:name=".SlidingTabLayoutActivity" android:label="SlidingTabLayoutActivity"/>
     </application>
 
 </manifest>
