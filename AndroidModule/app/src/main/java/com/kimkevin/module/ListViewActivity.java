@@ -21,7 +21,7 @@ public class ListViewActivity extends AppCompatActivity{
     ListView listView = (ListView) findViewById(R.id.list_view);
 
     /**
-     * set RecyclerViewAdapter to RecyclerView with Data.
+     * set ListViewAdapter to ListView with Data.
      */
     listView.setAdapter(new ListViewAdapter(this, Arrays.asList(CoffeeType.values())));
   }

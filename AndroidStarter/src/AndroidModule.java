@@ -32,6 +32,8 @@ public class AndroidModule {
     fileMap.put(FileNames.LISTVIEW_ACTIVITY, FileUtils.linkPathWithSlash(homePath, APP_MODULE_PATH, "src/main/java/com/kimkevin/module"));
     fileMap.put(FileNames.LISTVIEW_ADAPTER, FileUtils.linkPathWithSlash(homePath, APP_MODULE_PATH, "/src/main/java/com/kimkevin/module/adapter"));
     fileMap.put(FileNames.ACTIVITY_LISTVIEW_XML, FileUtils.linkPathWithSlash(homePath, APP_MODULE_PATH, "src/main/res/layout"));
+
+    fileMap.put(FileNames.COFFEE_TYPE, FileUtils.linkPathWithSlash(homePath, APP_MODULE_PATH, "src/main/java/com/kimkevin/module"));
   }
 
   public String getPath(String key) {

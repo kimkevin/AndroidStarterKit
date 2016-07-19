@@ -26,6 +26,7 @@ public class AndroidStarter {
         Source
                 .load(projectPath)
                 .with(WidgetType.RecyclerView)
+                .put(FileNames.COFFEE_TYPE)
                 .put(FileNames.BUILD_GRADLE)
                 .put(FileNames.RECYCLERVIEW_ADAPTER)
                 .put(FileNames.ACTIVITY_RECYCLERVIEW_XML)
@@ -35,6 +36,7 @@ public class AndroidStarter {
         Source
                 .load(projectPath)
                 .with(WidgetType.ListView)
+                .put(FileNames.COFFEE_TYPE)
                 .put(FileNames.BUILD_GRADLE)
                 .put(FileNames.LISTVIEW_ADAPTER)
                 .put(FileNames.ACTIVITY_LISTVIEW_XML)

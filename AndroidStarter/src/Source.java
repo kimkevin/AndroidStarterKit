@@ -145,11 +145,19 @@ public class Source {
   public Source put(String fileName) {
     try {
       switch (fileName) {
+        case FileNames.COFFEE_TYPE:
+          FileUtils.copyFile(module.getPath(fileName), source.sourceDirPath, fileName);
+          FileUtils.changeAppplicationId(
+                  FileUtils.linkPathWithSlash(source.sourceDirPath, fileName),
+                  source.applicationId);
+          break;
         case FileNames.ACTIVITY_RECYCLERVIEW_XML:
+        case FileNames.ACTIVITY_LISTVIEW_XML:
         case FileNames.LAYOUT_LIST_ITEM_XML:
           FileUtils.copyFile(module.getPath(fileName), source.layoutDirPath, fileName);
           break;
         case FileNames.RECYCLERVIEW_ADAPTER:
+        case FileNames.LISTVIEW_ADAPTER:
           FileUtils.copyFile(module.getPath(fileName), source.sourceDirPath + "/adapter", fileName);
           FileUtils.changeAppplicationId(
                   FileUtils.linkPathWithSlash(source.sourceDirPath, "adapter", fileName),
@@ -182,7 +190,7 @@ public class Source {
         String line = scanner.nextLine();
 
         line = line.replace(AndroidModule.APPLICATION_ID, source.applicationId);
-        line = line.replace(FileNames.RECYCLERVIEW_ACTIVITY.replace(".java", ""), activityName);
+        line = line.replace(moduleActivityName.replace(".java", ""), activityName);
         content += line + "\n";
       }
     } catch (FileNotFoundException e) {
