@@ -126,26 +126,11 @@ public class Source {
       throw new NullPointerException("Failed : There is no HOME PATH");
     }
 
-    switch (widgetType) {
-      case RecyclerView:
-        File activityFile = new File(FileUtils.linkPathWithSlash(module.getPath(FileNames.RECYCLERVIEW_ACTIVITY), FileNames.RECYCLERVIEW_ACTIVITY));
-        try {
-          String lines = "";
-
-          Scanner scanner = new Scanner(activityFile);
-          while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-
-            line = line.replace(AndroidModule.APPLICATION_ID, source.applicationId);
-            line = line.replace(FileNames.RECYCLERVIEW_ACTIVITY.replace(".java", ""), source.activityName);
-            lines += line + "\n";
-          }
-
-          FileUtils.writeFile(new File(FileUtils.linkPathWithSlash(source.sourceDirPath, activityName + ".java")), lines);
-        } catch (FileNotFoundException e) {
-          e.printStackTrace();
-        }
-        break;
+    try {
+      String lines = transferActivity(widgetType.getFileName());
+      FileUtils.writeFile(FileUtils.getFileInDirectory(source.sourceDirPath, activityName + ".java"), lines);
+    } catch (UnsupportedWidgetTypeException e) {
+      e.printStackTrace();
     }
 
     return source;
@@ -160,7 +145,7 @@ public class Source {
   public Source put(String fileName) {
     try {
       switch (fileName) {
-        case FileNames.ACTIVITY_MAIN_XML:
+        case FileNames.ACTIVITY_RECYCLERVIEW_XML:
         case FileNames.LAYOUT_LIST_ITEM_XML:
           FileUtils.copyFile(module.getPath(fileName), source.layoutDirPath, fileName);
           break;
@@ -180,5 +165,29 @@ public class Source {
       e.printStackTrace();
     }
     return source;
+  }
+
+  /**
+   * Transfer source Activity to module Activity with source application id and file name
+   * @param moduleActivityName the Activity name of module
+   * @return the content of activity file
+   */
+  private String transferActivity(String moduleActivityName) {
+    File activityFile = FileUtils.getFileInDirectory(module.getPath(moduleActivityName), moduleActivityName);
+
+    String content = "";
+    try {
+      Scanner scanner = new Scanner(activityFile);
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine();
+
+        line = line.replace(AndroidModule.APPLICATION_ID, source.applicationId);
+        line = line.replace(FileNames.RECYCLERVIEW_ACTIVITY.replace(".java", ""), activityName);
+        content += line + "\n";
+      }
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
+    return content;
   }
 }

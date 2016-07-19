@@ -21,11 +21,17 @@ public class AndroidModule {
     }
 
     fileMap = new HashMap<>();
-    fileMap.put(FileNames.ACTIVITY_MAIN_XML, FileUtils.linkPathWithSlash(homePath, APP_MODULE_PATH, "src/main/res/layout"));
+
+    fileMap.put(FileNames.BUILD_GRADLE, FileUtils.linkPathWithSlash(homePath, APP_MODULE_PATH));
+
     fileMap.put(FileNames.LAYOUT_LIST_ITEM_XML, FileUtils.linkPathWithSlash(homePath, APP_MODULE_PATH, "src/main/res/layout"));
+    fileMap.put(FileNames.ACTIVITY_RECYCLERVIEW_XML, FileUtils.linkPathWithSlash(homePath, APP_MODULE_PATH, "src/main/res/layout"));
     fileMap.put(FileNames.RECYCLERVIEW_ACTIVITY, FileUtils.linkPathWithSlash(homePath, APP_MODULE_PATH, "src/main/java/com/kimkevin/module"));
     fileMap.put(FileNames.RECYCLERVIEW_ADAPTER, FileUtils.linkPathWithSlash(homePath, APP_MODULE_PATH, "/src/main/java/com/kimkevin/module/adapter"));
-    fileMap.put(FileNames.BUILD_GRADLE, FileUtils.linkPathWithSlash(homePath, APP_MODULE_PATH));
+
+    fileMap.put(FileNames.LISTVIEW_ACTIVITY, FileUtils.linkPathWithSlash(homePath, APP_MODULE_PATH, "src/main/java/com/kimkevin/module"));
+    fileMap.put(FileNames.LISTVIEW_ADAPTER, FileUtils.linkPathWithSlash(homePath, APP_MODULE_PATH, "/src/main/java/com/kimkevin/module/adapter"));
+    fileMap.put(FileNames.ACTIVITY_LISTVIEW_XML, FileUtils.linkPathWithSlash(homePath, APP_MODULE_PATH, "src/main/res/layout"));
   }
 
   public String getPath(String key) {
