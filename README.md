@@ -33,17 +33,17 @@ This `AndroidModule` contains the following modules:
 ```bash
 # Make your new project
 
-$ ./ask -p your_project_path -w ListView 
+$ ./ask -w ListView -p your_project_path 
 
 # or
 
 $ cd bin/production/AndroidStater
-$ java AndroidStarter -p your_project_path -w RecyclerView
+$ java AndroidStarter -w RecyclerView -p your_project_path 
 ```
 
 > Examples  
-1. ./ask -p /Users/kevin/Documents/AndroidStarterKit/AndroidSample -w ListView 
-2. java AndroidStarter -p /Users/kevin/Documents/AndroidStarterKit/AndroidSample -w RecyclerView
+1. ./ask -w ListView -p /Users/kevin/Documents/AndroidStarterKit/AndroidSample 
+2. java AndroidStarter -w RecyclerView -p /Users/kevin/Documents/AndroidStarterKit/AndroidSample 
 
 ### License
 
