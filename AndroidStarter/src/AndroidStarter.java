@@ -19,7 +19,8 @@ public class AndroidStarter {
       projectPath = args[0];
     }
 
-    WidgetType type = WidgetType.ListView;
+    WidgetType type = WidgetType.RecyclerView;
+//    WidgetType type = WidgetType.ListView;
 
     switch (type) {
       case RecyclerView:

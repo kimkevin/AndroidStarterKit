@@ -2,27 +2,30 @@ package com.kimkevin.sample;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ListView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
-import com.kimkevin.sample.adapter.ListViewAdapter;
+import com.kimkevin.sample.adapter.RecyclerViewAdapter;
 
 import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity{
-
+public class MainActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_listview_main);
+    setContentView(R.layout.activity_recyclerview_main);
 
     /**
-     * find resource of ListView and initialize it.
+     * find resource of RecyclerView and initialize it.
      */
-    ListView listView = (ListView) findViewById(R.id.list_view);
+    RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+    recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     /**
      * set RecyclerViewAdapter to RecyclerView with Data.
      */
-    listView.setAdapter(new ListViewAdapter(this, Arrays.asList(CoffeeType.values())));
+    recyclerView.setAdapter(new
+        RecyclerViewAdapter(this, Arrays.asList(CoffeeType.values())));
   }
 }
+
