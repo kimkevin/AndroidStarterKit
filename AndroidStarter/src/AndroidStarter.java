@@ -7,6 +7,11 @@ public class AndroidStarter {
 
     CommandParser commandParser = new CommandParser(args);
 
+    if (commandParser.hasHelpCommand()) {
+      printHelp();
+      return;
+    }
+
     projectPath = FileUtils.linkPathWithSlash(FileUtils.getRootPath(), "AndroidSample");
 
     WidgetType type = WidgetType.RecyclerView;
@@ -61,5 +66,22 @@ public class AndroidStarter {
                 .put(FileNames.LAYOUT_LIST_ITEM_XML);
         break;
     }
+  }
+
+  public static void printHelp() {
+    System.out.println();
+    System.out.println("Usage: AndroidStater <options> <dir>");
+    System.out.println();
+
+    System.out.println("Options:");
+    System.out.println();
+    System.out.println("    -h, --help                  output usage information");
+    System.out.println("    -w, --widget <view>         add <view> support (RecyclerView, ListView) (defaults to RecyclerView)");
+    System.out.println();
+
+    System.out.println("Dir:");
+    System.out.println();
+    System.out.println("    -p, --path                  source project path (defaults to new project)");
+    System.out.println();
   }
 }

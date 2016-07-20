@@ -33,6 +33,11 @@ public class CommandParser {
     }
   }
 
+  public boolean hasHelpCommand() {
+    return argList.contains(CommandOption.HELP_KEY)
+            || argList.contains(CommandOption.HELP_LONG_KEY);
+  }
+
   private String findOption(String... key) {
     for (int i = 0, li = argList.size(); i < li; i++) {
       if (contain(argList.get(i), key)) {
