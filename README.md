@@ -29,7 +29,7 @@ This `AndroidModule` contains the following modules:
 * -p, --path                  source project path (defaults to new project)
 ```
 
-### Run (only working RecyclerView with no option)
+### Run
 
 ```bash
 # Make your new project
