@@ -20,12 +20,16 @@ public class CommandParser {
   public WidgetType getWidgetType() throws CommandParseException, UnsupportedWidgetTypeException {
     final String typeStr = findOption(CommandOption.WIDGET_KEY);
 
+    if (typeStr == null) {
+      throw new CommandParseException("Missing a widget type : please check -w <widget>");
+    }
+
     if (typeStr.equals(WidgetType.RecyclerView.getName())) {
       return WidgetType.RecyclerView;
     } else if (typeStr.equals(WidgetType.ListView.getName())) {
       return WidgetType.ListView;
     } else {
-      throw new CommandParseException("Missing a widget type : please check -w <widget>");
+      throw new CommandParseException("Unsupported a widget type : please check -h , --help");
     }
   }
 

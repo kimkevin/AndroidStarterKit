@@ -1,6 +1,6 @@
 #!/bin/bash
 
 cd bin/production/AndroidStarter
-java AndroidStarter
+java AndroidStarter echo $@
 
 
