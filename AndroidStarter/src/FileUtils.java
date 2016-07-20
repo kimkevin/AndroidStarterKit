@@ -9,9 +9,26 @@ import java.util.regex.Pattern;
 public class FileUtils {
 
   public static final String DEFAULT_INDENT = "    ";
+  public static final String CLASSES_PATH = "/bin/production/AndroidStarter";
+
+  /**
+   * Get root path in this project
+   *
+   * @return the string for project root path
+   */
+  public static String getRootPath() {
+    File rootPath = new File(".");
+    try {
+      return rootPath.getCanonicalPath().replace(CLASSES_PATH, "");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
 
   /**
    * Get file in directory
+   *
    * @param dirPath to find the file by name in directory
    * @param fileName to get the file
    * @return the file was found in directory
@@ -24,6 +41,7 @@ public class FileUtils {
 
   /**
    * Adding a slash between arguments for new path
+   *
    * @param args are paths which are needed to one path
    * @return path was made by args
    */
@@ -41,6 +59,7 @@ public class FileUtils {
 
   /**
    * Write content you want to file
+   *
    * @param file is target file to write
    * @param content is the string you want to write
    */
@@ -58,6 +77,7 @@ public class FileUtils {
 
   /**
    * Read content from file
+   *
    * @param file is target file to read
    * @return content is the strings in file
    */
@@ -81,6 +101,7 @@ public class FileUtils {
 
   /**
    * Copy file of AndroidModule to file of source project.
+   *
    * @param moduleFilePath is path of source file
    * @param sourceFilePath is path of module
    * @param fileName
@@ -125,6 +146,7 @@ public class FileUtils {
 
   /**
    * Get String from String List
+   *
    * @param strList is a content of file
    * @return String of a content
    */
@@ -138,6 +160,7 @@ public class FileUtils {
   }
 
   /**
+   *
    * Change applicationId of AndroidModule to applicationId of source project
    * @param filePath is the file path in source project
    * @param applicationId of source project
@@ -168,6 +191,7 @@ public class FileUtils {
 
   /**
    * Get a string between double quotes (")
+   *
    * @param str has with double quotes
    * @return string was removed double quotes
    */
@@ -219,6 +243,7 @@ public class FileUtils {
 
   /**
    * Add intent to line
+   *
    * @param line is a string
    * @return new string with indent
    */
@@ -236,6 +261,7 @@ public class FileUtils {
 
   /**
    * Add '\n' to line
+   *
    * @param line is a string without new-line character
    * @return new string with new-line character
    */

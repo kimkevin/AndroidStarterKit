@@ -21,5 +21,7 @@ public class MainActivity extends AppCompatActivity {
     MainBaseAdapter adapter = new MainBaseAdapter(this,
         Arrays.asList(WidgetType.values()));
     listView.setAdapter(adapter);
+
+    put(new ListViewXml(path))
   }
 }

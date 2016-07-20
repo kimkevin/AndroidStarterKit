@@ -2,7 +2,6 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Source {
-  private static Source source;
   private AndroidModule module;
 
   private final String homePath;
@@ -104,15 +103,7 @@ public class Source {
    * @return Source instance which has home path
    */
   public static Source load(String rootPath) {
-    if (source == null) {
-      synchronized (Source.class) {
-        if (source == null) {
-          source = new Source(rootPath);
-        }
-      }
-    }
-
-    return source;
+    return new Source(rootPath);
   }
 
   /**
@@ -122,18 +113,18 @@ public class Source {
    * @return Source instance after loading default Activity
    */
   public Source with(WidgetType widgetType) {
-    if (source.homePath == null) {
+    if (homePath == null) {
       throw new NullPointerException("Failed : There is no HOME PATH");
     }
 
     try {
       String lines = transferActivity(widgetType.getFileName());
-      FileUtils.writeFile(FileUtils.getFileInDirectory(source.sourceDirPath, activityName + ".java"), lines);
+      FileUtils.writeFile(FileUtils.getFileInDirectory(sourceDirPath, activityName + ".java"), lines);
     } catch (UnsupportedWidgetTypeException e) {
       e.printStackTrace();
     }
 
-    return source;
+    return this;
   }
 
   /**
@@ -146,25 +137,25 @@ public class Source {
     try {
       switch (fileName) {
         case FileNames.COFFEE_TYPE:
-          FileUtils.copyFile(module.getPath(fileName), source.sourceDirPath, fileName);
+          FileUtils.copyFile(module.getPath(fileName), sourceDirPath, fileName);
           FileUtils.changeAppplicationId(
-                  FileUtils.linkPathWithSlash(source.sourceDirPath, fileName),
-                  source.applicationId);
+                  FileUtils.linkPathWithSlash(sourceDirPath, fileName),
+                  applicationId);
           break;
         case FileNames.ACTIVITY_RECYCLERVIEW_XML:
         case FileNames.ACTIVITY_LISTVIEW_XML:
         case FileNames.LAYOUT_LIST_ITEM_XML:
-          FileUtils.copyFile(module.getPath(fileName), source.layoutDirPath, fileName);
+          FileUtils.copyFile(module.getPath(fileName), layoutDirPath, fileName);
           break;
         case FileNames.RECYCLERVIEW_ADAPTER:
         case FileNames.LISTVIEW_ADAPTER:
-          FileUtils.copyFile(module.getPath(fileName), source.sourceDirPath + "/adapter", fileName);
+          FileUtils.copyFile(module.getPath(fileName), sourceDirPath + "/adapter", fileName);
           FileUtils.changeAppplicationId(
-                  FileUtils.linkPathWithSlash(source.sourceDirPath, "adapter", fileName),
-                  source.applicationId);
+                  FileUtils.linkPathWithSlash(sourceDirPath, "adapter", fileName),
+                  applicationId);
           break;
         case FileNames.BUILD_GRADLE:
-          BuildGradleFile buildGradleFile = new BuildGradleFile(source.appModuleDirPath);
+          BuildGradleFile buildGradleFile = new BuildGradleFile(appModuleDirPath);
           buildGradleFile.addDependency(BuildGradleConfig.RECYCLERVIEW_LIBRARY,
                   BuildGradleConfig.CARDVIEW_LIBRARY);
           break;
@@ -172,7 +163,7 @@ public class Source {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    return source;
+    return this;
   }
 
   /**
@@ -189,7 +180,7 @@ public class Source {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
 
-        line = line.replace(AndroidModule.APPLICATION_ID, source.applicationId);
+        line = line.replace(AndroidModule.APPLICATION_ID, applicationId);
         line = line.replace(moduleActivityName.replace(".java", ""), activityName);
         content += line + "\n";
       }

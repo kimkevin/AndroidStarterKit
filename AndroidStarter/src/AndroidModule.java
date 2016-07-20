@@ -1,24 +1,16 @@
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AndroidModule {
   public static String APPLICATION_ID = "com.kimkevin.module";
   public static String APP_MODULE_PATH = "AndroidModule/app";
-  public static String CLASSES_PATH = "/bin/production/AndroidStarter";
 
   private Map<String, String> fileMap;
 
   private String homePath;
 
   public AndroidModule() {
-    File rootPath = new File(".");
-    try {
-      homePath = rootPath.getCanonicalPath().replace(CLASSES_PATH, "");
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    homePath = FileUtils.getRootPath();
 
     fileMap = new HashMap<>();
 

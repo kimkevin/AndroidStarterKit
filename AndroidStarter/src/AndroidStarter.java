@@ -14,7 +14,7 @@ public class AndroidStarter {
     }
 
     if (isDebuggable) {
-      projectPath = "/Users/kevin/Documents/git/AndroidStarterKit/AndroidSample";
+      projectPath = FileUtils.linkPathWithSlash(FileUtils.getRootPath(), "AndroidSample");
     } else {
       projectPath = args[0];
     }
