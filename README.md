@@ -7,21 +7,19 @@ In this project we offer some `Android` modules that are most commonly used impo
 This `AndroidModule` contains the following modules:
 
 1. RecyclerView
-2. ListView (unsupported)
+2. ListView
 3. SlidingTabLayout (unsupported)
 4. DrawerLayout (unsupported)
 5. FloatingActionButton (unsupported)
 6. etc (Image Loader(glide, picasso), famous samples) (unsupported)
 
-### Usage: AndroidStater [options], [dir]
+### Usage: AndroidStater [options] [dir]
 
 #### Options
 
 ```bash
 * -h, --help                  output usage information
-* -w, --widget <view>         add <view> support (RecyclerView, ListView, SlidingTabLayout) (defaults to RecyclerView)
-* -o, --options <view>        add <view> optional support (DrawerLayout(drawer), FloatingActionButton(fab))
-* -i, --imageLoader <engine>  add image loader <engine> support (Glide|Picasso)
+* -w, --widget <view>         add <view> support (RecyclerView, ListView) (defaults to RecyclerView)
 ```
 
 #### Dir
@@ -35,17 +33,17 @@ This `AndroidModule` contains the following modules:
 ```bash
 # Make your new project
 
-$ ./ask your_project_path
+$ ./ask -p your_project_path -w ListView 
 
 # or
 
 $ cd bin/production/AndroidStater
-$ java AndroidStater your_project_path
+$ java AndroidStarter -p your_project_path -w RecyclerView
 ```
 
 > Examples  
-1. java AndroidStater /Users/kimkevin/android/AndroidSample -l recyclerview -o drawerlayout  
-2. java AndroidStater /Users/kimkevin/android/AndroidSample -l listview -i glide
+1. ./ask -p /Users/kevin/Documents/AndroidStarterKit/AndroidSample -w ListView 
+2. java AndroidStarter -p /Users/kevin/Documents/AndroidStarterKit/AndroidSample -w RecyclerView
 
 ### License
 
