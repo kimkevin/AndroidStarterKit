@@ -1,32 +1,31 @@
 
 public class AndroidStarter {
-  private static boolean isDebuggable = true;
+  private static boolean isUsedProgramArg = false;
 
   public static void main(String[] args) {
     String projectPath;
 
-    /**
-     * Get project path and options through arguments
-     */
-    if (!isDebuggable && args.length <= 0) {
-      System.out.println("Missed home path of your project");
-      return;
-    }
+    CommandParser commandParser = new CommandParser(args);
 
-    if (isDebuggable) {
-      projectPath = FileUtils.linkPathWithSlash(FileUtils.getRootPath(), "AndroidSample");
-    } else {
-      projectPath = args[0];
-    }
+    projectPath = FileUtils.linkPathWithSlash(FileUtils.getRootPath(), "AndroidSample");
 
     WidgetType type = WidgetType.RecyclerView;
-//    WidgetType type = WidgetType.ListView;
+
+    if (!isUsedProgramArg) {
+      try {
+        projectPath = commandParser.getPath();
+        type = commandParser.getWidgetType();
+      } catch (Exception e) {
+        e.printStackTrace();
+        return;
+      }
+    }
 
     switch (type) {
       case RecyclerView:
         Source
                 .load(projectPath)
-                .with(WidgetType.RecyclerView)
+                .with(type)
                 .put(FileNames.COFFEE_TYPE)
                 .put(FileNames.BUILD_GRADLE)
                 .put(FileNames.RECYCLERVIEW_ADAPTER)
@@ -36,7 +35,7 @@ public class AndroidStarter {
       case ListView:
         Source
                 .load(projectPath)
-                .with(WidgetType.ListView)
+                .with(type)
                 .put(FileNames.COFFEE_TYPE)
                 .put(FileNames.BUILD_GRADLE)
                 .put(FileNames.LISTVIEW_ADAPTER)
@@ -46,7 +45,7 @@ public class AndroidStarter {
       case SlidingTabLayout:
         Source
                 .load(projectPath)
-                .with(WidgetType.RecyclerView)
+                .with(type)
                 .put(FileNames.BUILD_GRADLE)
                 .put(FileNames.RECYCLERVIEW_ADAPTER)
                 .put(FileNames.ACTIVITY_RECYCLERVIEW_XML)
@@ -55,7 +54,7 @@ public class AndroidStarter {
       case SlidingIconTabLayout:
         Source
                 .load(projectPath)
-                .with(WidgetType.RecyclerView)
+                .with(type)
                 .put(FileNames.BUILD_GRADLE)
                 .put(FileNames.RECYCLERVIEW_ADAPTER)
                 .put(FileNames.ACTIVITY_RECYCLERVIEW_XML)

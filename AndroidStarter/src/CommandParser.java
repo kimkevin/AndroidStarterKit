@@ -1,0 +1,43 @@
+import java.util.*;
+
+public class CommandParser {
+
+  private List<String> argList;
+
+  public CommandParser(String[] args) {
+    argList = new ArrayList<>(Arrays.asList(args));
+  }
+
+  public String getPath() throws CommandParseException {
+    final String option = findOption(CommandOption.PATH_KEY);
+
+    if (option == null) {
+      throw new CommandParseException("Missing a project path : please check -p <path>");
+    }
+    return option;
+  }
+
+  public WidgetType getWidgetType() throws CommandParseException, UnsupportedWidgetTypeException {
+    final String typeStr = findOption(CommandOption.WIDGET_KEY);
+
+    if (typeStr.equals(WidgetType.RecyclerView.getName())) {
+      return WidgetType.RecyclerView;
+    } else if (typeStr.equals(WidgetType.ListView.getName())) {
+      return WidgetType.ListView;
+    } else {
+      throw new CommandParseException("Missing a widget type : please check -w <widget>");
+    }
+  }
+
+  private String findOption(String key) {
+    for (int i = 0, li = argList.size(); i < li; i++) {
+      if (argList.get(i).equals(key)) {
+        if (i < argList.size() - 1) {
+          return argList.get(i + 1);
+        }
+      }
+    }
+
+    return null;
+  }
+}

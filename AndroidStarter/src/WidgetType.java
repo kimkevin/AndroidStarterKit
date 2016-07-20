@@ -1,15 +1,28 @@
 public enum WidgetType {
-  RecyclerView, ListView, SlidingTabLayout, SlidingIconTabLayout;
+  RecyclerView("RecyclerView"),
+  ListView("ListView"),
+  SlidingTabLayout(null),
+  SlidingIconTabLayout(null);
 
-  public String getFileName() throws UnsupportedWidgetTypeException {
-    int index = ordinal();
+  private String fileName;
 
-    if (index == RecyclerView.ordinal()) {
-      return FileNames.RECYCLERVIEW_ACTIVITY;
-    } else if (index == ListView.ordinal()) {
-      return FileNames.LISTVIEW_ACTIVITY;
-    } else {
+  WidgetType(String fileName) {
+    this.fileName = fileName;
+  }
+
+  public String getName() throws UnsupportedWidgetTypeException {
+    if (fileName == null) {
       throw new UnsupportedWidgetTypeException("Filed : Not supported widget type");
     }
+
+    return fileName;
+  }
+
+  public String getActivityName() throws UnsupportedWidgetTypeException {
+    if (fileName == null) {
+      throw new UnsupportedWidgetTypeException("Filed : Not supported widget type");
+    }
+
+    return fileName + "Activity.java";
   }
 }

@@ -118,7 +118,7 @@ public class Source {
     }
 
     try {
-      String lines = transferActivity(widgetType.getFileName());
+      String lines = transferActivity(widgetType.getActivityName());
       FileUtils.writeFile(FileUtils.getFileInDirectory(sourceDirPath, activityName + ".java"), lines);
     } catch (UnsupportedWidgetTypeException e) {
       e.printStackTrace();
