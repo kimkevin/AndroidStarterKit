@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.kimkevin.module.adapter.SlidingIconTabAdapter;
 import com.kimkevin.module.widgets.SlidingTabLayout;
 
-public class SlidingIconTabActivity extends AppCompatActivity {
+public class SlidingIconTabLayoutActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

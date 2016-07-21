@@ -11,8 +11,8 @@ import com.kimkevin.module.widgets.SlidingTabLayout;
 public class SlidingIconTabAdapter extends FragmentPagerAdapter implements SlidingTabLayout.TabIconProvider {
 
   private static final int iconRes[] = {
-      R.drawable.ic_action_camera,
-      R.drawable.ic_action_video
+      R.mipmap.ic_launcher,
+      R.mipmap.ic_launcher
   };
 
   public SlidingIconTabAdapter(FragmentManager fragmentManager) {

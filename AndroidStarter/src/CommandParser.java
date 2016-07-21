@@ -28,6 +28,10 @@ public class CommandParser {
       return WidgetType.RecyclerView;
     } else if (typeStr.equals(WidgetType.ListView.getName())) {
       return WidgetType.ListView;
+    } else if (typeStr.equals(WidgetType.SlidingTabLayout.getName())) {
+      return WidgetType.SlidingTabLayout;
+    } else if (typeStr.equals(WidgetType.SlidingIconTabLayout.getName())) {
+      return WidgetType.SlidingIconTabLayout;
     } else {
       throw new CommandParseException("Unsupported a widget type : please check -h , --help");
     }

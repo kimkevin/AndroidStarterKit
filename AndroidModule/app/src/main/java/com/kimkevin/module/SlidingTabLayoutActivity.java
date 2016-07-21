@@ -10,7 +10,7 @@ import com.kimkevin.module.widgets.SlidingTabLayout;
 
 import java.util.Arrays;
 
-public class SlidingTabActivity extends AppCompatActivity {
+public class SlidingTabLayoutActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

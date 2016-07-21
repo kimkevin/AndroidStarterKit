@@ -8,9 +8,9 @@ This `AndroidModule` contains the following modules:
 
 1. RecyclerView
 2. ListView
-3. ~~SlidingTabLayout~~ (coming soon, unsupported)
-4. ~~SlidingIconTabLayout~~ (unsupported)
-4. ~~DrawerLayout~~ (unsupported)
+3. SlidingTabLayout 
+4. SlidingIconTabLayout 
+4. ~~DrawerLayout~~ (coming soon, unsupported)
 5. ~~FloatingActionButton~~ (unsupported)
 6. ~~etc (Image Loader(glide), famous samples supported by Google)~~ (unsupported)
 

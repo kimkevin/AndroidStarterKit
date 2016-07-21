@@ -137,6 +137,7 @@ public class Source {
     try {
       switch (fileName) {
         case FileNames.COFFEE_TYPE:
+        case FileNames.SLIDINGTAB_FRAGMNET:
           FileUtils.copyFile(module.getPath(fileName), sourceDirPath, fileName);
           FileUtils.changeAppplicationId(
                   FileUtils.linkPathWithSlash(sourceDirPath, fileName),
@@ -145,13 +146,31 @@ public class Source {
         case FileNames.ACTIVITY_RECYCLERVIEW_XML:
         case FileNames.ACTIVITY_LISTVIEW_XML:
         case FileNames.LAYOUT_LIST_ITEM_XML:
+        case FileNames.FRAGMNET_MAIN_XML:
+        case FileNames.TAB_TEXT_LAYOUT_XML:
+        case FileNames.TAB_IMAGE_LAYOUT_XML:
           FileUtils.copyFile(module.getPath(fileName), layoutDirPath, fileName);
+          break;
+        case FileNames.ACTIVITY_SLIDINGTABLAYOUT_XML:
+          FileUtils.copyFile(module.getPath(fileName), layoutDirPath, fileName);
+          FileUtils.changeAppplicationId(
+                  FileUtils.linkPathWithSlash(layoutDirPath, fileName),
+                  applicationId);
           break;
         case FileNames.RECYCLERVIEW_ADAPTER:
         case FileNames.LISTVIEW_ADAPTER:
+        case FileNames.SLIDINGICONTAB_ADAPTER:
+        case FileNames.SLIDINGTAB_ADAPTER:
           FileUtils.copyFile(module.getPath(fileName), sourceDirPath + "/adapter", fileName);
           FileUtils.changeAppplicationId(
                   FileUtils.linkPathWithSlash(sourceDirPath, "adapter", fileName),
+                  applicationId);
+          break;
+        case FileNames.SLIDINGTABLAYOUT:
+        case FileNames.SLIDINGTABSTRIP:
+          FileUtils.copyFile(module.getPath(fileName), sourceDirPath + "/widgets", fileName);
+          FileUtils.changeAppplicationId(
+                  FileUtils.linkPathWithSlash(sourceDirPath, "widgets", fileName),
                   applicationId);
           break;
         case FileNames.BUILD_GRADLE:

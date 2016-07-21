@@ -52,18 +52,26 @@ public class AndroidStarter {
                 .load(projectPath)
                 .with(type)
                 .put(FileNames.BUILD_GRADLE)
-                .put(FileNames.RECYCLERVIEW_ADAPTER)
-                .put(FileNames.ACTIVITY_RECYCLERVIEW_XML)
-                .put(FileNames.LAYOUT_LIST_ITEM_XML);
+                .put(FileNames.SLIDINGTAB_ADAPTER)
+                .put(FileNames.SLIDINGTAB_FRAGMNET)
+                .put(FileNames.SLIDINGTABLAYOUT)
+                .put(FileNames.SLIDINGTABSTRIP)
+                .put(FileNames.FRAGMNET_MAIN_XML)
+                .put(FileNames.TAB_TEXT_LAYOUT_XML)
+                .put(FileNames.ACTIVITY_SLIDINGTABLAYOUT_XML);
         break;
       case SlidingIconTabLayout:
         Source
                 .load(projectPath)
                 .with(type)
                 .put(FileNames.BUILD_GRADLE)
-                .put(FileNames.RECYCLERVIEW_ADAPTER)
-                .put(FileNames.ACTIVITY_RECYCLERVIEW_XML)
-                .put(FileNames.LAYOUT_LIST_ITEM_XML);
+                .put(FileNames.SLIDINGICONTAB_ADAPTER)
+                .put(FileNames.SLIDINGTAB_FRAGMNET)
+                .put(FileNames.SLIDINGTABLAYOUT)
+                .put(FileNames.SLIDINGTABSTRIP)
+                .put(FileNames.FRAGMNET_MAIN_XML)
+                .put(FileNames.TAB_IMAGE_LAYOUT_XML)
+                .put(FileNames.ACTIVITY_SLIDINGTABLAYOUT_XML);
         break;
     }
   }

@@ -1,8 +1,8 @@
 public enum WidgetType {
   RecyclerView("RecyclerView"),
   ListView("ListView"),
-  SlidingTabLayout(null),
-  SlidingIconTabLayout(null);
+  SlidingTabLayout("SlidingTabLayout"),
+  SlidingIconTabLayout("SlidingIconTabLayout");
 
   private String fileName;
 
