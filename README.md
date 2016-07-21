@@ -1,4 +1,4 @@
-ASK - Android Stater Kit [beta]
+ASK - Android Stater Kit
 =====
 
 Android Stater Kit is meant to start developing app **simply** and **quickly**.  
