@@ -29,7 +29,7 @@ This `AndroidModule` contains the following modules:
 * -p, --path                  source project path (defaults to new project)
 ```
 
-### Run (only working RecyclerView with no option)
+### Run
 
 ```bash
 # Make your new project
@@ -43,7 +43,7 @@ $ java AndroidStarter -w RecyclerView -p your_project_path
 ```
 
 > Examples  
-1. ./ask -w ListView -p /Users/kevin/Documents/AndroidStarterKit/AndroidSample 
+1. ./ask -w ListView -p /Users/kevin/Documents/AndroidStarterKit/AndroidSample   
 2. java AndroidStarter -w RecyclerView -p /Users/kevin/Documents/AndroidStarterKit/AndroidSample 
 
 ### License
