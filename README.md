@@ -34,19 +34,16 @@ This `AndroidModule` contains the following modules:
 ```bash
 # Make your new project
 
-$ ./ask -w ListView -p your_project_path 
+$ ./ask -w <widget> -p your_project_path 
 
-# or
-
-$ cd bin/production/AndroidStater
-$ java AndroidStarter -w RecyclerView -p your_project_path 
 ```
 
 > Examples  
-1. ./ask -w ListView -p /Users/kevin/Documents/AndroidStarterKit/AndroidSample   
-2. java AndroidStarter -w RecyclerView -p /Users/kevin/Documents/AndroidStarterKit/AndroidSample 
+1. ./ask.sh -w ListView -p /Users/kevin/Documents/AndroidStarterKit/AndroidSample   
+2. ./ask.sh -w RecyclerView -p /Users/kevin/Documents/AndroidStarterKit/AndroidSample 
 
 ### License
 
 Copyright (c) 2013 “KimKevin” Yongjun Kim  
 Licensed under the MIT license.
+

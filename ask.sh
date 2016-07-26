@@ -1,6 +1,4 @@
 #!/bin/bash
 
-cd bin/production/AndroidStarter
-java AndroidStarter echo $@
-
-
+cd ask-app/build/classes/main
+java com.androidstarterkit.AndroidStarter echo $@

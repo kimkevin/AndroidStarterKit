@@ -1,18 +1,18 @@
 #!/bin/bash
 
 # rm -rf AndroidSample/app/*
-# cp -R AndroidSample.bak/app/* AndroidSample/app
+# cp -R ask-sample.bak/app/* AndroidSample/app
 
-rm -rf AndroidSample/app/build.gradle
-cp -R AndroidSample.bak/app/build.gradle AndroidSample/app/build.gradle
+rm -rf ask-sample/build.gradle
+cp -R ask-sample.bak/build.gradle ask-sample/build.gradle
 
-rm -rf AndroidSample/app/src/main/res/layout/*
-cp -R AndroidSample.bak/app/src/main/res/layout/* AndroidSample/app/src/main/res/layout
+rm -rf ask-sample/src/main/res/layout/*
+cp -R ask-sample.bak/src/main/res/layout/* ask-sample/src/main/res/layout
 
-rm -rf AndroidSample/app/src/main/res/values/*
-cp -R AndroidSample.bak/app/src/main/res/values/* AndroidSample/app/src/main/res/values
+rm -rf ask-sample/src/main/res/values/*
+cp -R ask-sample.bak/src/main/res/values/* ask-sample/src/main/res/values
 
-rm -rf AndroidSample/app/src/main/java/com/kimkevin/sample/*
-cp -R AndroidSample.bak/app/src/main/java/com/kimkevin/sample/* AndroidSample/app/src/main/java/com/kimkevin/sample
+rm -rf ask-sample/src/main/java/com/androidstarterkit/sample/*
+cp -R ask-sample.bak/src/main/java/com/androidstarterkit/sample/* ask-sample/src/main/java/com/androidstarterkit/sample
 
 echo 'Success to Recover Sample Project for AndroidStarter Developer'
