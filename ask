@@ -9,4 +9,4 @@
 BIN_PATH='ask-app/build/classes/main'
 cd $BIN_PATH
 
-java com.androidstarterkit.AndroidStarter echo $@
+java com.androidstarterkit.Ask echo $@

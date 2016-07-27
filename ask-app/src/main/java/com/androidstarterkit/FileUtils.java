@@ -1,6 +1,12 @@
 package com.androidstarterkit;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
@@ -165,9 +171,10 @@ public class FileUtils {
    *
    * Change applicationId of AndroidModule to applicationId of source project
    * @param filePath is the file path in source project
-   * @param applicationId of source project
+   * @param sourceApplicationId of source project
+   * @param moduleApplicationId of module project
    */
-  public static void changeAppplicationId(String filePath, String applicationId) {
+  public static void changeAppplicationId(String filePath, String sourceApplicationId, String moduleApplicationId) {
     File file = new File(filePath);
     try {
       String lines = "";
@@ -176,7 +183,7 @@ public class FileUtils {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
 
-        line = line.replace(AndroidModule.APPLICATION_ID, applicationId);
+        line = line.replace(moduleApplicationId, sourceApplicationId);
         lines += line + "\n";
       }
 

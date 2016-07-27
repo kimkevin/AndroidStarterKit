@@ -1,12 +1,14 @@
 package com.androidstarterkit;
 
-public class AndroidStarter {
+import com.androidstarterkit.modules.SourceModule;
+
+public class Ask {
   private static boolean isUsedProgramArg = false;
 
   public static void main(String[] args) {
     String projectPath;
 
-    CommandParser commandParser = new CommandParser(args);
+    com.androidstarterkit.cmd.CommandParser commandParser = new com.androidstarterkit.cmd.CommandParser(args);
 
     if (commandParser.hasHelpCommand()) {
       printHelp();
@@ -15,7 +17,7 @@ public class AndroidStarter {
 
     projectPath = FileUtils.linkPathWithSlash(FileUtils.getRootPath(), "AndroidSample");
 
-    WidgetType type = WidgetType.RecyclerView;
+    com.androidstarterkit.cmd.WidgetType type = com.androidstarterkit.cmd.WidgetType.RecyclerView;
 
     if (!isUsedProgramArg) {
       try {
@@ -29,7 +31,7 @@ public class AndroidStarter {
 
     switch (type) {
       case RecyclerView:
-        Source
+        SourceModule
                 .load(projectPath)
                 .with(type)
                 .put(FileNames.COFFEE_TYPE)
@@ -39,7 +41,7 @@ public class AndroidStarter {
                 .put(FileNames.LAYOUT_LIST_ITEM_XML);
         break;
       case ListView:
-        Source
+        SourceModule
                 .load(projectPath)
                 .with(type)
                 .put(FileNames.COFFEE_TYPE)
@@ -49,7 +51,7 @@ public class AndroidStarter {
                 .put(FileNames.LAYOUT_LIST_ITEM_XML);
         break;
       case SlidingTabLayout:
-        Source
+        SourceModule
                 .load(projectPath)
                 .with(type)
                 .put(FileNames.BUILD_GRADLE)
@@ -62,7 +64,7 @@ public class AndroidStarter {
                 .put(FileNames.ACTIVITY_SLIDINGTABLAYOUT_XML);
         break;
       case SlidingIconTabLayout:
-        Source
+        SourceModule
                 .load(projectPath)
                 .with(type)
                 .put(FileNames.BUILD_GRADLE)

@@ -1,4 +1,6 @@
-package com.androidstarterkit;
+package com.androidstarterkit.cmd;
+
+import com.androidstarterkit.UnsupportedWidgetTypeException;
 
 public enum WidgetType {
   RecyclerView("RecyclerView"),

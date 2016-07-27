@@ -1,10 +1,16 @@
-package com.androidstarterkit;
+package com.androidstarterkit.modules;
+
+import com.androidstarterkit.BuildGradleConfig;
+import com.androidstarterkit.BuildGradleFile;
+import com.androidstarterkit.FileNames;
+import com.androidstarterkit.FileUtils;
+import com.androidstarterkit.UnsupportedWidgetTypeException;
 
 import java.io.*;
 import java.util.Scanner;
 
-public class Source {
-  private AndroidModule module;
+public class SourceModule {
+  private AskModule module;
 
   private final String homePath;
   private String sourceDirPath;
@@ -14,10 +20,10 @@ public class Source {
   private String activityName;
   private String applicationId;
 
-  public Source(String homePath) {
+  public SourceModule(String homePath) {
     this.homePath = homePath;
 
-    module = new AndroidModule();
+    module = new AskModule();
 
     /**
      * Get module's name
@@ -111,17 +117,17 @@ public class Source {
    * @param rootPath is the home path of source project
    * @return Source instance which has home path
    */
-  public static Source load(String rootPath) {
-    return new Source(rootPath);
+  public static SourceModule load(String rootPath) {
+    return new SourceModule(rootPath);
   }
 
   /**
    * Ready a load with Source by passing module type
    *
-   * @param widgetType {@link WidgetType} is supported by AndroidModule
+   * @param widgetType {@link com.androidstarterkit.cmd.WidgetType} is supported by AndroidModule
    * @return Source instance after loading default Activity
    */
-  public Source with(WidgetType widgetType) {
+  public SourceModule with(com.androidstarterkit.cmd.WidgetType widgetType) {
     if (homePath == null) {
       throw new NullPointerException("Failed : There is no HOME PATH");
     }
@@ -142,15 +148,15 @@ public class Source {
    * @param fileName is a name of module file
    * @return Source instance after copying file to source project
    */
-  public Source put(String fileName) {
+  public SourceModule put(String fileName) {
     try {
       switch (fileName) {
         case FileNames.COFFEE_TYPE:
         case FileNames.SLIDINGTAB_FRAGMNET:
           FileUtils.copyFile(module.getPath(fileName), sourceDirPath, fileName);
-          FileUtils.changeAppplicationId(
-                  FileUtils.linkPathWithSlash(sourceDirPath, fileName),
-                  applicationId);
+          FileUtils.changeAppplicationId(FileUtils.linkPathWithSlash(sourceDirPath, fileName),
+              applicationId,
+              module.getApplicationId());
           break;
         case FileNames.ACTIVITY_RECYCLERVIEW_XML:
         case FileNames.ACTIVITY_LISTVIEW_XML:
@@ -162,30 +168,30 @@ public class Source {
           break;
         case FileNames.ACTIVITY_SLIDINGTABLAYOUT_XML:
           FileUtils.copyFile(module.getPath(fileName), layoutDirPath, fileName);
-          FileUtils.changeAppplicationId(
-                  FileUtils.linkPathWithSlash(layoutDirPath, fileName),
-                  applicationId);
+          FileUtils.changeAppplicationId(FileUtils.linkPathWithSlash(layoutDirPath, fileName),
+              applicationId,
+              module.getApplicationId());
           break;
         case FileNames.RECYCLERVIEW_ADAPTER:
         case FileNames.LISTVIEW_ADAPTER:
         case FileNames.SLIDINGICONTAB_ADAPTER:
         case FileNames.SLIDINGTAB_ADAPTER:
           FileUtils.copyFile(module.getPath(fileName), sourceDirPath + "/adapter", fileName);
-          FileUtils.changeAppplicationId(
-                  FileUtils.linkPathWithSlash(sourceDirPath, "adapter", fileName),
-                  applicationId);
+          FileUtils.changeAppplicationId(FileUtils.linkPathWithSlash(sourceDirPath, "adapter", fileName),
+              applicationId,
+              module.getApplicationId());
           break;
         case FileNames.SLIDINGTABLAYOUT:
         case FileNames.SLIDINGTABSTRIP:
           FileUtils.copyFile(module.getPath(fileName), sourceDirPath + "/widgets", fileName);
-          FileUtils.changeAppplicationId(
-                  FileUtils.linkPathWithSlash(sourceDirPath, "widgets", fileName),
-                  applicationId);
+          FileUtils.changeAppplicationId(FileUtils.linkPathWithSlash(sourceDirPath, "widgets", fileName),
+              applicationId,
+              module.getApplicationId());
           break;
         case FileNames.BUILD_GRADLE:
           BuildGradleFile buildGradleFile = new BuildGradleFile(appModuleDirPath);
           buildGradleFile.addDependency(BuildGradleConfig.RECYCLERVIEW_LIBRARY,
-                  BuildGradleConfig.CARDVIEW_LIBRARY);
+              BuildGradleConfig.CARDVIEW_LIBRARY);
           break;
       }
     } catch (IOException e) {
@@ -196,11 +202,12 @@ public class Source {
 
   /**
    * Transfer source Activity to module Activity with source application id and file name
+   *
    * @param moduleActivityName the Activity name of module
    * @return the content of activity file
    */
   private String transferActivity(String moduleActivityName) {
-    File activityFile = FileUtils.getFileInDirectory(module.getPath(moduleActivityName), moduleActivityName);
+    File activityFile = module.getFile(moduleActivityName);
 
     String content = "";
     try {
@@ -208,7 +215,7 @@ public class Source {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
 
-        line = line.replace(AndroidModule.APPLICATION_ID, applicationId);
+        line = line.replace(module.getApplicationId(), applicationId);
         line = line.replace(moduleActivityName.replace(".java", ""), activityName);
         content += line + "\n";
       }

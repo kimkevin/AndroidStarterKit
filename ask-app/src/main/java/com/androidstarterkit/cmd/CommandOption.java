@@ -1,4 +1,4 @@
-package com.androidstarterkit;
+package com.androidstarterkit.cmd;
 
 public class CommandOption {
   public static String PATH_KEY = "-p";
