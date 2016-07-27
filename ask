@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#########################################################
+##
+##  ask start up script for UN*X
+##
+#########################################################
+
+BIN_PATH='ask-app/build/classes/main'
+cd $BIN_PATH
+
+java com.androidstarterkit.AndroidStarter echo $@
