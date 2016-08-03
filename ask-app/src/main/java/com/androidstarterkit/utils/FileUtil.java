@@ -1,4 +1,4 @@
-package com.androidstarterkit;
+package com.androidstarterkit.utils;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,7 +14,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class FileUtils {
+public class FileUtil {
 
   public static final String DEFAULT_INDENT = "    ";
   public static final String CLASSES_PATH = "/ask-app/build/classes/main";
@@ -37,7 +37,7 @@ public class FileUtils {
   /**
    * Get file in directory
    *
-   * @param dirPath to find the file by name in directory
+   * @param dirPath  to find the file by name in directory
    * @param fileName to get the file
    * @return the file was found in directory
    */
@@ -68,7 +68,7 @@ public class FileUtils {
   /**
    * Write content you want to file
    *
-   * @param file is target file to write
+   * @param file    is target file to write
    * @param content is the string you want to write
    */
   public static void writeFile(File file, String content) {
@@ -78,6 +78,25 @@ public class FileUtils {
       BufferedWriter bw = new BufferedWriter(fileWriter);
       bw.write(content);
       bw.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public static void writeFile(String sourceFilePath, String fileName, String content) {
+    File destDir = new File(sourceFilePath);
+    if (!destDir.exists() && !destDir.mkdirs()) {
+      return;
+    }
+
+    File file = new File(sourceFilePath + "/" + fileName);
+
+    try {
+      if (!file.exists()) {
+        file.createNewFile();
+      }
+
+      writeFile(file, content);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -110,20 +129,18 @@ public class FileUtils {
   /**
    * Copy file of AndroidModule to file of source project.
    *
-   * @param moduleFilePath is path of source file
-   * @param sourceFilePath is path of module
-   * @param fileName
+   * @param sourceFilePath is path of source
    * @throws IOException
    */
-  public static void copyFile(String moduleFilePath,
-                              String sourceFilePath, String fileName) throws IOException {
+  public static void copyFile(File moduleFile,
+                              String sourceFilePath) throws IOException {
     File destDir = new File(sourceFilePath);
-    if (!destDir.exists()) {
-      destDir.mkdir();
+    if (!destDir.exists() && !destDir.mkdirs()) {
+      return;
     }
 
-    File sourceFile = new File(linkPathWithSlash(moduleFilePath, fileName));
-    File destFile = new File(linkPathWithSlash(sourceFilePath, fileName));
+    File sourceFile = moduleFile;
+    File destFile = new File(linkPathWithSlash(sourceFilePath, moduleFile.getName()));
 
     if (!sourceFile.exists()) {
       return;
@@ -141,6 +158,7 @@ public class FileUtils {
 
     if (destinationChannel != null && sourceChannel != null) {
       destinationChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
+      System.out.println("transfer : " + destFile.getPath());
     }
 
     if (sourceChannel != null) {
@@ -161,16 +179,16 @@ public class FileUtils {
   public static String getString(List<String> strList) {
     StringBuffer stringBuffer = new StringBuffer();
     for (String str : strList) {
-      stringBuffer.append(FileUtils.addNewLine(str));
+      stringBuffer.append(FileUtil.addNewLine(str));
     }
 
     return stringBuffer.toString();
   }
 
   /**
-   *
    * Change applicationId of AndroidModule to applicationId of source project
-   * @param filePath is the file path in source project
+   *
+   * @param filePath            is the file path in source project
    * @param sourceApplicationId of source project
    * @param moduleApplicationId of module project
    */
@@ -198,6 +216,10 @@ public class FileUtils {
     }
   }
 
+  public static String changeDotToSlash(String str) {
+    return str.replaceAll("\\.", "/");
+  }
+
   /**
    * Get a string between double quotes (")
    *
@@ -217,7 +239,7 @@ public class FileUtils {
    * Add line to specific object by a string list of scope
    *
    * @param objectName is keyword to find scope
-   * @param line is a string that is needed to add
+   * @param line       is a string that is needed to add
    * @param stringList is string list of scope
    * @return string list was added to line such as external library
    */
@@ -251,6 +273,16 @@ public class FileUtils {
   }
 
   /**
+   * @param path is the string which is the path with dot(.) delimeter such as com.ask.MainActivity
+   * @return is the string for file name
+   */
+  public static String getFileNameForDotPath(String path) {
+    final String[] token = path.split("\\.");
+    final int lastIndex = token.length - 1;
+    return token[lastIndex];
+  }
+
+  /**
    * Add intent to line
    *
    * @param line is a string
@@ -276,5 +308,9 @@ public class FileUtils {
    */
   private static String addNewLine(String line) {
     return line + "\n";
+  }
+
+  public static String removeExtension(String filename) {
+    return filename.substring(0, filename.lastIndexOf('.'));
   }
 }

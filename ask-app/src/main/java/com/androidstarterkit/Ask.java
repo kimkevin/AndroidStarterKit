@@ -1,6 +1,8 @@
 package com.androidstarterkit;
 
-import com.androidstarterkit.modules.SourceModule;
+import com.androidstarterkit.cmd.WidgetType;
+import com.androidstarterkit.modules.SampleModule;
+import com.androidstarterkit.utils.FileUtil;
 
 public class Ask {
   private static boolean isUsedProgramArg = false;
@@ -15,9 +17,9 @@ public class Ask {
       return;
     }
 
-    projectPath = FileUtils.linkPathWithSlash(FileUtils.getRootPath(), "AndroidSample");
+    projectPath = FileUtil.linkPathWithSlash(FileUtil.getRootPath(), "AndroidSample");
 
-    com.androidstarterkit.cmd.WidgetType type = com.androidstarterkit.cmd.WidgetType.RecyclerView;
+    WidgetType type = WidgetType.RecyclerView;
 
     if (!isUsedProgramArg) {
       try {
@@ -29,54 +31,11 @@ public class Ask {
       }
     }
 
-    switch (type) {
-      case RecyclerView:
-        SourceModule
-                .load(projectPath)
-                .with(type)
-                .put(FileNames.COFFEE_TYPE)
-                .put(FileNames.BUILD_GRADLE)
-                .put(FileNames.RECYCLERVIEW_ADAPTER)
-                .put(FileNames.ACTIVITY_RECYCLERVIEW_XML)
-                .put(FileNames.LAYOUT_LIST_ITEM_XML);
-        break;
-      case ListView:
-        SourceModule
-                .load(projectPath)
-                .with(type)
-                .put(FileNames.COFFEE_TYPE)
-                .put(FileNames.BUILD_GRADLE)
-                .put(FileNames.LISTVIEW_ADAPTER)
-                .put(FileNames.ACTIVITY_LISTVIEW_XML)
-                .put(FileNames.LAYOUT_LIST_ITEM_XML);
-        break;
-      case SlidingTabLayout:
-        SourceModule
-                .load(projectPath)
-                .with(type)
-                .put(FileNames.BUILD_GRADLE)
-                .put(FileNames.SLIDINGTAB_ADAPTER)
-                .put(FileNames.SLIDINGTAB_FRAGMNET)
-                .put(FileNames.SLIDINGTABLAYOUT)
-                .put(FileNames.SLIDINGTABSTRIP)
-                .put(FileNames.FRAGMNET_MAIN_XML)
-                .put(FileNames.TAB_TEXT_LAYOUT_XML)
-                .put(FileNames.ACTIVITY_SLIDINGTABLAYOUT_XML);
-        break;
-      case SlidingIconTabLayout:
-        SourceModule
-                .load(projectPath)
-                .with(type)
-                .put(FileNames.BUILD_GRADLE)
-                .put(FileNames.SLIDINGICONTAB_ADAPTER)
-                .put(FileNames.SLIDINGTAB_FRAGMNET)
-                .put(FileNames.SLIDINGTABLAYOUT)
-                .put(FileNames.SLIDINGTABSTRIP)
-                .put(FileNames.FRAGMNET_MAIN_XML)
-                .put(FileNames.TAB_IMAGE_LAYOUT_XML)
-                .put(FileNames.ACTIVITY_SLIDINGTABLAYOUT_XML);
-        break;
-    }
+    SampleModule
+        .load(projectPath)
+        .with(type);
+
+    System.out.println("Run sample project with " + type);
   }
 
   public static void printHelp() {

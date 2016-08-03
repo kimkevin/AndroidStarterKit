@@ -1,6 +1,6 @@
 package com.androidstarterkit;
 
-public class UnsupportedWidgetTypeException extends Exception{
+public class UnsupportedWidgetTypeException extends BaseException{
   public UnsupportedWidgetTypeException() {
   }
 

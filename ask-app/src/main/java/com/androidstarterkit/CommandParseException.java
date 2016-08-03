@@ -1,6 +1,6 @@
 package com.androidstarterkit;
 
-public class CommandParseException extends Exception{
+public class CommandParseException extends BaseException{
   public CommandParseException() {
   }
 

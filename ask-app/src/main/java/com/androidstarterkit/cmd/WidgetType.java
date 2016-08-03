@@ -16,7 +16,7 @@ public enum WidgetType {
 
   public String getName() throws UnsupportedWidgetTypeException {
     if (fileName == null) {
-      throw new UnsupportedWidgetTypeException("Filed : Not supported widget type");
+      throw new UnsupportedWidgetTypeException("Could not find widget name");
     }
 
     return fileName;
@@ -24,9 +24,9 @@ public enum WidgetType {
 
   public String getActivityName() throws UnsupportedWidgetTypeException {
     if (fileName == null) {
-      throw new UnsupportedWidgetTypeException("Filed : Not supported widget type");
+      throw new UnsupportedWidgetTypeException("Could not find widget activity name");
     }
 
-    return fileName + "Activity.java";
+    return fileName + "Activity";
   }
 }
