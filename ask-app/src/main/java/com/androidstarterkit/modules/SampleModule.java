@@ -1,5 +1,6 @@
 package com.androidstarterkit.modules;
 
+import com.androidstarterkit.ClassParser;
 import com.androidstarterkit.UnsupportedWidgetTypeException;
 import com.androidstarterkit.cmd.WidgetType;
 import com.androidstarterkit.utils.FileUtil;
@@ -7,6 +8,7 @@ import com.androidstarterkit.utils.FileUtil;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -134,12 +136,13 @@ public class SampleModule extends Directory {
       Scanner scanner = new Scanner(file);
       String content = "";
 
-      while(scanner.hasNext()) {
+      while (scanner.hasNext()) {
         String line = scanner.nextLine();
 
         if (widgetType != null) {
           line = changeActivityName(widgetType, line);
         }
+
         line = changePackage(line);
         line = importClass(line);
         line = importLayout(line);
@@ -175,26 +178,18 @@ public class SampleModule extends Directory {
   }
 
   private String importClass(String line) {
-    String reg = "import[\\s][A-Za-z0-1.]*;";
+    List<String> classList = ClassParser.getClassNames(line);
 
-    Pattern pat = Pattern.compile(reg);
-    Matcher matcher = pat.matcher(line);
-
-    while (matcher.find()) {
-      String matchedStr = matcher.group();
-
-      if (matchedStr.contains(module.getApplicationId())) {
-        String fileName = FileUtil.getFileNameForDotPath(matchedStr.replace(";", ""));
-        if (fileName.equals("R")) {
-          continue;
-        }
-
-        transfer(module.getChildFile(fileName + JAVA_EXTENSION), null);
-      } else {
-        for (String key : buildGradleFile.getDependencyKeys()) {
-          if (matchedStr.contains(key)) {
-            buildGradleFile.addDependency(key);
-            break;
+    if (classList.size() > 0) {
+      for (String key : classList) {
+        if (module.getRelativePathFromJavaDir(key + JAVA_EXTENSION) != null) {
+          transfer(module.getChildFile(key + JAVA_EXTENSION), null);
+        } else {
+          for (String dependency : buildGradleFile.getDependencyKeys()) {
+            if (key.contains(dependency)) {
+              buildGradleFile.addDependency(dependency);
+              break;
+            }
           }
         }
       }

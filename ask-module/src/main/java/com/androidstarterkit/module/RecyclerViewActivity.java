@@ -24,7 +24,8 @@ public class RecyclerViewActivity extends AppCompatActivity {
     /**
      * set RecyclerViewAdapter to RecyclerView with Data.
      */
-    recyclerView.setAdapter(new RecyclerViewAdapter(this, Arrays.asList(CoffeeType.values())));
+    RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this, Arrays.asList(CoffeeType.values()));
+    recyclerView.setAdapter(recyclerViewAdapter);
   }
 }
 

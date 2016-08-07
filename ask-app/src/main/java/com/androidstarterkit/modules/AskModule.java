@@ -13,7 +13,12 @@ public class AskModule extends Directory {
 
   public String getRelativePathFromJavaDir(String key) {
     String applicationIdPath = FileUtil.changeDotToSlash(applicationId);
-    int index = getChildPath(key).indexOf(applicationIdPath);
+    int index;
+    try {
+      index = getChildPath(key).indexOf(applicationIdPath);
+    } catch (NullPointerException exception) {
+      return null;
+    }
     return getChildPath(key).substring(index).replace(applicationIdPath, "");
   }
 }

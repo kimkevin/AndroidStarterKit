@@ -1,5 +1,6 @@
 package com.androidstarterkit;
 
+import com.androidstarterkit.cmd.CommandParser;
 import com.androidstarterkit.cmd.WidgetType;
 import com.androidstarterkit.modules.SampleModule;
 import com.androidstarterkit.utils.FileUtil;
@@ -10,7 +11,7 @@ public class Ask {
   public static void main(String[] args) {
     String projectPath;
 
-    com.androidstarterkit.cmd.CommandParser commandParser = new com.androidstarterkit.cmd.CommandParser(args);
+    CommandParser commandParser = new CommandParser(args);
 
     if (commandParser.hasHelpCommand()) {
       printHelp();
