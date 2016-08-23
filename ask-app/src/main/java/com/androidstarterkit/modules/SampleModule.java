@@ -1,13 +1,16 @@
 package com.androidstarterkit.modules;
 
 import com.androidstarterkit.ClassParser;
+import com.androidstarterkit.Extension;
 import com.androidstarterkit.UnsupportedWidgetTypeException;
 import com.androidstarterkit.cmd.WidgetType;
 import com.androidstarterkit.utils.FileUtil;
+import com.androidstarterkit.utils.PrintUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -20,11 +23,14 @@ public class SampleModule extends Directory {
   private String javaPath;
   private String layoutPath;
 
+  private List<String> importedClasses;
+
   public SampleModule(String pathname) {
     super(pathname, new String[]{"java", "gradle", "xml"},
         new String[]{"build", "libs", "test", "androidTest", "res"});
 
     module = new AskModule();
+    importedClasses = new ArrayList<>();
 
     mainActivityName = findMainActivty();
 
@@ -65,12 +71,13 @@ public class SampleModule extends Directory {
    */
   public SampleModule with(WidgetType widgetType) {
     try {
-      File activityFile = module.getChildFile(widgetType.getActivityName() + JAVA_EXTENSION);
+      File activityFile = module.getChildFile(widgetType.getActivityName(), Extension.JAVA);
 
-      transfer(activityFile, widgetType);
+      transfer(0, activityFile, widgetType);
     } catch (UnsupportedWidgetTypeException e) {
       e.printStackTrace();
     }
+
     return this;
   }
 
@@ -92,7 +99,7 @@ public class SampleModule extends Directory {
         }
 
         if (isFoundActivity && line.contains("android.intent.action.MAIN")) {
-          activityName = FileUtil.getFileNameForDotPath(dotPath) + JAVA_EXTENSION;
+          activityName = FileUtil.getFileNameForDotPath(dotPath) + Extension.JAVA.getName();
           break;
         }
 
@@ -131,8 +138,10 @@ public class SampleModule extends Directory {
     return appModuleName;
   }
 
-  private void transfer(File file, WidgetType widgetType) {
+  private void transfer(int depth, File file, WidgetType widgetType) {
     try {
+      System.out.println(PrintUtil.prefixDash(depth) + "Transfering file : " + file.getPath());
+
       Scanner scanner = new Scanner(file);
       String content = "";
 
@@ -144,8 +153,8 @@ public class SampleModule extends Directory {
         }
 
         line = changePackage(line);
-        line = importClass(line);
-        line = importLayout(line);
+        line = importClass(line, depth);
+        line = importLayout(line, depth);
 
         content += line + "\n";
       }
@@ -157,6 +166,10 @@ public class SampleModule extends Directory {
       }
     } catch (FileNotFoundException e) {
       e.printStackTrace();
+    }
+
+    if (depth == 0) {
+      System.out.println();
     }
   }
 
@@ -177,16 +190,20 @@ public class SampleModule extends Directory {
     return line;
   }
 
-  private String importClass(String line) {
-    List<String> classList = ClassParser.getClassNames(line);
+  private String importClass(String line, int depth) {
+    List<String> classNames = ClassParser.getClassNames(line);
 
-    if (classList.size() > 0) {
-      for (String key : classList) {
-        if (module.getRelativePathFromJavaDir(key + JAVA_EXTENSION) != null) {
-          transfer(module.getChildFile(key + JAVA_EXTENSION), null);
+    classNames = filterClasses(classNames);
+
+    if (classNames.size() > 0) {
+      for (String className : classNames) {
+        if (module.getRelativePathFromJavaDir(className + Extension.JAVA.getName()) != null) {
+          importedClasses.add(className);
+
+          transfer(depth + 1, module.getChildFile(className, Extension.JAVA), null);
         } else {
           for (String dependency : buildGradleFile.getDependencyKeys()) {
-            if (key.contains(dependency)) {
+            if (className.contains(dependency)) {
               buildGradleFile.addDependency(dependency);
               break;
             }
@@ -198,7 +215,7 @@ public class SampleModule extends Directory {
     return line.replace(module.getApplicationId(), getApplicationId());
   }
 
-  private String importLayout(String line) {
+  private String importLayout(String line, int depth) {
     String reg = "R.layout.[A-Za-z0-1_]*";
 
     Pattern pat = Pattern.compile(reg);
@@ -210,8 +227,20 @@ public class SampleModule extends Directory {
           .replace("R.layout.", "");
 
       try {
-        File moduleLayoutFile = module.getChildFile(layoutName + Directory.XML_EXTENSION);
-        FileUtil.copyFile(moduleLayoutFile, layoutPath);
+        File moduleLayoutFile = module.getChildFile(layoutName, Extension.XML);
+
+        String newLines = "";
+        Scanner scanner = new Scanner(moduleLayoutFile);
+        while (scanner.hasNext()) {
+          String xmlLine = scanner.nextLine()
+              .replace(module.getApplicationId(), getApplicationId());
+
+          newLines += xmlLine + "\n";
+        }
+
+        FileUtil.writeFile(layoutPath, moduleLayoutFile.getName(), newLines);
+
+        System.out.println(PrintUtil.prefixDash(depth) + "Transfering xml file : " + layoutPath + "/" + moduleLayoutFile.getName());
 
         scanDependencyInLayoutFile(moduleLayoutFile);
       } catch (IOException e) {
@@ -239,5 +268,17 @@ public class SampleModule extends Directory {
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
+  }
+
+  private List<String> filterClasses(List<String> classNames) {
+    List<String> filteredClasses = new ArrayList<>();
+
+    for (String className : classNames) {
+      if (!importedClasses.contains(className)) {
+        filteredClasses.add(className);
+      }
+    }
+
+    return filteredClasses;
   }
 }

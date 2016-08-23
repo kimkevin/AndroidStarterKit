@@ -6,7 +6,7 @@ import com.androidstarterkit.modules.SampleModule;
 import com.androidstarterkit.utils.FileUtil;
 
 public class Ask {
-  private static boolean isUsedProgramArg = false;
+  private static boolean isLocalTest = true;
 
   public static void main(String[] args) {
     String projectPath;
@@ -18,18 +18,18 @@ public class Ask {
       return;
     }
 
-    projectPath = FileUtil.linkPathWithSlash(FileUtil.getRootPath(), "AndroidSample");
+    projectPath = FileUtil.linkPathWithSlash(FileUtil.getRootPath(), "ask-sample");
 
-    WidgetType type = WidgetType.RecyclerView;
-
-    if (!isUsedProgramArg) {
-      try {
+    WidgetType type;
+    try {
+      if (!isLocalTest) {
         projectPath = commandParser.getPath();
-        type = commandParser.getWidgetType();
-      } catch (Exception e) {
-        e.printStackTrace();
-        return;
       }
+
+      type = commandParser.getWidgetType();
+    } catch (Exception e) {
+      e.printStackTrace();
+      return;
     }
 
     SampleModule

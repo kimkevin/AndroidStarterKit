@@ -18,7 +18,7 @@ public class SlidingTabLayoutActivity extends AppCompatActivity {
 
     getSupportActionBar().setElevation(0);
 
-    setContentView(R.layout.activity_slidingtablaout_main);
+    setContentView(R.layout.activity_slidingtablayout_main);
 
     SlidingTabAdapter adapter = new SlidingTabAdapter(getSupportFragmentManager(),
         Arrays.asList(new String[] { "TAB1", "TAB2" }));

@@ -23,7 +23,8 @@ public class ListViewActivity extends AppCompatActivity{
     /**
      * set ListViewAdapter to ListView with Data.
      */
-    ListViewAdapter adapter = new ListViewAdapter(this, Arrays.asList(CoffeeType.values()));
+    CoffeeType[] values = CoffeeType.values();
+    ListViewAdapter adapter = new ListViewAdapter(this, Arrays.asList(values));
     listView.setAdapter(adapter);
   }
 }

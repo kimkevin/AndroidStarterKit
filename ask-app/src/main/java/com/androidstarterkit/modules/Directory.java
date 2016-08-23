@@ -1,6 +1,7 @@
 package com.androidstarterkit.modules;
 
 import com.androidstarterkit.BuildGradleFile;
+import com.androidstarterkit.Extension;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -11,9 +12,10 @@ import java.util.Map;
 public class Directory extends File {
   public static final String ANDROID_MANIFEST_FILE = "AndroidManifest.xml";
   public static final String SETTINGS_GRADLE_FILE = "settings.gradle";
-  public static final String JAVA_EXTENSION = ".java";
-  public static final String XML_EXTENSION = ".xml";
-  public static final String GRADLE_EXTENSION = ".gradle";
+
+//  public static final String EXTENSION_JAVA = ".java";
+//  public static final String EXTENSION_XML = ".xml";
+//  public static final String EXTENSION_GRADLE = ".gradle";
 
   protected Map<String, String> fileMap;
   protected String applicationId;
@@ -90,12 +92,16 @@ public class Directory extends File {
     return fileMap.get(key);
   }
 
-  public File getChildFile(String key) {
-    String path = getChildPath(key);
+  public File getChildFile(String fileName, Extension extension) {
+    return getChildFile(fileName + extension.getName());
+  }
+
+  public File getChildFile(String fileName) {
+    String path = getChildPath(fileName);
     if (path == null) {
       return null;
     }
-    return new File(path + "/" + key);
+    return new File(path + "/" + fileName);
   }
 
   public void printFileMap() {

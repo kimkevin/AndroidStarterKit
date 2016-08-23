@@ -158,7 +158,6 @@ public class FileUtil {
 
     if (destinationChannel != null && sourceChannel != null) {
       destinationChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
-      System.out.println("transfer : " + destFile.getPath());
     }
 
     if (sourceChannel != null) {

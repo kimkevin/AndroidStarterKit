@@ -16,7 +16,7 @@ public class SlidingIconTabLayoutActivity extends AppCompatActivity {
 
     getSupportActionBar().setElevation(0);
 
-    setContentView(R.layout.activity_slidingtablaout_main);
+    setContentView(R.layout.activity_slidingtablayout_main);
 
     SlidingIconTabAdapter adapter = new SlidingIconTabAdapter(getSupportFragmentManager());
 

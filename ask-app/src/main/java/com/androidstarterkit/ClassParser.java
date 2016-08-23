@@ -10,8 +10,7 @@ import java.util.regex.Pattern;
 public class ClassParser {
 
   /**
-   * Variable Types : Primitive Data Type
-   * and Arrays
+   * Variable Types : Primitive Data Type and Arrays
    */
   public static List<String> KEYWORDS_PRIMITIVE_TYPE = Arrays.asList(
       "byte", "short", "int", "long", "float", "double", "boolean", "String", "char"
@@ -39,11 +38,7 @@ public class ClassParser {
       "class", "void", "return", "enum"
   );
 
-  public static String ARGUMENT_SYNTAX = "...";
-
-  public static List<String> getAll(File file) {
-    return null;
-  }
+  public static String ARGUMENTS_SYNTAX = "...";
 
   public static List<String> getVariables(File file) {
     return null;
@@ -54,7 +49,7 @@ public class ClassParser {
   }
 
   public static List<String> getClassNames(String line) {
-    List<String> names = new ArrayList<>();
+    List<String> classNames = new ArrayList<>();
 
     String newLine = line;
     newLine = replaceNoBlank(newLine, KEYWORDS_PRIMITIVE_TYPE);
@@ -62,65 +57,112 @@ public class ClassParser {
     newLine = replaceNoBlank(newLine, KEYWORDS_NON_ACCESS_MODIFIER);
     newLine = replaceNoBlank(newLine, KEYWORDS_RESERVED);
 
-    /**
-     *  Class.InnerClass class;
-     *  Class.InnerClass class =
-     *  Class class;
-     *  Class class =
-     *  Class<TypeClass> class;
-     *  Class<TypeClass> class =
-     */
-    String reg = "[A-Za-z0-9.]+(<[A-Za-z0-9.]+>)*\\s+[A-Za-z0-9]+\\s*(;|=)";
+    listInheritClasses(classNames, newLine);
+    listFieldClasses(classNames, newLine);
+    listStaticClasses(classNames, newLine);
+    listParameterClasses(classNames, line);
+
+    return classNames;
+  }
+
+  /**
+   * extends Class, implements Interface
+   */
+  private static void listInheritClasses(List<String> classNames, String line) {
+    String reg = "((implements|extends)\\s+)+[A-Za-z0-9]+\\s";
+    Pattern pat = Pattern.compile(reg);
+    Matcher matcher = pat.matcher(line);
+
+    while (matcher.find()) {
+      String matched = matcher.group();
+      classNames.add(matched);
+    }
+  }
+
+  /**
+   *  Class.InnerClass class;
+   *  Class.InnerClass class =
+   *  Class class;
+   *  Class class =
+   *  Class<TypeClass> class;
+   *  Class<TypeClass> class =
+   */
+  private static void listFieldClasses(List<String> classNames, String line) {
+    String reg = "[A-Za-z0-9.]+([\\[\\s\\]]*|(<[A-Za-z0-9.]+>)*)\\s+[A-Za-z0-9]+\\s*(;|=)";
 
     Pattern pat = Pattern.compile(reg);
-    Matcher matcher = pat.matcher(newLine);
+    Matcher matcher = pat.matcher(line);
 
     while (matcher.find()) {
       String matched = matcher.group().replaceAll(";", "")
           .replaceAll("=", "");
-//      System.out.println(matched.trim().split(" ")[0]);
-      names.add(matched.trim().split(" ")[0]);
+//      System.out.println("1th class : " + matched.trim().split(" ")[0]);
+      classNames.add(matched.trim().split(" ")[0]);
     }
+  }
 
-    /**
-     * extends Class, implements Interface
-     */
-    reg = "((implements|extends)\\s+)+[A-Za-z0-9]+\\s";
-    pat = Pattern.compile(reg);
-    matcher = pat.matcher(newLine);
+  /**
+   * Parameters
+   * (Context context, AttributeSet attrs, int defStyle)
+   */
+  public static void listParameterClasses(List<String> names, String line) {
+    line = replaceNoBlank(line, KEYWORDS_NON_ACCESS_MODIFIER);
+
+    String reg = "[A-Za-z0-9]+\\s*\\([A-Za-z0-9.\\s,<>]+\\)";
+    Pattern pat = Pattern.compile(reg);
+    Matcher matcher = pat.matcher(line);
 
     while (matcher.find()) {
-      String matched = matcher.group();
-//      System.out.println(matched.replaceAll("extends", "").replaceAll("interface", "").replaceAll(" ", ""));
-      names.add(matched);
-    }
+      String group = matcher.group();
 
-    /**
-     * Parameters
-     * (Context context, AttributeSet attrs, int defStyle)
-     */
-    for (String returnType : KEYWORDS_RETURN_TYPE) {
-      reg = returnType + "\\s[A-Za-z0-9]+\\s*\\([A-Za-z0-9.\\s,]+\\)+";
-      pat = Pattern.compile(reg);
-      matcher = pat.matcher(line);
+      if (group.length() > 0) {
+        String[] matchedArr = getParamsInBraces(group);
 
-      while (matcher.find()) {
-        String matchedGroup = matcher.group();
-        if (matchedGroup != null && matchedGroup.length() > 0) {
-          String[] matchedArr = getStringBetweenBrackets(matchedGroup);
-          for (String matched : matchedArr) {
-            if (KEYWORDS_PRIMITIVE_TYPE.contains(matched.trim().split(" ")[0].replace(ARGUMENT_SYNTAX, ""))) {
-//              System.out.println("removed : " + matched.trim());
+        for (String matched : matchedArr) {
+          matched = matched.trim();
+
+          if (matched.split(" ").length < 2) {
+            continue;
+          }
+
+          if (KEYWORDS_PRIMITIVE_TYPE.contains(matched.split(" ")[0].replace(ARGUMENTS_SYNTAX, ""))) {
+            // Removed primitive type keywords
+          } else {
+            String className = matched.trim().split(" ")[0];
+
+            if (listClassWithGeneric(className) != null) {
+              names.addAll(listClassWithGeneric(className));
+            } else if (getInnerClass(className) != null) {
+              names.add(getInnerClass(className));
             } else {
-//              System.out.println(matched.trim().split(" ")[0]);
-              names.add(matched.trim().split(" ")[0]);
+              names.add(className);
             }
           }
         }
       }
     }
+//    System.out.println("classes : " + names.toString());
+  }
 
-    return names;
+  /**
+   * Class.method()
+   * Class.variable
+   * Class.StaticInnerClass
+   * but can not distinguish between Class.method() and class.method()
+   */
+  public static void listStaticClasses(List<String> classNames, String line) {
+    String reg = "(\\s+[A-Za-z0-9]+\\s*\\.[A-Za-z0-9]+)(\\s|\\[|;|\\()";
+    Pattern pat = Pattern.compile(reg);
+    Matcher matcher = pat.matcher(line);
+
+    while (matcher.find()) {
+      String matched = matcher.group(1);
+
+      String[] result = matched.trim().split("\\.");
+      for (String className : result) {
+        classNames.add(className);
+      }
+    }
   }
 
   private static String replaceNoBlank(String line, List<String> indentifierArr) {
@@ -131,12 +173,42 @@ public class ClassParser {
     return line;
   }
 
-  private static String[] getStringBetweenBrackets(String str) {
+  public static String[] getParamsInBraces(String str) {
     Pattern pattern = Pattern.compile("\\(([^)]+)\\)");
     Matcher matcher = pattern.matcher(str);
 
     while (matcher.find()) {
       return matcher.group(1).split(",");
+    }
+
+    return null;
+  }
+
+  public static List<String> listClassWithGeneric(String className) {
+    Pattern pattern = Pattern.compile("\\<([^>]+)\\>");
+    Matcher matcher = pattern.matcher(className);
+
+    List<String> classList = new ArrayList<>();
+
+    int anglebrackIndex = className.indexOf('<');
+    if (anglebrackIndex < 0) {
+      return null;
+    }
+
+    classList.add(className.substring(0, anglebrackIndex));
+
+    while (matcher.find()) {
+      classList.add(matcher.group(1));
+      return classList;
+    }
+
+    return null;
+  }
+
+  public static String getInnerClass(String className) {
+    String[] classsArr = className.split("\\.");
+    if (classsArr.length > 0 && classsArr[0] != null) {
+      return classsArr[0];
     }
 
     return null;
