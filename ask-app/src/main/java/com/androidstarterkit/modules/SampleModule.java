@@ -26,8 +26,9 @@ public class SampleModule extends Directory {
   private List<String> importedClasses;
 
   public SampleModule(String pathname) {
-    super(pathname, new String[]{"java", "gradle", "xml"},
-        new String[]{"build", "libs", "test", "androidTest", "res"});
+    super(pathname,
+        new String[] { "java", "gradle", "xml" },
+        new String[] { "build", "libs", "test", "androidTest", "res" });
 
     module = new AskModule();
     importedClasses = new ArrayList<>();

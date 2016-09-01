@@ -8,12 +8,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ClassParser {
-
   /**
-   * Variable Types : Primitive Data Type and Arrays
+   * Primitive Data Types
    */
-  public static List<String> KEYWORDS_PRIMITIVE_TYPE = Arrays.asList(
-      "byte", "short", "int", "long", "float", "double", "boolean", "String", "char"
+  public static List<String> PRIMITIVE_DATA_TYPE = Arrays.asList(
+      "byte", "short", "int", "long", "float", "double", "boolean", "char"
   );
 
   /**
@@ -30,10 +29,9 @@ public class ClassParser {
       "final", "static", "abstract", "synchronized", "volatile"
   );
 
-  public static List<String> KEYWORDS_RETURN_TYPE = Arrays.asList(
-      "void", "byte", "short", "int", "long", "float", "double", "boolean", "String", "char"
-  );
-
+  /**
+   * Reserved Keywords
+   */
   public static List<String> KEYWORDS_RESERVED = Arrays.asList(
       "class", "void", "return", "enum"
   );
@@ -52,7 +50,7 @@ public class ClassParser {
     List<String> classNames = new ArrayList<>();
 
     String newLine = line;
-    newLine = replaceNoBlank(newLine, KEYWORDS_PRIMITIVE_TYPE);
+    newLine = replaceNoBlank(newLine, PRIMITIVE_DATA_TYPE);
     newLine = replaceNoBlank(newLine, KEYWORDS_JAVA_ACCESS_MODIFIER);
     newLine = replaceNoBlank(newLine, KEYWORDS_NON_ACCESS_MODIFIER);
     newLine = replaceNoBlank(newLine, KEYWORDS_RESERVED);
@@ -125,7 +123,7 @@ public class ClassParser {
             continue;
           }
 
-          if (KEYWORDS_PRIMITIVE_TYPE.contains(matched.split(" ")[0].replace(ARGUMENTS_SYNTAX, ""))) {
+          if (PRIMITIVE_DATA_TYPE.contains(matched.split(" ")[0].replace(ARGUMENTS_SYNTAX, ""))) {
             // Removed primitive type keywords
           } else {
             String className = matched.trim().split(" ")[0];
