@@ -1,9 +1,11 @@
 package com.androidstarterkit;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,14 +40,36 @@ public class ClassParser {
 
   public static String ARGUMENTS_SYNTAX = "...";
 
-  public static List<String> getVariables(File file) {
-    return null;
+  /**
+   * Get class names from code file
+   *
+   * @param file code file
+   * @return String array for class name
+   */
+  public static List<String> getClassNames(File file) {
+    Scanner scanner;
+    List<String> classNames = new ArrayList<>();
+
+    try {
+      scanner = new Scanner(file);
+
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine();
+        classNames.addAll(getClassNames(line));
+      }
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
+
+    return classNames;
   }
 
-  public static List<String> getClasses(File file) {
-    return null;
-  }
-
+  /**
+   * Get class names from code line
+   *
+   * @param line String for code line
+   * @return String array for class name
+   */
   public static List<String> getClassNames(String line) {
     List<String> classNames = new ArrayList<>();
 
@@ -55,18 +79,23 @@ public class ClassParser {
     newLine = replaceNoBlank(newLine, KEYWORDS_NON_ACCESS_MODIFIER);
     newLine = replaceNoBlank(newLine, KEYWORDS_RESERVED);
 
-    listInheritClasses(classNames, newLine);
-    listFieldClasses(classNames, newLine);
-    listStaticClasses(classNames, newLine);
-    listParameterClasses(classNames, line);
+    classNames.addAll(listInheritClasses(newLine));
+    classNames.addAll(listFieldClasses(newLine));
+    classNames.addAll(listStaticClasses(newLine));
+    classNames.addAll(listParameterClasses(line));
 
     return classNames;
   }
 
   /**
-   * extends Class, implements Interface
+   * Get class names for inherit class
+   * ex) extends Class, implements Interface
+   *
+   * @param line String for code line
+   * @return String array for class name
    */
-  private static void listInheritClasses(List<String> classNames, String line) {
+  private static List<String> listInheritClasses(String line) {
+    List<String> classNames = new ArrayList<>();
     String reg = "((implements|extends)\\s+)+[A-Za-z0-9]+\\s";
     Pattern pat = Pattern.compile(reg);
     Matcher matcher = pat.matcher(line);
@@ -75,35 +104,52 @@ public class ClassParser {
       String matched = matcher.group();
       classNames.add(matched);
     }
+
+    return classNames;
   }
 
   /**
-   *  Class.InnerClass class;
-   *  Class.InnerClass class =
-   *  Class class;
-   *  Class class =
-   *  Class<TypeClass> class;
-   *  Class<TypeClass> class =
+   *  Get class names as field variables which can be instance variable(Non-Static Fields)
+   *  and class variable(Static Fields)
+   *
+   *  ex)
+   *  ClassName.InnerClass class;
+   *  ClassName.InnerClass class =
+   *  ClassName class;
+   *  ClassName<GenericClass> class;
+   *
+   * @param line String for code line
+   * @return String array for class name
    */
-  private static void listFieldClasses(List<String> classNames, String line) {
+  private static List<String> listFieldClasses(String line) {
+    List<String> classNames = new ArrayList<>();
+
     String reg = "[A-Za-z0-9.]+([\\[\\s\\]]*|(<[A-Za-z0-9.]+>)*)\\s+[A-Za-z0-9]+\\s*(;|=)";
 
     Pattern pat = Pattern.compile(reg);
     Matcher matcher = pat.matcher(line);
 
     while (matcher.find()) {
-      String matched = matcher.group().replaceAll(";", "")
+      String matched = matcher.group()
+          .replaceAll(";", "")
           .replaceAll("=", "");
-//      System.out.println("1th class : " + matched.trim().split(" ")[0]);
+
       classNames.add(matched.trim().split(" ")[0]);
     }
+
+    return classNames;
   }
 
   /**
-   * Parameters
-   * (Context context, AttributeSet attrs, int defStyle)
+   * Get class names as parameters
+   * ex) (Context context, AttributeSet attrs, int defStyle)
+   *
+   * @param line String for code line
+   * @return String array for class name
    */
-  public static void listParameterClasses(List<String> names, String line) {
+  public static List<String> listParameterClasses(String line) {
+    List<String> classNames = new ArrayList<>();
+
     line = replaceNoBlank(line, KEYWORDS_NON_ACCESS_MODIFIER);
 
     String reg = "[A-Za-z0-9]+\\s*\\([A-Za-z0-9.\\s,<>]+\\)";
@@ -114,41 +160,51 @@ public class ClassParser {
       String group = matcher.group();
 
       if (group.length() > 0) {
-        String[] matchedArr = getParamsInBraces(group);
+        String[] parameterClassNames = getParamsInBraces(group);
 
-        for (String matched : matchedArr) {
-          matched = matched.trim();
+        if (parameterClassNames == null) {
+          break;
+        }
 
-          if (matched.split(" ").length < 2) {
+        for (String matched : parameterClassNames) {
+          String[] splitParamter = matched.trim().split(" ");
+
+          if (splitParamter.length < 2 || splitParamter[0] == null) {
             continue;
           }
 
-          if (PRIMITIVE_DATA_TYPE.contains(matched.split(" ")[0].replace(ARGUMENTS_SYNTAX, ""))) {
+          String className = splitParamter[0];
+
+          if (PRIMITIVE_DATA_TYPE.contains(className.replace(ARGUMENTS_SYNTAX, ""))) {
             // Removed primitive type keywords
           } else {
-            String className = matched.trim().split(" ")[0];
-
             if (listClassWithGeneric(className) != null) {
-              names.addAll(listClassWithGeneric(className));
-            } else if (getInnerClass(className) != null) {
-              names.add(getInnerClass(className));
+              classNames.addAll(listClassWithGeneric(className));
+            } else if (getOuterClass(className) != null) {
+              classNames.add(getOuterClass(className));
             } else {
-              names.add(className);
+              classNames.add(className);
             }
           }
         }
       }
     }
-//    System.out.println("classes : " + names.toString());
+
+    return classNames;
   }
 
   /**
-   * Class.method()
+   * ex) Class.method()
    * Class.variable
    * Class.StaticInnerClass
    * but can not distinguish between Class.method() and class.method()
+   *
+   * @param line String for code line
+   * @return String array for class name
    */
-  public static void listStaticClasses(List<String> classNames, String line) {
+  public static List<String> listStaticClasses(String line) {
+    List<String> classNames = new ArrayList<>();
+
     String reg = "(\\s+[A-Za-z0-9]+\\s*\\.[A-Za-z0-9]+)(\\s|\\[|;|\\()";
     Pattern pat = Pattern.compile(reg);
     Matcher matcher = pat.matcher(line);
@@ -161,27 +217,16 @@ public class ClassParser {
         classNames.add(className);
       }
     }
+
+    return classNames;
   }
 
-  private static String replaceNoBlank(String line, List<String> indentifierArr) {
-    for (String identifier : indentifierArr) {
-      line = line.replaceAll(identifier, "");
-    }
-
-    return line;
-  }
-
-  public static String[] getParamsInBraces(String str) {
-    Pattern pattern = Pattern.compile("\\(([^)]+)\\)");
-    Matcher matcher = pattern.matcher(str);
-
-    while (matcher.find()) {
-      return matcher.group(1).split(",");
-    }
-
-    return null;
-  }
-
+  /**
+   * Get class names which have generic class
+   *
+   * @param className String for class name
+   * @return String array for class name
+   */
   public static List<String> listClassWithGeneric(String className) {
     Pattern pattern = Pattern.compile("\\<([^>]+)\\>");
     Matcher matcher = pattern.matcher(className);
@@ -203,12 +248,51 @@ public class ClassParser {
     return null;
   }
 
-  public static String getInnerClass(String className) {
+  /**
+   * Get strings of class variable as parameters
+   *
+   * @param line String for code line
+   * @return String array for class name
+   */
+  public static String[] getParamsInBraces(String line) {
+    Pattern pattern = Pattern.compile("\\(([^)]+)\\)");
+    Matcher matcher = pattern.matcher(line);
+
+    while (matcher.find()) {
+      return matcher.group(1).split(",");
+    }
+
+    return null;
+  }
+
+  /**
+   * Get name of outer class which has nested class from class name
+   * ex) OuterClass.NestedClass
+   *
+   * @param className String of class name
+   * @return String of outer class name
+   */
+  public static String getOuterClass(String className) {
     String[] classsArr = className.split("\\.");
     if (classsArr.length > 0 && classsArr[0] != null) {
       return classsArr[0];
     }
 
     return null;
+  }
+
+  /**
+   * Replace list of identifier to no blank
+   *
+   * @param line String for code line
+   * @param identifierList list of identifiers
+   * @return String that was removed to identifiers
+   */
+  private static String replaceNoBlank(String line, List<String> identifierList) {
+    for (String identifier : identifierList) {
+      line = line.replaceAll(identifier, "");
+    }
+
+    return line;
   }
 }
