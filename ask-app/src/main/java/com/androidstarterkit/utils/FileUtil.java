@@ -15,9 +15,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FileUtil {
-
   public static final String DEFAULT_INDENT = "    ";
   public static final String CLASSES_PATH = "/ask-app/build/classes/main";
+  public static final String MODULE_NAME = "ask-app";
 
   /**
    * Get root path in this project
@@ -83,7 +83,9 @@ public class FileUtil {
     }
   }
 
-  public static void writeFile(String sourceFilePath, String fileName, String content) {
+  public static void writeFile(String sourceFilePath,
+                               String fileName,
+                               String content) {
     File destDir = new File(sourceFilePath);
     if (!destDir.exists() && !destDir.mkdirs()) {
       return;
@@ -184,37 +186,6 @@ public class FileUtil {
     return stringBuffer.toString();
   }
 
-  /**
-   * Change applicationId of AndroidModule to applicationId of source project
-   *
-   * @param filePath            is the file path in source project
-   * @param sourceApplicationId of source project
-   * @param moduleApplicationId of module project
-   */
-  public static void changeAppplicationId(String filePath, String sourceApplicationId, String moduleApplicationId) {
-    File file = new File(filePath);
-    try {
-      String lines = "";
-
-      Scanner scanner = new Scanner(file);
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
-
-        line = line.replace(moduleApplicationId, sourceApplicationId);
-        lines += line + "\n";
-      }
-
-      FileWriter fw = new FileWriter(new File(filePath));
-      BufferedWriter bw = new BufferedWriter(fw);
-      bw.write(lines);
-      bw.close();
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
   public static String changeDotToSlash(String str) {
     return str.replaceAll("\\.", "/");
   }
@@ -309,6 +280,12 @@ public class FileUtil {
     return line + "\n";
   }
 
+  /**
+   * Remove extension
+   *
+   * @param filename String for file name with extension
+   * @return String for file name
+   */
   public static String removeExtension(String filename) {
     return filename.substring(0, filename.lastIndexOf('.'));
   }

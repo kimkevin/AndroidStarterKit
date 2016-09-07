@@ -13,10 +13,6 @@ public class Directory extends File {
   public static final String ANDROID_MANIFEST_FILE = "AndroidManifest.xml";
   public static final String SETTINGS_GRADLE_FILE = "settings.gradle";
 
-//  public static final String EXTENSION_JAVA = ".java";
-//  public static final String EXTENSION_XML = ".xml";
-//  public static final String EXTENSION_GRADLE = ".gradle";
-
   protected Map<String, String> fileMap;
   protected String applicationId;
 

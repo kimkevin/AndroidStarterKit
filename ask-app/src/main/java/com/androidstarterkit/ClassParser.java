@@ -94,15 +94,15 @@ public class ClassParser {
    * @param line String for code line
    * @return String array for class name
    */
-  private static List<String> listInheritClasses(String line) {
+  public static List<String> listInheritClasses(String line) {
     List<String> classNames = new ArrayList<>();
-    String reg = "((implements|extends)\\s+)+[A-Za-z0-9]+\\s";
+    String reg = "(implements|extends)\\s+([A-Za-z0-9]+)\\s";
     Pattern pat = Pattern.compile(reg);
     Matcher matcher = pat.matcher(line);
 
     while (matcher.find()) {
-      String matched = matcher.group();
-      classNames.add(matched);
+      String matched = matcher.group(2);
+      classNames.add(matched.trim());
     }
 
     return classNames;
@@ -121,7 +121,7 @@ public class ClassParser {
    * @param line String for code line
    * @return String array for class name
    */
-  private static List<String> listFieldClasses(String line) {
+  public static List<String> listFieldClasses(String line) {
     List<String> classNames = new ArrayList<>();
 
     String reg = "[A-Za-z0-9.]+([\\[\\s\\]]*|(<[A-Za-z0-9.]+>)*)\\s+[A-Za-z0-9]+\\s*(;|=)";
