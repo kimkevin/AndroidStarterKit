@@ -1,75 +1,18 @@
 package com.androidstarterkit;
 
-import com.androidstarterkit.utils.FileUtil;
-
-import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
-public class ClassParserTest {
-  private List<String> lines = Collections.EMPTY_LIST;
-
+public class ClassParserLineTest {
   private List<String> actual = new ArrayList<>();
   private List<String> expected = new ArrayList<>();
-
-  @Before
-  public void setUp() throws Exception {
-    if (lines.size() <= 0) {
-      final String filePath = FileUtil.getRootPath().replace("ask-app",
-          "ask-module/src/main/java/com/androidstarterkit/module/SlidingTabLayoutActivity.java");
-
-      lines = FileUtil.readFile(new File(filePath));
-    }
-  }
-
-  @Test
-  public void testListInheritClassesForFile() throws Exception {
-    actual.clear();
-    expected = Arrays.asList("AppCompatActivity");
-
-    for (String line : lines) {
-      actual.addAll(ClassParser.listInheritClasses(line));
-    }
-
-    assertEquals(expected.size(), actual.size());
-    assertList(actual, expected);
-  }
-
-  @Test
-  public void testListFieldClassesForFile() throws Exception {
-    actual.clear();
-    expected = Arrays.asList("SlidingTabAdapter", "ViewPager", "SlidingTabLayout");
-
-    for (String line : lines) {
-      actual.addAll(ClassParser.listFieldClasses(line));
-    }
-
-    assertEquals(expected.size(), actual.size());
-    assertList(actual, expected);
-  }
-
-  @Test
-  public void testListParameterClassesForFile() throws Exception {
-    actual.clear();
-    expected = Arrays.asList("Bundle");
-
-    for (String line : lines) {
-      actual.addAll(ClassParser.listParameterClasses(line));
-    }
-
-    assertEquals(expected.size(), actual.size());
-    assertList(actual, expected);
-  }
 
   @Test
   public void testListParameterClasses1() {
@@ -123,7 +66,7 @@ public class ClassParserTest {
   public void testListStaticClasses2() {
     actual = ClassParser.listStaticClasses("  themeForegroundColor = outValue.data;");
 
-    assertEquals(2, actual.size());
+    assertEquals(1, actual.size());
   }
 
   @Test
@@ -137,7 +80,7 @@ public class ClassParserTest {
   public void testListStaticClasses4() {
     actual = ClassParser.listStaticClasses("      return SlidingTabFragment.newInstance(position);");
 
-    assertEquals(2, actual.size());
+    assertEquals(1, actual.size());
   }
 
   @Test
@@ -151,7 +94,7 @@ public class ClassParserTest {
   public void testListStaticClasses6() {
     actual = ClassParser.listStaticClasses("      SlidingTabFragment.newInstance ");
 
-    assertEquals(2, actual.size());
+    assertEquals(1, actual.size());
   }
 
   @Test
@@ -174,9 +117,5 @@ public class ClassParserTest {
     for (String className : actual) {
       assertThat(true, is(expected.contains(className)));
     }
-  }
-
-  private boolean matched(String regex, String inputTxt) {
-    return Pattern.matches(regex, inputTxt);
   }
 }

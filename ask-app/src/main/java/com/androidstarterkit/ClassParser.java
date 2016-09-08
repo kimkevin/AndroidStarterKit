@@ -73,16 +73,16 @@ public class ClassParser {
   public static List<String> getClassNames(String line) {
     List<String> classNames = new ArrayList<>();
 
-    String newLine = line;
-    newLine = replaceNoBlank(newLine, PRIMITIVE_DATA_TYPE);
-    newLine = replaceNoBlank(newLine, KEYWORDS_JAVA_ACCESS_MODIFIER);
-    newLine = replaceNoBlank(newLine, KEYWORDS_NON_ACCESS_MODIFIER);
-    newLine = replaceNoBlank(newLine, KEYWORDS_RESERVED);
+    String replacedLine = line;
+    replacedLine = replaceNoBlank(replacedLine, PRIMITIVE_DATA_TYPE);
+    replacedLine = replaceNoBlank(replacedLine, KEYWORDS_JAVA_ACCESS_MODIFIER);
+    replacedLine = replaceNoBlank(replacedLine, KEYWORDS_NON_ACCESS_MODIFIER);
+    replacedLine = replaceNoBlank(replacedLine, KEYWORDS_RESERVED);
 
-    classNames.addAll(listInheritClasses(newLine));
-    classNames.addAll(listFieldClasses(newLine));
-    classNames.addAll(listStaticClasses(newLine));
-    classNames.addAll(listParameterClasses(line));
+    mergeDistinct(classNames, listInheritClasses(replacedLine));
+    mergeDistinct(classNames, listFieldClasses(replacedLine));
+    mergeDistinct(classNames, listStaticClasses(replacedLine));
+    mergeDistinct(classNames, listParameterClasses(line));
 
     return classNames;
   }
@@ -109,14 +109,14 @@ public class ClassParser {
   }
 
   /**
-   *  Get class names as field variables which can be instance variable(Non-Static Fields)
-   *  and class variable(Static Fields)
+   * Get class names as field variables which can be instance variable(Non-Static Fields)
+   * and class variable(Static Fields)
    *
-   *  ex)
-   *  ClassName.InnerClass class;
-   *  ClassName.InnerClass class =
-   *  ClassName class;
-   *  ClassName<GenericClass> class;
+   * ex)
+   * ClassName.InnerClass class;
+   * ClassName.InnerClass class =
+   * ClassName class;
+   * ClassName<GenericClass> class;
    *
    * @param line String for code line
    * @return String array for class name
@@ -194,10 +194,13 @@ public class ClassParser {
   }
 
   /**
+   * Get class names which have static method or variable
+   *
    * ex) Class.method()
    * Class.variable
    * Class.StaticInnerClass
-   * but can not distinguish between Class.method() and class.method()
+   *
+   * warning : It can not distinguish between Class.method() and class.method()
    *
    * @param line String for code line
    * @return String array for class name
@@ -205,16 +208,15 @@ public class ClassParser {
   public static List<String> listStaticClasses(String line) {
     List<String> classNames = new ArrayList<>();
 
-    String reg = "(\\s+[A-Za-z0-9]+\\s*\\.[A-Za-z0-9]+)(\\s|\\[|;|\\()";
+    String reg = "(\\s+[A-Za-z0-9]+\\s*)\\.[A-Za-z0-9]+(\\s|\\[|;|\\()";
     Pattern pat = Pattern.compile(reg);
     Matcher matcher = pat.matcher(line);
 
     while (matcher.find()) {
-      String matched = matcher.group(1);
+      String matched = matcher.group(1).trim();
 
-      String[] result = matched.trim().split("\\.");
-      for (String className : result) {
-        classNames.add(className);
+      if (!classNames.contains(matched)) {
+        classNames.add(matched);
       }
     }
 
@@ -284,7 +286,7 @@ public class ClassParser {
   /**
    * Replace list of identifier to no blank
    *
-   * @param line String for code line
+   * @param line           String for code line
    * @param identifierList list of identifiers
    * @return String that was removed to identifiers
    */
@@ -294,5 +296,13 @@ public class ClassParser {
     }
 
     return line;
+  }
+
+  public static void mergeDistinct(List<String> originalList, List<String> matchedList) {
+    for (String className : matchedList) {
+      if (!originalList.contains(className)) {
+        originalList.add(className);
+      }
+    }
   }
 }
