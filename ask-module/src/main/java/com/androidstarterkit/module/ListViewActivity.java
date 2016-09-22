@@ -8,6 +8,8 @@ import com.androidstarterkit.module.adapter.ListViewAdapter;
 
 import java.util.Arrays;
 
+//https://raw.githubusercontent.com/kimkevin/AndroidStarterKit/master/assets/logo_cupcake.png
+
 public class ListViewActivity extends AppCompatActivity{
   @Override
   protected void onCreate(Bundle savedInstanceState) {
