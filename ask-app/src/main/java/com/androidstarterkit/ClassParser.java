@@ -286,7 +286,7 @@ public class ClassParser {
   /**
    * Replace list of identifier to no blank
    *
-   * @param line           String for code line
+   * @param line String for code line
    * @param identifierList list of identifiers
    * @return String that was removed to identifiers
    */
