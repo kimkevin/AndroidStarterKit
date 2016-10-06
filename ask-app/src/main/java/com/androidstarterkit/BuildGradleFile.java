@@ -28,6 +28,7 @@ public class BuildGradleFile extends File {
     dependencyDict = new HashMap<>();
     dependencyDict.put("android.support.v7.widget.CardView", "com.android.support:cardview-v7:" + SURPPORT_LIBRARY_VERSION);
     dependencyDict.put("android.support.v7.widget.RecyclerView", "com.android.support:recyclerview-v7:" + SURPPORT_LIBRARY_VERSION);
+    dependencyDict.put("com.github.bumptech.glide", "com.github.bumptech.glide:glide:3.7.0");
   }
 
   public String getApplicationId() {

@@ -45,6 +45,7 @@ public class SampleModule extends Directory {
     } catch (FileNotFoundException e) {
       modulePath = getPath();
     }
+
     javaPath = FileUtil.linkPathWithSlash(modulePath, "src/main/java", applicationId.replaceAll("\\.", "/"));
     layoutPath = FileUtil.linkPathWithSlash(modulePath, "src/main/res/layout");
 
@@ -204,7 +205,7 @@ public class SampleModule extends Directory {
           transfer(depth + 1, module.getChildFile(className, Extension.JAVA), null);
         } else {
           for (String dependency : buildGradleFile.getDependencyKeys()) {
-            if (className.contains(dependency)) {
+            if (dependency.contains(className.toLowerCase())) {
               buildGradleFile.addDependency(dependency);
               break;
             }
@@ -259,9 +260,9 @@ public class SampleModule extends Directory {
       while (scanner.hasNext()) {
         String line = scanner.nextLine();
 
-        for (String key : buildGradleFile.getDependencyKeys()) {
-          if (line.contains(key)) {
-            buildGradleFile.addDependency(key);
+        for (String dependency : buildGradleFile.getDependencyKeys()) {
+          if (line.contains(dependency)) {
+            buildGradleFile.addDependency(dependency);
             break;
           }
         }
