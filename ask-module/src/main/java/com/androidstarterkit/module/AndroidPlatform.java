@@ -5,31 +5,31 @@ public class AndroidPlatform {
   private static final String EXTENSION_NAME = ".png";
 
   private String name;
-  private String version;
+  private String verCode;
   private int apiLevel;
   private String logoUrl;
 
-  public AndroidPlatform(String name, String version, int apiLevel) {
+  public AndroidPlatform(String name, String verCode, int apiLevel) {
     this.name = name;
-    this.version = version;
+    this.verCode = verCode;
     this.apiLevel = apiLevel;
     this.logoUrl = FILE_PATH + name + EXTENSION_NAME;
   }
 
   public String getName() {
-    return name.toUpperCase();
+    return name.toUpperCase() + " " + apiLevel;
   }
 
   public void setName(String name) {
     this.name = name;
   }
 
-  public String getVersion() {
-    return "Android " + version;
+  public String getVerCode() {
+    return "Android " + verCode;
   }
 
-  public void setVersion(String version) {
-    this.version = version;
+  public void setVerCode(String version) {
+    this.verCode = version;
   }
 
   public int getApiLevel() {

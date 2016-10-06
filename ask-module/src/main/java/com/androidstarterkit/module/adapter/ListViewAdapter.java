@@ -1,8 +1,6 @@
 package com.androidstarterkit.module.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,30 +45,32 @@ public class ListViewAdapter extends BaseAdapter{
 
   @Override
   public View getView(int position, View convertView, ViewGroup parent) {
-    ViewHolder viewHolder;
     AndroidPlatform platform = (AndroidPlatform) getItem(position);
+
+    ViewHolder viewHolder;
 
     if (convertView == null) {
       convertView = inflater.inflate(R.layout.layout_list_item, parent, false);
 
       viewHolder = new ViewHolder();
-      viewHolder.thumbImg = (ImageView) convertView.findViewById(R.id.img);
-      viewHolder.titleTxt = (TextView) convertView.findViewById(R.id.title);
+      viewHolder.logo = (ImageView) convertView.findViewById(R.id.img);
+      viewHolder.name = (TextView) convertView.findViewById(R.id.name);
+      viewHolder.platformVer = (TextView) convertView.findViewById(R.id.platform_ver);
       convertView.setTag(viewHolder);
     } else {
       viewHolder = (ViewHolder) convertView.getTag();
     }
 
-    Log.e(TAG, "check = " + platform.getLogoUrl());
-    Glide.with(context).load(platform.getLogoUrl()).into(viewHolder.thumbImg);
-    viewHolder.thumbImg.setBackgroundColor(Color.YELLOW);
-    viewHolder.titleTxt.setText(platform.getName());
+    Glide.with(context).load(platform.getLogoUrl()).into(viewHolder.logo);
+    viewHolder.name.setText(platform.getName());
+    viewHolder.platformVer.setText(platform.getVerCode());
 
     return convertView;
   }
 
   static class ViewHolder {
-    public TextView titleTxt;
-    public ImageView thumbImg;
+    public ImageView logo;
+    public TextView name;
+    public TextView platformVer;
   }
 }

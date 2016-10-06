@@ -5,20 +5,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.androidstarterkit.module.CoffeeType;
+import com.androidstarterkit.module.AndroidPlatform;
 import com.androidstarterkit.module.R;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
   private Context context;
-  private List<CoffeeType> dataSet;
+  private List<AndroidPlatform> platforms;
 
-  public RecyclerViewAdapter(Context context, List<CoffeeType> dataSet) {
+  public RecyclerViewAdapter(Context context, List<AndroidPlatform> platforms) {
     this.context = context;
-    this.dataSet = dataSet;
+    this.platforms = platforms;
   }
 
   @Override
@@ -29,27 +31,29 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
   @Override
   public void onBindViewHolder(final RecyclerViewAdapter.ViewHolder holder, final int position) {
-    holder.title.setText(dataSet.get(position).name());
-    holder.title.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
+    AndroidPlatform platform = platforms.get(position);
 
-      }
-    });
+    Glide.with(context).load(platform.getLogoUrl()).into(holder.logo);
+    holder.name.setText(platform.getName());
+    holder.platformVer.setText(platform.getVerCode());
   }
 
   @Override
   public int getItemCount() {
-    return dataSet.size();
+    return platforms.size();
   }
 
   static class ViewHolder extends RecyclerView.ViewHolder {
-    public TextView title;
+    public ImageView logo;
+    public TextView name;
+    public TextView platformVer;
 
     ViewHolder(View itemView) {
       super(itemView);
 
-      title = (TextView) itemView.findViewById(R.id.title);
+      logo = (ImageView) itemView.findViewById(R.id.img);
+      name = (TextView) itemView.findViewById(R.id.name);
+      platformVer = (TextView) itemView.findViewById(R.id.platform_ver);
     }
   }
 }

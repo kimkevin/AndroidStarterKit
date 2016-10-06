@@ -48,10 +48,10 @@ public class MainBaseAdapter extends BaseAdapter {
     ViewHolder viewHolder;
 
     if (convertView == null) {
-      convertView = inflater.inflate(R.layout.layout_list_item, parent, false);
+      convertView = inflater.inflate(R.layout.layout_main_list_item, parent, false);
 
       viewHolder = new ViewHolder();
-      viewHolder.title = (TextView) convertView.findViewById(R.id.title);
+      viewHolder.title= (TextView) convertView.findViewById(R.id.title);
       convertView.setTag(viewHolder);
     } else {
       viewHolder = (ViewHolder) convertView.getTag();

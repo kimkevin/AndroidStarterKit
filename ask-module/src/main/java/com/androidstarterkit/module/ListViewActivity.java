@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListViewActivity extends AppCompatActivity{
-  private List<AndroidPlatform> platforms = new ArrayList<>();
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_listview_main);
+
+    List<AndroidPlatform> platforms = new ArrayList<>();
 
     platforms.add(new AndroidPlatform("applepie", "1.0", 1));
     platforms.add(new AndroidPlatform("bananabread", "1.1", 2));
