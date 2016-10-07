@@ -19,6 +19,6 @@ public class AskModule extends Directory {
     } catch (NullPointerException exception) {
       return null;
     }
-    return getChildPath(key).substring(index).replace(applicationIdPath, "");
+    return FileUtil.splitFirstSlash(getChildPath(key).substring(index).replace(applicationIdPath, ""));
   }
 }

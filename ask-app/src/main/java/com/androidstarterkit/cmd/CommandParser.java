@@ -14,37 +14,34 @@ public class CommandParser {
   }
 
   public String getPath() throws CommandParseException {
-    final String option = findOption(com.androidstarterkit.cmd.CommandOption.PATH_KEY, com.androidstarterkit.cmd.CommandOption.PATH_LONG_KEY);
-
-    if (option == null) {
-      throw new CommandParseException("Missing a project path : please check -p <path>");
-    }
-    return option;
+    return findOption(CommandOption.PATH_KEY,
+        CommandOption.PATH_LONG_KEY);
   }
 
-  public com.androidstarterkit.cmd.WidgetType getWidgetType() throws CommandParseException, UnsupportedWidgetTypeException {
-    final String typeStr = findOption(com.androidstarterkit.cmd.CommandOption.WIDGET_KEY, com.androidstarterkit.cmd.CommandOption.WIDGET_LONG_KEY);
+  public WidgetType getWidgetType() throws CommandParseException, UnsupportedWidgetTypeException {
+    final String typeStr = findOption(CommandOption.WIDGET_KEY,
+        CommandOption.WIDGET_LONG_KEY);
 
     if (typeStr == null) {
       throw new CommandParseException("Missing a widget type : please check -w <widget>");
     }
 
-    if (typeStr.equals(com.androidstarterkit.cmd.WidgetType.RecyclerView.getName())) {
-      return com.androidstarterkit.cmd.WidgetType.RecyclerView;
-    } else if (typeStr.equals(com.androidstarterkit.cmd.WidgetType.ListView.getName())) {
-      return com.androidstarterkit.cmd.WidgetType.ListView;
-    } else if (typeStr.equals(com.androidstarterkit.cmd.WidgetType.SlidingTabLayout.getName())) {
-      return com.androidstarterkit.cmd.WidgetType.SlidingTabLayout;
-    } else if (typeStr.equals(com.androidstarterkit.cmd.WidgetType.SlidingIconTabLayout.getName())) {
-      return com.androidstarterkit.cmd.WidgetType.SlidingIconTabLayout;
+    if (typeStr.equals(WidgetType.RecyclerView.getName())) {
+      return WidgetType.RecyclerView;
+    } else if (typeStr.equals(WidgetType.ListView.getName())) {
+      return WidgetType.ListView;
+    } else if (typeStr.equals(WidgetType.SlidingTabLayout.getName())) {
+      return WidgetType.SlidingTabLayout;
+    } else if (typeStr.equals(WidgetType.SlidingIconTabLayout.getName())) {
+      return WidgetType.SlidingIconTabLayout;
     } else {
       throw new CommandParseException("Unsupported a widget type : please check -h , --help");
     }
   }
 
   public boolean hasHelpCommand() {
-    return argList.contains(com.androidstarterkit.cmd.CommandOption.HELP_KEY)
-            || argList.contains(com.androidstarterkit.cmd.CommandOption.HELP_LONG_KEY);
+    return argList.contains(CommandOption.HELP_KEY)
+            || argList.contains(CommandOption.HELP_LONG_KEY);
   }
 
   private String findOption(String... key) {

@@ -3,14 +3,10 @@ package com.androidstarterkit;
 import com.androidstarterkit.cmd.CommandParser;
 import com.androidstarterkit.cmd.WidgetType;
 import com.androidstarterkit.modules.SampleModule;
-import com.androidstarterkit.utils.FileUtil;
 
 public class Ask {
-  private static boolean isLocalTest = true;
 
   public static void main(String[] args) {
-    String projectPath;
-
     CommandParser commandParser = new CommandParser(args);
 
     if (commandParser.hasHelpCommand()) {
@@ -18,25 +14,20 @@ public class Ask {
       return;
     }
 
-    projectPath = FileUtil.linkPathWithSlash(FileUtil.getRootPath(), "ask-sample");
-
+    String projectPath;
     WidgetType type;
-    try {
-      if (!isLocalTest) {
-        projectPath = commandParser.getPath();
-      }
 
+    try {
+      projectPath = commandParser.getPath();
       type = commandParser.getWidgetType();
     } catch (Exception e) {
       e.printStackTrace();
       return;
     }
 
-    SampleModule
-        .load(projectPath)
-        .with(type);
+    SampleModule sampleModule = SampleModule.load(projectPath).with(type);
 
-    System.out.println("Run sample project with " + type);
+    System.out.println("Run sample project with " + type + " , path = " + sampleModule.getPath());
   }
 
   public static void printHelp() {
@@ -52,7 +43,7 @@ public class Ask {
 
     System.out.println("Dir:");
     System.out.println();
-    System.out.println("    -p, --path                  source project path (defaults to new project)");
+    System.out.println("    -p, --path                  source project path (defaults to sample project path)");
     System.out.println();
   }
 }

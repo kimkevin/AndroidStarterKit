@@ -17,6 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SampleModule extends Directory {
+  private static final String DEFAULT_SAMPLE_MODULE_NAME = "ask-sample";
   private AskModule module;
   private String mainActivityName;
 
@@ -58,11 +59,15 @@ public class SampleModule extends Directory {
   /**
    * Begin a set source project root path
    *
-   * @param rootPath is the home path of source project
+   * @param projectPath is the home path of source project
    * @return Source instance which has home path
    */
-  public static SampleModule load(String rootPath) {
-    return new SampleModule(rootPath);
+  public static SampleModule load(String projectPath) {
+    if (projectPath == null) {
+      projectPath = FileUtil.linkPathWithSlash(FileUtil.getRootPath(), DEFAULT_SAMPLE_MODULE_NAME);
+    }
+
+    return new SampleModule(projectPath);
   }
 
   /**
@@ -141,8 +146,15 @@ public class SampleModule extends Directory {
   }
 
   private void transfer(int depth, File file, WidgetType widgetType) {
+    String filePath;
+    if (widgetType != null) {
+      filePath = FileUtil.linkPathWithSlash(javaPath, mainActivityName);
+    } else {
+      filePath = FileUtil.linkPathWithSlash(javaPath, module.getRelativePathFromJavaDir(file.getName()), file.getName());
+    }
+
     try {
-      System.out.println(PrintUtil.prefixDash(depth) + "Transfering file : " + file.getPath());
+      System.out.println(PrintUtil.prefixDash(depth) + "Transfering file : " + filePath);
 
       Scanner scanner = new Scanner(file);
       String content = "";
@@ -161,11 +173,7 @@ public class SampleModule extends Directory {
         content += line + "\n";
       }
 
-      if (widgetType != null) {
-        FileUtil.writeFile(new File(javaPath + "/" + mainActivityName), content);
-      } else {
-        FileUtil.writeFile(javaPath + module.getRelativePathFromJavaDir(file.getName()), file.getName(), content);
-      }
+      FileUtil.writeFile(new File(filePath), content);
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
@@ -205,7 +213,7 @@ public class SampleModule extends Directory {
           transfer(depth + 1, module.getChildFile(className, Extension.JAVA), null);
         } else {
           for (String dependency : buildGradleFile.getDependencyKeys()) {
-            if (dependency.contains(className.toLowerCase())) {
+            if (className.equals(dependency)) {
               buildGradleFile.addDependency(dependency);
               break;
             }

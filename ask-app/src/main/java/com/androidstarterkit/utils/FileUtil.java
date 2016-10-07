@@ -72,6 +72,10 @@ public class FileUtil {
    * @param content is the string you want to write
    */
   public static void writeFile(File file, String content) {
+    if (!file.getParentFile().exists() && !file.getParentFile().mkdirs()) {
+      return;
+    }
+
     FileWriter fileWriter;
     try {
       fileWriter = new FileWriter(file);
@@ -83,15 +87,15 @@ public class FileUtil {
     }
   }
 
-  public static void writeFile(String sourceFilePath,
+  public static void writeFile(String filePath,
                                String fileName,
                                String content) {
-    File destDir = new File(sourceFilePath);
+    File destDir = new File(filePath);
     if (!destDir.exists() && !destDir.mkdirs()) {
       return;
     }
 
-    File file = new File(sourceFilePath + "/" + fileName);
+    File file = new File(filePath + "/" + fileName);
 
     try {
       if (!file.exists()) {
@@ -288,5 +292,13 @@ public class FileUtil {
    */
   public static String removeExtension(String filename) {
     return filename.substring(0, filename.lastIndexOf('.'));
+  }
+
+  public static String splitFirstSlash(String path) {
+    if (path.length() > 0 && path.charAt(0) == '/') {
+      path = path.substring(1);
+    }
+
+    return path;
   }
 }
