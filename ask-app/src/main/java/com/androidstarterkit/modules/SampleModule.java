@@ -17,7 +17,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SampleModule extends Directory {
-  private static final String DEFAULT_SAMPLE_MODULE_NAME = "ask-sample";
+  public static final String DEFAULT_SAMPLE_MODULE_NAME = "ask-sample";
+  public static final String SETTINGS_GRADLE_FILE_NAME = "settings.gradle";
+
   private AskModule module;
   private String mainActivityName;
 
@@ -26,8 +28,8 @@ public class SampleModule extends Directory {
 
   private List<String> importedClasses;
 
-  public SampleModule(String pathname) {
-    super(pathname,
+  public SampleModule(String projdectPath) {
+    super(projdectPath,
         new String[] { "java", "gradle", "xml" },
         new String[] { "build", "libs", "test", "androidTest", "res" });
 
@@ -65,6 +67,8 @@ public class SampleModule extends Directory {
   public static SampleModule load(String projectPath) {
     if (projectPath == null) {
       projectPath = FileUtil.linkPathWithSlash(FileUtil.getRootPath(), DEFAULT_SAMPLE_MODULE_NAME);
+    } else {
+      projectPath = FileUtil.linkPathWithSlash(projectPath, findAppModuleName(projectPath));
     }
 
     return new SampleModule(projectPath);
@@ -212,9 +216,10 @@ public class SampleModule extends Directory {
 
           transfer(depth + 1, module.getChildFile(className, Extension.JAVA), null);
         } else {
-          for (String dependency : buildGradleFile.getDependencyKeys()) {
-            if (className.equals(dependency)) {
-              buildGradleFile.addDependency(dependency);
+          for (String dependencyKey : externalLibrary.getKeys()) {
+            if (className.equals(dependencyKey)) {
+              buildGradleFile.addDependency(externalLibrary.getInfo(dependencyKey).getLibrary());
+              androidManifestFile.addPermissions(externalLibrary.getInfo(dependencyKey).getUsesPermissions());
               break;
             }
           }
@@ -268,9 +273,9 @@ public class SampleModule extends Directory {
       while (scanner.hasNext()) {
         String line = scanner.nextLine();
 
-        for (String dependency : buildGradleFile.getDependencyKeys()) {
-          if (line.contains(dependency)) {
-            buildGradleFile.addDependency(dependency);
+        for (String dependencyKey : externalLibrary.getKeys()) {
+          if (line.contains(dependencyKey)) {
+            buildGradleFile.addDependency(externalLibrary.getInfo(dependencyKey).getLibrary());
             break;
           }
         }
@@ -290,5 +295,30 @@ public class SampleModule extends Directory {
     }
 
     return filteredClasses;
+  }
+
+  private static String findAppModuleName(String projectPath) {
+    String appModuleName = null;
+
+    File settingsGradleFile = new File(FileUtil.linkPathWithSlash(projectPath,
+        SETTINGS_GRADLE_FILE_NAME));
+
+    try {
+      Scanner scanner = new Scanner(settingsGradleFile);
+
+      String line = scanner.nextLine();
+      String reg = "\\':([A-Za-z0-9_]+)\\'";
+
+      Pattern pat = Pattern.compile(reg);
+      Matcher matcher = pat.matcher(line);
+
+      if (matcher.find()) {
+        appModuleName = matcher.group(1);
+      }
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
+
+    return appModuleName;
   }
 }

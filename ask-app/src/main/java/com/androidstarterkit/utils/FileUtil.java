@@ -1,5 +1,8 @@
 package com.androidstarterkit.utils;
 
+import com.androidstarterkit.config.SyntaxConfig;
+import com.androidstarterkit.modules.SampleModule;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,9 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FileUtil {
-  public static final String DEFAULT_INDENT = "    ";
   public static final String CLASSES_PATH = "/ask-app/build/classes/main";
-  public static final String MODULE_NAME = "ask-app";
 
   /**
    * Get root path in this project
@@ -63,6 +64,10 @@ public class FileUtil {
       }
     }
     return path;
+  }
+
+  public static void writeFile(File file, List<String> lineList) {
+    writeFile(file, getString(lineList));
   }
 
   /**
@@ -210,43 +215,6 @@ public class FileUtil {
   }
 
   /**
-   * Add line to specific object by a string list of scope
-   *
-   * @param objectName is keyword to find scope
-   * @param line       is a string that is needed to add
-   * @param stringList is string list of scope
-   * @return string list was added to line such as external library
-   */
-  public static List<String> addLineToObject(String objectName, String line, List<String> stringList) {
-    boolean isFoundScope = false;
-    String indent = "";
-
-    for (int i = 0, li = stringList.size(); i < li; i++) {
-      String str = stringList.get(i);
-      if (str.contains(objectName)) {
-        isFoundScope = true;
-
-        if (i + 1 < li) {
-          indent = getIndentOfLine(stringList.get(i + 1));
-        } else {
-          indent = DEFAULT_INDENT;
-        }
-      }
-
-      if (isFoundScope && str.contains("}")) {
-        if (stringList.contains(indent + line)) {
-          continue;
-        }
-
-        stringList.add(i, indent + line);
-        return stringList;
-      }
-    }
-
-    return stringList;
-  }
-
-  /**
    * @param path is the string which is the path with dot(.) delimeter such as com.ask.MainActivity
    * @return is the string for file name
    */
@@ -262,7 +230,7 @@ public class FileUtil {
    * @param line is a string
    * @return new string with indent
    */
-  private static String getIndentOfLine(String line) {
+  public static String getIndentOfLine(String line) {
     String intent = "";
     for (int i = 0, li = line.length(); i < li; i++) {
       if (line.toCharArray()[i] == ' ') {
@@ -271,7 +239,7 @@ public class FileUtil {
         return intent;
       }
     }
-    return DEFAULT_INDENT;
+    return SyntaxConfig.DEFAULT_INDENT;
   }
 
   /**
@@ -300,5 +268,10 @@ public class FileUtil {
     }
 
     return path;
+  }
+
+  public static boolean isMySample(String path) {
+    String mySamplePath = FileUtil.linkPathWithSlash(FileUtil.getRootPath(), SampleModule.DEFAULT_SAMPLE_MODULE_NAME);
+    return mySamplePath.equals(path);
   }
 }
