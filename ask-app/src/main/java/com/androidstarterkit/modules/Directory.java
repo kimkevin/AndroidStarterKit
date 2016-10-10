@@ -39,7 +39,7 @@ public class Directory extends File {
 
     androidManifestFile = new AndroidManifest(fileMap.get(ANDROID_MANIFEST_FILE));
 
-    externalLibrary = new ExternalLibrary("24.2.0");
+    externalLibrary = new ExternalLibrary(buildGradleFile.getSupportLibraryVersion());
   }
 
   private void listFilesForFolder(File directory) {

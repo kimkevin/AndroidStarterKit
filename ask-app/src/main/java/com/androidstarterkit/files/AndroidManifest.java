@@ -8,8 +8,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AndroidManifest extends BaseFile {
-  public static final String MANIFEST_ELEMENT_NAME = "manifest";
-  public static final String MAIN_RELATIVE_PATH_FROM_MODULE = "src/main";
 
   public AndroidManifest(String pathname) {
     super(pathname, "AndroidManifest.xml");
@@ -23,7 +21,7 @@ public class AndroidManifest extends BaseFile {
     List<String> lineList = FileUtil.readFile(this);
 
     for (String permission : permissions) {
-      lineList = addLineToElement(MANIFEST_ELEMENT_NAME,
+      lineList = addLineToElement("manifest",
           permission,
           lineList);
     }
@@ -35,12 +33,12 @@ public class AndroidManifest extends BaseFile {
     String indent = SyntaxConfig.DEFAULT_INDENT;
 
     String reg = "\\<\\/\\s*" + elementName + "\\s*\\>";
+    Pattern pattern = Pattern.compile(reg);
 
-    Pattern pat = Pattern.compile(reg);
     for (int i = 0, li = lineList.size(); i < li; i++) {
       final String codeLine = lineList.get(i);
 
-      Matcher matcher = pat.matcher(codeLine);
+      Matcher matcher = pattern.matcher(codeLine);
 
       if (matcher.find()) {
         lineList.add(i, indent + permission);

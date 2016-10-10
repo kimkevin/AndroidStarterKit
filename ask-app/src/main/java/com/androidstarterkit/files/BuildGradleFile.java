@@ -3,9 +3,9 @@ package com.androidstarterkit.files;
 import com.androidstarterkit.config.SyntaxConfig;
 import com.androidstarterkit.utils.FileUtil;
 
-import java.io.FileNotFoundException;
 import java.util.List;
-import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class BuildGradleFile extends BaseFile {
   public static final String DEPENDENCIES_ELEMENT_NAME = "dependencies";
@@ -13,30 +13,35 @@ public class BuildGradleFile extends BaseFile {
 
   private List<String> lineList;
 
+  private String supportLibraryVersion;
+  private String applicationId;
+
   public BuildGradleFile(String modulePath) {
     super(modulePath, "build.gradle");
 
     lineList = FileUtil.readFile(this);
+
+    for (String line : lineList) {
+      if (line.contains("applicationId")) {
+        applicationId = FileUtil.getStringBetweenQuotes(line);
+      } else if (line.contains("com.android.support:appcompat-v7")) {
+        String reg = ":([0-9]*\\.[0-9]*\\.[0-9]*)";
+        Pattern pattern = Pattern.compile(reg);
+        Matcher matcher = pattern.matcher(line);
+
+        if (matcher.find()) {
+          supportLibraryVersion = matcher.group(1);
+        }
+      }
+    }
   }
 
   public String getApplicationId() {
-    String applicationId = null;
-    try {
-      Scanner scanner = new Scanner(this);
-
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
-
-        if (line.contains("applicationId")) {
-          applicationId = FileUtil.getStringBetweenQuotes(line);
-          break;
-        }
-      }
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    }
-
     return applicationId;
+  }
+
+  public String getSupportLibraryVersion() {
+    return supportLibraryVersion;
   }
 
   /**
