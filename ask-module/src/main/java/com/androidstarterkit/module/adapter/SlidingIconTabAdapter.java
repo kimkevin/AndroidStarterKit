@@ -4,33 +4,39 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.androidstarterkit.module.R;
-import com.androidstarterkit.module.SlidingTabFragment;
+import com.androidstarterkit.module.models.FragmentInfo;
+import com.androidstarterkit.module.views.DefaultTabFragment;
 import com.androidstarterkit.module.widgets.SlidingTabLayout;
+
+import java.util.List;
 
 public class SlidingIconTabAdapter extends FragmentPagerAdapter implements SlidingTabLayout.TabIconProvider {
 
-  private static final int iconRes[] = {
-      R.mipmap.ic_launcher,
-      R.mipmap.ic_launcher
-  };
+  private List<FragmentInfo> fragmentInfos;
 
-  public SlidingIconTabAdapter(FragmentManager fragmentManager) {
+  public SlidingIconTabAdapter(FragmentManager fragmentManager, List<FragmentInfo> fragmentInfos) {
     super(fragmentManager);
+
+    this.fragmentInfos = fragmentInfos;
   }
 
   @Override
   public Fragment getItem(int position) {
-    return SlidingTabFragment.newInstance(position);
+    try {
+      return (Fragment) Class.forName(fragmentInfos.get(position).getFragmentClass().getName())
+          .getConstructor().newInstance();
+    } catch (Exception e) {
+      return new DefaultTabFragment();
+    }
   }
 
   @Override
   public int getCount() {
-    return iconRes.length;
+    return fragmentInfos.size();
   }
 
   @Override
   public int getPageIconResId(int position) {
-    return iconRes[position];
+    return fragmentInfos.get(position).getIconResId();
   }
 }

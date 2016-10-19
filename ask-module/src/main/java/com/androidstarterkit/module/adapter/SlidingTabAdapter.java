@@ -4,32 +4,38 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.androidstarterkit.module.SlidingTabFragment;
+import com.androidstarterkit.module.models.FragmentInfo;
+import com.androidstarterkit.module.views.DefaultTabFragment;
 
 import java.util.List;
 
 public class SlidingTabAdapter extends FragmentPagerAdapter {
 
-  private List<String> dataSet;
+  private List<FragmentInfo> fragmentInfos;
 
-  public SlidingTabAdapter(FragmentManager fragmentManager, List<String> dataSet) {
+  public SlidingTabAdapter(FragmentManager fragmentManager, List<FragmentInfo> fragmentInfos) {
     super(fragmentManager);
 
-    this.dataSet = dataSet;
+    this.fragmentInfos = fragmentInfos;
   }
 
   @Override
   public Fragment getItem(int position) {
-    return SlidingTabFragment.newInstance(position);
+    try {
+      return (Fragment) Class.forName(fragmentInfos.get(position).getFragmentClass().getName())
+          .getConstructor().newInstance();
+    } catch (Exception e) {
+      return new DefaultTabFragment();
+    }
   }
 
   @Override
   public int getCount() {
-    return dataSet.size();
+    return fragmentInfos.size();
   }
 
   @Override
   public CharSequence getPageTitle(int position) {
-    return dataSet.get(position);
+    return "TAB" + position;
   }
 }

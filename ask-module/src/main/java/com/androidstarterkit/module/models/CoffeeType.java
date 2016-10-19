@@ -1,4 +1,4 @@
-package com.androidstarterkit.module;
+package com.androidstarterkit.module.models;
 
 public enum CoffeeType {
   Espresso,

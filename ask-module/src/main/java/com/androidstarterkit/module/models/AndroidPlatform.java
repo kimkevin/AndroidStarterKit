@@ -1,4 +1,4 @@
-package com.androidstarterkit.module;
+package com.androidstarterkit.module.models;
 
 public class AndroidPlatform {
   private static final String FILE_PATH = "https://raw.githubusercontent.com/kimkevin/AndroidStarterKit/master/assets/";

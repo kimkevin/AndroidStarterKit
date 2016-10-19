@@ -12,23 +12,28 @@ This `AndroidModule` contains the following modules:
 2. ListView
 3. SlidingTabLayout 
 4. SlidingIconTabLayout 
-4. ~~DrawerLayout~~ (coming soon, unsupported)
-5. ~~FloatingActionButton~~ (unsupported)
-6. ~~etc (Image Loader(glide), famous samples supported by Google)~~ (unsupported)
+5. Glide - Image Loader
 
-### Usage: AndroidStater [options] [dir]
+### Usage: ./ask [options] [dir]
+					 ./ask [-w <widget>] [dir]
+					 ./ask [-t <tab>] [dir] [args...]
 
 #### Options
-
 ```bash
-* -h, --help                  output usage information
-* -w, --widget <view>         add <view> support (RecyclerView, ListView) (defaults to RecyclerView)
+* -h, --help           output usage information
+* -w, --widget <view>  add <view> support (RecyclerView | ListView) 
+* -t, --tab <tab>	 		 add <tab> support (SlidingTabLayout | SlidingIconTabLayout)
+											 (defaults to <tab> which has two fragment)
+
+* args... 					 	 arguments should be <view> for adding to <tab> 
+											 use - for default <view>
 ```
 
 #### Dir
-
 ```bash
-* -p, --path                  source project path (defaults to new project)
+* -p, --path				   sample project path 
+											 (defaults to local path for ask-sample in root project)
+
 ```
 
 ### Run
@@ -41,8 +46,9 @@ $ ./ask -w <widget> -p your_project_path
 ```
 
 > Examples  
-1. ./ask -w ListView -p /Users/kevin/Documents/AndroidStarterKit/AndroidSample   
+1. ./ask -w ListView 
 2. ./ask -w RecyclerView -p /Users/kevin/Documents/AndroidStarterKit/AndroidSample 
+3. ./ask -t SlidingTabLayout -p /Users/kevin/Documents/AndroidStarterKit/AndroidSample ListView,-,ListView
 
 ### License
 

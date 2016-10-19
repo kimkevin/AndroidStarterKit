@@ -1,4 +1,4 @@
-package com.androidstarterkit.module.app;
+package com.androidstarterkit.module.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import com.androidstarterkit.module.R;
 import com.androidstarterkit.module.RecyclerViewActivity;
 import com.androidstarterkit.module.SlidingIconTabLayoutActivity;
 import com.androidstarterkit.module.SlidingTabLayoutActivity;
+import com.androidstarterkit.module.models.WidgetType;
 
 import java.util.List;
 

@@ -1,17 +1,19 @@
-package com.androidstarterkit.module;
+package com.androidstarterkit.module.views;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class SlidingTabFragment extends Fragment {
+import com.androidstarterkit.module.R;
+
+public class DefaultTabFragment extends Fragment {
   private static final String ARG_POSITION = "position";
 
-  public static SlidingTabFragment newInstance(int position) {
-    SlidingTabFragment fragment = new SlidingTabFragment();
+  public static DefaultTabFragment newInstance(int position) {
+    DefaultTabFragment fragment = new DefaultTabFragment();
     Bundle args = new Bundle();
     args.putInt(ARG_POSITION, position);
     fragment.setArguments(args);
@@ -20,16 +22,9 @@ public class SlidingTabFragment extends Fragment {
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    int position = getArguments().getInt(ARG_POSITION);
-
     View view = inflater.inflate(R.layout.fragment_main, null);
     TextView posTxt = (TextView) view.findViewById(R.id.pos_txt);
-    posTxt.setText("Framgent " + position);
+    posTxt.setText("Framgent");
     return view;
-  }
-
-  @Override
-  public void onViewCreated(View view, Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
   }
 }

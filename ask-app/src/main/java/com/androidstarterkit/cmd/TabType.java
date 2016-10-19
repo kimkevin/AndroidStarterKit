@@ -2,13 +2,14 @@ package com.androidstarterkit.cmd;
 
 import com.androidstarterkit.UnsupportedWidgetTypeException;
 
-public enum WidgetType {
-  RecyclerView("RecyclerView"),
-  ListView("ListView");
+
+public enum TabType {
+  SlidingTabLayout("SlidingTabLayout"),
+  SlidingIconTabLayout("SlidingIconTabLayout");
 
   private String fileName;
 
-  WidgetType(String fileName) {
+  TabType(String fileName) {
     this.fileName = fileName;
   }
 

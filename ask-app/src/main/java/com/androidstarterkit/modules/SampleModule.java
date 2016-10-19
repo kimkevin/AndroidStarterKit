@@ -1,8 +1,10 @@
 package com.androidstarterkit.modules;
 
 import com.androidstarterkit.ClassParser;
+import com.androidstarterkit.CommandParseException;
 import com.androidstarterkit.Extension;
 import com.androidstarterkit.UnsupportedWidgetTypeException;
+import com.androidstarterkit.cmd.TabType;
 import com.androidstarterkit.cmd.WidgetType;
 import com.androidstarterkit.utils.FileUtil;
 import com.androidstarterkit.utils.PrintUtil;
@@ -67,9 +69,10 @@ public class SampleModule extends Directory {
   public static SampleModule load(String projectPath) {
     if (projectPath == null) {
       projectPath = FileUtil.linkPathWithSlash(FileUtil.getRootPath(), DEFAULT_SAMPLE_MODULE_NAME);
-    } else {
-      projectPath = FileUtil.linkPathWithSlash(projectPath, findAppModuleName(projectPath));
     }
+//    else {
+//      projectPath = FileUtil.linkPathWithSlash(projectPath, findAppModuleName(projectPath));
+//    }
 
     return new SampleModule(projectPath);
   }
@@ -77,15 +80,27 @@ public class SampleModule extends Directory {
   /**
    * Ready a load with Source by passing module type
    *
+   * @param tabType
    * @param widgetType {@link WidgetType} is supported by AndroidModule
+   * @param args
    * @return Source instance after loading default Activity
    */
-  public SampleModule with(WidgetType widgetType) {
+  public SampleModule with(TabType tabType, WidgetType widgetType, List<String> args) {
     try {
-      File activityFile = module.getChildFile(widgetType.getActivityName(), Extension.JAVA);
+      String activityName = WidgetType.ListView.getActivityName();
 
-      transfer(0, activityFile, widgetType);
-    } catch (UnsupportedWidgetTypeException e) {
+      if (tabType != null && widgetType != null) {
+        throw new CommandParseException("Wrong options : please check -h , --help");
+      } else if (tabType != null) {
+        activityName = tabType.getActivityName();
+      } else if (widgetType != null) {
+        activityName = widgetType.getActivityName();
+      }
+
+      File activityFile = module.getChildFile(activityName, Extension.JAVA);
+
+      transfer(0, activityFile, activityName);
+    } catch (UnsupportedWidgetTypeException | CommandParseException e) {
       e.printStackTrace();
     }
 
@@ -149,9 +164,9 @@ public class SampleModule extends Directory {
     return appModuleName;
   }
 
-  private void transfer(int depth, File file, WidgetType widgetType) {
+  private void transfer(int depth, File file, String activityName) {
     String filePath;
-    if (widgetType != null) {
+    if (activityName != null) {
       filePath = FileUtil.linkPathWithSlash(javaPath, mainActivityName);
     } else {
       filePath = FileUtil.linkPathWithSlash(javaPath, module.getRelativePathFromJavaDir(file.getName()), file.getName());
@@ -166,8 +181,8 @@ public class SampleModule extends Directory {
       while (scanner.hasNext()) {
         String line = scanner.nextLine();
 
-        if (widgetType != null) {
-          line = changeActivityName(widgetType, line);
+        if (activityName != null) {
+          line = changeActivityName(activityName, line);
         }
 
         line = changePackage(line);
@@ -187,13 +202,46 @@ public class SampleModule extends Directory {
     }
   }
 
-  private String changeActivityName(WidgetType widgetType, String line) {
-    try {
-      return line.replace(widgetType.getActivityName(), FileUtil.removeExtension(mainActivityName));
-    } catch (UnsupportedWidgetTypeException e) {
-      e.printStackTrace();
-    }
-    return line;
+//  private void transfer(int depth, File file, WidgetType widgetType) {
+//    String filePath;
+//    if (widgetType != null) {
+//      filePath = FileUtil.linkPathWithSlash(javaPath, mainActivityName);
+//    } else {
+//      filePath = FileUtil.linkPathWithSlash(javaPath, module.getRelativePathFromJavaDir(file.getName()), file.getName());
+//    }
+//
+//    try {
+//      System.out.println(PrintUtil.prefixDash(depth) + "Transfering file : " + filePath);
+//
+//      Scanner scanner = new Scanner(file);
+//      String content = "";
+//
+//      while (scanner.hasNext()) {
+//        String line = scanner.nextLine();
+//
+//        if (widgetType != null) {
+//          line = changeActivityName(widgetType, line);
+//        }
+//
+//        line = changePackage(line);
+//        line = importClass(line, depth);
+//        line = importLayout(line, depth);
+//
+//        content += line + "\n";
+//      }
+//
+//      FileUtil.writeFile(new File(filePath), content);
+//    } catch (FileNotFoundException e) {
+//      e.printStackTrace();
+//    }
+//
+//    if (depth == 0) {
+//      System.out.println();
+//    }
+//  }
+
+  private String changeActivityName(String activityName, String line) {
+    return line.replace(activityName, FileUtil.removeExtension(mainActivityName));
   }
 
   private String changePackage(String line) {

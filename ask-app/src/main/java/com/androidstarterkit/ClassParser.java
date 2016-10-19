@@ -79,10 +79,32 @@ public class ClassParser {
     replacedLine = replaceNoBlank(replacedLine, KEYWORDS_NON_ACCESS_MODIFIER);
     replacedLine = replaceNoBlank(replacedLine, KEYWORDS_RESERVED);
 
+    mergeDistinct(classNames, listNewInstance(replacedLine));
     mergeDistinct(classNames, listInheritClasses(replacedLine));
     mergeDistinct(classNames, listFieldClasses(replacedLine));
-    mergeDistinct(classNames, listStaticClasses(replacedLine));
+    mergeDistinct(classNames, listStaticClasses(line));
     mergeDistinct(classNames, listParameterClasses(line));
+
+    return classNames;
+  }
+
+  /**
+   * Get class names when make a instance
+   * ex) new Class
+   *
+   * @param line String for code line
+   * @return String array for class name
+   */
+  public static List<String> listNewInstance(String line) {
+    List<String> classNames = new ArrayList<>();
+    String reg = "new\\s+([A-Za-z0-9]+)";
+    Pattern pat = Pattern.compile(reg);
+    Matcher matcher = pat.matcher(line);
+
+    while (matcher.find()) {
+      String matched = matcher.group(1);
+      classNames.add(matched.trim());
+    }
 
     return classNames;
   }
@@ -199,6 +221,7 @@ public class ClassParser {
    * ex) Class.method()
    * Class.variable
    * Class.StaticInnerClass
+   * Class.class
    *
    * warning : It can not distinguish between Class.method() and class.method()
    *
@@ -208,7 +231,11 @@ public class ClassParser {
   public static List<String> listStaticClasses(String line) {
     List<String> classNames = new ArrayList<>();
 
-    String reg = "(\\s+[A-Za-z0-9]+\\s*)\\.[A-Za-z0-9]+(\\s|\\[|;|\\()";
+    if (line.contains("import") || line.contains("package")) {
+      return classNames;
+    }
+
+    String reg = "(\\s*[A-Za-z0-9]+)\\s*\\.\\s*(([A-Za-z0-9]+(\\s|\\[|;|\\())|class)";
     Pattern pat = Pattern.compile(reg);
     Matcher matcher = pat.matcher(line);
 

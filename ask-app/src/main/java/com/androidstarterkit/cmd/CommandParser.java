@@ -3,7 +3,9 @@ package com.androidstarterkit.cmd;
 import com.androidstarterkit.CommandParseException;
 import com.androidstarterkit.UnsupportedWidgetTypeException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CommandParser {
 
@@ -14,29 +16,50 @@ public class CommandParser {
   }
 
   public String getPath() throws CommandParseException {
-    return findOption(CommandOption.PATH_KEY,
-        CommandOption.PATH_LONG_KEY);
+    return findOption(CommandOption.PATH_KEY, CommandOption.PATH_LONG_KEY);
+  }
+
+  public TabType getTabType() throws CommandParseException, UnsupportedWidgetTypeException {
+    final String typeStr = findOption(CommandOption.TAB_KEY, CommandOption.TAB_LONG_KEY);
+
+    if (typeStr == null) {
+      return null;
+    }
+
+    if (typeStr.equals(TabType.SlidingTabLayout.getName())) {
+      return TabType.SlidingTabLayout;
+    } else if (typeStr.equals(TabType.SlidingIconTabLayout.getName())) {
+      return TabType.SlidingIconTabLayout;
+    } else {
+      throw new CommandParseException("Unsupported " + typeStr + " for a tab type : please check -h , --help");
+    }
   }
 
   public WidgetType getWidgetType() throws CommandParseException, UnsupportedWidgetTypeException {
-    final String typeStr = findOption(CommandOption.WIDGET_KEY,
-        CommandOption.WIDGET_LONG_KEY);
+    final String typeStr = findOption(CommandOption.WIDGET_KEY, CommandOption.WIDGET_LONG_KEY);
 
     if (typeStr == null) {
-      throw new CommandParseException("Missing a widget type : please check -w <widget>");
+      return null;
     }
 
     if (typeStr.equals(WidgetType.RecyclerView.getName())) {
       return WidgetType.RecyclerView;
     } else if (typeStr.equals(WidgetType.ListView.getName())) {
       return WidgetType.ListView;
-    } else if (typeStr.equals(WidgetType.SlidingTabLayout.getName())) {
-      return WidgetType.SlidingTabLayout;
-    } else if (typeStr.equals(WidgetType.SlidingIconTabLayout.getName())) {
-      return WidgetType.SlidingIconTabLayout;
     } else {
-      throw new CommandParseException("Unsupported a widget type : please check -h , --help");
+      throw new CommandParseException("Unsupported " + typeStr + " for a widget type : please check -h , --help");
     }
+  }
+
+  public List<String> getArguments() {
+    for (int i = 0, li = argList.size(); i < li; i++) {
+      if (findOption(argList.get(i)) != null) {
+        i++;
+      } else {
+        return argList.subList(i - 1, li);
+      }
+    }
+    return null;
   }
 
   public boolean hasHelpCommand() {

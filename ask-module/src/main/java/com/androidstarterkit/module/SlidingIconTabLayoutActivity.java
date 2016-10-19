@@ -1,12 +1,9 @@
 package com.androidstarterkit.module;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.androidstarterkit.module.adapter.SlidingIconTabAdapter;
-import com.androidstarterkit.module.widgets.SlidingTabLayout;
+import com.androidstarterkit.module.views.SlidingIconTabFragment;
 
 public class SlidingIconTabLayoutActivity extends AppCompatActivity {
 
@@ -15,24 +12,16 @@ public class SlidingIconTabLayoutActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
 
     getSupportActionBar().setElevation(0);
+    setContentView(R.layout.activity_sample_main);
 
-    setContentView(R.layout.activity_slidingtablayout_main);
+    if (savedInstanceState == null) {
+      SlidingIconTabFragment fragment = new SlidingIconTabFragment();
 
-    SlidingIconTabAdapter adapter = new SlidingIconTabAdapter(getSupportFragmentManager());
-
-    ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-    viewPager.setAdapter(adapter);
-
-    SlidingTabLayout slidingTabLayout = (SlidingTabLayout) findViewById(R.id.tabs);
-    slidingTabLayout.setCustomTabView(R.layout.tab_img_layout, R.id.tab_name_img);
-    slidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
-      @Override
-      public int getIndicatorColor(int position) {
-        return Color.WHITE;
-      }
-    });
-
-    slidingTabLayout.setViewPager(viewPager);
+      getSupportFragmentManager()
+          .beginTransaction()
+          .add(R.id.container, fragment)
+          .commit();
+    }
   }
 }
 

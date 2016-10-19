@@ -1,4 +1,4 @@
-package com.androidstarterkit.module.app;
+package com.androidstarterkit.module.models;
 
 public enum WidgetType {
   RecyclerView, ListView, SlidingTabLayout, SlidingIconTabLayout

@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.androidstarterkit.module.AndroidPlatform;
+import com.androidstarterkit.module.models.AndroidPlatform;
 import com.androidstarterkit.module.R;
 import com.bumptech.glide.Glide;
 
