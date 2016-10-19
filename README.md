@@ -22,17 +22,17 @@ This `AndroidModule` contains the following modules:
 ```bash
 * -h, --help           output usage information
 * -w, --widget <view>  add <view> support (RecyclerView | ListView) 
-* -t, --tab <tab>	 		 add <tab> support (SlidingTabLayout | SlidingIconTabLayout)
-											 (defaults to <tab> which has two fragment)
+* -t, --tab <tab>      add <tab> support (SlidingTabLayout | SlidingIconTabLayout)
+                       (defaults to <tab> which has two fragment)
 
-* args... 					 	 arguments should be <view> for adding to <tab> 
-											 use - for default <view>
+* args...              arguments should be <view> for adding to <tab> 
+                       use - for default <view>
 ```
 
 #### Dir
 ```bash
 * -p, --path				   sample project path 
-											 (defaults to local path for ask-sample in root project)
+                       (defaults to local path for ask-sample in root project)
 
 ```
 
