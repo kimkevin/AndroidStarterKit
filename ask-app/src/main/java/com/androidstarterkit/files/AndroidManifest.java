@@ -1,6 +1,7 @@
 package com.androidstarterkit.files;
 
 import com.androidstarterkit.config.SyntaxConfig;
+import com.androidstarterkit.models.Permission;
 import com.androidstarterkit.utils.FileUtil;
 
 import java.util.List;
@@ -8,19 +9,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AndroidManifest extends BaseFile {
+  private static final String USES_PERMISSION = "<uses-permission android:name=\"android.permission."
+      + SyntaxConfig.REPLACE_STRING + "\"/>";
 
   public AndroidManifest(String pathname) {
     super(pathname, "AndroidManifest.xml");
   }
 
-  public void addPermissions(String... permissions) {
+  public void addPermissions(Permission... permissions) {
     if (permissions == null || permissions.length <= 0) {
       return;
     }
 
     List<String> lineList = FileUtil.readFile(this);
 
-    for (String permission : permissions) {
+    for (Permission permission : permissions) {
       lineList = addLineToElement("manifest",
           permission,
           lineList);
@@ -29,7 +32,7 @@ public class AndroidManifest extends BaseFile {
     FileUtil.writeFile(this, lineList);
   }
 
-  private List<String> addLineToElement(String elementName, String permission, List<String> lineList) {
+  private List<String> addLineToElement(String elementName, Permission permission, List<String> lineList) {
     String indent = SyntaxConfig.DEFAULT_INDENT;
 
     String reg = "\\<\\/\\s*" + elementName + "\\s*\\>";
@@ -38,13 +41,21 @@ public class AndroidManifest extends BaseFile {
     for (int i = 0, li = lineList.size(); i < li; i++) {
       final String codeLine = lineList.get(i);
 
+      if (codeLine.contains(permission.name())) {
+        return lineList;
+      }
+
       Matcher matcher = pattern.matcher(codeLine);
 
       if (matcher.find()) {
-        lineList.add(i, indent + permission);
+        lineList.add(i, indent + getPermissionToString(permission));
       }
     }
 
     return lineList;
+  }
+
+  private String getPermissionToString(Permission permission) {
+    return USES_PERMISSION.replace(SyntaxConfig.REPLACE_STRING, permission.name());
   }
 }

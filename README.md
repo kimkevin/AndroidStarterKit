@@ -34,7 +34,7 @@ This `AndroidModule` contains the following modules:
 #### Dir
 ```bash
 * -p, --path           sample project path 
-                       (defaults to local path for ask-sample in root project)
+                       (defaults to local path for root project)
 
 ```
 

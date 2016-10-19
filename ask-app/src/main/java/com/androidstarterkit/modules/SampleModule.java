@@ -69,10 +69,11 @@ public class SampleModule extends Directory {
   public static SampleModule load(String projectPath) {
     if (projectPath == null) {
       projectPath = FileUtil.linkPathWithSlash(FileUtil.getRootPath(), DEFAULT_SAMPLE_MODULE_NAME);
+    } else {
+      projectPath = FileUtil.linkPathWithSlash(projectPath, findAppModuleName(projectPath));
     }
-//    else {
-//      projectPath = FileUtil.linkPathWithSlash(projectPath, findAppModuleName(projectPath));
-//    }
+
+    System.out.println(projectPath);
 
     return new SampleModule(projectPath);
   }
@@ -267,7 +268,7 @@ public class SampleModule extends Directory {
           for (String dependencyKey : externalLibrary.getKeys()) {
             if (className.equals(dependencyKey)) {
               buildGradleFile.addDependency(externalLibrary.getInfo(dependencyKey).getLibrary());
-              androidManifestFile.addPermissions(externalLibrary.getInfo(dependencyKey).getUsesPermissions());
+              androidManifestFile.addPermissions(externalLibrary.getInfo(dependencyKey).getPermissions());
               break;
             }
           }
