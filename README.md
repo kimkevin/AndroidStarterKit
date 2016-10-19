@@ -14,9 +14,12 @@ This `AndroidModule` contains the following modules:
 4. SlidingIconTabLayout 
 5. Glide - Image Loader
 
-### Usage: ./ask [options] [dir]
-					 ./ask [-w <widget>] [dir]
-					 ./ask [-t <tab>] [dir] [args...]
+### Usage: 
+```bash
+./ask [options] [dir]
+./ask [-w <widget>] [dir]
+./ask [-t <tab>] [dir] [args...]
+```
 
 #### Options
 ```bash
