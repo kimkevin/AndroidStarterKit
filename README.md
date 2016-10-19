@@ -12,9 +12,8 @@ This `AndroidModule` contains the following modules:
 2. ListView
 3. SlidingTabLayout 
 4. SlidingIconTabLayout 
-5. Glide - Image Loader
 
-### Usage: 
+## Usage
 ```bash
 ./ask [options] [dir]
 ./ask [-w <widget>] [dir]
@@ -39,21 +38,27 @@ This `AndroidModule` contains the following modules:
 
 ```
 
-### Run
+## Run
 
 ```bash
-# Make your new project
-
+# 1. Make your new project
 $ ./ask -w <widget> -p your_project_path 
 
+# 2. If you don't want it
+$ ./ask -w <widget>
+# or
+$ ./ask -t <tab>
 ```
 
-> Examples  
-1. ./ask -w ListView 
-2. ./ask -w RecyclerView -p /Users/kevin/Documents/AndroidStarterKit/AndroidSample 
-3. ./ask -t SlidingTabLayout -p /Users/kevin/Documents/AndroidStarterKit/AndroidSample ListView,-,ListView
+> **Examples**
+```bash
+$ ./ask -w ListView 
+$ ./ask -w RecyclerView -p /Users/kevin/Documents/AndroidStarterKit/AndroidSample 
+$ ./ask -t SlidingTabLayout -p /Users/kevin/Documents/AndroidStarterKit/AndroidSample
+$ ./ask -t SlidingIconTabLayout -p /Users/kevin/Documents/AndroidStarterKit/AndroidSample ListView,-,ListView
+```
 
-### License
+## License
 
 Copyright (c) 2013 “KimKevin” Yongjun Kim  
 Licensed under the MIT license.
