@@ -56,10 +56,10 @@ public class CommandParser {
       if (findOption(argList.get(i)) != null) {
         i++;
       } else {
-        return argList.subList(i - 1, li);
+        return Arrays.asList(argList.get(i).split(","));
       }
     }
-    return null;
+    return new ArrayList<>();
   }
 
   public boolean hasHelpCommand() {

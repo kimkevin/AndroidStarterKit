@@ -29,11 +29,9 @@ public class Ask {
     }
 
     SampleModule sampleModule = SampleModule.load(projectPath)
-        .with(tabType,
-            widgetType,
-            commandParser.getArguments());
+        .with(tabType, widgetType, commandParser.getArguments());
 
-    System.out.println("Run sample project with " + widgetType + " , path = " + sampleModule.getPath());
+    System.out.println("Project path : " + sampleModule.getPath());
   }
 
   private static void printHelp() {

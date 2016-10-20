@@ -6,6 +6,7 @@ import com.androidstarterkit.Extension;
 import com.androidstarterkit.UnsupportedWidgetTypeException;
 import com.androidstarterkit.cmd.TabType;
 import com.androidstarterkit.cmd.WidgetType;
+import com.androidstarterkit.config.SyntaxConfig;
 import com.androidstarterkit.utils.FileUtil;
 import com.androidstarterkit.utils.PrintUtil;
 
@@ -73,8 +74,6 @@ public class SampleModule extends Directory {
       projectPath = FileUtil.linkPathWithSlash(projectPath, findAppModuleName(projectPath));
     }
 
-    System.out.println(projectPath);
-
     return new SampleModule(projectPath);
   }
 
@@ -88,19 +87,31 @@ public class SampleModule extends Directory {
    */
   public SampleModule with(TabType tabType, WidgetType widgetType, List<String> args) {
     try {
-      String activityName = WidgetType.ListView.getActivityName();
+      String activityName;
+      String option;
 
-      if (tabType != null && widgetType != null) {
-        throw new CommandParseException("Wrong options : please check -h , --help");
-      } else if (tabType != null) {
+      if (tabType != null) {
         activityName = tabType.getActivityName();
+        option = tabType.getName();
+
+        if (args.size() < 2) {
+          if (args.size() <= 0) args.add(SyntaxConfig.ARGUMENT_DEFAULT_FRAGMENT);
+          args.add(SyntaxConfig.ARGUMENT_DEFAULT_FRAGMENT);
+        }
       } else if (widgetType != null) {
         activityName = widgetType.getActivityName();
+        option = widgetType.getName();
+        args.clear();
+      } else {
+        throw new CommandParseException("Wrong options : please check -h , --help");
       }
 
       File activityFile = module.getChildFile(activityName, Extension.JAVA);
 
-      transfer(0, activityFile, activityName);
+      transfer(0, activityFile, activityName, args);
+
+      System.out.println("Import Successful!");
+      System.out.println("Imported module : " + option);
     } catch (UnsupportedWidgetTypeException | CommandParseException e) {
       e.printStackTrace();
     }
@@ -165,7 +176,7 @@ public class SampleModule extends Directory {
     return appModuleName;
   }
 
-  private void transfer(int depth, File file, String activityName) {
+  private void transfer(int depth, File file, String activityName, List<String> args) {
     String filePath;
     if (activityName != null) {
       filePath = FileUtil.linkPathWithSlash(javaPath, mainActivityName);
@@ -186,8 +197,10 @@ public class SampleModule extends Directory {
           line = changeActivityName(activityName, line);
         }
 
+        line = changeFragmentByArgs(line, args);
+
         line = changePackage(line);
-        line = importClass(line, depth);
+        line = importClass(line, depth, args);
         line = importLayout(line, depth);
 
         content += line + "\n";
@@ -203,46 +216,34 @@ public class SampleModule extends Directory {
     }
   }
 
-//  private void transfer(int depth, File file, WidgetType widgetType) {
-//    String filePath;
-//    if (widgetType != null) {
-//      filePath = FileUtil.linkPathWithSlash(javaPath, mainActivityName);
-//    } else {
-//      filePath = FileUtil.linkPathWithSlash(javaPath, module.getRelativePathFromJavaDir(file.getName()), file.getName());
-//    }
-//
-//    try {
-//      System.out.println(PrintUtil.prefixDash(depth) + "Transfering file : " + filePath);
-//
-//      Scanner scanner = new Scanner(file);
-//      String content = "";
-//
-//      while (scanner.hasNext()) {
-//        String line = scanner.nextLine();
-//
-//        if (widgetType != null) {
-//          line = changeActivityName(widgetType, line);
-//        }
-//
-//        line = changePackage(line);
-//        line = importClass(line, depth);
-//        line = importLayout(line, depth);
-//
-//        content += line + "\n";
-//      }
-//
-//      FileUtil.writeFile(new File(filePath), content);
-//    } catch (FileNotFoundException e) {
-//      e.printStackTrace();
-//    }
-//
-//    if (depth == 0) {
-//      System.out.println();
-//    }
-//  }
-
   private String changeActivityName(String activityName, String line) {
     return line.replace(activityName, FileUtil.removeExtension(mainActivityName));
+  }
+
+  private String changeFragmentByArgs(String line, List<String> args) {
+    if (line.contains("fragmentInfos.add")) {
+      return "";
+    }
+
+    if (line.contains("List<FragmentInfo> fragmentInfos = new ArrayList<>();") && args.size() > 0) {
+      final String ADD_FRAGMENT_STRING = "fragmentInfos.add(new FragmentInfo(" + SyntaxConfig.REPLACE_STRING + ".class));";
+      final String defaultFragmentName = "DefaultTabFragment";
+
+      final String intent = FileUtil.getIndentOfLine(line);
+
+      for (String arg : args) {
+        arg = arg.trim();
+        line += "\n";
+
+        if (arg.equals(SyntaxConfig.ARGUMENT_DEFAULT_FRAGMENT)) {
+          line += intent + ADD_FRAGMENT_STRING.replace(SyntaxConfig.REPLACE_STRING, defaultFragmentName);
+        } else {
+          line += intent + ADD_FRAGMENT_STRING.replace(SyntaxConfig.REPLACE_STRING, arg + "Fragment");
+        }
+      }
+      return line;
+    }
+    return line;
   }
 
   private String changePackage(String line) {
@@ -253,7 +254,7 @@ public class SampleModule extends Directory {
     return line;
   }
 
-  private String importClass(String line, int depth) {
+  private String importClass(String line, int depth, List<String> args) {
     List<String> classNames = ClassParser.getClassNames(line);
 
     classNames = filterClasses(classNames);
@@ -263,7 +264,7 @@ public class SampleModule extends Directory {
         if (module.getRelativePathFromJavaDir(className + Extension.JAVA.getName()) != null) {
           importedClasses.add(className);
 
-          transfer(depth + 1, module.getChildFile(className, Extension.JAVA), null);
+          transfer(depth + 1, module.getChildFile(className, Extension.JAVA), null, args);
         } else {
           for (String dependencyKey : externalLibrary.getKeys()) {
             if (className.equals(dependencyKey)) {

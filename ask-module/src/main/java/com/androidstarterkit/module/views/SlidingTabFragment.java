@@ -25,9 +25,8 @@ public class SlidingTabFragment extends Fragment{
     View view = inflater.inflate(R.layout.activity_slidingtablayout_main, null);
 
     List<FragmentInfo> fragmentInfos = new ArrayList<>();
-    fragmentInfos.add(new FragmentInfo(RecyclerViewFragment.class));
     fragmentInfos.add(new FragmentInfo(DefaultTabFragment.class));
-    fragmentInfos.add(new FragmentInfo(ListViewFragment.class));
+    fragmentInfos.add(new FragmentInfo(DefaultTabFragment.class));
 
     SlidingTabAdapter adapter = new SlidingTabAdapter(getActivity().getSupportFragmentManager(),
         fragmentInfos);

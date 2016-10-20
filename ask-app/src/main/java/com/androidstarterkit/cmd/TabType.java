@@ -2,7 +2,6 @@ package com.androidstarterkit.cmd;
 
 import com.androidstarterkit.UnsupportedWidgetTypeException;
 
-
 public enum TabType {
   SlidingTabLayout("SlidingTabLayout"),
   SlidingIconTabLayout("SlidingIconTabLayout");
