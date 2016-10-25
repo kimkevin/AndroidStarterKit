@@ -178,14 +178,17 @@ public class SampleModule extends Directory {
 
   private void transfer(int depth, File file, String activityName, List<String> args) {
     String filePath;
+    String fileName;
     if (activityName != null) {
-      filePath = FileUtil.linkPathWithSlash(javaPath, mainActivityName);
+      fileName = mainActivityName;
+      filePath = FileUtil.linkPathWithSlash(javaPath, fileName);
     } else {
-      filePath = FileUtil.linkPathWithSlash(javaPath, module.getRelativePathFromJavaDir(file.getName()), file.getName());
+      fileName = file.getName();
+      filePath = FileUtil.linkPathWithSlash(javaPath, module.getRelativePathFromJavaDir(fileName), fileName);
     }
 
     try {
-      System.out.println(PrintUtil.prefixDash(depth) + "Transfering file : " + filePath);
+      System.out.println(PrintUtil.prefixDash(depth) + "Transfering : " + fileName);
 
       Scanner scanner = new Scanner(file);
       String content = "";
@@ -305,7 +308,7 @@ public class SampleModule extends Directory {
 
         FileUtil.writeFile(layoutPath, moduleLayoutFile.getName(), newLines);
 
-        System.out.println(PrintUtil.prefixDash(depth) + "Transfering xml file : " + layoutPath + "/" + moduleLayoutFile.getName());
+        System.out.println(PrintUtil.prefixDash(depth) + "Transfering : " + moduleLayoutFile.getName());
 
         scanDependencyInLayoutFile(moduleLayoutFile);
       } catch (IOException e) {
