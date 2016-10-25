@@ -1,30 +1,17 @@
 package com.androidstarterkit.cmd;
 
-import com.androidstarterkit.UnsupportedWidgetTypeException;
-
 public enum WidgetType {
   RecyclerView("RecyclerView"),
-  ListView("ListView");
+  ListView("ListView"),
+  Default("Default");
 
-  private String fileName;
+  private String widgetName;
 
-  WidgetType(String fileName) {
-    this.fileName = fileName;
+  WidgetType(String widgetName) {
+    this.widgetName = widgetName;
   }
 
-  public String getName() throws UnsupportedWidgetTypeException {
-    if (fileName == null) {
-      throw new UnsupportedWidgetTypeException("Could not find widget name");
-    }
-
-    return fileName;
-  }
-
-  public String getActivityName() throws UnsupportedWidgetTypeException {
-    if (fileName == null) {
-      throw new UnsupportedWidgetTypeException("Could not find widget activity name");
-    }
-
-    return fileName + "Activity";
+  public String getFragmentName() {
+    return widgetName + "Fragment";
   }
 }

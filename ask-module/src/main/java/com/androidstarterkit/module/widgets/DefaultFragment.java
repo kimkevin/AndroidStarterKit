@@ -1,4 +1,4 @@
-package com.androidstarterkit.sample.views;
+package com.androidstarterkit.module.widgets;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,13 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.androidstarterkit.sample.R;
+import com.androidstarterkit.module.R;
 
-public class DefaultTabFragment extends Fragment {
+public class DefaultFragment extends Fragment {
   private static final String ARG_POSITION = "position";
 
-  public static DefaultTabFragment newInstance(int position) {
-    DefaultTabFragment fragment = new DefaultTabFragment();
+  public static DefaultFragment newInstance(int position) {
+    DefaultFragment fragment = new DefaultFragment();
     Bundle args = new Bundle();
     args.putInt(ARG_POSITION, position);
     fragment.setArguments(args);

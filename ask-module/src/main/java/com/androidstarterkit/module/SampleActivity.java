@@ -9,6 +9,7 @@ public class SampleActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
+    getSupportActionBar().setElevation(0);
     setContentView(R.layout.activity_sample_main);
 
     if (savedInstanceState == null) {

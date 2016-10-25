@@ -1,27 +1,27 @@
-package com.androidstarterkit.module.views;
+package com.androidstarterkit.module.widgets;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.androidstarterkit.module.R;
-import com.androidstarterkit.module.adapter.RecyclerViewAdapter;
+import com.androidstarterkit.module.adapter.ListViewAdapter;
 import com.androidstarterkit.module.models.AndroidPlatform;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerViewFragment extends Fragment {
+
+public class ListViewFragment extends Fragment {
 
   @Nullable
   @Override
-  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.activity_recyclerview_main, null);
+  public View onCreateView(LayoutInflater inflater, @Nullable  ViewGroup container, @Nullable  Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.activity_listview_main, null);
 
     List<AndroidPlatform> platforms = new ArrayList<>();
 
@@ -39,11 +39,11 @@ public class RecyclerViewFragment extends Fragment {
     platforms.add(new AndroidPlatform("marshmallow", "6.0", 23));
     platforms.add(new AndroidPlatform("nougat", "7.0", 24));
 
-    RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    ListView listView = (ListView) view.findViewById(R.id.list_view);
 
-    RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), platforms);
-    recyclerView.setAdapter(recyclerViewAdapter);
+    ListViewAdapter adapter = new ListViewAdapter(getActivity(), platforms);
+    listView.setAdapter(adapter);
+
     return view;
   }
 }

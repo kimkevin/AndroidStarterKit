@@ -3,7 +3,7 @@ package com.androidstarterkit.module;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.androidstarterkit.module.views.ListViewFragment;
+import com.androidstarterkit.module.widgets.ListViewFragment;
 
 public class ListViewActivity extends AppCompatActivity{
   @Override

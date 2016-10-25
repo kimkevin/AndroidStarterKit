@@ -18,4 +18,4 @@ cp -R ask-sample.bak/src/main/res/values/* ask-sample/src/main/res/values
 rm -rf ask-sample/src/main/java/com/androidstarterkit/sample/*
 cp -R ask-sample.bak/src/main/java/com/androidstarterkit/sample/* ask-sample/src/main/java/com/androidstarterkit/sample
 
-echo 'Success to Recover Sample Project for AndroidStarter Developer'
+echo 'Success to Recover Sample Project'

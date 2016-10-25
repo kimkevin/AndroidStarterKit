@@ -15,47 +15,34 @@ This `AndroidModule` contains the following modules:
 
 ## Usage
 ```bash
-./ask [options] [dir]
-./ask [-w <widget>] [dir]
-./ask [-t <tab>] [dir] [args...]
-```
+Usage: ask [options] [dir]
 
-#### Options
-```bash
-* -h, --help           output usage information
-* -w, --widget <view>  add <view> support (RecyclerView | ListView) 
-* -t, --tab <tab>      add <tab> support (SlidingTabLayout | SlidingIconTabLayout)
-                       (defaults to <tab> which has two fragment)
+Options:
 
-* args...              arguments should be <view> for adding to <tab> 
-                       use - for default <view>
-```
+First option must be a layout specifier
+  -l -layout <widget>...   add <widget> support : rv(RecyclerView), lv(ListView), sv(ScrollView), -(Default View)
 
-#### Dir
-```bash
-* -p, --path           sample project path 
-                       (defaults to local path for root project)
-
+  -h, --help               output usage information
+  -i, --icon               tab icon instead of text more than 2 widgets
 ```
 
 ## Run
 
 ```bash
 # 1. Make your new project
-$ ./ask -w <widget> -p your_project_path 
 
-# 2. If you don't want it
-$ ./ask -w <widget>
-# or
-$ ./ask -t <tab>
+# 2. If you just want one fragment
+$ ./ask -l <widget> your_project_path 
+# or more than 2 fragments
+$ ./ask -l <widget>... your_project_path
 ```
 
 > **Examples**
 ```bash
-$ ./ask -w ListView 
-$ ./ask -w RecyclerView -p /Users/kevin/Documents/AndroidStarterKit/AndroidSample 
-$ ./ask -t SlidingTabLayout -p /Users/kevin/Documents/AndroidStarterKit/AndroidSample
-$ ./ask -t SlidingIconTabLayout -p /Users/kevin/Documents/AndroidStarterKit/AndroidSample ListView,-,ListView
+$ ./ask -l rv 
+$ ./ask -l lv,lv /AndroidStarterKit/AndroidSample 
+$ ./ask -l rv,-,rv /AndroidStarterKit/AndroidSample
+$ ./ask -l lv,lv,- -i /AndroidStarterKit/AndroidSample
 ```
 
 ## License

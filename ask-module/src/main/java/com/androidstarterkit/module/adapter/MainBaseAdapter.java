@@ -11,8 +11,8 @@ import android.widget.TextView;
 import com.androidstarterkit.module.ListViewActivity;
 import com.androidstarterkit.module.R;
 import com.androidstarterkit.module.RecyclerViewActivity;
-import com.androidstarterkit.module.SlidingIconTabLayoutActivity;
-import com.androidstarterkit.module.SlidingTabLayoutActivity;
+import com.androidstarterkit.module.SlidingIconTabActivity;
+import com.androidstarterkit.module.SlidingTabActivity;
 import com.androidstarterkit.module.models.WidgetType;
 
 import java.util.List;
@@ -74,10 +74,10 @@ public class MainBaseAdapter extends BaseAdapter {
             intent = new Intent(context, ListViewActivity.class);
             break;
           case SlidingTabLayout:
-            intent = new Intent(context, SlidingTabLayoutActivity.class);
+            intent = new Intent(context, SlidingTabActivity.class);
             break;
           case SlidingIconTabLayout:
-            intent = new Intent(context, SlidingIconTabLayoutActivity.class);
+            intent = new Intent(context, SlidingIconTabActivity.class);
             break;
         }
 

@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.androidstarterkit.module.R;
 import com.androidstarterkit.module.adapter.SlidingTabAdapter;
 import com.androidstarterkit.module.models.FragmentInfo;
-import com.androidstarterkit.module.widgets.SlidingTabLayout;
+import com.androidstarterkit.module.widgets.DefaultFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +25,8 @@ public class SlidingTabFragment extends Fragment{
     View view = inflater.inflate(R.layout.activity_slidingtablayout_main, null);
 
     List<FragmentInfo> fragmentInfos = new ArrayList<>();
-    fragmentInfos.add(new FragmentInfo(DefaultTabFragment.class));
-    fragmentInfos.add(new FragmentInfo(DefaultTabFragment.class));
+    fragmentInfos.add(new FragmentInfo(DefaultFragment.class));
+    fragmentInfos.add(new FragmentInfo(DefaultFragment.class));
 
     SlidingTabAdapter adapter = new SlidingTabAdapter(getActivity().getSupportFragmentManager(),
         fragmentInfos);

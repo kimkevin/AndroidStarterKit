@@ -9,4 +9,6 @@
 BIN_PATH='ask-app/build/classes/main'
 cd $BIN_PATH
 
+./recover_sample.sh
+
 java com.androidstarterkit.Ask echo $@

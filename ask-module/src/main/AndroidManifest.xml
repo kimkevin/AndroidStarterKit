@@ -20,8 +20,8 @@
 
         <activity android:name=".RecyclerViewActivity" android:label="RecyclerViewActivity"/>
         <activity android:name=".ListViewActivity" android:label="ListViewActivity"/>
-        <activity android:name=".SlidingTabLayoutActivity" android:label="SlidingTabLayoutActivity"/>
-        <activity android:name=".SlidingIconTabLayoutActivity" android:label="SlidingIconTabActivity"/>
+        <activity android:name=".SlidingTabActivity" android:label="SlidingTabLayoutActivity"/>
+        <activity android:name=".SlidingIconTabActivity" android:label="SlidingIconTabActivity"/>
     </application>
 
 </manifest>

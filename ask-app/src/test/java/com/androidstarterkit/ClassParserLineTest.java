@@ -50,7 +50,7 @@ public class ClassParserLineTest {
 
   @Test
   public void testListParameterClasses5() {
-    actual = ClassParser.listParameterClasses("  SlidingTabLayout slidingTabLayout = (SlidingTabLayout) findViewById(R.id.tabs);");
+    actual = ClassParser.listParameterClasses("  SlidingTab slidingTabLayout = (SlidingTab) findViewById(R.id.tabs);");
 
     assertEquals(0, actual.size());
   }
@@ -85,7 +85,7 @@ public class ClassParserLineTest {
 
   @Test
   public void testListStaticClasses5() {
-    actual = ClassParser.listStaticClasses("        import com.androidstarterkit.module.widgets.SlidingTabLayout;");
+    actual = ClassParser.listStaticClasses("        import com.androidstarterkit.module.widgets.SlidingTab;");
 
     assertEquals(0, actual.size());
   }

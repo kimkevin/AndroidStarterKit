@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.androidstarterkit.module.views.SlidingIconTabFragment;
 
-public class SlidingIconTabLayoutActivity extends AppCompatActivity {
+public class SlidingIconTabActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.androidstarterkit.module.views.SlidingTabFragment;
 
-public class SlidingTabLayoutActivity extends AppCompatActivity {
+public class SlidingTabActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
