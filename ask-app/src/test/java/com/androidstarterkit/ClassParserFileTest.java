@@ -25,7 +25,7 @@ public class ClassParserFileTest {
   public void setUp() throws Exception {
     if (lines.size() <= 0) {
       final String filePath = FileUtil.getRootPath().replace("ask-app",
-          "ask-module/src/main/java/com/androidstarterkit/module/SlidingTabLayoutActivity.java");
+          "ask-module/src/main/java/com/androidstarterkit/module/SlidingTabActivity.java");
 
       lines = FileUtil.readFile(new File(filePath));
     }
@@ -44,19 +44,6 @@ public class ClassParserFileTest {
     assertList(actual, expected);
   }
 
-//  @Test
-//  public void testListFieldClassesForFile() throws Exception {
-//    actual.clear();
-//    expected = Arrays.asList("SlidingTabAdapter", "ViewPager", "SlidingTab");
-//
-//    for (String line : lines) {
-//      ClassParser.mergeDistinct(actual, ClassParser.listFieldClasses(line));
-//    }
-//
-//    assertEquals(expected.size(), actual.size());
-//    assertList(actual, expected);
-//  }
-
   @Test
   public void testListParameterClassesForFile() throws Exception {
     actual.clear();
@@ -69,20 +56,6 @@ public class ClassParserFileTest {
     assertEquals(expected.size(), actual.size());
     assertList(actual, expected);
   }
-
-//  @Test
-//  public void testListStaticClasses() throws Exception {
-//    actual.clear();
-//    expected = Arrays.asList("Arrays", "SlidingTab");
-//
-//    for (String line : lines) {
-//      ClassParser.mergeDistinct(actual, ClassParser.listStaticClasses(line));
-//    }
-//
-//    for (String className : expected) {
-//      assertThat(true, is(actual.contains(className)));
-//    }
-//  }
 
   private void assertList(List<String> actual, List<String> expected) {
     for (String className : actual) {

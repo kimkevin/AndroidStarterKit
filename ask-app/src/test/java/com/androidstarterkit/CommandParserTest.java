@@ -15,6 +15,7 @@ public class CommandParserTest {
   @Test
   public void testIsCommand() throws Exception {
     CommandParser parser = new CommandParser(new String[]{});
+
     assertTrue(parser.isCommand("-l"));
     assertTrue(parser.isCommand("--layout"));
     assertFalse(parser.isCommand("-"));

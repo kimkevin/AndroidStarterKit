@@ -4,7 +4,7 @@ ASK - Android Starter Kit
 Android Starter Kit is meant to start developing app **simply** and **quickly**.  
 In this project we offer some `Android` modules that are most commonly used imported using command line.
 
-![](https://github.com/kimkevin/AndroidStarterKit/blob/master/assets/ask.gif)
+![](https://github.com/kimkevin/AndroidStarterKit/blob/master/assets/ask_00.gif)
 
 This `AndroidModule` contains the following modules:
 
