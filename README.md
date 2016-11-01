@@ -6,7 +6,7 @@ In this project we offer some `Android` modules that are most commonly used impo
 
 ![](https://github.com/kimkevin/AndroidStarterKit/blob/master/assets/ask_00.gif)
 
-This `AndroidModule` contains the following modules:
+This `ask-module` contains the following modules:
 
 1. RecyclerView
 2. ListView
@@ -30,7 +30,6 @@ $ echo 'export PATH=$PATH:/kevin/git/AndroidStarterKit' >> ~/.bash_profile
 Usage: ask [options] [dir]
 
 Options:
-
 First option must be a layout specifier
   -l -layout <widget>...   add <widget> support : rv(RecyclerView), lv(ListView), sv(ScrollView), -(Default)
 
