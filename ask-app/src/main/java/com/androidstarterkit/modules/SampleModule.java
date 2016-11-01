@@ -1,6 +1,7 @@
 package com.androidstarterkit.modules;
 
 import com.androidstarterkit.ClassParser;
+import com.androidstarterkit.CommandParseException;
 import com.androidstarterkit.Extension;
 import com.androidstarterkit.cmd.TabType;
 import com.androidstarterkit.cmd.WidgetType;
@@ -184,7 +185,7 @@ public class SampleModule extends Directory {
         }
 
         line = changePackage(line);
-        
+
         line = extractClass(line, depth, wigets, addedPackageClasses);
         line = extractLayout(line, depth);
 
@@ -194,7 +195,7 @@ public class SampleModule extends Directory {
       lines = importClasses(lines, addedPackageClasses);
 
       FileUtil.writeFile(new File(moduleFilePath), lines);
-    } catch (FileNotFoundException e) {
+    } catch (FileNotFoundException | CommandParseException e) {
       e.printStackTrace();
     }
 
@@ -236,11 +237,11 @@ public class SampleModule extends Directory {
         FileUtil.removeExtension(mainActivityName));
   }
 
-  private String changeFragment(TabType tabType, List<WidgetType> wigets, String line) {
+  private String changeFragment(TabType tabType, List<WidgetType> wigets, String line) throws CommandParseException {
     if (tabType != null) {
       return line.replace(SyntaxConfig.DEFAULT_SAMPLE_FRAGMENT_NAME, tabType.getFragmentName());
     } else {
-      if (wigets.size() > 0) {
+      if (line.contains(SyntaxConfig.DEFAULT_SAMPLE_FRAGMENT_NAME)) {
         return line.replace(SyntaxConfig.DEFAULT_SAMPLE_FRAGMENT_NAME, wigets.get(0).getFragmentName());
       } else {
         return line;

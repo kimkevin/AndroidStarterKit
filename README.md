@@ -20,7 +20,7 @@ Usage: ask [options] [dir]
 Options:
 
 First option must be a layout specifier
-  -l -layout <widget>...   add <widget> support : rv(RecyclerView), lv(ListView), sv(ScrollView), -(Default View)
+  -l -layout <widget>...   add <widget> support : rv(RecyclerView), lv(ListView), sv(ScrollView), -(Default)
 
   -h, --help               output usage information
   -i, --icon               tab icon instead of text more than 2 widgets

@@ -44,6 +44,8 @@ public class CommandParser {
                 break;
             }
           }
+        } else {
+          throw new CommandParseException("There is no Widgets");
         }
       } else if (!isCommand(key) && i + 1 < li) {
         throw new CommandParseException("Unsupported option : " + key);
