@@ -6,7 +6,7 @@ In this project we offer some `Android` modules that are most commonly used impo
 
 > **Creating Android project which has `ListView`, Default `View` and `ListView` as `Fragment` in `ViewPager`**
 > ```bash
-> ask -l lv,-,lv -i /Users/kevin/Documents/git/MyApplication
+> ask -l lv,-,lv -i /android_project_path
 > ```
 
 ![](https://github.com/kimkevin/AndroidStarterKit/blob/master/assets/ask_00.gif)
