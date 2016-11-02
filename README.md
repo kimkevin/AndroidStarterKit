@@ -55,10 +55,10 @@ $ ask -l <widget>... your_project_path
 
 > **Examples**
 ```bash
-$ ask -l rv 
-$ ask -l lv,lv /AndroidStarterKit/AndroidSample 
-$ ask -l rv,-,rv /AndroidStarterKit/AndroidSample
-$ ask -l lv,lv,- -i /AndroidStarterKit/AndroidSample
+$ ask -l rv /samples/MyApplication
+$ ask -l lv,lv /samples/MyApplication
+$ ask -l rv,-,rv /samples/MyApplication
+$ ask -l lv,lv,- -i /samples/MyApplication
 ```
 
 ## License
