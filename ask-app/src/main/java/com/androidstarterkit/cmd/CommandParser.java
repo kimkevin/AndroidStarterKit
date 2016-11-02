@@ -60,7 +60,7 @@ public class CommandParser {
   }
 
   public TabType getTabType() {
-    if (widgets.size() > 0) {
+    if (widgets.size() > 1) {
       if (hasIcon) {
         return TabType.SlidingIconTab;
       } else {
