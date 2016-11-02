@@ -23,7 +23,7 @@ public class SlidingIconTabFragment extends Fragment {
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.activity_slidingtablayout_main, null);
+    View view = inflater.inflate(R.layout.fragment_slidingtablayout_main, null);
 
     List<FragmentInfo> fragmentInfos = new ArrayList<>();
     fragmentInfos.add(new FragmentInfo(ScrollViewFragment.class));

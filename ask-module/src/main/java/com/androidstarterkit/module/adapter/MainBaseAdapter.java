@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.androidstarterkit.module.GridViewActivity;
 import com.androidstarterkit.module.ListViewActivity;
 import com.androidstarterkit.module.R;
 import com.androidstarterkit.module.RecyclerViewActivity;
@@ -70,6 +71,9 @@ public class MainBaseAdapter extends BaseAdapter {
         switch (widgetType) {
           case ScrollView:
             intent = new Intent(context, ScrollViewActivity.class);
+            break;
+          case GridView:
+            intent = new Intent(context, GridViewActivity.class);
             break;
           case RecyclerView:
             intent = new Intent(context, RecyclerViewActivity.class);

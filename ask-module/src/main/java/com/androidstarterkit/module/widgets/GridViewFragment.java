@@ -1,27 +1,28 @@
 package com.androidstarterkit.module.widgets;
 
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.GridView;
 
 import com.androidstarterkit.module.R;
-import com.androidstarterkit.module.adapter.ListViewAdapter;
+import com.androidstarterkit.module.adapter.GridViewAdapter;
 import com.androidstarterkit.module.models.AndroidPlatform;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class ListViewFragment extends Fragment {
+public class GridViewFragment extends Fragment {
 
   @Nullable
   @Override
-  public View onCreateView(LayoutInflater inflater, @Nullable  ViewGroup container, @Nullable  Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_listview_main, null);
+  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.fragment_gridview_main, null);
 
     List<AndroidPlatform> platforms = new ArrayList<>();
 
@@ -39,11 +40,18 @@ public class ListViewFragment extends Fragment {
     platforms.add(new AndroidPlatform("marshmallow", "6.0", 23));
     platforms.add(new AndroidPlatform("nougat", "7.0", 24));
 
-    ListView listView = (ListView) view.findViewById(R.id.list_view);
-
-    ListViewAdapter adapter = new ListViewAdapter(getActivity(), platforms);
-    listView.setAdapter(adapter);
+    final int colSize = 3;
+    GridView gridView = (GridView) view.findViewById(R.id.grid_view);
+    gridView.setNumColumns(colSize);
+    gridView.setColumnWidth(getScreenWidth() / colSize);
+    gridView.setAdapter(new GridViewAdapter(getActivity(), platforms));
 
     return view;
+  }
+
+  private int getScreenWidth() {
+    DisplayMetrics metrics = new DisplayMetrics();
+    getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+    return metrics.widthPixels;
   }
 }

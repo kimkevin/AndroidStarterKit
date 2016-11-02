@@ -8,19 +8,17 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.androidstarterkit.module.models.AndroidPlatform;
 import com.androidstarterkit.module.R;
+import com.androidstarterkit.module.models.AndroidPlatform;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-public class ListViewAdapter extends BaseAdapter {
-  private static final String TAG = ListViewAdapter.class.getSimpleName();
-
+public class GridViewAdapter extends BaseAdapter {
   private Context context;
   private List<AndroidPlatform> platforms;
 
-  public ListViewAdapter(Context context, List<AndroidPlatform> platforms) {
+  public GridViewAdapter(Context context, List<AndroidPlatform> platforms) {
     this.context = context;
     this.platforms = platforms;
   }
@@ -48,27 +46,24 @@ public class ListViewAdapter extends BaseAdapter {
 
     if (convertView == null) {
       LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-      convertView = inflater.inflate(R.layout.layout_list_item, parent, false);
+      convertView = inflater.inflate(R.layout.layout_grid_item, parent, false);
 
       viewHolder = new ViewHolder();
-      viewHolder.logo = (ImageView) convertView.findViewById(R.id.img);
-      viewHolder.name = (TextView) convertView.findViewById(R.id.name);
-      viewHolder.platformVer = (TextView) convertView.findViewById(R.id.platform_ver);
+      viewHolder.img = (ImageView) convertView.findViewById(R.id.cell_img);
+      viewHolder.txt = (TextView) convertView.findViewById(R.id.cell_txt);
       convertView.setTag(viewHolder);
     } else {
       viewHolder = (ViewHolder) convertView.getTag();
     }
 
-    Glide.with(context).load(platform.getLogoUrl()).into(viewHolder.logo);
-    viewHolder.name.setText(platform.getName());
-    viewHolder.platformVer.setText(platform.getVerCode());
+    Glide.with(context).load(platform.getLogoUrl()).into(viewHolder.img);
+    viewHolder.txt.setText(platform.getVerCode());
 
     return convertView;
   }
 
   static class ViewHolder {
-    public ImageView logo;
-    public TextView name;
-    public TextView platformVer;
+    public ImageView img;
+    public TextView txt;
   }
 }

@@ -21,7 +21,7 @@ public class RecyclerViewFragment extends Fragment {
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.activity_recyclerview_main, null);
+    View view = inflater.inflate(R.layout.fragment_recyclerview_main, null);
 
     List<AndroidPlatform> platforms = new ArrayList<>();
 
