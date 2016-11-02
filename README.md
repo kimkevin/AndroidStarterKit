@@ -4,6 +4,11 @@ ASK - Android Starter Kit
 Android Starter Kit is meant to start developing app **simply** and **quickly**.  
 In this project we offer some `Android` modules that are most commonly used imported using command line.
 
+> **Creating Android project which has `ListView`, Default `View` and `ListView` as the multiple sequentially fragments in `ViewPager`**
+> ```bash
+> ask -l lv,-,lv -i /android_project_path
+> ```
+
 ![](https://github.com/kimkevin/AndroidStarterKit/blob/master/assets/ask_00.gif)
 
 This `ask-module` contains the following modules:
