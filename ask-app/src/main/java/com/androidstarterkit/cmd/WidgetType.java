@@ -3,7 +3,7 @@ package com.androidstarterkit.cmd;
 public enum WidgetType {
   RecyclerView("RecyclerView"),
   ListView("ListView"),
-  Default("Default");
+  ScrollView("ScrollView");
 
   private String widgetName;
 

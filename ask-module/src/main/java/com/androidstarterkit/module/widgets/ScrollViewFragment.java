@@ -9,11 +9,11 @@ import android.widget.TextView;
 
 import com.androidstarterkit.module.R;
 
-public class DefaultFragment extends Fragment {
+public class ScrollViewFragment extends Fragment {
   private static final String ARG_POSITION = "position";
 
-  public static DefaultFragment newInstance(int position) {
-    DefaultFragment fragment = new DefaultFragment();
+  public static ScrollViewFragment newInstance(int position) {
+    ScrollViewFragment fragment = new ScrollViewFragment();
     Bundle args = new Bundle();
     args.putInt(ARG_POSITION, position);
     fragment.setArguments(args);
@@ -24,7 +24,7 @@ public class DefaultFragment extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_main, null);
     TextView posTxt = (TextView) view.findViewById(R.id.pos_txt);
-    posTxt.setText("Framgent");
+    posTxt.setText("ScrollView (Default)");
     return view;
   }
 }

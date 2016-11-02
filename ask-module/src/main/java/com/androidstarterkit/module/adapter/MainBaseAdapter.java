@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.androidstarterkit.module.ListViewActivity;
 import com.androidstarterkit.module.R;
 import com.androidstarterkit.module.RecyclerViewActivity;
+import com.androidstarterkit.module.ScrollViewActivity;
 import com.androidstarterkit.module.SlidingIconTabActivity;
 import com.androidstarterkit.module.SlidingTabActivity;
 import com.androidstarterkit.module.models.WidgetType;
@@ -67,6 +68,9 @@ public class MainBaseAdapter extends BaseAdapter {
         Intent intent = null;
 
         switch (widgetType) {
+          case ScrollView:
+            intent = new Intent(context, ScrollViewActivity.class);
+            break;
           case RecyclerView:
             intent = new Intent(context, RecyclerViewActivity.class);
             break;

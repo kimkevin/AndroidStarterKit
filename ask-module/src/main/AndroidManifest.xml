@@ -18,10 +18,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".RecyclerViewActivity" android:label="RecyclerViewActivity"/>
-        <activity android:name=".ListViewActivity" android:label="ListViewActivity"/>
-        <activity android:name=".SlidingTabActivity" android:label="SlidingTabLayoutActivity"/>
-        <activity android:name=".SlidingIconTabActivity" android:label="SlidingIconTabActivity"/>
+        <activity android:name=".ScrollViewActivity" android:label="ScrollView"/>
+        <activity android:name=".RecyclerViewActivity" android:label="RecyclerView"/>
+        <activity android:name=".ListViewActivity" android:label="ListView"/>
+        <activity android:name=".SlidingTabActivity" android:label="SlidingTabLayout"/>
+        <activity android:name=".SlidingIconTabActivity" android:label="SlidingIconTabLayout"/>
     </application>
 
 </manifest>

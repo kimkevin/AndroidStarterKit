@@ -33,7 +33,7 @@ public class Ask {
     System.out.println();
     System.out.println("Options:");
     System.out.println("First option must be a layout specifier");
-    System.out.println("    -l -layout <widget>...   add <widget> support : rv(RecyclerView), lv(ListView), sv(ScrollView), -(Default)");
+    System.out.println("    -l -layout <widget>...   add <widget> support : rv(RecyclerView), lv(ListView), sv(ScrollView), -(ScrollView)");
     System.out.println();
     System.out.println("    -h, --help               output usage information");
     System.out.println("    -i, --icon               tab icon instead of text more than 2 widgets");

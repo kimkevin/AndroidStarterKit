@@ -6,7 +6,7 @@ In this project we offer some `Android` modules that are most commonly used impo
 
 > **Creating Android project which has `ListView`, Default `View` and `ListView` as the multiple sequentially fragments in `ViewPager`**
 > ```bash
-> ask -l lv,-,lv -i /android_project_path
+> ask -l lv,sv,lv -i /android_project_path
 > ```
 
 ![](https://github.com/kimkevin/AndroidStarterKit/blob/master/assets/ask_00.gif)
@@ -26,8 +26,8 @@ $ cd AndroidStarterKit
 
 # Adding ask path to bash_profile
 $ pwd
-/kevin/git/AndroidStarterKit
-$ echo 'export PATH=$PATH:/kevin/git/AndroidStarterKit' >> ~/.bash_profile
+/local/AndroidStarterKit
+$ echo 'export PATH=$PATH:/local/AndroidStarterKit' >> ~/.bash_profile
 ```
 
 ## Usage
@@ -36,7 +36,8 @@ Usage: ask [options] [dir]
 
 Options:
 First option must be a layout specifier
-  -l -layout <widget>...   add <widget> support : rv(RecyclerView), lv(ListView), sv(ScrollView), -(Default)
+  -l -layout <widget>...   add <widget> support: sv(ScrollView), rv(RecyclerView), lv(ListView)
+													 defaults to ScrollView
 
   -h, --help               output usage information
   -i, --icon               tab icon instead of text more than 2 widgets
@@ -57,8 +58,8 @@ $ ask -l <widget>... your_project_path
 ```bash
 $ ask -l rv /samples/MyApplication
 $ ask -l lv,lv /samples/MyApplication
-$ ask -l rv,-,rv /samples/MyApplication
-$ ask -l lv,lv,- -i /samples/MyApplication
+$ ask -l rv,sv,rv /samples/MyApplication
+$ ask -l lv,lv,sv -i /samples/MyApplication
 ```
 
 ## License

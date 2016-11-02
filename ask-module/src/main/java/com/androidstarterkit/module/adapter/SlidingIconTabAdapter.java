@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.androidstarterkit.module.models.FragmentInfo;
-import com.androidstarterkit.module.widgets.DefaultFragment;
+import com.androidstarterkit.module.widgets.ScrollViewFragment;
 import com.androidstarterkit.module.views.SlidingTabLayout;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class SlidingIconTabAdapter extends FragmentPagerAdapter implements Slidi
       return (Fragment) Class.forName(fragmentInfos.get(position).getFragmentClass().getName())
           .getConstructor().newInstance();
     } catch (Exception e) {
-      return new DefaultFragment();
+      return new ScrollViewFragment();
     }
   }
 

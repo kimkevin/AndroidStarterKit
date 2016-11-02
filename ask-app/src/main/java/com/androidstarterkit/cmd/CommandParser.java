@@ -39,8 +39,10 @@ public class CommandParser {
               case "listview":
                 widgets.add(WidgetType.ListView);
                 break;
+              case "sv":
+              case "scrollview":
               default:
-                widgets.add(WidgetType.Default);
+                widgets.add(WidgetType.ScrollView);
                 break;
             }
           }

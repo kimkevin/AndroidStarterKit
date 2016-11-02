@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.androidstarterkit.module.R;
 import com.androidstarterkit.module.adapter.SlidingIconTabAdapter;
 import com.androidstarterkit.module.models.FragmentInfo;
-import com.androidstarterkit.module.widgets.DefaultFragment;
+import com.androidstarterkit.module.widgets.ScrollViewFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +26,8 @@ public class SlidingIconTabFragment extends Fragment {
     View view = inflater.inflate(R.layout.activity_slidingtablayout_main, null);
 
     List<FragmentInfo> fragmentInfos = new ArrayList<>();
-    fragmentInfos.add(new FragmentInfo(DefaultFragment.class));
-    fragmentInfos.add(new FragmentInfo(DefaultFragment.class));
+    fragmentInfos.add(new FragmentInfo(ScrollViewFragment.class));
+    fragmentInfos.add(new FragmentInfo(ScrollViewFragment.class));
 
     SlidingIconTabAdapter adapter = new SlidingIconTabAdapter(getActivity().getSupportFragmentManager(), fragmentInfos);
 
