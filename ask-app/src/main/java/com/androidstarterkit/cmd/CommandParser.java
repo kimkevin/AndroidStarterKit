@@ -35,6 +35,10 @@ public class CommandParser {
               case "recyclerview":
                 widgets.add(WidgetType.RecyclerView);
                 break;
+              case "gv":
+              case "gridview":
+                widgets.add(WidgetType.GridView);
+                break;
               case "lv":
               case "listview":
                 widgets.add(WidgetType.ListView);

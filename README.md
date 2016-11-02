@@ -15,8 +15,9 @@ This `ask-module` contains the following modules:
 
 1. RecyclerView
 2. ListView
-3. SlidingTabLayout 
-4. SlidingIconTabLayout 
+3. GridView
+4. SlidingTabLayout 
+5. SlidingIconTabLayout 
 
 ## Getting Started
 
@@ -36,7 +37,7 @@ Usage: ask [options] [dir]
 
 Options:
 First option must be a layout specifier
-  -l -layout <widget>...   add <widget> support: sv(ScrollView), rv(RecyclerView), lv(ListView)
+  -l -layout <widget>...   add <widget> support: sv(ScrollView), rv(RecyclerView), lv(ListView), gv(GridView)
 													 defaults to ScrollView
 
   -h, --help               output usage information

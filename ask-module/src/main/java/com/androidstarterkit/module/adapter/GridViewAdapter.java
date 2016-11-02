@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,10 +18,12 @@ import java.util.List;
 public class GridViewAdapter extends BaseAdapter {
   private Context context;
   private List<AndroidPlatform> platforms;
+  private int columnWidth;
 
-  public GridViewAdapter(Context context, List<AndroidPlatform> platforms) {
+  public GridViewAdapter(Context context, List<AndroidPlatform> platforms, int columnWidth) {
     this.context = context;
     this.platforms = platforms;
+    this.columnWidth = columnWidth;
   }
 
   @Override
@@ -47,6 +50,8 @@ public class GridViewAdapter extends BaseAdapter {
     if (convertView == null) {
       LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       convertView = inflater.inflate(R.layout.layout_grid_item, parent, false);
+
+      ((AbsListView.LayoutParams) convertView.getLayoutParams()).height = columnWidth;
 
       viewHolder = new ViewHolder();
       viewHolder.img = (ImageView) convertView.findViewById(R.id.cell_img);

@@ -40,12 +40,13 @@ public class GridViewFragment extends Fragment {
     platforms.add(new AndroidPlatform("marshmallow", "6.0", 23));
     platforms.add(new AndroidPlatform("nougat", "7.0", 24));
 
-    final int colSize = 3;
+    final int colSize = 2;
+    final int columnWidth = getScreenWidth() / colSize;
+
     GridView gridView = (GridView) view.findViewById(R.id.grid_view);
     gridView.setNumColumns(colSize);
-    gridView.setColumnWidth(getScreenWidth() / colSize);
-    gridView.setAdapter(new GridViewAdapter(getActivity(), platforms));
-
+    gridView.setColumnWidth(columnWidth);
+    gridView.setAdapter(new GridViewAdapter(getActivity(), platforms, columnWidth));
     return view;
   }
 
