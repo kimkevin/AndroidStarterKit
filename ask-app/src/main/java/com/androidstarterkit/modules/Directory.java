@@ -1,14 +1,14 @@
 package com.androidstarterkit.modules;
 
+import com.androidstarterkit.CommandException;
+import com.androidstarterkit.Extension;
 import com.androidstarterkit.files.AndroidManifest;
 import com.androidstarterkit.files.BuildGradleFile;
-import com.androidstarterkit.Extension;
 import com.androidstarterkit.models.ExternalLibrary;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
 public class Directory extends File {
@@ -25,13 +25,17 @@ public class Directory extends File {
   protected AndroidManifest androidManifestFile;
   protected ExternalLibrary externalLibrary;
 
-  public Directory(String pathname, String[] fileExtensions, String[] ignoredDirNames) {
+  public Directory(String pathname, String[] fileExtensions, String[] ignoredDirNames) throws CommandException {
     super(pathname);
 
     this.fileExtensions = fileExtensions;
     this.ignoreDirNames = ignoredDirNames;
 
-    listFilesForFolder(this);
+    try {
+      listFilesForFolder(this);
+    } catch (NullPointerException e) {
+      throw new CommandException(CommandException.FILE_NOT_FOUND, getName());
+    }
 
     String buildGradlePath = fileMap.get(BUILD_GRADLE_FILE);
     buildGradleFile = new BuildGradleFile(buildGradlePath);
@@ -43,10 +47,6 @@ public class Directory extends File {
   }
 
   private void listFilesForFolder(File directory) {
-    if (fileMap == null) {
-      fileMap = new HashMap<>();
-    }
-
     for (File file : directory.listFiles(fileFilter)) {
       if (file.isDirectory()) {
         listFilesForFolder(file);

@@ -1,6 +1,6 @@
 package com.androidstarterkit.cmd;
 
-import com.androidstarterkit.CommandParseException;
+import com.androidstarterkit.CommandException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,8 +15,12 @@ public class CommandParser {
   private boolean hasHelpCommand;
   private List<WidgetType> widgets;
 
-  public CommandParser(String[] args) throws CommandParseException {
+  public CommandParser(String[] args) throws CommandException {
     widgets = new ArrayList<>();
+
+    if (args.length <= 0) {
+      throw new CommandException(CommandException.INVALID_NO_OPTIONS);
+    }
 
     for (int i = 0, li = args.length; i < li; i++) {
       String key = args[i];
@@ -45,16 +49,17 @@ public class CommandParser {
                 break;
               case "sv":
               case "scrollview":
-              default:
                 widgets.add(WidgetType.ScrollView);
                 break;
+              default:
+                throw new CommandException(CommandException.WIDGET_NOT_FOUND, widget);
             }
           }
         } else {
-          throw new CommandParseException("There is no Widgets");
+          throw new CommandException(CommandException.INVAILD_NO_WIDGET);
         }
       } else if (!isCommand(key) && i + 1 < li) {
-        throw new CommandParseException("Unsupported option : " + key);
+        throw new CommandException("Unsupported option : " + key);
       } else {
         path = key;
       }

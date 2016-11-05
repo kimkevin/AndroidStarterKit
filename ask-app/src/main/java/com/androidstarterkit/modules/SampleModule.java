@@ -1,7 +1,7 @@
 package com.androidstarterkit.modules;
 
 import com.androidstarterkit.ClassParser;
-import com.androidstarterkit.CommandParseException;
+import com.androidstarterkit.CommandException;
 import com.androidstarterkit.Extension;
 import com.androidstarterkit.cmd.TabType;
 import com.androidstarterkit.cmd.WidgetType;
@@ -30,7 +30,7 @@ public class SampleModule extends Directory {
 
   private List<String> filteredClassNames;
 
-  public SampleModule(String projdectPath) {
+  public SampleModule(String projdectPath) throws CommandException {
     super(projdectPath,
         new String[]{"java", "gradle", "xml"},
         new String[]{"build", "libs", "test", "androidTest", "res"});
@@ -48,6 +48,7 @@ public class SampleModule extends Directory {
     try {
       sampleModulePath = FileUtil.linkPathWithSlash(getChildPath(SETTINGS_GRADLE_FILE), findModuleName());
     } catch (FileNotFoundException e) {
+      System.out.println("test herererere");
       sampleModulePath = getPath();
     }
 
@@ -66,7 +67,7 @@ public class SampleModule extends Directory {
    * @param projectPath is the home path of source project
    * @return Source instance which has home path
    */
-  public static SampleModule load(String projectPath) {
+  public static SampleModule load(String projectPath) throws CommandException {
     if (projectPath == null) {
       projectPath = FileUtil.linkPathWithSlash(FileUtil.getRootPath(), DEFAULT_SAMPLE_MODULE_NAME);
     } else {
@@ -83,7 +84,7 @@ public class SampleModule extends Directory {
    * @param wigets
    * @return Source instance after loading default Activity
    */
-  public SampleModule with(TabType tabType, List<WidgetType> wigets) {
+  public SampleModule with(TabType tabType, List<WidgetType> wigets) throws CommandException {
     File moduleMainActivity = module.getChildFile(SyntaxConfig.DEFAULT_SAMPLE_ACTIVITY_NAME, Extension.JAVA);
 
     transfer(0, moduleMainActivity, tabType, wigets);
@@ -130,7 +131,7 @@ public class SampleModule extends Directory {
     File settingsGradleFile = getChildFile(SETTINGS_GRADLE_FILE);
 
     if (settingsGradleFile == null) {
-      throw new FileNotFoundException("Failed to find module name");
+      throw new FileNotFoundException();
     }
 
     try {
@@ -157,7 +158,7 @@ public class SampleModule extends Directory {
    * @param tabType
    * @param wigets
    */
-  private void transfer(int depth, File file, TabType tabType, List<WidgetType> wigets) {
+  private void transfer(int depth, File file, TabType tabType, List<WidgetType> wigets) throws CommandException {
     String moduleFileName = file.getName();
     String moduleFilePath;
 
@@ -167,37 +168,38 @@ public class SampleModule extends Directory {
       moduleFilePath = FileUtil.linkPathWithSlash(javaPath, module.getRelativePathFromJavaDir(moduleFileName), moduleFileName);
     }
 
+    System.out.println(PrintUtil.prefixDash(depth) + "Transfering : " + moduleFileName);
+
+    Scanner scanner;
     try {
-      System.out.println(PrintUtil.prefixDash(depth) + "Transfering : " + moduleFileName);
+      scanner = new Scanner(file);
+    } catch (FileNotFoundException e) {
+      throw new CommandException(CommandException.FILE_NOT_FOUND, file.getName());
+    }
+    List<String> lines = new ArrayList<>();
+    List<String> addedPackageClasses = new ArrayList<>();
 
-      Scanner scanner = new Scanner(file);
-      List<String> lines = new ArrayList<>();
-      List<String> addedPackageClasses = new ArrayList<>();
+    while (scanner.hasNext()) {
+      String line = scanner.nextLine();
 
-      while (scanner.hasNext()) {
-        String line = scanner.nextLine();
-
-        if (depth == 0) {
-          line = changeActivityName(moduleFileName, line);
-          line = changeFragment(tabType, wigets, line);
-        } else {
-          line = changeDetailFragmentByArgs(line, wigets);
-        }
-
-        line = changePackage(line);
-
-        line = extractClass(line, depth, wigets, addedPackageClasses);
-        line = extractLayout(line, depth);
-
-        lines.add(line);
+      if (depth == 0) {
+        line = changeActivityName(moduleFileName, line);
+        line = changeFragment(tabType, wigets, line);
+      } else {
+        line = changeDetailFragmentByArgs(line, wigets);
       }
 
-      lines = importClasses(lines, addedPackageClasses);
+      line = changePackage(line);
 
-      FileUtil.writeFile(new File(moduleFilePath), lines);
-    } catch (FileNotFoundException | CommandParseException e) {
-      e.printStackTrace();
+      line = extractClass(line, depth, wigets, addedPackageClasses);
+      line = extractLayout(line, depth);
+
+      lines.add(line);
     }
+
+    lines = importClasses(lines, addedPackageClasses);
+
+    FileUtil.writeFile(new File(moduleFilePath), lines);
 
     if (depth == 0) {
       System.out.println();
@@ -237,7 +239,7 @@ public class SampleModule extends Directory {
         FileUtil.removeExtension(mainActivityName));
   }
 
-  private String changeFragment(TabType tabType, List<WidgetType> wigets, String line) throws CommandParseException {
+  private String changeFragment(TabType tabType, List<WidgetType> wigets, String line) throws CommandException {
     if (tabType != null) {
       return line.replace(SyntaxConfig.DEFAULT_SAMPLE_FRAGMENT_NAME, tabType.getFragmentName());
     } else {
@@ -276,7 +278,7 @@ public class SampleModule extends Directory {
     return line;
   }
 
-  private String extractClass(String line, int depth, List<WidgetType> widgets, List<String> addedPackageClasses) {
+  private String extractClass(String line, int depth, List<WidgetType> widgets, List<String> addedPackageClasses) throws CommandException {
     List<String> classNames = ClassParser.getClassNames(line);
     addedPackageClasses.addAll(classNames);
 
@@ -370,7 +372,7 @@ public class SampleModule extends Directory {
     return newFilteredClasses;
   }
 
-  private static String findAppModuleName(String projectPath) {
+  private static String findAppModuleName(String projectPath) throws CommandException {
     String appModuleName = null;
 
     File settingsGradleFile = new File(FileUtil.linkPathWithSlash(projectPath,
@@ -389,7 +391,7 @@ public class SampleModule extends Directory {
         appModuleName = matcher.group(1);
       }
     } catch (FileNotFoundException e) {
-      e.printStackTrace();
+      throw new CommandException(CommandException.MODULE_NOT_FOUND, projectPath);
     }
 
     return appModuleName;

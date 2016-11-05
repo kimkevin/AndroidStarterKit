@@ -1,11 +1,12 @@
 package com.androidstarterkit.modules;
 
+import com.androidstarterkit.CommandException;
 import com.androidstarterkit.utils.FileUtil;
 
 public class AskModule extends Directory {
   public static final String MODULE_NAME = "ask-module";
 
-  public AskModule() {
+  public AskModule() throws CommandException {
     super(FileUtil.linkPathWithSlash(FileUtil.getRootPath(), MODULE_NAME),
         new String[] { "java", "xml", "gradle" },
         new String[] { "build", "libs" });

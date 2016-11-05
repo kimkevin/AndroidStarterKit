@@ -4,39 +4,39 @@ import com.androidstarterkit.cmd.CommandParser;
 import com.androidstarterkit.cmd.TabType;
 import com.androidstarterkit.cmd.WidgetType;
 import com.androidstarterkit.modules.SampleModule;
+import com.androidstarterkit.utils.Console;
 
 import java.util.List;
 
 public class Ask {
 
-  public static void main(String[] args) throws CommandParseException {
-    CommandParser commandParser= new CommandParser(args);
-
-    if (commandParser.hasHelpCommand()) {
-      printHelp();
+  public static void main(String[] args) {
+    CommandParser commandParser;
+    try {
+      commandParser = new CommandParser(args);
+    } catch (CommandException e) {
+      Console.log(e);
       return;
     }
 
-    String projectPath = commandParser.getPath();
-    TabType tabType = commandParser.getTabType();
-    List<WidgetType> widgets = commandParser.getWidgets();
+    if (commandParser.hasHelpCommand()) {
+      Console.printHelp();
+      return;
+    }
 
-    SampleModule sampleModule = SampleModule
-        .load(projectPath)
-        .with(tabType, widgets);
+    final String projectPath = commandParser.getPath();
+    final TabType tabType = commandParser.getTabType();
+    final List<WidgetType> widgets = commandParser.getWidgets();
+
+    SampleModule sampleModule = null;
+    try {
+      sampleModule = SampleModule
+          .load(projectPath)
+          .with(tabType, widgets);
+    } catch (CommandException e) {
+      Console.log(e);
+    }
 
     System.out.println("Project path : " + sampleModule.getPath());
-  }
-
-  private static void printHelp() {
-    System.out.println("Usage: ask [options] [dir]");
-    System.out.println();
-    System.out.println("Options:");
-    System.out.println("First option must be a layout specifier");
-    System.out.println("    -l -layout <widget>...   add <widget> support : rv(RecyclerView), lv(ListView), sv(ScrollView), -(ScrollView)");
-    System.out.println();
-    System.out.println("    -h, --help               output usage information");
-    System.out.println("    -i, --icon               tab icon instead of text more than 2 widgets");
-    System.out.println();
   }
 }

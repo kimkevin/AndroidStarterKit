@@ -10,8 +10,6 @@ public class JavaReflection {
 
   }
 
-  BaseException exception;
-
   public JavaReflection() {
     Class<?>[] declaredClasses = getClass().getDeclaredClasses();
     for (Class myClass : declaredClasses) {
