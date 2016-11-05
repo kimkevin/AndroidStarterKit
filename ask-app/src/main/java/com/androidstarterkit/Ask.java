@@ -28,13 +28,14 @@ public class Ask {
     final TabType tabType = commandParser.getTabType();
     final List<WidgetType> widgets = commandParser.getWidgets();
 
-    SampleModule sampleModule = null;
+    SampleModule sampleModule;
     try {
       sampleModule = SampleModule
           .load(projectPath)
           .with(tabType, widgets);
     } catch (CommandException e) {
       Console.log(e);
+      return;
     }
 
     System.out.println("Project path : " + sampleModule.getPath());

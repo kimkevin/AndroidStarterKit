@@ -9,6 +9,7 @@ import com.androidstarterkit.models.ExternalLibrary;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Directory extends File {
@@ -51,6 +52,9 @@ public class Directory extends File {
       if (file.isDirectory()) {
         listFilesForFolder(file);
       } else {
+        if (fileMap == null) {
+          fileMap = new HashMap<>();
+        }
         fileMap.put(file.getName(), file.getPath().replace("/" + file.getName(), ""));
       }
     }

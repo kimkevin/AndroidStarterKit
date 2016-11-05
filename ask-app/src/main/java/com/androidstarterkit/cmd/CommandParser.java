@@ -24,6 +24,7 @@ public class CommandParser {
 
     for (int i = 0, li = args.length; i < li; i++) {
       String key = args[i];
+
       if (key.contains(CommandOption.HELP_KEY) || key.contains(CommandOption.HELP_LONG_KEY)) {
         hasHelpCommand = true;
       } else if (key.contains(CommandOption.ICON_KEY) || key.contains(CommandOption.ICON_LONG_KEY)) {
@@ -58,8 +59,8 @@ public class CommandParser {
         } else {
           throw new CommandException(CommandException.INVAILD_NO_WIDGET);
         }
-      } else if (!isCommand(key) && i + 1 < li) {
-        throw new CommandException("Unsupported option : " + key);
+      } else if (isCommand(key)) {
+        throw new CommandException(CommandException.OPTION_NOT_FOUND, key);
       } else {
         path = key;
       }

@@ -5,9 +5,10 @@ public class CommandException extends Exception {
 
   public static final int INVALID_NO_OPTIONS = 1;
   public static final int FILE_NOT_FOUND = 2;
-  public static final int MODULE_NOT_FOUND = 3;
+  public static final int APP_MODULE_NOT_FOUND = 3;
   public static final int WIDGET_NOT_FOUND = 4;
   public static final int INVAILD_NO_WIDGET = 5;
+  public static final int OPTION_NOT_FOUND = 6;
 
   private int errCode;
 
@@ -28,15 +29,17 @@ public class CommandException extends Exception {
   @Override
   public String getMessage() {
     if (errCode == INVALID_NO_OPTIONS) {
-      return ERROR_MESSAGE_PREFIX + "no options: please use -h or --help option";
+      return ERROR_MESSAGE_PREFIX + "there is no options";
     } else if (errCode == FILE_NOT_FOUND) {
       return ERROR_MESSAGE_PREFIX + "failed to find project: " + super.getMessage();
-    } else if (errCode == MODULE_NOT_FOUND) {
+    } else if (errCode == APP_MODULE_NOT_FOUND) {
       return ERROR_MESSAGE_PREFIX + "failed to find module: " + super.getMessage();
     } else if (errCode == WIDGET_NOT_FOUND) {
       return ERROR_MESSAGE_PREFIX + "failed to find widget: " + super.getMessage();
     } else if (errCode == INVAILD_NO_WIDGET) {
-      return ERROR_MESSAGE_PREFIX + "no widgets: please use -h or --help option";
+      return ERROR_MESSAGE_PREFIX + "there is no widgets";
+    } else if (errCode == OPTION_NOT_FOUND) {
+      return ERROR_MESSAGE_PREFIX + "failed to find option: " + super.getMessage();
     }
 
     return super.getMessage();

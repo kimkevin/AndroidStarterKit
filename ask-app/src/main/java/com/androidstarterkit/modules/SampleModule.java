@@ -20,7 +20,6 @@ import java.util.regex.Pattern;
 
 public class SampleModule extends Directory {
   public static final String DEFAULT_SAMPLE_MODULE_NAME = "ask-sample";
-  public static final String SETTINGS_GRADLE_FILE_NAME = "settings.gradle";
 
   private AskModule module;
   private String mainActivityName;
@@ -48,7 +47,6 @@ public class SampleModule extends Directory {
     try {
       sampleModulePath = FileUtil.linkPathWithSlash(getChildPath(SETTINGS_GRADLE_FILE), findModuleName());
     } catch (FileNotFoundException e) {
-      System.out.println("test herererere");
       sampleModulePath = getPath();
     }
 
@@ -376,7 +374,7 @@ public class SampleModule extends Directory {
     String appModuleName = null;
 
     File settingsGradleFile = new File(FileUtil.linkPathWithSlash(projectPath,
-        SETTINGS_GRADLE_FILE_NAME));
+        SETTINGS_GRADLE_FILE));
 
     try {
       Scanner scanner = new Scanner(settingsGradleFile);
@@ -391,7 +389,7 @@ public class SampleModule extends Directory {
         appModuleName = matcher.group(1);
       }
     } catch (FileNotFoundException e) {
-      throw new CommandException(CommandException.MODULE_NOT_FOUND, projectPath);
+      throw new CommandException(CommandException.APP_MODULE_NOT_FOUND, projectPath);
     }
 
     return appModuleName;

@@ -16,6 +16,7 @@ public class Console {
       }
 
       if (exception.shudShowHelp()) {
+        System.out.println();
         printHelp();
       }
     }
