@@ -19,6 +19,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SampleModule extends Directory {
+  public static final String DEFAULT_SAMPLE_ACTIVITY_NAME = "SampleActivity";
+  public static final String DEFAULT_SAMPLE_FRAGMENT_NAME = "SampleFragment";
   public static final String DEFAULT_SAMPLE_MODULE_NAME = "ask-sample";
 
   private AskModule module;
@@ -83,7 +85,7 @@ public class SampleModule extends Directory {
    * @return Source instance after loading default Activity
    */
   public SampleModule with(TabType tabType, List<WidgetType> wigets) throws CommandException {
-    File moduleMainActivity = module.getChildFile(SyntaxConfig.DEFAULT_SAMPLE_ACTIVITY_NAME, Extension.JAVA);
+    File moduleMainActivity = module.getChildFile(DEFAULT_SAMPLE_ACTIVITY_NAME, Extension.JAVA);
 
     transfer(0, moduleMainActivity, tabType, wigets);
 
@@ -239,10 +241,10 @@ public class SampleModule extends Directory {
 
   private String changeFragment(TabType tabType, List<WidgetType> wigets, String line) throws CommandException {
     if (tabType != null) {
-      return line.replace(SyntaxConfig.DEFAULT_SAMPLE_FRAGMENT_NAME, tabType.getFragmentName());
+      return line.replace(DEFAULT_SAMPLE_FRAGMENT_NAME, tabType.getFragmentName());
     } else {
-      if (line.contains(SyntaxConfig.DEFAULT_SAMPLE_FRAGMENT_NAME)) {
-        return line.replace(SyntaxConfig.DEFAULT_SAMPLE_FRAGMENT_NAME, wigets.get(0).getFragmentName());
+      if (line.contains(DEFAULT_SAMPLE_FRAGMENT_NAME)) {
+        return line.replace(DEFAULT_SAMPLE_FRAGMENT_NAME, wigets.get(0).getFragmentName());
       } else {
         return line;
       }
