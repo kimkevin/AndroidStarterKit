@@ -6,18 +6,23 @@ In this project we offer some `Android` modules that are most commonly used impo
 
 > **Creating Android project which has `ListView`, Default `View` and `ListView` as the multiple sequentially fragments in `ViewPager`**
 > ```bash
-> ask -l lv,sv,lv -i /android_project_path
+> ask -l gv,rv,sv -i /android_project_path
 > ```
 
 ![](https://github.com/kimkevin/AndroidStarterKit/blob/master/assets/ask_00.gif)
 
 This `ask-module` contains the following modules:
 
+**Layout**
+
+1. SlidingTabLayout 
+2. SlidingIconTabLayout 
+
+**Widget**
+
 1. RecyclerView
 2. ListView
 3. GridView
-4. SlidingTabLayout 
-5. SlidingIconTabLayout 
 
 ## Getting Started
 
@@ -49,7 +54,7 @@ First option must be a layout specifier
 ```bash
 # 1. Make your new project
 
-# 2. If you just want one fragment
+# 2. If you just want to create one fragment
 $ ask -l <widget> your_project_path 
 # or more than 2 fragments
 $ ask -l <widget>... your_project_path
@@ -59,8 +64,8 @@ $ ask -l <widget>... your_project_path
 ```bash
 $ ask -l rv /samples/MyApplication
 $ ask -l lv,lv /samples/MyApplication
-$ ask -l rv,sv,rv /samples/MyApplication
-$ ask -l lv,lv,sv -i /samples/MyApplication
+$ ask -l gv,lv,rv /samples/MyApplication
+$ ask -l rv,rv,rv -i /samples/MyApplication
 ```
 
 ## License
