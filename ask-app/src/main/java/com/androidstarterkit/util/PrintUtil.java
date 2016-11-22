@@ -1,4 +1,4 @@
-package com.androidstarterkit.utils;
+package com.androidstarterkit.util;
 
 public class PrintUtil {
   public static String prefixDash(int depth) {

@@ -1,4 +1,4 @@
-package com.androidstarterkit.utils;
+package com.androidstarterkit.util;
 
 import com.androidstarterkit.CommandException;
 import com.androidstarterkit.config.AskConfig;

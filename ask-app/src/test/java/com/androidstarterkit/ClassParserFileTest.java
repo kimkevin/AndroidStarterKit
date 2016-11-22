@@ -1,6 +1,6 @@
 package com.androidstarterkit;
 
-import com.androidstarterkit.utils.FileUtil;
+import com.androidstarterkit.util.FileUtil;
 
 import org.junit.Before;
 import org.junit.Test;

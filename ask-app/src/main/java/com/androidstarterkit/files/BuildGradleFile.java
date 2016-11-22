@@ -1,7 +1,7 @@
 package com.androidstarterkit.files;
 
 import com.androidstarterkit.config.SyntaxConfig;
-import com.androidstarterkit.utils.FileUtil;
+import com.androidstarterkit.util.FileUtil;
 
 import java.util.List;
 import java.util.regex.Matcher;

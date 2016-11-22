@@ -1,10 +1,10 @@
 package com.androidstarterkit;
 
-import com.androidstarterkit.cmd.CommandParser;
-import com.androidstarterkit.cmd.TabType;
-import com.androidstarterkit.cmd.WidgetType;
-import com.androidstarterkit.modules.SampleModule;
-import com.androidstarterkit.utils.Console;
+import com.androidstarterkit.command.CommandParser;
+import com.androidstarterkit.command.TabType;
+import com.androidstarterkit.command.WidgetType;
+import com.androidstarterkit.module.SampleModule;
+import com.androidstarterkit.util.Console;
 
 import java.util.List;
 

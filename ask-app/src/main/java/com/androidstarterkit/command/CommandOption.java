@@ -1,4 +1,4 @@
-package com.androidstarterkit.cmd;
+package com.androidstarterkit.command;
 
 class CommandOption {
   static String HELP_KEY = "-h";

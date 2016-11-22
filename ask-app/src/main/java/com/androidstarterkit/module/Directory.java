@@ -1,10 +1,10 @@
-package com.androidstarterkit.modules;
+package com.androidstarterkit.module;
 
 import com.androidstarterkit.CommandException;
 import com.androidstarterkit.Extension;
 import com.androidstarterkit.files.AndroidManifest;
 import com.androidstarterkit.files.BuildGradleFile;
-import com.androidstarterkit.models.ExternalLibrary;
+import com.androidstarterkit.model.ExternalLibrary;
 
 import java.io.File;
 import java.io.FileFilter;

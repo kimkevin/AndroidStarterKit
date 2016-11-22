@@ -1,4 +1,4 @@
-package com.androidstarterkit.models;
+package com.androidstarterkit.model;
 
 import java.util.HashMap;
 import java.util.Map;

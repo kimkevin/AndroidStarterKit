@@ -1,4 +1,4 @@
-package com.androidstarterkit.cmd;
+package com.androidstarterkit.command;
 
 import com.androidstarterkit.CommandException;
 
@@ -13,7 +13,7 @@ public class CommandParser {
   private String path;
   private boolean hasIcon;
   private boolean hasHelpCommand;
-  private List<WidgetType> widgets;
+  private List<com.androidstarterkit.command.WidgetType> widgets;
 
   public CommandParser(String[] args) throws CommandException {
     widgets = new ArrayList<>();
@@ -38,19 +38,19 @@ public class CommandParser {
             switch (widget) {
               case "rv":
               case "recyclerview":
-                widgets.add(WidgetType.RecyclerView);
+                widgets.add(com.androidstarterkit.command.WidgetType.RecyclerView);
                 break;
               case "gv":
               case "gridview":
-                widgets.add(WidgetType.GridView);
+                widgets.add(com.androidstarterkit.command.WidgetType.GridView);
                 break;
               case "lv":
               case "listview":
-                widgets.add(WidgetType.ListView);
+                widgets.add(com.androidstarterkit.command.WidgetType.ListView);
                 break;
               case "sv":
               case "scrollview":
-                widgets.add(WidgetType.ScrollView);
+                widgets.add(com.androidstarterkit.command.WidgetType.ScrollView);
                 break;
               default:
                 throw new CommandException(CommandException.WIDGET_NOT_FOUND, widget);
@@ -91,7 +91,7 @@ public class CommandParser {
     return hasHelpCommand;
   }
 
-  public List<WidgetType> getWidgets() {
+  public List<com.androidstarterkit.command.WidgetType> getWidgets() {
     return widgets;
   }
 

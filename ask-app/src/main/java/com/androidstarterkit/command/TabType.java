@@ -1,4 +1,4 @@
-package com.androidstarterkit.cmd;
+package com.androidstarterkit.command;
 
 public enum TabType {
   SlidingTab("SlidingTab"),

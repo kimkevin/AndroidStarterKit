@@ -1,7 +1,7 @@
 package com.androidstarterkit;
 
-import com.androidstarterkit.cmd.CommandParser;
-import com.androidstarterkit.cmd.TabType;
+import com.androidstarterkit.command.CommandParser;
+import com.androidstarterkit.command.TabType;
 
 import org.junit.Test;
 

@@ -1,7 +1,7 @@
-package com.androidstarterkit.modules;
+package com.androidstarterkit.module;
 
 import com.androidstarterkit.CommandException;
-import com.androidstarterkit.utils.FileUtil;
+import com.androidstarterkit.util.FileUtil;
 
 public class AskModule extends Directory {
   public static final String MODULE_NAME = "ask-module";

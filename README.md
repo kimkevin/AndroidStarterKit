@@ -47,6 +47,9 @@ First option must be a layout specifier
 
   -h, --help               output usage information
   -i, --icon               tab icon instead of text more than 2 widgets
+	-d, --drawer
+	-f, --fab
+	-m, --menu
 ```
 
 ## Run

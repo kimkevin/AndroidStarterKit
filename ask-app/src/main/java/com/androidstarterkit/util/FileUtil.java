@@ -1,7 +1,7 @@
-package com.androidstarterkit.utils;
+package com.androidstarterkit.util;
 
 import com.androidstarterkit.config.SyntaxConfig;
-import com.androidstarterkit.modules.SampleModule;
+import com.androidstarterkit.module.SampleModule;
 
 import java.io.BufferedWriter;
 import java.io.File;

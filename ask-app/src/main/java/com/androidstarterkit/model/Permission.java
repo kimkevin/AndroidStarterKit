@@ -1,4 +1,4 @@
-package com.androidstarterkit.models;
+package com.androidstarterkit.model;
 
 public enum Permission {
   INTERNET

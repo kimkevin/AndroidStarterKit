@@ -1,13 +1,13 @@
-package com.androidstarterkit.modules;
+package com.androidstarterkit.module;
 
 import com.androidstarterkit.ClassParser;
 import com.androidstarterkit.CommandException;
 import com.androidstarterkit.Extension;
-import com.androidstarterkit.cmd.TabType;
-import com.androidstarterkit.cmd.WidgetType;
+import com.androidstarterkit.command.TabType;
+import com.androidstarterkit.command.WidgetType;
 import com.androidstarterkit.config.SyntaxConfig;
-import com.androidstarterkit.utils.FileUtil;
-import com.androidstarterkit.utils.PrintUtil;
+import com.androidstarterkit.util.FileUtil;
+import com.androidstarterkit.util.PrintUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;
