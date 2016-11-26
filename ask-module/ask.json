@@ -1,0 +1,16 @@
+{
+  "command" : {
+    "name" : [ "-m", "--menu" ],
+    "description" : "add MenuItem",
+    "import" : [
+      {
+        "class" : "SampleActivity",
+        "method" : "onCreateOptionsMenu"
+      },
+      {
+        "class" : "SampleActivity",
+        "method" : "onOptionsItemSelected"
+      }
+    ]
+  }
+}

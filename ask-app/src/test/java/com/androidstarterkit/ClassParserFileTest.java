@@ -1,6 +1,6 @@
 package com.androidstarterkit;
 
-import com.androidstarterkit.util.FileUtil;
+import com.androidstarterkit.util.FileUtils;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,10 +24,10 @@ public class ClassParserFileTest {
   @Before
   public void setUp() throws Exception {
     if (lines.size() <= 0) {
-      final String filePath = FileUtil.getRootPath().replace("ask-app",
+      final String filePath = FileUtils.getRootPath().replace("ask-app",
           "ask-module/src/main/java/com/androidstarterkit/module/SlidingTabActivity.java");
 
-      lines = FileUtil.readFile(new File(filePath));
+      lines = FileUtils.readFile(new File(filePath));
     }
   }
 

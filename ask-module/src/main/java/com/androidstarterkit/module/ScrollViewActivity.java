@@ -11,15 +11,12 @@ public class ScrollViewActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    getSupportActionBar().setElevation(0);
     setContentView(R.layout.activity_sample_main);
 
     if (savedInstanceState == null) {
-      ScrollViewFragment fragment = new ScrollViewFragment();
-
       getSupportFragmentManager()
           .beginTransaction()
-          .add(R.id.container, fragment)
+          .add(R.id.container, new ScrollViewFragment())
           .commit();
     }
   }

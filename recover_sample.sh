@@ -12,6 +12,10 @@ cp -R ask-sample.bak/src/main/AndroidManifest.xml ask-sample/src/main/AndroidMan
 rm -rf ask-sample/src/main/res/layout/*
 cp -R ask-sample.bak/src/main/res/layout/* ask-sample/src/main/res/layout
 
+rm -rf ask-sample/src/main/res/menu
+rm -rf ask-sample/src/main/res/values-v21
+rm -rf ask-sample/src/main/res/values-w820dp
+
 rm -rf ask-sample/src/main/res/values/*
 cp -R ask-sample.bak/src/main/res/values/* ask-sample/src/main/res/values
 

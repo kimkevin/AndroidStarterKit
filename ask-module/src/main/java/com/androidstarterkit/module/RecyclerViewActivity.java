@@ -13,11 +13,9 @@ public class RecyclerViewActivity extends AppCompatActivity {
     setContentView(R.layout.activity_sample_main);
 
     if (savedInstanceState == null) {
-      RecyclerViewFragment fragment = new RecyclerViewFragment();
-
       getSupportFragmentManager()
           .beginTransaction()
-          .add(R.id.container, fragment)
+          .add(R.id.container, new RecyclerViewFragment())
           .commit();
     }
   }

@@ -15,11 +15,9 @@ public class SlidingTabActivity extends AppCompatActivity {
     setContentView(R.layout.activity_sample_main);
 
     if (savedInstanceState == null) {
-      SlidingTabFragment fragment = new SlidingTabFragment();
-
       getSupportFragmentManager()
           .beginTransaction()
-          .add(R.id.container, fragment)
+          .add(R.id.container, new SlidingTabFragment())
           .commit();
     }
   }

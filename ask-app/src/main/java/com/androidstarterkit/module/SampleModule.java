@@ -3,11 +3,14 @@ package com.androidstarterkit.module;
 import com.androidstarterkit.ClassParser;
 import com.androidstarterkit.CommandException;
 import com.androidstarterkit.Extension;
+import com.androidstarterkit.ResourcePattern;
+import com.androidstarterkit.ResourceType;
 import com.androidstarterkit.command.TabType;
 import com.androidstarterkit.command.WidgetType;
 import com.androidstarterkit.config.SyntaxConfig;
-import com.androidstarterkit.util.FileUtil;
-import com.androidstarterkit.util.PrintUtil;
+import com.androidstarterkit.editor.XmlEditor;
+import com.androidstarterkit.util.FileUtils;
+import com.androidstarterkit.util.PrintUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,7 +30,8 @@ public class SampleModule extends Directory {
   private String mainActivityName;
 
   private String javaPath;
-  private String layoutPath;
+
+  private XmlEditor xmlEditor;
 
   private List<String> filteredClassNames;
 
@@ -47,13 +51,16 @@ public class SampleModule extends Directory {
 
     String sampleModulePath;
     try {
-      sampleModulePath = FileUtil.linkPathWithSlash(getChildPath(SETTINGS_GRADLE_FILE), findModuleName());
+      sampleModulePath = FileUtils.linkPathWithSlash(getChildPath(SETTINGS_GRADLE_FILE), findModuleName());
     } catch (FileNotFoundException e) {
       sampleModulePath = getPath();
     }
 
-    javaPath = FileUtil.linkPathWithSlash(sampleModulePath, "src/main/java", applicationId.replaceAll("\\.", "/"));
-    layoutPath = FileUtil.linkPathWithSlash(sampleModulePath, "src/main/res/layout");
+    javaPath = FileUtils.linkPathWithSlash(sampleModulePath, "src/main/java", applicationId.replaceAll("\\.", "/"));
+    String resPath = FileUtils.linkPathWithSlash(sampleModulePath, "src/main/res");
+    String layoutPath = FileUtils.linkPathWithSlash(resPath, ResourceType.LAYOUT.toString());
+
+    xmlEditor = new XmlEditor(resPath, getApplicationId(), buildGradleFile, externalLibrary);
 
     System.out.println("src folder path : " + javaPath);
     System.out.println("layout folder path : " + layoutPath);
@@ -69,9 +76,9 @@ public class SampleModule extends Directory {
    */
   public static SampleModule load(String projectPath) throws CommandException {
     if (projectPath == null) {
-      projectPath = FileUtil.linkPathWithSlash(FileUtil.getRootPath(), DEFAULT_SAMPLE_MODULE_NAME);
+      projectPath = FileUtils.linkPathWithSlash(FileUtils.getRootPath(), DEFAULT_SAMPLE_MODULE_NAME);
     } else {
-      projectPath = FileUtil.linkPathWithSlash(projectPath, findAppModuleName(projectPath));
+      projectPath = FileUtils.linkPathWithSlash(projectPath, findAppModuleName(projectPath));
     }
 
     return new SampleModule(projectPath);
@@ -107,11 +114,11 @@ public class SampleModule extends Directory {
         if (!isFoundActivity && line.contains("activity")) {
           isFoundActivity = true;
 
-          dotPath = FileUtil.getStringBetweenQuotes(line);
+          dotPath = FileUtils.getStringBetweenQuotes(line);
         }
 
         if (isFoundActivity && line.contains("android.intent.action.MAIN")) {
-          activityName = FileUtil.getFileNameForDotPath(dotPath) + Extension.JAVA.getName();
+          activityName = FileUtils.getFileNameForDotPath(dotPath) + Extension.JAVA.toString();
           break;
         }
 
@@ -163,12 +170,12 @@ public class SampleModule extends Directory {
     String moduleFilePath;
 
     if (depth == 0) {
-      moduleFilePath = FileUtil.linkPathWithSlash(javaPath, module.getRelativePathFromJavaDir(moduleFileName), mainActivityName);
+      moduleFilePath = FileUtils.linkPathWithSlash(javaPath, module.getRelativePathFromJavaDir(moduleFileName), mainActivityName);
     } else {
-      moduleFilePath = FileUtil.linkPathWithSlash(javaPath, module.getRelativePathFromJavaDir(moduleFileName), moduleFileName);
+      moduleFilePath = FileUtils.linkPathWithSlash(javaPath, module.getRelativePathFromJavaDir(moduleFileName), moduleFileName);
     }
 
-    System.out.println(PrintUtil.prefixDash(depth) + "Transfering : " + moduleFileName);
+    System.out.println(PrintUtils.prefixDash(depth) + "Transfering : " + moduleFileName);
 
     Scanner scanner;
     try {
@@ -176,44 +183,45 @@ public class SampleModule extends Directory {
     } catch (FileNotFoundException e) {
       throw new CommandException(CommandException.FILE_NOT_FOUND, file.getName());
     }
-    List<String> lines = new ArrayList<>();
+    List<String> codeLines = new ArrayList<>();
     List<String> addedPackageClasses = new ArrayList<>();
 
     while (scanner.hasNext()) {
-      String line = scanner.nextLine();
+      String codeLine = scanner.nextLine();
+
+      codeLine = changePackage(codeLine);
 
       if (depth == 0) {
-        line = changeActivityName(moduleFileName, line);
-        line = changeFragment(tabType, wigets, line);
+        codeLine = changeMainActivityName(codeLine, moduleFileName);
+        codeLine = changeMainFragmentByOptions(codeLine, tabType, wigets);
       } else {
-        line = changeDetailFragmentByArgs(line, wigets);
+        codeLine = importFragments(codeLine, wigets);
       }
 
-      line = changePackage(line);
+      codeLine = importDeclaredClasses(codeLine, depth, wigets, addedPackageClasses);
+      codeLine = importXmlResources(codeLine, depth);
+      codeLine = importValueElements(codeLine, depth);
 
-      line = extractClass(line, depth, wigets, addedPackageClasses);
-      line = extractLayout(line, depth);
-
-      lines.add(line);
+      codeLines.add(codeLine);
     }
 
-    lines = importClasses(lines, addedPackageClasses);
+    codeLines = defineImportClasses(codeLines, addedPackageClasses);
 
-    FileUtil.writeFile(new File(moduleFilePath), lines);
+    FileUtils.writeFile(new File(moduleFilePath), codeLines);
 
     if (depth == 0) {
       System.out.println();
     }
   }
 
-  private List<String> importClasses(List<String> lines, List<String> addedPackageClassNames) {
+  private List<String> defineImportClasses(List<String> codeLines, List<String> addedPackageClassNames) {
     List<String> importedClassStrings = new ArrayList<>();
     for (int i = 0, li = addedPackageClassNames.size(); i < li; i++) {
       String className = addedPackageClassNames.get(i);
-      if (module.getRelativePathFromJavaDir(className + Extension.JAVA.getName()) != null) {
+      if (module.getRelativePathFromJavaDir(className + Extension.JAVA.toString()) != null) {
         String importedClassString = SyntaxConfig.IDENTIFIER_IMPORT + " "
             + applicationId + "."
-            + module.getRelativePathFromJavaDir(className + Extension.JAVA.getName()) + "."
+            + module.getRelativePathFromJavaDir(className + Extension.JAVA.toString()) + "."
             + className + ";";
 
         if (!importedClassStrings.contains(importedClassString)) {
@@ -222,71 +230,71 @@ public class SampleModule extends Directory {
       }
     }
 
-    for (int i = 0, li = lines.size(); i < li; i++) {
-      String line = lines.get(i);
+    for (int i = 0, li = codeLines.size(); i < li; i++) {
+      String line = codeLines.get(i);
 
       boolean isLastIndex = i + 1 < li;
       if (line.contains(SyntaxConfig.IDENTIFIER_PACKAGE) && isLastIndex) {
-        lines.addAll(i + 1, importedClassStrings);
+        codeLines.addAll(i + 1, importedClassStrings);
         break;
       }
     }
-    return lines;
+    return codeLines;
   }
 
-  private String changeActivityName(String moduleActivityName, String line) {
-    return line.replace(FileUtil.removeExtension(moduleActivityName),
-        FileUtil.removeExtension(mainActivityName));
+  private String changeMainActivityName(String codeLine, String moduleActivityName) {
+    return codeLine.replace(FileUtils.removeExtension(moduleActivityName),
+        FileUtils.removeExtension(mainActivityName));
   }
 
-  private String changeFragment(TabType tabType, List<WidgetType> wigets, String line) throws CommandException {
+  private String changeMainFragmentByOptions(String codeLine, TabType tabType, List<WidgetType> wigets) throws CommandException {
     if (tabType != null) {
-      return line.replace(DEFAULT_SAMPLE_FRAGMENT_NAME, tabType.getFragmentName());
+      return codeLine.replace(DEFAULT_SAMPLE_FRAGMENT_NAME, tabType.getFragmentName());
     } else {
-      if (line.contains(DEFAULT_SAMPLE_FRAGMENT_NAME)) {
-        return line.replace(DEFAULT_SAMPLE_FRAGMENT_NAME, wigets.get(0).getFragmentName());
+      if (codeLine.contains(DEFAULT_SAMPLE_FRAGMENT_NAME)) {
+        return codeLine.replace(DEFAULT_SAMPLE_FRAGMENT_NAME, wigets.get(0).getFragmentName());
       } else {
-        return line;
+        return codeLine;
       }
     }
   }
 
-  private String changeDetailFragmentByArgs(String line, List<WidgetType> widgets) {
-    if (line.contains("fragmentInfos.add")) {
+  private String importFragments(String codeLine, List<WidgetType> widgets) {
+    if (codeLine.contains("fragmentInfos.add")) {
       return "";
     }
 
-    if (line.contains("List<FragmentInfo> fragmentInfos = new ArrayList<>();") && widgets.size() > 0) {
+    if (codeLine.contains("List<FragmentInfo> fragmentInfos = new ArrayList<>();") && widgets.size() > 0) {
       final String ADD_FRAGMENT_STRING = "fragmentInfos.add(new FragmentInfo(" + SyntaxConfig.REPLACE_STRING + ".class));";
 
-      final String intent = FileUtil.getIndentOfLine(line);
+      final String intent = FileUtils.getIndentOfLine(codeLine);
 
       for (WidgetType widget : widgets) {
-        line += "\n";
-        line += intent + ADD_FRAGMENT_STRING.replace(SyntaxConfig.REPLACE_STRING, widget.getFragmentName());
+        codeLine += "\n";
+        codeLine += intent + ADD_FRAGMENT_STRING.replace(SyntaxConfig.REPLACE_STRING, widget.getFragmentName());
       }
-      return line;
+      return codeLine;
     }
-    return line;
+    return codeLine;
   }
 
-  private String changePackage(String line) {
-    if (line.contains("package")) {
-      return line.replace(module.getApplicationId(), getApplicationId());
+  private String changePackage(String codeLine) {
+    if (codeLine.contains("package")) {
+      return codeLine.replace(module.getApplicationId(), getApplicationId());
     }
 
-    return line;
+    return codeLine;
   }
 
-  private String extractClass(String line, int depth, List<WidgetType> widgets, List<String> addedPackageClasses) throws CommandException {
-    List<String> classNames = ClassParser.getClassNames(line);
+  private String importDeclaredClasses(String codeLine, int depth, List<WidgetType> widgets, List<String> addedPackageClasses) throws CommandException {
+    List<String> classNames = ClassParser.getClassNames(codeLine);
     addedPackageClasses.addAll(classNames);
 
     classNames = filterClasses(classNames);
 
     if (classNames.size() > 0) {
       for (String className : classNames) {
-        if (module.getRelativePathFromJavaDir(className + Extension.JAVA.getName()) != null) {
+        if (module.getRelativePathFromJavaDir(className + Extension.JAVA.toString()) != null) {
           filteredClassNames.add(className);
 
           transfer(depth + 1, module.getChildFile(className, Extension.JAVA), null, widgets);
@@ -302,62 +310,43 @@ public class SampleModule extends Directory {
       }
     }
 
-    return line.replace(module.getApplicationId(), getApplicationId());
+    return codeLine.replace(module.getApplicationId(), getApplicationId());
   }
 
-  private String extractLayout(String line, int depth) {
-    String reg = "R.layout.[A-Za-z0-1_]*";
-
-    Pattern pat = Pattern.compile(reg);
-    Matcher matcher = pat.matcher(line);
+  private String importXmlResources(String codeLine, int depth) {
+    Matcher matcher = ResourcePattern.matcherFileInJava(codeLine);
 
     while (matcher.find()) {
-      final String layoutName = matcher.group()
-          .replace(";", "")
-          .replace("R.layout.", "");
+      final String resourceTypeName = matcher.group(1);
+      final String layoutName = matcher.group(2);
 
       try {
         File moduleLayoutFile = module.getChildFile(layoutName, Extension.XML);
+        xmlEditor.importLayout(resourceTypeName, layoutName, this, module);
 
-        String newLines = "";
-        Scanner scanner = new Scanner(moduleLayoutFile);
-        while (scanner.hasNext()) {
-          String xmlLine = scanner.nextLine()
-              .replace(module.getApplicationId(), getApplicationId());
-
-          newLines += xmlLine + "\n";
-        }
-
-        FileUtil.writeFile(layoutPath, moduleLayoutFile.getName(), newLines);
-
-        System.out.println(PrintUtil.prefixDash(depth) + "Transfering : " + moduleLayoutFile.getName());
-
-        scanDependencyInLayoutFile(moduleLayoutFile);
-      } catch (IOException e) {
+        System.out.println(PrintUtils.prefixDash(depth) + "Transfering : " + moduleLayoutFile.getName());
+      } catch (IOException | NullPointerException e) {
         e.printStackTrace();
       }
     }
 
-    return line;
+    return codeLine;
   }
 
-  private void scanDependencyInLayoutFile(File moduleLayoutFile) {
-    try {
-      Scanner scanner = new Scanner(moduleLayoutFile);
+  private String importValueElements(String codeLine, int depth) {
+    Matcher matcher = ResourcePattern.matcherValuesInJava(codeLine);
 
-      while (scanner.hasNext()) {
-        String line = scanner.nextLine();
+    while (matcher.find()) {
+      final String resourceTypeName = matcher.group(1);
+      final String layoutName = matcher.group(2);
 
-        for (String dependencyKey : externalLibrary.getKeys()) {
-          if (line.contains(dependencyKey)) {
-            buildGradleFile.addDependency(externalLibrary.getInfo(dependencyKey).getLibrary());
-            break;
-          }
-        }
+      try {
+        xmlEditor.importElement(resourceTypeName, layoutName, this, module);
+      } catch (IOException | NullPointerException e) {
+        e.printStackTrace();
       }
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
     }
+    return codeLine;
   }
 
   private List<String> filterClasses(List<String> classNames) {
@@ -375,7 +364,7 @@ public class SampleModule extends Directory {
   private static String findAppModuleName(String projectPath) throws CommandException {
     String appModuleName = null;
 
-    File settingsGradleFile = new File(FileUtil.linkPathWithSlash(projectPath,
+    File settingsGradleFile = new File(FileUtils.linkPathWithSlash(projectPath,
         SETTINGS_GRADLE_FILE));
 
     try {
@@ -395,5 +384,9 @@ public class SampleModule extends Directory {
     }
 
     return appModuleName;
+  }
+
+  public String getMainActivityName() {
+    return mainActivityName;
   }
 }

@@ -14,11 +14,9 @@ public class GridViewActivity extends AppCompatActivity {
     setContentView(R.layout.activity_sample_main);
 
     if (savedInstanceState == null) {
-      GridViewFragment fragment = new GridViewFragment();
-
       getSupportFragmentManager()
           .beginTransaction()
-          .add(R.id.container, fragment)
+          .add(R.id.container, new GridViewFragment())
           .commit();
     }
   }

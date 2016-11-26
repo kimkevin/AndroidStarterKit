@@ -9,7 +9,8 @@ public enum Extension {
     this.extensionName = extensionName;
   }
 
-  public String getName() {
-    return extensionName;
+  @Override
+  public String toString() {
+    return extensionName.toLowerCase();
   }
 }

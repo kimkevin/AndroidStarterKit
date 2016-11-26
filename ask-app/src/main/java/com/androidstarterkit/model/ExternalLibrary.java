@@ -12,6 +12,7 @@ public class ExternalLibrary {
     dictionary.put("CardView", new Info("com.android.support:cardview-v7:" + supportLibraryVersion));
     dictionary.put("RecyclerView", new Info("com.android.support:recyclerview-v7:" + supportLibraryVersion));
     dictionary.put("Glide", new Info("com.github.bumptech.glide:glide:3.7.0", Permission.INTERNET));
+    dictionary.put("FloatingActionButton", new Info("com.android.support:design:" + supportLibraryVersion));
   }
 
   public Set<String> getKeys() {

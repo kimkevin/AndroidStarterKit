@@ -15,11 +15,9 @@ public class SlidingIconTabActivity extends AppCompatActivity {
     setContentView(R.layout.activity_sample_main);
 
     if (savedInstanceState == null) {
-      SlidingIconTabFragment fragment = new SlidingIconTabFragment();
-
       getSupportFragmentManager()
           .beginTransaction()
-          .add(R.id.container, fragment)
+          .add(R.id.container, new SlidingIconTabFragment())
           .commit();
     }
   }

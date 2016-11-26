@@ -13,11 +13,9 @@ public class ListViewActivity extends AppCompatActivity{
     setContentView(R.layout.activity_sample_main);
 
     if (savedInstanceState == null) {
-      ListViewFragment fragment = new ListViewFragment();
-
       getSupportFragmentManager()
           .beginTransaction()
-          .add(R.id.container, fragment)
+          .add(R.id.container, new ListViewFragment())
           .commit();
     }
   }

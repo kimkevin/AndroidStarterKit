@@ -38,19 +38,19 @@ public class CommandParser {
             switch (widget) {
               case "rv":
               case "recyclerview":
-                widgets.add(com.androidstarterkit.command.WidgetType.RecyclerView);
+                widgets.add(WidgetType.RecyclerView);
                 break;
               case "gv":
               case "gridview":
-                widgets.add(com.androidstarterkit.command.WidgetType.GridView);
+                widgets.add(WidgetType.GridView);
                 break;
               case "lv":
               case "listview":
-                widgets.add(com.androidstarterkit.command.WidgetType.ListView);
+                widgets.add(WidgetType.ListView);
                 break;
               case "sv":
               case "scrollview":
-                widgets.add(com.androidstarterkit.command.WidgetType.ScrollView);
+                widgets.add(WidgetType.ScrollView);
                 break;
               default:
                 throw new CommandException(CommandException.WIDGET_NOT_FOUND, widget);

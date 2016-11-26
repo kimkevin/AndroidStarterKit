@@ -2,14 +2,17 @@ package com.androidstarterkit.module;
 
 import com.androidstarterkit.CommandException;
 import com.androidstarterkit.Extension;
-import com.androidstarterkit.files.AndroidManifest;
-import com.androidstarterkit.files.BuildGradleFile;
+import com.androidstarterkit.ValueType;
+import com.androidstarterkit.file.AndroidManifest;
+import com.androidstarterkit.file.BuildGradleFile;
 import com.androidstarterkit.model.ExternalLibrary;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Directory extends File {
@@ -17,7 +20,7 @@ public class Directory extends File {
   public static final String SETTINGS_GRADLE_FILE = "settings.gradle";
   public static final String BUILD_GRADLE_FILE = "build.gradle";
 
-  protected Map<String, String> fileMap;
+  protected Map<String, Object> fileMap;
   protected String applicationId;
 
   protected String[] fileExtensions;
@@ -38,11 +41,11 @@ public class Directory extends File {
       throw new CommandException(CommandException.FILE_NOT_FOUND, getName());
     }
 
-    String buildGradlePath = fileMap.get(BUILD_GRADLE_FILE);
+    String buildGradlePath = getChildPath(BUILD_GRADLE_FILE);
     buildGradleFile = new BuildGradleFile(buildGradlePath);
     this.applicationId = buildGradleFile.getApplicationId();
 
-    androidManifestFile = new AndroidManifest(fileMap.get(ANDROID_MANIFEST_FILE));
+    androidManifestFile = new AndroidManifest(getChildPath(ANDROID_MANIFEST_FILE));
 
     externalLibrary = new ExternalLibrary(buildGradleFile.getSupportLibraryVersion());
   }
@@ -55,7 +58,20 @@ public class Directory extends File {
         if (fileMap == null) {
           fileMap = new HashMap<>();
         }
-        fileMap.put(file.getName(), file.getPath().replace("/" + file.getName(), ""));
+
+        Object valueObject = fileMap.get(file.getName());
+        String pathname = file.getPath().replace("/" + file.getName(), "");
+
+        if (valueObject == null) {
+          fileMap.put(file.getName(), pathname);
+        } else {
+          String savedValue = (String) valueObject;
+          List<String> values = new ArrayList<>();
+          values.add(savedValue);
+          values.add(pathname);
+
+          fileMap.put(file.getName(), values);
+        }
       }
     }
   }
@@ -84,11 +100,37 @@ public class Directory extends File {
   }
 
   public String getChildPath(String key) {
-    return fileMap.get(key);
+    Object value = fileMap.get(key);
+    if (value instanceof String) {
+      return (String) value;
+    }
+
+    return null;
+  }
+
+  public List<File> getChildFiles(String fileName, Extension extension) {
+    Object value = fileMap.get(fileName + extension.toString());
+
+    List<String> filePaths;
+    if (value instanceof ArrayList<?>) {
+      filePaths = (ArrayList<String>) value;
+    } else if (value instanceof String) {
+      filePaths = Arrays.asList((String) value);
+    } else {
+      return null;
+    }
+
+    List<File> files = new ArrayList<>();
+
+    for (String filePath : filePaths) {
+      files.add(new File(filePath, fileName + extension.toString()));
+    }
+
+    return files;
   }
 
   public File getChildFile(String fileName, Extension extension) {
-    return getChildFile(fileName + extension.getName());
+    return getChildFile(fileName + extension.toString());
   }
 
   public File getChildFile(String fileName) {
@@ -96,7 +138,8 @@ public class Directory extends File {
     if (path == null) {
       return null;
     }
-    return new File(path + "/" + fileName);
+
+    return new File(path, fileName);
   }
 
   public void printFileMap() {
