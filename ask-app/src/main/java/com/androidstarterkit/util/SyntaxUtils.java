@@ -10,7 +10,11 @@ public class SyntaxUtils {
     return "</" + elementName + ">";
   }
 
-  public static boolean hasLastElement(String codeLine, String resourceTypeName) {
+  public static boolean hasStartElement(String codeLine, String resourceTypeName) {
+    return codeLine.contains("<" + resourceTypeName);
+  }
+
+  public static boolean hasEndElement(String codeLine, String resourceTypeName) {
     return codeLine.contains("</" + resourceTypeName) || codeLine.contains("/>");
   }
 }

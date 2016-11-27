@@ -2,7 +2,6 @@ package com.androidstarterkit.module;
 
 import com.androidstarterkit.CommandException;
 import com.androidstarterkit.Extension;
-import com.androidstarterkit.ValueType;
 import com.androidstarterkit.file.AndroidManifest;
 import com.androidstarterkit.file.BuildGradleFile;
 import com.androidstarterkit.model.ExternalLibrary;
@@ -140,6 +139,18 @@ public class Directory extends File {
     }
 
     return new File(path, fileName);
+  }
+
+  public ExternalLibrary getExternalLibrary() {
+    return externalLibrary;
+  }
+
+  public AndroidManifest getAndroidManifestFile() {
+    return androidManifestFile;
+  }
+
+  public BuildGradleFile getBuildGradleFile() {
+    return buildGradleFile;
   }
 
   public void printFileMap() {

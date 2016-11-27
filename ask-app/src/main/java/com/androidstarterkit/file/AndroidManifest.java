@@ -12,8 +12,10 @@ public class AndroidManifest extends BaseFile {
   private static final String USES_PERMISSION = "<uses-permission android:name=\"android.permission."
       + SyntaxConfig.REPLACE_STRING + "\"/>";
 
+  public static final String FILE_NAME = "AndroidManifest.xml";
+
   public AndroidManifest(String pathname) {
-    super(pathname, "AndroidManifest.xml");
+    super(pathname, FILE_NAME);
   }
 
   public void addPermissions(Permission... permissions) {

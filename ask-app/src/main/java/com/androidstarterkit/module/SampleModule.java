@@ -3,7 +3,6 @@ package com.androidstarterkit.module;
 import com.androidstarterkit.ClassParser;
 import com.androidstarterkit.CommandException;
 import com.androidstarterkit.Extension;
-import com.androidstarterkit.ResourcePattern;
 import com.androidstarterkit.ResourceType;
 import com.androidstarterkit.command.TabType;
 import com.androidstarterkit.command.WidgetType;
@@ -14,7 +13,6 @@ import com.androidstarterkit.util.PrintUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -22,14 +20,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SampleModule extends Directory {
-  public static final String DEFAULT_SAMPLE_ACTIVITY_NAME = "SampleActivity";
-  public static final String DEFAULT_SAMPLE_FRAGMENT_NAME = "SampleFragment";
   public static final String DEFAULT_SAMPLE_MODULE_NAME = "ask-sample";
 
-  private AskModule module;
+  private AskModule askModule;
   private String mainActivityName;
 
   private String javaPath;
+  private String resPath;
+  private String layoutPath;
 
   private XmlEditor xmlEditor;
 
@@ -40,7 +38,7 @@ public class SampleModule extends Directory {
         new String[]{"java", "gradle", "xml"},
         new String[]{"build", "libs", "test", "androidTest", "res"});
 
-    module = new AskModule();
+    askModule = new AskModule();
     filteredClassNames = new ArrayList<>();
 
     mainActivityName = findMainActivty();
@@ -57,10 +55,10 @@ public class SampleModule extends Directory {
     }
 
     javaPath = FileUtils.linkPathWithSlash(sampleModulePath, "src/main/java", applicationId.replaceAll("\\.", "/"));
-    String resPath = FileUtils.linkPathWithSlash(sampleModulePath, "src/main/res");
-    String layoutPath = FileUtils.linkPathWithSlash(resPath, ResourceType.LAYOUT.toString());
+    resPath = FileUtils.linkPathWithSlash(sampleModulePath, "src/main/res");
+    layoutPath = FileUtils.linkPathWithSlash(resPath, ResourceType.LAYOUT.toString());
 
-    xmlEditor = new XmlEditor(resPath, getApplicationId(), buildGradleFile, externalLibrary);
+    xmlEditor = new XmlEditor(this, askModule);
 
     System.out.println("src folder path : " + javaPath);
     System.out.println("layout folder path : " + layoutPath);
@@ -85,15 +83,16 @@ public class SampleModule extends Directory {
   }
 
   /**
-   * Ready a load with Source by passing module type
+   * Ready a load with Source by passing askModule type
    *
    * @param tabType
    * @param wigets
    * @return Source instance after loading default Activity
    */
   public SampleModule with(TabType tabType, List<WidgetType> wigets) throws CommandException {
-    File moduleMainActivity = module.getChildFile(DEFAULT_SAMPLE_ACTIVITY_NAME, Extension.JAVA);
+    xmlEditor.importAttrsInAndroidManifest();
 
+    File moduleMainActivity = askModule.getChildFile(AskModule.DEFAULT_MODULE_ACTIVITY_NAME, Extension.JAVA);
     transfer(0, moduleMainActivity, tabType, wigets);
 
     System.out.println("Import Successful!");
@@ -158,7 +157,7 @@ public class SampleModule extends Directory {
   }
 
   /**
-   * If depth is 0, file is main Activity of module
+   * If depth is 0, file is main Activity of askModule
    *
    * @param depth
    * @param file
@@ -170,9 +169,9 @@ public class SampleModule extends Directory {
     String moduleFilePath;
 
     if (depth == 0) {
-      moduleFilePath = FileUtils.linkPathWithSlash(javaPath, module.getRelativePathFromJavaDir(moduleFileName), mainActivityName);
+      moduleFilePath = FileUtils.linkPathWithSlash(javaPath, askModule.getRelativePathFromJavaDir(moduleFileName), mainActivityName);
     } else {
-      moduleFilePath = FileUtils.linkPathWithSlash(javaPath, module.getRelativePathFromJavaDir(moduleFileName), moduleFileName);
+      moduleFilePath = FileUtils.linkPathWithSlash(javaPath, askModule.getRelativePathFromJavaDir(moduleFileName), moduleFileName);
     }
 
     System.out.println(PrintUtils.prefixDash(depth) + "Transfering : " + moduleFileName);
@@ -199,14 +198,12 @@ public class SampleModule extends Directory {
       }
 
       codeLine = importDeclaredClasses(codeLine, depth, wigets, addedPackageClasses);
-      codeLine = importXmlResources(codeLine, depth);
-      codeLine = importValueElements(codeLine, depth);
+
+      xmlEditor.importResourceByLine(codeLine, depth);
 
       codeLines.add(codeLine);
     }
-
     codeLines = defineImportClasses(codeLines, addedPackageClasses);
-
     FileUtils.writeFile(new File(moduleFilePath), codeLines);
 
     if (depth == 0) {
@@ -218,10 +215,10 @@ public class SampleModule extends Directory {
     List<String> importedClassStrings = new ArrayList<>();
     for (int i = 0, li = addedPackageClassNames.size(); i < li; i++) {
       String className = addedPackageClassNames.get(i);
-      if (module.getRelativePathFromJavaDir(className + Extension.JAVA.toString()) != null) {
+      if (askModule.getRelativePathFromJavaDir(className + Extension.JAVA.toString()) != null) {
         String importedClassString = SyntaxConfig.IDENTIFIER_IMPORT + " "
             + applicationId + "."
-            + module.getRelativePathFromJavaDir(className + Extension.JAVA.toString()) + "."
+            + askModule.getRelativePathFromJavaDir(className + Extension.JAVA.toString()) + "."
             + className + ";";
 
         if (!importedClassStrings.contains(importedClassString)) {
@@ -249,10 +246,10 @@ public class SampleModule extends Directory {
 
   private String changeMainFragmentByOptions(String codeLine, TabType tabType, List<WidgetType> wigets) throws CommandException {
     if (tabType != null) {
-      return codeLine.replace(DEFAULT_SAMPLE_FRAGMENT_NAME, tabType.getFragmentName());
+      return codeLine.replace(AskModule.DEFAULT_MODULE_FRAGMENT_NAME, tabType.getFragmentName());
     } else {
-      if (codeLine.contains(DEFAULT_SAMPLE_FRAGMENT_NAME)) {
-        return codeLine.replace(DEFAULT_SAMPLE_FRAGMENT_NAME, wigets.get(0).getFragmentName());
+      if (codeLine.contains(AskModule.DEFAULT_MODULE_FRAGMENT_NAME)) {
+        return codeLine.replace(AskModule.DEFAULT_MODULE_FRAGMENT_NAME, wigets.get(0).getFragmentName());
       } else {
         return codeLine;
       }
@@ -280,7 +277,7 @@ public class SampleModule extends Directory {
 
   private String changePackage(String codeLine) {
     if (codeLine.contains("package")) {
-      return codeLine.replace(module.getApplicationId(), getApplicationId());
+      return codeLine.replace(askModule.getApplicationId(), getApplicationId());
     }
 
     return codeLine;
@@ -294,10 +291,10 @@ public class SampleModule extends Directory {
 
     if (classNames.size() > 0) {
       for (String className : classNames) {
-        if (module.getRelativePathFromJavaDir(className + Extension.JAVA.toString()) != null) {
+        if (askModule.getRelativePathFromJavaDir(className + Extension.JAVA.toString()) != null) {
           filteredClassNames.add(className);
 
-          transfer(depth + 1, module.getChildFile(className, Extension.JAVA), null, widgets);
+          transfer(depth + 1, askModule.getChildFile(className, Extension.JAVA), null, widgets);
         } else {
           for (String dependencyKey : externalLibrary.getKeys()) {
             if (className.equals(dependencyKey)) {
@@ -310,43 +307,7 @@ public class SampleModule extends Directory {
       }
     }
 
-    return codeLine.replace(module.getApplicationId(), getApplicationId());
-  }
-
-  private String importXmlResources(String codeLine, int depth) {
-    Matcher matcher = ResourcePattern.matcherFileInJava(codeLine);
-
-    while (matcher.find()) {
-      final String resourceTypeName = matcher.group(1);
-      final String layoutName = matcher.group(2);
-
-      try {
-        File moduleLayoutFile = module.getChildFile(layoutName, Extension.XML);
-        xmlEditor.importLayout(resourceTypeName, layoutName, this, module);
-
-        System.out.println(PrintUtils.prefixDash(depth) + "Transfering : " + moduleLayoutFile.getName());
-      } catch (IOException | NullPointerException e) {
-        e.printStackTrace();
-      }
-    }
-
-    return codeLine;
-  }
-
-  private String importValueElements(String codeLine, int depth) {
-    Matcher matcher = ResourcePattern.matcherValuesInJava(codeLine);
-
-    while (matcher.find()) {
-      final String resourceTypeName = matcher.group(1);
-      final String layoutName = matcher.group(2);
-
-      try {
-        xmlEditor.importElement(resourceTypeName, layoutName, this, module);
-      } catch (IOException | NullPointerException e) {
-        e.printStackTrace();
-      }
-    }
-    return codeLine;
+    return codeLine.replace(askModule.getApplicationId(), getApplicationId());
   }
 
   private List<String> filterClasses(List<String> classNames) {
@@ -388,5 +349,17 @@ public class SampleModule extends Directory {
 
   public String getMainActivityName() {
     return mainActivityName;
+  }
+
+  public String getJavaPath() {
+    return javaPath;
+  }
+
+  public String getResPath() {
+    return resPath;
+  }
+
+  public String getLayoutPath() {
+    return layoutPath;
   }
 }
