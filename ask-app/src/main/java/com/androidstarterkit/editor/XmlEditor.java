@@ -2,7 +2,7 @@ package com.androidstarterkit.editor;
 
 
 import com.androidstarterkit.Extension;
-import com.androidstarterkit.ResourcePattern;
+import com.androidstarterkit.ResourceMatcher;
 import com.androidstarterkit.config.SyntaxConfig;
 import com.androidstarterkit.module.AskModule;
 import com.androidstarterkit.module.SampleModule;
@@ -13,10 +13,8 @@ import com.androidstarterkit.util.SyntaxUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
-import java.util.regex.Matcher;
 
 public class XmlEditor {
   private static final String TAG = XmlEditor.class.getSimpleName();
@@ -31,7 +29,7 @@ public class XmlEditor {
     this.askModule = askModule;
   }
 
-  public void importAttrsInAndroidManifest() {
+  public void importAttrsOfAndroidManifest(int depth) {
     try {
       Scanner scanner = new Scanner(askModule.getAndroidManifestFile());
       boolean isFound = false;
@@ -77,76 +75,82 @@ public class XmlEditor {
           codeLines += codeLine + "\n";
         }
 
-        importResourceByLine(codeLine, 0);
+        ResourceMatcher matcher = new ResourceMatcher(codeLine, new ResourceMatcher.XmlValueMatcher() {
+          @Override
+          public void matched(String resourceTypeName, String elementName) throws FileNotFoundException {
+            transferElement(resourceTypeName, elementName, depth);
+          }
+        });
+        matcher.match();
+
+//        Matcher matcher = ResourceMatcher.createValueMatcherForXml(codeLine);
+//        while (matcher.find()) {
+//          final String childResourceTypeName = matcher.group(1);
+//          final String childElementName = matcher.group(2);
+//
+//          transferElement(childResourceTypeName, childElementName, depth);
+//        }
       }
 
       FileUtils.writeFile(sampleModule.getAndroidManifestFile(), codeLines);
 
-      Matcher matcher = ResourcePattern.matcherValuesInXml(codeLines);
-      while (matcher.find()) {
-        final String childResourceTypeName = matcher.group(1);
-        final String childElementName = matcher.group(2);
-
-        transferElement(childResourceTypeName, childElementName);
-      }
+      System.out.println(PrintUtils.prefixDash(depth) + askModule.getAndroidManifestFile().getName());
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
   }
 
-  public void importResourceByLine(String codeLine, int depth) {
-    importResourceFiles(codeLine, depth);
-    importValueElements(codeLine, depth);
-  }
-
-  public void importResourceByFile(File file, int depth) {
-    try {
-      Scanner scanner = new Scanner(file);
-
-      while (scanner.hasNext()) {
-        String codeLine = scanner.nextLine();
-
-        importResourceByLine(codeLine, depth);
+  public void importResourcesForJava(String codeLine, int depth) {
+    ResourceMatcher matcher = new ResourceMatcher(codeLine, new ResourceMatcher.JavaFileMatcher() {
+      @Override
+      public void matched(String resourceTypeName, String layoutName) throws FileNotFoundException {
+        transferResourceXml(resourceTypeName, layoutName, depth);
       }
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    }
-  }
+    });
+    matcher.match();
 
-  private void importResourceFiles(String codeLine, int depth) {
-    Matcher matcher = ResourcePattern.matcherFileInJava(codeLine);
-
-    while (matcher.find()) {
-      final String resourceTypeName = matcher.group(1);
-      final String layoutName = matcher.group(2);
-
-      try {
-        File moduleLayoutFile = askModule.getChildFile(layoutName, Extension.XML);
-        transferXml(resourceTypeName, layoutName);
-
-        System.out.println(PrintUtils.prefixDash(depth) + "Transfering : " + moduleLayoutFile.getName());
-      } catch (IOException | NullPointerException e) {
-        e.printStackTrace();
+    matcher = new ResourceMatcher(codeLine, new ResourceMatcher.JavaValueMatcher() {
+      @Override
+      public void matched(String resourceTypeName, String elementName) throws FileNotFoundException {
+        transferElement(resourceTypeName, elementName, depth);
       }
-    }
+    });
+    matcher.match();
+
+//    Matcher matcher = ResourceMatcher.createFileMatcherForJava(codeLine);
+//
+//    while (matcher.find()) {
+//      final String resourceTypeName = matcher.group(1);
+//      final String layoutName = matcher.group(2);
+//
+//      try {
+//        transferResourceXml(resourceTypeName, layoutName, depth);
+//      } catch (IOException | NullPointerException e) {
+//        e.printStackTrace();
+//      }
+//    }
+//
+//    matcher = ResourceMatcher.createValueMatcherForJava(codeLine);
+//
+//    while (matcher.find()) {
+//      final String resourceTypeName = matcher.group(1);
+//      final String layoutName = matcher.group(2);
+//
+//      try {
+//        transferElement(resourceTypeName, layoutName, depth);
+//      } catch (IOException | NullPointerException e) {
+//        e.printStackTrace();
+//      }
+//    }
   }
 
-  private void importValueElements(String codeLine, int depth) {
-    Matcher matcher = ResourcePattern.matcherValuesInJava(codeLine);
-
-    while (matcher.find()) {
-      final String resourceTypeName = matcher.group(1);
-      final String layoutName = matcher.group(2);
-
-      try {
-        transferElement(resourceTypeName, layoutName);
-      } catch (IOException | NullPointerException e) {
-        e.printStackTrace();
-      }
-    }
-  }
-
-  private void transferXml(String resourceType, String layoutName) throws FileNotFoundException {
+  /**
+   * @param resourceTypeName
+   * @param layoutName
+   * @param depth
+   * @throws FileNotFoundException
+   */
+  private void transferResourceXml(String resourceTypeName, String layoutName, int depth) throws FileNotFoundException {
     File moduleXmlFile = askModule.getChildFile(layoutName, Extension.XML);
 
     String codes = "";
@@ -158,33 +162,60 @@ public class XmlEditor {
           .replace(AskModule.DEFAULT_MODULE_ACTIVITY_NAME,
               FileUtils.removeExtension(sampleModule.getMainActivityName()));
 
-      Matcher matcher = ResourcePattern.matcherFileInXml(xmlCodeLine);
-      while (matcher.find()) {
-        final String childResourceTypeName = matcher.group(1);
-        final String childLayoutName = matcher.group(2);
+      ResourceMatcher matcher = new ResourceMatcher(xmlCodeLine, new ResourceMatcher.XmlFileMatcher() {
+        @Override
+        public void matched(String resourceTypeName, String layoutName) throws FileNotFoundException {
+          transferResourceXml(resourceTypeName, layoutName, depth);
+        }
+      });
 
-        transferXml(childResourceTypeName, childLayoutName);
-      }
+      matcher.match();
 
-      matcher = ResourcePattern.matcherValuesInXml(xmlCodeLine);
-      while (matcher.find()) {
-        final String childResourceTypeName = matcher.group(1);
-        final String childElementName = matcher.group(2);
+//      Matcher matcher = ResourceMatcher.createFileMatcherForXml(xmlCodeLine);
+//      while (matcher.find()) {
+//        final String childResourceTypeName = matcher.group(1);
+//        final String childLayoutName = matcher.group(2);
+//
+//        transferResourceXml(childResourceTypeName, childLayoutName, depth);
+//      }
 
-        transferElement(childResourceTypeName, childElementName);
-      }
+      matcher = new ResourceMatcher(xmlCodeLine, new ResourceMatcher.XmlValueMatcher() {
+        @Override
+        public void matched(String resourceTypeName, String elementName) throws FileNotFoundException {
+          transferElement(resourceTypeName, elementName, depth);
+        }
+      });
+      matcher.match();
+
+//      matcher = ResourceMatcher.createValueMatcherForXml(xmlCodeLine);
+//      while (matcher.find()) {
+//        final String childResourceTypeName = matcher.group(1);
+//        final String childElementName = matcher.group(2);
+//
+//        transferElement(childResourceTypeName, childElementName, depth);
+//      }
 
       codes += xmlCodeLine + "\n";
 
       importDependencyToBuildGradle(xmlCodeLine);
     }
 
-    FileUtils.writeFile(sampleModule.getResPath() + "/" + resourceType
+    FileUtils.writeFile(sampleModule.getResPath() + "/" + resourceTypeName
         , moduleXmlFile.getName()
         , codes);
+
+    System.out.println(PrintUtils.prefixDash(depth) + resourceTypeName + "/" + moduleXmlFile.getName());
   }
 
-  private void transferElement(String resourceTypeName, String elementName) throws FileNotFoundException {
+  /**
+   * Imported element of xml for supported platform folders
+   *
+   * @param resourceTypeName
+   * @param elementName
+   * @param depth
+   * @throws FileNotFoundException
+   */
+  private void transferElement(String resourceTypeName, String elementName, int depth) throws FileNotFoundException {
     List<File> valueFiles = askModule.getChildFiles(resourceTypeName + "s", Extension.XML);
     if (valueFiles == null) {
       throw new FileNotFoundException();
@@ -225,6 +256,8 @@ public class XmlEditor {
 
         if (!sampleValueFile.exists()) {
           sampleValueFile = createNewXmlFile(sampleValuePathname);
+
+          System.out.println(PrintUtils.prefixDash(depth) + resourceTypeName + "/" + sampleValueFile.getName());
         }
 
         scanner = new Scanner(sampleValueFile);
@@ -232,7 +265,6 @@ public class XmlEditor {
 
         while (scanner.hasNext()) {
           String xmlCodeLine = scanner.nextLine();
-
 
           // Check if it has already element
           if (isDuplicatedElement || xmlCodeLine.contains(elementName)) {

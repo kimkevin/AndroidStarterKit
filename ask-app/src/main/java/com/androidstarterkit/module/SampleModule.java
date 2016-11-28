@@ -90,10 +90,11 @@ public class SampleModule extends Directory {
    * @return Source instance after loading default Activity
    */
   public SampleModule with(TabType tabType, List<WidgetType> wigets) throws CommandException {
-    xmlEditor.importAttrsInAndroidManifest();
+    final int depth = 0;
+    xmlEditor.importAttrsOfAndroidManifest(depth);
 
     File moduleMainActivity = askModule.getChildFile(AskModule.DEFAULT_MODULE_ACTIVITY_NAME, Extension.JAVA);
-    transfer(0, moduleMainActivity, tabType, wigets);
+    transfer(depth, moduleMainActivity, tabType, wigets);
 
     System.out.println("Import Successful!");
     return this;
@@ -174,7 +175,7 @@ public class SampleModule extends Directory {
       moduleFilePath = FileUtils.linkPathWithSlash(javaPath, askModule.getRelativePathFromJavaDir(moduleFileName), moduleFileName);
     }
 
-    System.out.println(PrintUtils.prefixDash(depth) + "Transfering : " + moduleFileName);
+    System.out.println(PrintUtils.prefixDash(depth) + moduleFileName);
 
     Scanner scanner;
     try {
@@ -199,11 +200,12 @@ public class SampleModule extends Directory {
 
       codeLine = importDeclaredClasses(codeLine, depth, wigets, addedPackageClasses);
 
-      xmlEditor.importResourceByLine(codeLine, depth);
+      xmlEditor.importResourcesForJava(codeLine, depth);
 
       codeLines.add(codeLine);
     }
     codeLines = defineImportClasses(codeLines, addedPackageClasses);
+
     FileUtils.writeFile(new File(moduleFilePath), codeLines);
 
     if (depth == 0) {
