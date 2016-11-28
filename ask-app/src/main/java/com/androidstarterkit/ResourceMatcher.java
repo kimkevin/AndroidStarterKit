@@ -9,9 +9,7 @@ public class ResourceMatcher {
   private Matcherable matcherable;
   private Matcher matcher;
 
-  public interface Matcherable {
-
-  }
+  public interface Matcherable { }
 
   public interface JavaFileMatcher extends Matcherable {
     void matched(String resourceTypeName, String layoutName) throws FileNotFoundException;
@@ -95,47 +93,4 @@ public class ResourceMatcher {
       e.printStackTrace();
     }
   }
-
-//  public static Matcher createFileMatcherForJava(String codeLine) {
-//    final String reg = "R.("
-//        + ResourceType.LAYOUT
-//        + "|" + ResourceType.MENU
-//        + "|" + ResourceType.DRAWABLE
-//        + ").([A-Za-z0-1_]*)";
-//
-//    Pattern pat = Pattern.compile(reg);
-//    return pat.matcher(codeLine);
-//  }
-//
-//  public static Matcher createValueMatcherForJava(String codeLine) {
-//    final String reg = "R.("
-//        + ValueType.STRING
-//        + "|" + ValueType.DIMEN
-//        + ").([A-Za-z0-1_]*)";
-//
-//    Pattern pat = Pattern.compile(reg);
-//    return pat.matcher(codeLine);
-//  }
-//
-//  public static Matcher createFileMatcherForXml(String codeLine) {
-//    final String reg = "@("
-//        + ResourceType.LAYOUT
-//        + "|" + ResourceType.MENU
-//        + "|" + ResourceType.DRAWABLE
-//        + ")/([A-Za-z0-1_]*)";
-//
-//    Pattern pat = Pattern.compile(reg);
-//    return pat.matcher(codeLine);
-//  }
-//
-//  public static Matcher createValueMatcherForXml(String codeLine) {
-//    final String reg = "@("
-//        + ValueType.STYLE
-//        + "|" + ValueType.DIMEN
-//        + "|" + ValueType.STRING
-//        + ")/([A-Za-z0-1_.]*)";
-//
-//    Pattern pat = Pattern.compile(reg);
-//    return pat.matcher(codeLine);
-//  }
 }

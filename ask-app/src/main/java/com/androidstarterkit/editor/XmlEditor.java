@@ -82,14 +82,6 @@ public class XmlEditor {
           }
         });
         matcher.match();
-
-//        Matcher matcher = ResourceMatcher.createValueMatcherForXml(codeLine);
-//        while (matcher.find()) {
-//          final String childResourceTypeName = matcher.group(1);
-//          final String childElementName = matcher.group(2);
-//
-//          transferElement(childResourceTypeName, childElementName, depth);
-//        }
       }
 
       FileUtils.writeFile(sampleModule.getAndroidManifestFile(), codeLines);
@@ -116,32 +108,6 @@ public class XmlEditor {
       }
     });
     matcher.match();
-
-//    Matcher matcher = ResourceMatcher.createFileMatcherForJava(codeLine);
-//
-//    while (matcher.find()) {
-//      final String resourceTypeName = matcher.group(1);
-//      final String layoutName = matcher.group(2);
-//
-//      try {
-//        transferResourceXml(resourceTypeName, layoutName, depth);
-//      } catch (IOException | NullPointerException e) {
-//        e.printStackTrace();
-//      }
-//    }
-//
-//    matcher = ResourceMatcher.createValueMatcherForJava(codeLine);
-//
-//    while (matcher.find()) {
-//      final String resourceTypeName = matcher.group(1);
-//      final String layoutName = matcher.group(2);
-//
-//      try {
-//        transferElement(resourceTypeName, layoutName, depth);
-//      } catch (IOException | NullPointerException e) {
-//        e.printStackTrace();
-//      }
-//    }
   }
 
   /**
@@ -171,14 +137,6 @@ public class XmlEditor {
 
       matcher.match();
 
-//      Matcher matcher = ResourceMatcher.createFileMatcherForXml(xmlCodeLine);
-//      while (matcher.find()) {
-//        final String childResourceTypeName = matcher.group(1);
-//        final String childLayoutName = matcher.group(2);
-//
-//        transferResourceXml(childResourceTypeName, childLayoutName, depth);
-//      }
-
       matcher = new ResourceMatcher(xmlCodeLine, new ResourceMatcher.XmlValueMatcher() {
         @Override
         public void matched(String resourceTypeName, String elementName) throws FileNotFoundException {
@@ -186,14 +144,6 @@ public class XmlEditor {
         }
       });
       matcher.match();
-
-//      matcher = ResourceMatcher.createValueMatcherForXml(xmlCodeLine);
-//      while (matcher.find()) {
-//        final String childResourceTypeName = matcher.group(1);
-//        final String childElementName = matcher.group(2);
-//
-//        transferElement(childResourceTypeName, childElementName, depth);
-//      }
 
       codes += xmlCodeLine + "\n";
 
