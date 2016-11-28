@@ -87,7 +87,7 @@ public class XmlEditor {
         final String childResourceTypeName = matcher.group(1);
         final String childElementName = matcher.group(2);
 
-        importElement(childResourceTypeName, childElementName);
+        transferElement(childResourceTypeName, childElementName);
       }
     } catch (FileNotFoundException e) {
       e.printStackTrace();
@@ -95,7 +95,7 @@ public class XmlEditor {
   }
 
   public void importResourceByLine(String codeLine, int depth) {
-    importResourcesXmls(codeLine, depth);
+    importResourceFiles(codeLine, depth);
     importValueElements(codeLine, depth);
   }
 
@@ -113,7 +113,7 @@ public class XmlEditor {
     }
   }
 
-  private void importResourcesXmls(String codeLine, int depth) {
+  private void importResourceFiles(String codeLine, int depth) {
     Matcher matcher = ResourcePattern.matcherFileInJava(codeLine);
 
     while (matcher.find()) {
@@ -122,7 +122,7 @@ public class XmlEditor {
 
       try {
         File moduleLayoutFile = askModule.getChildFile(layoutName, Extension.XML);
-        importLayout(resourceTypeName, layoutName);
+        transferXml(resourceTypeName, layoutName);
 
         System.out.println(PrintUtils.prefixDash(depth) + "Transfering : " + moduleLayoutFile.getName());
       } catch (IOException | NullPointerException e) {
@@ -139,14 +139,14 @@ public class XmlEditor {
       final String layoutName = matcher.group(2);
 
       try {
-        importElement(resourceTypeName, layoutName);
+        transferElement(resourceTypeName, layoutName);
       } catch (IOException | NullPointerException e) {
         e.printStackTrace();
       }
     }
   }
 
-  private void importLayout(String resourceType, String layoutName) throws FileNotFoundException {
+  private void transferXml(String resourceType, String layoutName) throws FileNotFoundException {
     File moduleXmlFile = askModule.getChildFile(layoutName, Extension.XML);
 
     String codes = "";
@@ -163,7 +163,7 @@ public class XmlEditor {
         final String childResourceTypeName = matcher.group(1);
         final String childLayoutName = matcher.group(2);
 
-        importLayout(childResourceTypeName, childLayoutName);
+        transferXml(childResourceTypeName, childLayoutName);
       }
 
       matcher = ResourcePattern.matcherValuesInXml(xmlCodeLine);
@@ -171,7 +171,7 @@ public class XmlEditor {
         final String childResourceTypeName = matcher.group(1);
         final String childElementName = matcher.group(2);
 
-        importElement(childResourceTypeName, childElementName);
+        transferElement(childResourceTypeName, childElementName);
       }
 
       codes += xmlCodeLine + "\n";
@@ -184,7 +184,7 @@ public class XmlEditor {
         , codes);
   }
 
-  private void importElement(String resourceTypeName, String elementName) throws FileNotFoundException {
+  private void transferElement(String resourceTypeName, String elementName) throws FileNotFoundException {
     List<File> valueFiles = askModule.getChildFiles(resourceTypeName + "s", Extension.XML);
     if (valueFiles == null) {
       throw new FileNotFoundException();

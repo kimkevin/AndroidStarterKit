@@ -41,6 +41,7 @@ public class ResourcePattern {
     final String reg = "@("
         + ValueType.STYLE
         + "|" + ValueType.DIMEN
+        + "|" + ValueType.STRING
         + ")/([A-Za-z0-1_.]*)";
 
     Pattern pat = Pattern.compile(reg);
