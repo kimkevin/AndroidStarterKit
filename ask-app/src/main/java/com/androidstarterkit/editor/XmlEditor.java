@@ -35,6 +35,8 @@ public class XmlEditor {
       boolean isFound = false;
       String activityBlock = "";
 
+      System.out.println(PrintUtils.prefixDash(depth) + askModule.getAndroidManifestFile().getName());
+
       while (scanner.hasNext()) {
         String codeLine = scanner.nextLine();
 
@@ -75,28 +77,26 @@ public class XmlEditor {
           codeLines += codeLine + "\n";
         }
 
-        ResourceMatcher matcher = new ResourceMatcher(codeLine, new ResourceMatcher.XmlValueMatcher() {
-          @Override
-          public void matched(String resourceTypeName, String elementName) throws FileNotFoundException {
-            transferElement(resourceTypeName, elementName, depth);
-          }
-        });
+        ResourceMatcher matcher = new ResourceMatcher(codeLine
+            , (ResourceMatcher.XmlValueMatcher) (String resourceTypeName, String elementName) -> {
+              transferElement(resourceTypeName, elementName, depth + 1);
+            }
+        );
         matcher.match();
       }
 
       FileUtils.writeFile(sampleModule.getAndroidManifestFile(), codeLines);
-
-      System.out.println(PrintUtils.prefixDash(depth) + askModule.getAndroidManifestFile().getName());
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
+
   }
 
   public void importResourcesForJava(String codeLine, int depth) {
     ResourceMatcher matcher = new ResourceMatcher(codeLine, new ResourceMatcher.JavaFileMatcher() {
       @Override
       public void matched(String resourceTypeName, String layoutName) throws FileNotFoundException {
-        transferResourceXml(resourceTypeName, layoutName, depth);
+        transferResourceXml(resourceTypeName, layoutName, depth + 1);
       }
     });
     matcher.match();
@@ -104,7 +104,7 @@ public class XmlEditor {
     matcher = new ResourceMatcher(codeLine, new ResourceMatcher.JavaValueMatcher() {
       @Override
       public void matched(String resourceTypeName, String elementName) throws FileNotFoundException {
-        transferElement(resourceTypeName, elementName, depth);
+        transferElement(resourceTypeName, elementName, depth + 1);
       }
     });
     matcher.match();
@@ -122,6 +122,8 @@ public class XmlEditor {
     String codes = "";
     Scanner scanner = new Scanner(moduleXmlFile);
 
+    System.out.println(PrintUtils.prefixDash(depth) + resourceTypeName + "/" + moduleXmlFile.getName());
+
     while (scanner.hasNext()) {
       String xmlCodeLine = scanner.nextLine()
           .replace(askModule.getApplicationId(), sampleModule.getApplicationId())
@@ -131,7 +133,7 @@ public class XmlEditor {
       ResourceMatcher matcher = new ResourceMatcher(xmlCodeLine, new ResourceMatcher.XmlFileMatcher() {
         @Override
         public void matched(String resourceTypeName, String layoutName) throws FileNotFoundException {
-          transferResourceXml(resourceTypeName, layoutName, depth);
+          transferResourceXml(resourceTypeName, layoutName, depth + 1);
         }
       });
 
@@ -140,7 +142,7 @@ public class XmlEditor {
       matcher = new ResourceMatcher(xmlCodeLine, new ResourceMatcher.XmlValueMatcher() {
         @Override
         public void matched(String resourceTypeName, String elementName) throws FileNotFoundException {
-          transferElement(resourceTypeName, elementName, depth);
+          transferElement(resourceTypeName, elementName, depth + 1);
         }
       });
       matcher.match();
@@ -153,8 +155,6 @@ public class XmlEditor {
     FileUtils.writeFile(sampleModule.getResPath() + "/" + resourceTypeName
         , moduleXmlFile.getName()
         , codes);
-
-    System.out.println(PrintUtils.prefixDash(depth) + resourceTypeName + "/" + moduleXmlFile.getName());
   }
 
   /**
