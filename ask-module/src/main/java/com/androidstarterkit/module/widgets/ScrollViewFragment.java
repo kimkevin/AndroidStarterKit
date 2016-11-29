@@ -24,7 +24,7 @@ public class ScrollViewFragment extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_main, null);
     TextView posTxt = (TextView) view.findViewById(R.id.pos_txt);
-    posTxt.setText("ScrollView (Default)");
+    posTxt.setText("Hello, this's a ScrollView");
     return view;
   }
 }
