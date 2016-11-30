@@ -40,7 +40,7 @@ Usage: ask [options] [dir]
 Options:
 First option must be a layout specifier
   -l -layout <widget>...   add <widget> support: sv(ScrollView), rv(RecyclerView), lv(ListView), gv(GridView)
-													 defaults to ScrollView
+                           defaults to ScrollView
 
   -h, --help               output usage information
   -i, --icon               tab icon instead of text more than 2 widgets
