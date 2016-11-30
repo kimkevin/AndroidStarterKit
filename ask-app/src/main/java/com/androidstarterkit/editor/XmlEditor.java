@@ -77,12 +77,15 @@ public class XmlEditor {
           codeLines += codeLine + "\n";
         }
 
-        ResourceMatcher matcher = new ResourceMatcher(codeLine
-            , (ResourceMatcher.XmlValueMatcher) (String resourceTypeName, String elementName) -> {
-              transferElement(resourceTypeName, elementName, depth + 1);
-            }
-        );
-        matcher.match();
+        ResourceMatcher matcher = new ResourceMatcher(codeLine,
+                ResourceMatcher.MatchType.XML_VALUE);
+        matcher.match((String resourceTypeName, String elementName) -> {
+          try {
+            transferElement(resourceTypeName, elementName, depth + 1);
+          } catch(FileNotFoundException e) {
+            //TODO: handle
+          }
+        });
       }
 
       FileUtils.writeFile(sampleModule.getAndroidManifestFile(), codeLines);
@@ -93,21 +96,25 @@ public class XmlEditor {
   }
 
   public void importResourcesForJava(String codeLine, int depth) {
-    ResourceMatcher matcher = new ResourceMatcher(codeLine, new ResourceMatcher.JavaFileMatcher() {
-      @Override
-      public void matched(String resourceTypeName, String layoutName) throws FileNotFoundException {
+    ResourceMatcher matcher = new ResourceMatcher(codeLine,
+            ResourceMatcher.MatchType.JAVA_FILE);
+    matcher.match((resourceTypeName, layoutName) -> {
+      try {
         transferResourceXml(resourceTypeName, layoutName, depth + 1);
+      } catch(FileNotFoundException e) {
+        //TODO : handle
       }
     });
-    matcher.match();
 
-    matcher = new ResourceMatcher(codeLine, new ResourceMatcher.JavaValueMatcher() {
-      @Override
-      public void matched(String resourceTypeName, String elementName) throws FileNotFoundException {
+    matcher = new ResourceMatcher(codeLine,
+            ResourceMatcher.MatchType.JAVA_VALUE);
+    matcher.match((resourceTypeName, elementName) -> {
+      try {
         transferElement(resourceTypeName, elementName, depth + 1);
+      } catch (FileNotFoundException e) {
+        //TODO : handle
       }
     });
-    matcher.match();
   }
 
   /**
@@ -130,22 +137,26 @@ public class XmlEditor {
           .replace(AskModule.DEFAULT_MODULE_ACTIVITY_NAME,
               FileUtils.removeExtension(sampleModule.getMainActivityName()));
 
-      ResourceMatcher matcher = new ResourceMatcher(xmlCodeLine, new ResourceMatcher.XmlFileMatcher() {
-        @Override
-        public void matched(String resourceTypeName, String layoutName) throws FileNotFoundException {
-          transferResourceXml(resourceTypeName, layoutName, depth + 1);
+      ResourceMatcher matcher = new ResourceMatcher(xmlCodeLine,
+              ResourceMatcher.MatchType.XML_FILE);
+
+      matcher.match((resourceTypeName1, layoutName1) -> {
+        try {
+          transferResourceXml(resourceTypeName1, layoutName1, depth + 1);
+        } catch (FileNotFoundException e) {
+          //TODO : handle
         }
       });
 
-      matcher.match();
-
-      matcher = new ResourceMatcher(xmlCodeLine, new ResourceMatcher.XmlValueMatcher() {
-        @Override
-        public void matched(String resourceTypeName, String elementName) throws FileNotFoundException {
-          transferElement(resourceTypeName, elementName, depth + 1);
+      matcher = new ResourceMatcher(xmlCodeLine,
+              ResourceMatcher.MatchType.XML_VALUE);
+      matcher.match((resourceTypeName12, elementName) -> {
+        try {
+          transferElement(resourceTypeName12, elementName, depth + 1);
+        } catch (FileNotFoundException e) {
+          //TODO : handle
         }
       });
-      matcher.match();
 
       codes += xmlCodeLine + "\n";
 
