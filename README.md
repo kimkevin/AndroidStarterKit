@@ -4,12 +4,9 @@ ASK - Android Starter Kit
 Android Starter Kit is meant to start developing app **simply** and **quickly**.  
 In this project we offer some `Android` modules that are most commonly used imported using command line.
 
-> **Creating Android project which has `ListView`, Default `View` and `ListView` as the multiple sequentially fragments in `ViewPager`**
-> ```bash
-> ask -l gv,rv,sv -i /android_project_path
-> ```
+> **Creating Android project which has `GridView`, `ListView` and Default `ScrollView` as the multiple sequentially fragments in `ViewPager`**
 
-![](https://github.com/kimkevin/AndroidStarterKit/blob/master/assets/ask_00.gif)
+![](https://github.com/kimkevin/AndroidStarterKit/blob/master/assets/ask_demo.gif)
 
 This `ask-module` contains the following modules:
 
@@ -32,8 +29,8 @@ $ cd AndroidStarterKit
 
 # Adding ask path to bash_profile
 $ pwd
-/local/AndroidStarterKit
-$ echo 'export PATH=$PATH:/local/AndroidStarterKit' >> ~/.bash_profile
+/local/AndroidStarterKit/ask-app/build/classes/main
+$ echo 'export PATH=$PATH:/local/AndroidStarterKit/ask-app/build/classes/main' >> ~/.bash_profile
 ```
 
 ## Usage
@@ -47,9 +44,6 @@ First option must be a layout specifier
 
   -h, --help               output usage information
   -i, --icon               tab icon instead of text more than 2 widgets
-	-d, --drawer
-	-f, --fab
-	-m, --menu
 ```
 
 ## Run
@@ -66,9 +60,8 @@ $ ask -l <widget>... your_project_path
 > **Examples**
 ```bash
 $ ask -l rv /samples/MyApplication
-$ ask -l lv,lv /samples/MyApplication
-$ ask -l gv,lv,rv /samples/MyApplication
-$ ask -l rv,rv,rv -i /samples/MyApplication
+$ ask -l gv,lv /samples/MyApplication
+$ ask -l gv,lv --icon /samples/MyApplication
 ```
 
 ## License
