@@ -1,6 +1,8 @@
 ASK - Android Starter Kit
 =====
 
+![](https://github.com/kimkevin/AndroidStarterKit/blob/master/assets/ask_banner.png)
+
 Android Starter Kit is meant to start developing app **simply** and **quickly**.  
 In this project we offer some `Android` modules that are most commonly used imported using command line.
 
