@@ -18,14 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GridViewFragment extends Fragment {
+  private static List<AndroidPlatform> platforms = new ArrayList<>();
 
-  @Nullable
-  @Override
-  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_gridview_main, null);
-
-    List<AndroidPlatform> platforms = new ArrayList<>();
-
+  static {
     platforms.add(new AndroidPlatform("applepie", "1.0", 1));
     platforms.add(new AndroidPlatform("bananabread", "1.1", 2));
     platforms.add(new AndroidPlatform("cupcake", "1.5", 3));
@@ -39,6 +34,12 @@ public class GridViewFragment extends Fragment {
     platforms.add(new AndroidPlatform("lollipop", "5.0", 21));
     platforms.add(new AndroidPlatform("marshmallow", "6.0", 23));
     platforms.add(new AndroidPlatform("nougat", "7.0", 24));
+  }
+
+  @Nullable
+  @Override
+  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.fragment_gridview_main, null);
 
     final int colSize = 3;
     final int columnWidth = getScreenWidth() / colSize;
