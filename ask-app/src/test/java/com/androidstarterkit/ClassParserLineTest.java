@@ -1,5 +1,7 @@
 package com.androidstarterkit;
 
+import com.androidstarterkit.tool.ClassParser;
+
 import org.junit.Test;
 
 import java.util.ArrayList;

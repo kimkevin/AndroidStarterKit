@@ -48,7 +48,7 @@ public class JavaReflection {
     print(null);
   }
 
-  public void print(Extension extension) {
+  public void print(com.androidstarterkit.api.Extension extension) {
 
   }
 }

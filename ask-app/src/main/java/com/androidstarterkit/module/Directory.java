@@ -1,9 +1,9 @@
 package com.androidstarterkit.module;
 
-import com.androidstarterkit.CommandException;
-import com.androidstarterkit.Extension;
+import com.androidstarterkit.api.Extension;
+import com.androidstarterkit.exception.CommandException;
 import com.androidstarterkit.file.AndroidManifest;
-import com.androidstarterkit.file.BuildGradleFile;
+import com.androidstarterkit.file.BuildGradle;
 import com.androidstarterkit.model.ExternalLibrary;
 
 import java.io.File;
@@ -16,7 +16,6 @@ import java.util.Map;
 
 public class Directory extends File {
   public static final String ANDROID_MANIFEST_FILE = "AndroidManifest.xml";
-  public static final String SETTINGS_GRADLE_FILE = "settings.gradle";
   public static final String BUILD_GRADLE_FILE = "build.gradle";
 
   protected Map<String, Object> fileMap;
@@ -24,11 +23,12 @@ public class Directory extends File {
 
   protected String[] fileExtensions;
   protected String[] ignoreDirNames;
-  protected BuildGradleFile buildGradleFile;
+
+  protected BuildGradle buildGradleFile;
   protected AndroidManifest androidManifestFile;
   protected ExternalLibrary externalLibrary;
 
-  public Directory(String pathname, String[] fileExtensions, String[] ignoredDirNames) throws CommandException {
+  public Directory(String pathname, String[] fileExtensions, String[] ignoredDirNames) {
     super(pathname);
 
     this.fileExtensions = fileExtensions;
@@ -41,7 +41,7 @@ public class Directory extends File {
     }
 
     String buildGradlePath = getChildPath(BUILD_GRADLE_FILE);
-    buildGradleFile = new BuildGradleFile(buildGradlePath);
+    buildGradleFile = new BuildGradle(buildGradlePath);
     this.applicationId = buildGradleFile.getApplicationId();
 
     androidManifestFile = new AndroidManifest(getChildPath(ANDROID_MANIFEST_FILE));
@@ -149,7 +149,7 @@ public class Directory extends File {
     return androidManifestFile;
   }
 
-  public BuildGradleFile getBuildGradleFile() {
+  public BuildGradle getBuildGradleFile() {
     return buildGradleFile;
   }
 
@@ -159,5 +159,9 @@ public class Directory extends File {
       System.out.println(key + " , " + fileMap.get(key));
     }
     System.out.println("[END]");
+  }
+
+  public String getMainActivityName() {
+    return androidManifestFile.getMainActivityName();
   }
 }

@@ -1,7 +1,6 @@
 package com.androidstarterkit.util;
 
-import com.androidstarterkit.config.SyntaxConfig;
-import com.androidstarterkit.module.SampleModule;
+import com.androidstarterkit.constraint.SyntaxConstraints;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -243,7 +242,7 @@ public class FileUtils {
         return intent;
       }
     }
-    return SyntaxConfig.DEFAULT_INDENT;
+    return SyntaxConstraints.DEFAULT_INDENT;
   }
 
   /**
@@ -272,10 +271,5 @@ public class FileUtils {
     }
 
     return path;
-  }
-
-  public static boolean isMySample(String path) {
-    String mySamplePath = FileUtils.linkPathWithSlash(FileUtils.getRootPath(), SampleModule.DEFAULT_SAMPLE_MODULE_NAME);
-    return mySamplePath.equals(path);
   }
 }

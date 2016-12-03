@@ -1,6 +1,6 @@
 package com.androidstarterkit.command;
 
-import com.androidstarterkit.CommandException;
+import com.androidstarterkit.exception.CommandException;
 
 import java.util.ArrayList;
 import java.util.Arrays;

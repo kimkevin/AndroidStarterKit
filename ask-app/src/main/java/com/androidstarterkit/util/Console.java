@@ -1,6 +1,6 @@
 package com.androidstarterkit.util;
 
-import com.androidstarterkit.CommandException;
+import com.androidstarterkit.exception.CommandException;
 import com.androidstarterkit.config.AskConfig;
 
 public class Console {

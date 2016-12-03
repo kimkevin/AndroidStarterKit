@@ -1,1 +1,1 @@
-include ':ask-module', ':ask-app', ':ask-sample'
+include ':ask-remote-module', ':ask-app', ':ask-sample'

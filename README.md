@@ -8,7 +8,7 @@ In this project we offer some `Android` modules that are most commonly used impo
 
 ![](https://github.com/kimkevin/AndroidStarterKit/blob/master/assets/ask_demo.gif)
 
-This `ask-module` contains the following modules:
+This `ask-remote-module` contains the following modules:
 
 **Layout**
 
@@ -27,7 +27,7 @@ This `ask-module` contains the following modules:
 $ git clone git@github.com:kimkevin/AndroidStarterKit.git
 $ cd AndroidStarterKit
 
-# Adding ask path to bash_profile
+# Add Path Permanently 
 $ pwd
 /local/AndroidStarterKit/ask-app/build/classes/main
 $ echo 'export PATH=$PATH:/local/AndroidStarterKit/ask-app/build/classes/main' >> ~/.bash_profile

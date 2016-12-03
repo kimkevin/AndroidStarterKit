@@ -1,5 +1,7 @@
 package com.androidstarterkit.model;
 
+import com.androidstarterkit.api.manifest.Permission;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -11,7 +13,7 @@ public class ExternalLibrary {
     dictionary = new HashMap<>();
     dictionary.put("CardView", new Info("com.android.support:cardview-v7:" + supportLibraryVersion));
     dictionary.put("RecyclerView", new Info("com.android.support:recyclerview-v7:" + supportLibraryVersion));
-    dictionary.put("Glide", new Info("com.github.bumptech.glide:glide:3.7.0", Permission.INTERNET));
+    dictionary.put("Glide", new Info("com.github.bumptech.glide:glide:3.7.0", com.androidstarterkit.api.manifest.Permission.INTERNET));
     dictionary.put("FloatingActionButton", new Info("com.android.support:design:" + supportLibraryVersion));
   }
 

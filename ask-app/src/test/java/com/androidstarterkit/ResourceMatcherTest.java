@@ -1,14 +1,16 @@
 package com.androidstarterkit;
 
+import com.androidstarterkit.tool.ResourceMatcher;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static com.androidstarterkit.ResourceMatcher.MatchType.JAVA_FILE;
-import static com.androidstarterkit.ResourceMatcher.MatchType.JAVA_VALUE;
-import static com.androidstarterkit.ResourceMatcher.MatchType.XML_FILE;
-import static com.androidstarterkit.ResourceMatcher.MatchType.XML_VALUE;
+import static com.androidstarterkit.tool.ResourceMatcher.MatchType.JAVA_FILE;
+import static com.androidstarterkit.tool.ResourceMatcher.MatchType.JAVA_VALUE;
+import static com.androidstarterkit.tool.ResourceMatcher.MatchType.XML_FILE;
+import static com.androidstarterkit.tool.ResourceMatcher.MatchType.XML_VALUE;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
