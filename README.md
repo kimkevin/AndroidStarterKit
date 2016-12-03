@@ -20,6 +20,7 @@ This `ask-remote-module` contains the following modules:
 1. RecyclerView
 2. ListView
 3. GridView
+4. ScrollView
 
 ## Getting Started
 
