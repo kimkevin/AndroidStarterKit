@@ -1,12 +1,12 @@
 package com.androidstarterkit.file;
 
-import com.androidstarterkit.api.resource.AndroidAttribute;
-import com.androidstarterkit.api.resource.ElementConstraints;
-import com.androidstarterkit.api.resource.IntentConstraints;
+import com.androidstarterkit.android.api.ElementConstraints;
+import com.androidstarterkit.android.api.IntentConstraints;
+import com.androidstarterkit.android.api.manifest.Permission;
+import com.androidstarterkit.android.api.resource.AttributeContraints;
 import com.androidstarterkit.constraint.SyntaxConstraints;
 import com.androidstarterkit.exception.ActivityNotFoundException;
 import com.androidstarterkit.exception.PackageNotFoundException;
-import com.androidstarterkit.api.manifest.Permission;
 import com.androidstarterkit.tool.MatcherTask;
 import com.androidstarterkit.util.FileUtils;
 
@@ -27,6 +27,7 @@ public class AndroidManifest extends XmlFile {
 
   private String mainActivityName;
   private String packageName;
+  private Element activityElement;
 
   public AndroidManifest(String pathname) {
     super(pathname, FILE_NAME);
@@ -53,10 +54,12 @@ public class AndroidManifest extends XmlFile {
             Node actionNode = ((Element) intentFilterNode).getElementsByTagName(ElementConstraints.ACTION).item(0);
             Element actionElement = (Element) actionNode;
 
-            if (actionElement.getAttribute(AndroidAttribute.NAME)
+            if (actionElement.getAttribute(AttributeContraints.NAME)
                 .equals(IntentConstraints.ACTION_MAIN)) {
+              this.activityElement = activityElement;
+
               String regEx = ".(\\w+)$";
-              MatcherTask task = new MatcherTask(regEx, activityElement.getAttribute(AndroidAttribute.NAME));
+              MatcherTask task = new MatcherTask(regEx, activityElement.getAttribute(AttributeContraints.NAME));
               task.start(matcher ->
                   mainActivityName = matcher.group(1)
               );
@@ -120,5 +123,9 @@ public class AndroidManifest extends XmlFile {
 
   public String getPackageName() {
     return packageName;
+  }
+
+  public Element getMainActivityElement() {
+    return activityElement;
   }
 }

@@ -1,8 +1,12 @@
 package com.androidstarterkit.tool;
 
 
-import com.androidstarterkit.api.Extension;
+import com.androidstarterkit.android.api.ElementConstraints;
+import com.androidstarterkit.android.api.Extension;
+import com.androidstarterkit.android.api.IntentConstraints;
+import com.androidstarterkit.android.api.resource.AttributeContraints;
 import com.androidstarterkit.constraint.SyntaxConstraints;
+import com.androidstarterkit.file.AndroidManifest;
 import com.androidstarterkit.module.RemoteModule;
 import com.androidstarterkit.module.SourceModule;
 import com.androidstarterkit.util.FileUtils;
@@ -10,15 +14,21 @@ import com.androidstarterkit.util.PrintUtils;
 import com.androidstarterkit.util.StringUtils;
 import com.androidstarterkit.util.SyntaxUtils;
 
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.xml.transform.TransformerException;
+
 public class XmlEditor {
   private static final String TAG = XmlEditor.class.getSimpleName();
-
-  private static final String ELEMENT_RESOURCE_NAME = "resources";
 
   private SourceModule sourceModule;
   private RemoteModule remoteModule;
@@ -33,55 +43,46 @@ public class XmlEditor {
   }
 
   public void importAttrsOfRemoteMainActivity(OnEditListener onEditListener) {
-    try {
-      Scanner scanner = new Scanner(remoteModule.getAndroidManifestFile());
-      boolean isFound = false;
-      String activityBlock = "";
+    AndroidManifest androidManifestFile = remoteModule.getAndroidManifestFile();
+    System.out.println(PrintUtils.prefixDash(0) + androidManifestFile.getName());
 
-      System.out.println(PrintUtils.prefixDash(0) + remoteModule.getAndroidManifestFile().getName());
+    NodeList acitivityNodes = androidManifestFile
+        .getRootNode()
+        .getElementsByTagName(ElementConstraints.APPLICATION)
+        .item(0)
+        .getChildNodes();
 
-      while (scanner.hasNext()) {
-        String codeLine = scanner.nextLine();
+    NamedNodeMap activityAttributeNodeMap = null;
 
-        if (isFound || SyntaxUtils.hasStartElement(codeLine, "activity")) {
-          isFound = true;
+    for (int i = 0, li = acitivityNodes.getLength(); i < li; i++) {
+      Node activityNode = acitivityNodes.item(i);
 
-          codeLine = codeLine.replace(remoteModule.getMainActivityName()
-              , sourceModule.getMainActivityName());
+      if (activityNode.getNodeType() == Node.ELEMENT_NODE) {
+        Element activityElement = (Element) activityNode;
 
-          activityBlock += codeLine;
+        if (activityElement.hasChildNodes()) {
+          Node intentFilterNode = activityElement.getElementsByTagName(ElementConstraints.INTENT_FILTER).item(0);
 
-          if (codeLine.contains("</activity>")) {
-            break;
-          } else {
-            activityBlock += "\n";
+          if (intentFilterNode != null && intentFilterNode.hasChildNodes()) {
+            Node actionNode = ((Element) intentFilterNode).getElementsByTagName(ElementConstraints.ACTION).item(0);
+            Element actionElement = (Element) actionNode;
+
+            if (actionElement.getAttribute(AttributeContraints.NAME).equals(IntentConstraints.ACTION_MAIN)) {
+              activityAttributeNodeMap = activityElement.getAttributes();
+            }
           }
         }
       }
+    }
 
-      scanner = new Scanner(sourceModule.getAndroidManifestFile());
-      isFound = false;
-      String codeLines = "";
+    for (int k = 0, size = activityAttributeNodeMap.getLength(); k < size; k++) {
+      Node attributeNode = activityAttributeNodeMap.item(k);
 
-      while (scanner.hasNext()) {
-        String codeLine = scanner.nextLine();
+      if (!attributeNode.getNodeName().equals(AttributeContraints.NAME)) {
+        Element activityElement = sourceModule.getAndroidManifestFile().getMainActivityElement();
+        activityElement.setAttribute(attributeNode.getNodeName(), attributeNode.getNodeValue());
 
-        if (isFound || SyntaxUtils.hasStartElement(codeLine, "activity")) {
-          isFound = true;
-
-          codeLine = codeLine.replace(remoteModule.getMainActivityName()
-              , sourceModule.getMainActivityName());
-
-          if (codeLine.contains("</activity>")) {
-            codeLines += activityBlock + "\n";
-            isFound = false;
-          }
-        } else {
-          codeLines += codeLine + "\n";
-        }
-
-        ResourceMatcher matcher = new ResourceMatcher(codeLine,
-            ResourceMatcher.MatchType.XML_VALUE);
+        ResourceMatcher matcher = new ResourceMatcher(attributeNode.getNodeValue(), ResourceMatcher.MatchType.XML_VALUE);
         matcher.match((String resourceTypeName, String elementName) -> {
           try {
             transferElement(resourceTypeName, elementName, 1);
@@ -90,13 +91,15 @@ public class XmlEditor {
           }
         });
       }
-
-      FileUtils.writeFile(sourceModule.getAndroidManifestFile(), codeLines);
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
     }
 
-    onEditListener.onFinished();
+    XmlDomWriter writer = new XmlDomWriter();
+    try {
+      writer.write(sourceModule.getAndroidManifestFile(), sourceModule.getAndroidManifestFile().getDocument());
+      onEditListener.onFinished();
+    } catch (TransformerException | IOException e) {
+      e.printStackTrace();
+    }
   }
 
   public void importResourcesForJava(String codeLine, int depth) {
@@ -105,8 +108,8 @@ public class XmlEditor {
     matcher.match((resourceTypeName, layoutName) -> {
       try {
         transferResourceXml(resourceTypeName, layoutName, depth + 1);
-      } catch(FileNotFoundException e) {
-        //TODO : onMatched
+      } catch (FileNotFoundException e) {
+        e.printStackTrace();
       }
     });
 
@@ -116,7 +119,7 @@ public class XmlEditor {
       try {
         transferElement(resourceTypeName, elementName, depth + 1);
       } catch (FileNotFoundException e) {
-        //TODO : onMatched
+        e.printStackTrace();
       }
     });
   }
@@ -238,7 +241,7 @@ public class XmlEditor {
           }
 
           // Check if it is end of element
-          if (SyntaxUtils.hasEndElement(xmlCodeLine, ELEMENT_RESOURCE_NAME)
+          if (SyntaxUtils.hasEndElement(xmlCodeLine, ElementConstraints.RESOURCE)
               && !codeLines.contains(elementLines)) {
             codeLines += elementLines;
           }
@@ -263,8 +266,8 @@ public class XmlEditor {
   }
 
   private File createNewXmlFile(String pathName) {
-    String codeLines = SyntaxUtils.createStartElement(ELEMENT_RESOURCE_NAME) + SyntaxConstraints.NEWLINE;
-    codeLines += SyntaxUtils.createEndElement(ELEMENT_RESOURCE_NAME) + SyntaxConstraints.NEWLINE;
+    String codeLines = SyntaxUtils.createStartElement(ElementConstraints.RESOURCE) + SyntaxConstraints.NEWLINE;
+    codeLines += SyntaxUtils.createEndElement(ElementConstraints.RESOURCE) + SyntaxConstraints.NEWLINE;
 
     File file = new File(FileUtils.linkPathWithSlash(pathName));
     FileUtils.writeFile(file, codeLines);

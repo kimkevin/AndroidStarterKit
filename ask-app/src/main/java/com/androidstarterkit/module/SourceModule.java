@@ -1,8 +1,8 @@
 package com.androidstarterkit.module;
 
 import com.androidstarterkit.config.AskConfig;
-import com.androidstarterkit.api.Extension;
-import com.androidstarterkit.api.resource.ResourceType;
+import com.androidstarterkit.android.api.Extension;
+import com.androidstarterkit.android.api.resource.ResourceType;
 import com.androidstarterkit.command.TabType;
 import com.androidstarterkit.command.WidgetType;
 import com.androidstarterkit.config.RemoteModuleConfig;
@@ -94,15 +94,19 @@ public class SourceModule extends Directory {
     System.out.println("layout path : " + layoutPath);
     System.out.println();
 
-    xmlEditor.importAttrsOfRemoteMainActivity(() -> {
-      final String mainActivityName = remoteModule.getMainActivityName();
-      final File moduleMainActivityFile = remoteModule.getChildFile(mainActivityName, Extension.JAVA);
+    try {
+      xmlEditor.importAttrsOfRemoteMainActivity(() -> {
+        final String mainActivityName = remoteModule.getMainActivityName();
+        final File moduleMainActivityFile = remoteModule.getChildFile(mainActivityName, Extension.JAVA);
 
-      transformFile(0, moduleMainActivityFile, tabType, widgets);
-    });
+        transformFile(0, moduleMainActivityFile, tabType, widgets);
+      });
 
-    System.out.println("Import Successful!");
-    System.out.println("Project path : " + getPath());
+      System.out.println("Import Successful!");
+      System.out.println("Project path : " + getPath());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   /**

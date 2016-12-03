@@ -1,4 +1,4 @@
-package com.androidstarterkit.api;
+package com.androidstarterkit.android.api;
 
 public enum Extension {
   JAVA(".java"), XML(".xml"), GRADLE(".gradle");

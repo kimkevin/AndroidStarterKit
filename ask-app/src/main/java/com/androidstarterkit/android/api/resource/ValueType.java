@@ -1,4 +1,4 @@
-package com.androidstarterkit.api.resource;
+package com.androidstarterkit.android.api.resource;
 
 public enum ValueType {
   DIMEN("dimen")

@@ -1,8 +1,8 @@
 package com.androidstarterkit.tool;
 
 
-import com.androidstarterkit.api.resource.ResourceType;
-import com.androidstarterkit.api.resource.ValueType;
+import com.androidstarterkit.android.api.resource.ResourceType;
+import com.androidstarterkit.android.api.resource.ValueType;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,8 +14,8 @@ public class ResourceMatcher {
     void handle(String type, String name);
   }
 
-  public ResourceMatcher(String codeLine, MatchType matchType) {
-    this.matcher = matchType.getMatchPattern().matcher(codeLine);
+  public ResourceMatcher(String input, MatchType matchType) {
+    this.matcher = matchType.getMatchPattern().matcher(input);
   }
 
   public void match(Handler handler) {

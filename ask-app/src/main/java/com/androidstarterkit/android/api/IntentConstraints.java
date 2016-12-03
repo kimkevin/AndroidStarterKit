@@ -1,4 +1,4 @@
-package com.androidstarterkit.api.resource;
+package com.androidstarterkit.android.api;
 
 
 public class IntentConstraints {

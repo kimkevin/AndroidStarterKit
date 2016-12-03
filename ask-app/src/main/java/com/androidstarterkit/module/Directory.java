@@ -1,6 +1,6 @@
 package com.androidstarterkit.module;
 
-import com.androidstarterkit.api.Extension;
+import com.androidstarterkit.android.api.Extension;
 import com.androidstarterkit.exception.CommandException;
 import com.androidstarterkit.file.AndroidManifest;
 import com.androidstarterkit.file.BuildGradle;

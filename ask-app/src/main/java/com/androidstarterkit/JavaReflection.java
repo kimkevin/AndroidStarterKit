@@ -5,11 +5,6 @@ import java.lang.reflect.Method;
 
 
 public class JavaReflection {
-
-  interface listener {
-
-  }
-
   public JavaReflection() {
     Class<?>[] declaredClasses = getClass().getDeclaredClasses();
     for (Class myClass : declaredClasses) {
@@ -44,11 +39,5 @@ public class JavaReflection {
 //    getClass().getGenericInterfaces()
 //    getClass().getGenericSuperclass()
     System.out.println("typename = " + getClass().getTypeName());
-
-    print(null);
-  }
-
-  public void print(com.androidstarterkit.api.Extension extension) {
-
   }
 }

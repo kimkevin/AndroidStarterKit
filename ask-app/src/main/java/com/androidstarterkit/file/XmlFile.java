@@ -18,4 +18,12 @@ public class XmlFile extends BaseFile {
     document = xmlDomParser.getDocument();
     rootNode = document.getDocumentElement();
   }
+
+  public Element getRootNode() {
+    return rootNode;
+  }
+
+  public Document getDocument() {
+    return document;
+  }
 }
