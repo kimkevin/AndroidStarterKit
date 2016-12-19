@@ -1,8 +1,5 @@
 package com.androidstarterkit.command;
 
-import com.androidstarterkit.command.CommandParser;
-import com.androidstarterkit.command.TabType;
-
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertFalse;
@@ -13,19 +10,8 @@ import static org.junit.Assert.assertTrue;
 public class CommandParserTest {
 
   @Test
-  public void testIsCommand() throws Exception {
-    CommandParser parser = new CommandParser(new String[]{});
-
-    assertTrue(parser.isCommand("-l"));
-    assertTrue(parser.isCommand("--layout"));
-    assertFalse(parser.isCommand("-"));
-    assertFalse(parser.isCommand("lv,-,rv"));
-    assertFalse(parser.isCommand("/path/project"));
-  }
-
-  @Test
   public void testPath() throws Exception {
-    final String[] args = { "-l", "lv,-,rv", "/path/project" };
+    final String[] args = { "-l", "lv,rv", "/path/project" };
     CommandParser parser = new CommandParser(args);
 
     assertNotNull(parser.getPath());
@@ -34,7 +20,7 @@ public class CommandParserTest {
 
   @Test
   public void testWidget() throws Exception {
-    final String[] args = { "-l", "lv,-,rv", "/path/project" };
+    final String[] args = { "-l", "lv,rv", "/path/project" };
     CommandParser parser = new CommandParser(args);
 
     assertNotNull(parser.getTabType());
@@ -43,7 +29,7 @@ public class CommandParserTest {
 
   @Test
   public void testWidgetWithIcon() throws Exception {
-    final String[] args = { "-l", "lv,-,rv", "-i", "/path/project" };
+    final String[] args = { "-l", "lv,rv", "-i", "/path/project" };
     CommandParser parser = new CommandParser(args);
 
     assertNotNull(parser.getTabType());
@@ -53,7 +39,7 @@ public class CommandParserTest {
 
   @Test
   public void testWidgetWithoutIcon() throws Exception {
-    final String[] args = { "-l", "lv,-,rv", "/path/project" };
+    final String[] args = { "-l", "lv,rv", "/path/project" };
     CommandParser parser = new CommandParser(args);
 
     assertNotNull(parser.getTabType());
