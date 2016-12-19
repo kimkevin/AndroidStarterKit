@@ -1,4 +1,4 @@
-package com.androidstarterkit;
+package com.androidstarterkit.command;
 
 import com.androidstarterkit.command.CommandParser;
 import com.androidstarterkit.command.TabType;
