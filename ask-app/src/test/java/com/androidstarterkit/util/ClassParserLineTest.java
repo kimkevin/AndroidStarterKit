@@ -1,4 +1,4 @@
-package com.androidstarterkit;
+package com.androidstarterkit.util;
 
 import com.androidstarterkit.tool.ClassParser;
 
