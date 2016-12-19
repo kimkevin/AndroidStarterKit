@@ -95,7 +95,7 @@ public class CommandParser {
     return widgets;
   }
 
-  public boolean isCommand(String command) {
+  private boolean isCommand(String command) {
     String reg = "^(-|--)[a-z]+$";
 
     Pattern pat = Pattern.compile(reg);
