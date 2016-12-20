@@ -21,12 +21,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ScrollViewActivity" android:label="ScrollView"/>
-        <activity android:name=".GridViewActivity" android:label="GridView"/>
-        <activity android:name=".RecyclerViewActivity" android:label="RecyclerView"/>
-        <activity android:name=".ListViewActivity" android:label="ListView"/>
-        <activity android:name=".SlidingTabActivity" android:label="SlidingTabLayout"/>
-        <activity android:name=".SlidingIconTabActivity" android:label="SlidingIconTabLayout"/>
+        <activity android:name=".sample.activity.ScrollViewActivity" android:label="ScrollView"/>
+        <activity android:name=".sample.activity.GridViewActivity" android:label="GridView"/>
+        <activity android:name=".sample.activity.RecyclerViewActivity" android:label="RecyclerView"/>
+        <activity android:name=".sample.activity.ListViewActivity" android:label="ListView"/>
+        <activity android:name=".sample.activity.SlidingTabActivity" android:label="SlidingTabLayout"/>
+        <activity android:name=".sample.activity.SlidingIconTabActivity" android:label="SlidingIconTabLayout"/>
     </application>
 
 </manifest>

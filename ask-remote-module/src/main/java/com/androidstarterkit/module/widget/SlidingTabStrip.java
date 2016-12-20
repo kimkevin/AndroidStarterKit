@@ -1,4 +1,4 @@
-package com.androidstarterkit.module.views;
+package com.androidstarterkit.module.widget;
 
 /*
  * Copyright 2014 Google Inc. All rights reserved.

@@ -1,5 +1,5 @@
-package com.androidstarterkit.module.models;
+package com.androidstarterkit.module.sample;
 
-public enum WidgetType {
+public enum SampleType {
   ScrollView, GridView, RecyclerView, ListView, SlidingTabLayout, SlidingIconTabLayout
 }

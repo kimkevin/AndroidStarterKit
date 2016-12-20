@@ -1,11 +1,12 @@
-package com.androidstarterkit.module;
+package com.androidstarterkit.module.sample.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.androidstarterkit.module.widgets.ListViewFragment;
+import com.androidstarterkit.module.R;
+import com.androidstarterkit.module.ui.RecyclerViewFragment;
 
-public class ListViewActivity extends AppCompatActivity{
+public class RecyclerViewActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -15,8 +16,9 @@ public class ListViewActivity extends AppCompatActivity{
     if (savedInstanceState == null) {
       getSupportFragmentManager()
           .beginTransaction()
-          .add(R.id.container, new ListViewFragment())
+          .add(R.id.container, new RecyclerViewFragment())
           .commit();
     }
   }
 }
+

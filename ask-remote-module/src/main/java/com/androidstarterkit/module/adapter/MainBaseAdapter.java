@@ -8,23 +8,23 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.androidstarterkit.module.GridViewActivity;
-import com.androidstarterkit.module.ListViewActivity;
+import com.androidstarterkit.module.sample.activity.GridViewActivity;
+import com.androidstarterkit.module.sample.activity.ListViewActivity;
 import com.androidstarterkit.module.R;
-import com.androidstarterkit.module.RecyclerViewActivity;
-import com.androidstarterkit.module.ScrollViewActivity;
-import com.androidstarterkit.module.SlidingIconTabActivity;
-import com.androidstarterkit.module.SlidingTabActivity;
-import com.androidstarterkit.module.models.WidgetType;
+import com.androidstarterkit.module.sample.activity.RecyclerViewActivity;
+import com.androidstarterkit.module.sample.activity.ScrollViewActivity;
+import com.androidstarterkit.module.sample.activity.SlidingIconTabActivity;
+import com.androidstarterkit.module.sample.activity.SlidingTabActivity;
+import com.androidstarterkit.module.sample.SampleType;
 
 import java.util.List;
 
 public class MainBaseAdapter extends BaseAdapter {
   private Context context;
-  private List<WidgetType> dataSet;
+  private List<SampleType> dataSet;
   private LayoutInflater inflater;
 
-  public MainBaseAdapter(Context context, List<WidgetType> dataSet) {
+  public MainBaseAdapter(Context context, List<SampleType> dataSet) {
     this.context = context;
     this.dataSet = dataSet;
     this.inflater = (LayoutInflater) context.getSystemService(
@@ -65,10 +65,10 @@ public class MainBaseAdapter extends BaseAdapter {
     convertView.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        WidgetType widgetType = dataSet.get(position);
+        SampleType sampleType = dataSet.get(position);
         Intent intent = null;
 
-        switch (widgetType) {
+        switch (sampleType) {
           case ScrollView:
             intent = new Intent(context, ScrollViewActivity.class);
             break;

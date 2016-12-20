@@ -1,22 +1,22 @@
-package com.androidstarterkit.module.widgets;
+package com.androidstarterkit.module.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.androidstarterkit.module.R;
-import com.androidstarterkit.module.adapter.ListViewAdapter;
-import com.androidstarterkit.module.models.AndroidPlatform;
+import com.androidstarterkit.module.adapter.RecyclerViewAdapter;
+import com.androidstarterkit.module.data.AndroidPlatform;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class ListViewFragment extends Fragment {
+public class RecyclerViewFragment extends Fragment {
   private static List<AndroidPlatform> platforms = new ArrayList<>();
 
   static {
@@ -37,14 +37,14 @@ public class ListViewFragment extends Fragment {
 
   @Nullable
   @Override
-  public View onCreateView(LayoutInflater inflater, @Nullable  ViewGroup container, @Nullable  Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_listview_main, null);
+  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.fragment_recyclerview_main, null);
 
-    ListView listView = (ListView) view.findViewById(R.id.list_view);
+    RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-    ListViewAdapter adapter = new ListViewAdapter(getActivity(), platforms);
-    listView.setAdapter(adapter);
-
+    RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), platforms);
+    recyclerView.setAdapter(recyclerViewAdapter);
     return view;
   }
 }

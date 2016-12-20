@@ -1,23 +1,22 @@
-package com.androidstarterkit.module.widgets;
-
+package com.androidstarterkit.module.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
+import android.widget.ListView;
 
 import com.androidstarterkit.module.R;
-import com.androidstarterkit.module.adapter.GridViewAdapter;
-import com.androidstarterkit.module.models.AndroidPlatform;
+import com.androidstarterkit.module.adapter.ListViewAdapter;
+import com.androidstarterkit.module.data.AndroidPlatform;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GridViewFragment extends Fragment {
+
+public class ListViewFragment extends Fragment {
   private static List<AndroidPlatform> platforms = new ArrayList<>();
 
   static {
@@ -38,22 +37,14 @@ public class GridViewFragment extends Fragment {
 
   @Nullable
   @Override
-  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_gridview_main, null);
+  public View onCreateView(LayoutInflater inflater, @Nullable  ViewGroup container, @Nullable  Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.fragment_listview_main, null);
 
-    final int colSize = 3;
-    final int columnWidth = getScreenWidth() / colSize;
+    ListView listView = (ListView) view.findViewById(R.id.list_view);
 
-    GridView gridView = (GridView) view.findViewById(R.id.grid_view);
-    gridView.setNumColumns(colSize);
-    gridView.setColumnWidth(columnWidth);
-    gridView.setAdapter(new GridViewAdapter(getActivity(), platforms, columnWidth));
+    ListViewAdapter adapter = new ListViewAdapter(getActivity(), platforms);
+    listView.setAdapter(adapter);
+
     return view;
-  }
-
-  private int getScreenWidth() {
-    DisplayMetrics metrics = new DisplayMetrics();
-    getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-    return metrics.widthPixels;
   }
 }

@@ -75,6 +75,7 @@ public class BuildGradle extends BaseFile {
   private List<String> addLineToElement(String elementName, String dependencyString, List<String> lineList) {
     boolean isFoundScope = false;
     String indent = "";
+    int scopeCnt = 0;
 
     for (int i = 0, li = lineList.size(); i < li; i++) {
       final String codeLine = lineList.get(i);
@@ -89,7 +90,15 @@ public class BuildGradle extends BaseFile {
         }
       }
 
-      if (isFoundScope && codeLine.contains("}")) {
+      if (isFoundScope) {
+        if (codeLine.contains("{")) {
+          scopeCnt++;
+        } else if (codeLine.contains("}")) {
+          scopeCnt--;
+        }
+      }
+
+      if (isFoundScope && scopeCnt == 0) {
         if (lineList.contains(indent + dependencyString)) {
           continue;
         }

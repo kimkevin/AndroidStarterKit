@@ -1,22 +1,23 @@
-package com.androidstarterkit.module.widgets;
+package com.androidstarterkit.module.ui;
+
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 
 import com.androidstarterkit.module.R;
-import com.androidstarterkit.module.adapter.RecyclerViewAdapter;
-import com.androidstarterkit.module.models.AndroidPlatform;
+import com.androidstarterkit.module.adapter.GridViewAdapter;
+import com.androidstarterkit.module.data.AndroidPlatform;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerViewFragment extends Fragment {
+public class GridViewFragment extends Fragment {
   private static List<AndroidPlatform> platforms = new ArrayList<>();
 
   static {
@@ -38,13 +39,21 @@ public class RecyclerViewFragment extends Fragment {
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_recyclerview_main, null);
+    View view = inflater.inflate(R.layout.fragment_gridview_main, null);
 
-    RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    final int colSize = 3;
+    final int columnWidth = getScreenWidth() / colSize;
 
-    RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), platforms);
-    recyclerView.setAdapter(recyclerViewAdapter);
+    GridView gridView = (GridView) view.findViewById(R.id.grid_view);
+    gridView.setNumColumns(colSize);
+    gridView.setColumnWidth(columnWidth);
+    gridView.setAdapter(new GridViewAdapter(getActivity(), platforms, columnWidth));
     return view;
+  }
+
+  private int getScreenWidth() {
+    DisplayMetrics metrics = new DisplayMetrics();
+    getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+    return metrics.widthPixels;
   }
 }

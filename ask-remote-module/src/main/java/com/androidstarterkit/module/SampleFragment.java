@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 import android.widget.ListView;
 
 import com.androidstarterkit.module.adapter.MainBaseAdapter;
-import com.androidstarterkit.module.models.WidgetType;
+import com.androidstarterkit.module.sample.SampleType;
 
 import java.util.Arrays;
 
@@ -21,7 +21,7 @@ public class SampleFragment extends Fragment {
     ListView listView = (ListView) view.findViewById(R.id.list_view);
 
     MainBaseAdapter adapter = new MainBaseAdapter(getActivity(),
-        Arrays.asList(WidgetType.values()));
+        Arrays.asList(SampleType.values()));
     listView.setAdapter(adapter);
     return view;
   }

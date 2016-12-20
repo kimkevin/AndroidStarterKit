@@ -1,11 +1,10 @@
-package com.androidstarterkit.module.models;
+package com.androidstarterkit.module.data;
 
 
 import com.androidstarterkit.module.R;
 
 public class FragmentInfo {
   private Class fragmentClass;
-  private int iconResId = R.mipmap.ic_launcher;
 
   public FragmentInfo(Class fragmentClass) {
     this.fragmentClass = fragmentClass;
@@ -16,6 +15,6 @@ public class FragmentInfo {
   }
 
   public int getIconResId() {
-    return iconResId;
+    return R.mipmap.ic_launcher;
   }
 }

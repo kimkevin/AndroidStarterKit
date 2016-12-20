@@ -1,4 +1,4 @@
-package com.androidstarterkit.module.widgets;
+package com.androidstarterkit.module.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
