@@ -1,4 +1,4 @@
-package com.androidstarterkit.module.adapter;
+package com.androidstarterkit.module.ui.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -6,14 +6,15 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.androidstarterkit.module.data.FragmentInfo;
 import com.androidstarterkit.module.ui.ScrollViewFragment;
+import com.androidstarterkit.module.widget.SlidingTabLayout;
 
 import java.util.List;
 
-public class SlidingTabAdapter extends FragmentPagerAdapter {
+public class SlidingIconTabAdapter extends FragmentPagerAdapter implements SlidingTabLayout.TabIconProvider {
 
   private List<FragmentInfo> fragmentInfos;
 
-  public SlidingTabAdapter(FragmentManager fragmentManager, List<FragmentInfo> fragmentInfos) {
+  public SlidingIconTabAdapter(FragmentManager fragmentManager, List<FragmentInfo> fragmentInfos) {
     super(fragmentManager);
 
     this.fragmentInfos = fragmentInfos;
@@ -35,7 +36,7 @@ public class SlidingTabAdapter extends FragmentPagerAdapter {
   }
 
   @Override
-  public CharSequence getPageTitle(int position) {
-    return "TAB" + position;
+  public int getPageIconResId(int position) {
+    return fragmentInfos.get(position).getIconResId();
   }
 }

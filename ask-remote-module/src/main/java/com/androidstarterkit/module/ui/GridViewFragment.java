@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 
 import com.androidstarterkit.module.R;
-import com.androidstarterkit.module.adapter.GridViewAdapter;
+import com.androidstarterkit.module.ui.adapter.GridViewAdapter;
 import com.androidstarterkit.module.data.AndroidPlatform;
 
 import java.util.ArrayList;

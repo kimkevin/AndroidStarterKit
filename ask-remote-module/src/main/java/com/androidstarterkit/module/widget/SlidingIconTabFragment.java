@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.androidstarterkit.module.R;
-import com.androidstarterkit.module.adapter.SlidingIconTabAdapter;
+import com.androidstarterkit.module.ui.adapter.SlidingIconTabAdapter;
 import com.androidstarterkit.module.data.FragmentInfo;
 import com.androidstarterkit.module.ui.ScrollViewFragment;
 

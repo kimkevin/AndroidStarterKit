@@ -1,4 +1,4 @@
-package com.androidstarterkit.util;
+package com.androidstarterkit.tool;
 
 import com.androidstarterkit.tool.ClassParser;
 import com.androidstarterkit.util.FileUtils;

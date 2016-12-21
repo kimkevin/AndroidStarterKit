@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
 import android.widget.ListView;
 
-import com.androidstarterkit.module.adapter.MainBaseAdapter;
+import com.androidstarterkit.module.ui.adapter.MainBaseAdapter;
 import com.androidstarterkit.module.sample.SampleType;
 
 import java.util.Arrays;

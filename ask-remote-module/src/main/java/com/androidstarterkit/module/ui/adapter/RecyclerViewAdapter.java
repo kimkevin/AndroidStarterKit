@@ -1,4 +1,4 @@
-package com.androidstarterkit.module.adapter;
+package com.androidstarterkit.module.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.androidstarterkit.module.R;
-import com.androidstarterkit.module.adapter.ListViewAdapter;
+import com.androidstarterkit.module.ui.adapter.ListViewAdapter;
 import com.androidstarterkit.module.data.AndroidPlatform;
 
 import java.util.ArrayList;
