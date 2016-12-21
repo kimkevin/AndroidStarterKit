@@ -5,7 +5,7 @@ import com.androidstarterkit.android.api.ElementConstraints;
 import com.androidstarterkit.android.api.Extension;
 import com.androidstarterkit.android.api.IntentConstraints;
 import com.androidstarterkit.android.api.resource.AttributeContraints;
-import com.androidstarterkit.constraint.SyntaxConstraints;
+import com.androidstarterkit.SyntaxConstraints;
 import com.androidstarterkit.file.AndroidManifest;
 import com.androidstarterkit.module.RemoteModule;
 import com.androidstarterkit.module.SourceModule;

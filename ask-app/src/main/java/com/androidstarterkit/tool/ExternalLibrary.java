@@ -1,4 +1,4 @@
-package com.androidstarterkit.model;
+package com.androidstarterkit.tool;
 
 import com.androidstarterkit.android.api.manifest.Permission;
 

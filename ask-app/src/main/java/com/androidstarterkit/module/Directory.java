@@ -4,7 +4,7 @@ import com.androidstarterkit.android.api.Extension;
 import com.androidstarterkit.exception.CommandException;
 import com.androidstarterkit.file.AndroidManifest;
 import com.androidstarterkit.file.BuildGradle;
-import com.androidstarterkit.model.ExternalLibrary;
+import com.androidstarterkit.tool.ExternalLibrary;
 
 import java.io.File;
 import java.io.FileFilter;

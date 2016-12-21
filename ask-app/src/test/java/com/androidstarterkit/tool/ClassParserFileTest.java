@@ -1,6 +1,5 @@
 package com.androidstarterkit.tool;
 
-import com.androidstarterkit.tool.ClassParser;
 import com.androidstarterkit.util.FileUtils;
 
 import org.junit.Before;
@@ -26,7 +25,7 @@ public class ClassParserFileTest {
   public void setUp() throws Exception {
     if (lines.size() <= 0) {
       final String filePath = FileUtils.getRootPath().replace("ask-app",
-          "ask-remote-module/src/main/java/com/androidstarterkit/module/SlidingTabActivity.java");
+          "ask-remote-module/src/main/java/com/androidstarterkit/module/sample/activity/SlidingTabActivity.java");
 
       lines = FileUtils.readFile(new File(filePath));
     }

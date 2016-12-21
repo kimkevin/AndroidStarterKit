@@ -1,6 +1,6 @@
 package com.androidstarterkit.util;
 
-import com.androidstarterkit.constraint.SyntaxConstraints;
+import com.androidstarterkit.SyntaxConstraints;
 
 import java.io.BufferedWriter;
 import java.io.File;

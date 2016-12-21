@@ -6,7 +6,7 @@ import com.androidstarterkit.android.api.resource.ResourceType;
 import com.androidstarterkit.command.TabType;
 import com.androidstarterkit.command.WidgetType;
 import com.androidstarterkit.config.RemoteModuleConfig;
-import com.androidstarterkit.constraint.SyntaxConstraints;
+import com.androidstarterkit.SyntaxConstraints;
 import com.androidstarterkit.exception.CommandException;
 import com.androidstarterkit.file.SettingsGradle;
 import com.androidstarterkit.tool.ClassParser;

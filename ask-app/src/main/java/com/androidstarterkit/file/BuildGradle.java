@@ -1,6 +1,6 @@
 package com.androidstarterkit.file;
 
-import com.androidstarterkit.constraint.SyntaxConstraints;
+import com.androidstarterkit.SyntaxConstraints;
 import com.androidstarterkit.util.FileUtils;
 
 import java.util.List;
@@ -8,16 +8,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BuildGradle extends BaseFile {
-  public static final String DEPENDENCIES_ELEMENT_NAME = "dependencies";
-  public static final String COMPILE_CONFIGURATION_FORMAT = "compile '" + SyntaxConstraints.REPLACE_STRING + "'";
+  private static final String TAG = BuildGradle.class.getSimpleName();
+
+  public static final String FILE_NAME = "build.gradle";
+  private static final String ELEMENT_DEPENDENCIES_NAME = "dependencies";
+  private static final String COMPILE_CONFIGURATION_FORMAT = "compile '" + SyntaxConstraints.REPLACE_STRING + "'";
 
   private List<String> lineList;
 
-  private String supportLibraryVersion;
   private String applicationId;
+  private String supportLibraryVersion;
 
   public BuildGradle(String modulePath) {
-    super(modulePath, "build.gradle");
+    super(modulePath, FILE_NAME);
 
     lineList = FileUtils.readFile(this);
 
@@ -56,7 +59,7 @@ public class BuildGradle extends BaseFile {
 
     for (String externalLibrary : externalLibraries) {
       lineList = addLineToElement(
-          DEPENDENCIES_ELEMENT_NAME,
+          ELEMENT_DEPENDENCIES_NAME,
           COMPILE_CONFIGURATION_FORMAT.replace(SyntaxConstraints.REPLACE_STRING, externalLibrary),
           lineList);
     }

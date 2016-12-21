@@ -47,7 +47,7 @@ public class ResourceMatcher {
             + ValueType.STYLE
             + "|" + ValueType.DIMEN
             + "|" + ValueType.STRING
-            + ")/([A-Za-z0-1_.]*)");
+            + ")/([A-Za-z0-1_]*)");
 
     private Pattern matchPattern;
     MatchType(String regex) {

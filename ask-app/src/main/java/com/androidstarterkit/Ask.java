@@ -5,7 +5,6 @@ import com.androidstarterkit.command.TabType;
 import com.androidstarterkit.command.WidgetType;
 import com.androidstarterkit.exception.CommandException;
 import com.androidstarterkit.module.SourceModule;
-import com.androidstarterkit.util.Console;
 
 import java.util.List;
 

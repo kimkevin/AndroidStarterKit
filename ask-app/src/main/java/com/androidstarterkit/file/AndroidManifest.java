@@ -4,7 +4,7 @@ import com.androidstarterkit.android.api.ElementConstraints;
 import com.androidstarterkit.android.api.IntentConstraints;
 import com.androidstarterkit.android.api.manifest.Permission;
 import com.androidstarterkit.android.api.resource.AttributeContraints;
-import com.androidstarterkit.constraint.SyntaxConstraints;
+import com.androidstarterkit.SyntaxConstraints;
 import com.androidstarterkit.exception.ActivityNotFoundException;
 import com.androidstarterkit.exception.PackageNotFoundException;
 import com.androidstarterkit.tool.MatcherTask;
