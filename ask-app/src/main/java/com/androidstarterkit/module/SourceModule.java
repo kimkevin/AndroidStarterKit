@@ -9,6 +9,7 @@ import com.androidstarterkit.config.RemoteModuleConfig;
 import com.androidstarterkit.SyntaxConstraints;
 import com.androidstarterkit.exception.CommandException;
 import com.androidstarterkit.file.SettingsGradle;
+import com.androidstarterkit.tool.ClassInfo;
 import com.androidstarterkit.tool.ClassParser;
 import com.androidstarterkit.tool.XmlEditor;
 import com.androidstarterkit.util.FileUtils;
@@ -30,7 +31,7 @@ public class SourceModule extends Directory {
 
   private XmlEditor xmlEditor;
 
-  private List<String> filteredClassNames;
+  private List<ClassInfo> filteredClassNames;
   private TabType tabType;
   private List<WidgetType> widgets;
 
@@ -143,7 +144,7 @@ public class SourceModule extends Directory {
       throw new CommandException(CommandException.FILE_NOT_FOUND, file.getName());
     }
     List<String> codeLines = new ArrayList<>();
-    List<String> addedPackageClasses = new ArrayList<>();
+    List<ClassInfo> addedPackageClasses = new ArrayList<>();
 
     while (scanner.hasNext()) {
       String codeLine = scanner.nextLine();
@@ -172,10 +173,10 @@ public class SourceModule extends Directory {
     }
   }
 
-  private List<String> defineImportClasses(List<String> codeLines, List<String> addedPackageClassNames) {
+  private List<String> defineImportClasses(List<String> codeLines, List<ClassInfo> addedPackageClassInfos) {
     List<String> importedClassStrings = new ArrayList<>();
-    for (int i = 0, li = addedPackageClassNames.size(); i < li; i++) {
-      String className = addedPackageClassNames.get(i);
+    for (int i = 0, li = addedPackageClassInfos.size(); i < li; i++) {
+      String className = addedPackageClassInfos.get(i).getName();
       if (remoteModule.getRelativePathFromJavaDir(className + Extension.JAVA.toString()) != null) {
         String importedClassString = SyntaxConstraints.IDENTIFIER_IMPORT + " "
             + applicationId + "."
@@ -249,21 +250,21 @@ public class SourceModule extends Directory {
   private String importDeclaredClasses(String codeLine
       , int depth
       , List<WidgetType> widgets
-      , List<String> addedPackageClasses) throws CommandException {
-    List<String> classNames = ClassParser.getClassNames(codeLine);
-    addedPackageClasses.addAll(classNames);
+      , List<ClassInfo> addedPackageClassInfos) throws CommandException {
+    List<ClassInfo> classInfos = ClassParser.getClasses(codeLine);
+    addedPackageClassInfos.addAll(classInfos);
 
-    classNames = filterClasses(classNames);
+    classInfos = filterClasses(classInfos);
 
-    if (classNames.size() > 0) {
-      for (String className : classNames) {
-        if (remoteModule.getRelativePathFromJavaDir(className + Extension.JAVA.toString()) != null) {
-          filteredClassNames.add(className);
+    if (classInfos.size() > 0) {
+      for (ClassInfo classInfo : classInfos) {
+        if (remoteModule.getRelativePathFromJavaDir(classInfo.getName() + Extension.JAVA.toString()) != null) {
+          filteredClassNames.add(classInfo);
 
-          transformFile(depth + 1, remoteModule.getChildFile(className, Extension.JAVA), null, widgets);
+          transformFile(depth + 1, remoteModule.getChildFile(classInfo.getName(), Extension.JAVA), null, widgets);
         } else {
           for (String dependencyKey : externalLibrary.getKeys()) {
-            if (className.equals(dependencyKey)) {
+            if (classInfo.getName().equals(dependencyKey)) {
               buildGradleFile.addDependency(externalLibrary.getInfo(dependencyKey).getLibrary());
               androidManifestFile.addPermissions(externalLibrary.getInfo(dependencyKey).getPermissions());
               break;
@@ -276,12 +277,14 @@ public class SourceModule extends Directory {
     return codeLine.replace(remoteModule.getApplicationId(), getApplicationId());
   }
 
-  private List<String> filterClasses(List<String> classNames) {
-    List<String> newFilteredClasses = new ArrayList<>();
+  private List<ClassInfo> filterClasses(List<ClassInfo> classInfos) {
+    List<ClassInfo> newFilteredClasses = new ArrayList<>();
 
-    for (String className : classNames) {
-      if (!filteredClassNames.contains(className)) {
-        newFilteredClasses.add(className);
+    for (ClassInfo classInfo : classInfos) {
+      for (ClassInfo filteredClassInfo : filteredClassNames) {
+        if (!filteredClassInfo.equals(classInfo)) {
+          newFilteredClasses.add(classInfo);
+        }
       }
     }
 

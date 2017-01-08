@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.androidstarterkit.module.R;
-import com.androidstarterkit.module.widget.SlidingTabFragment;
+import com.androidstarterkit.module.ui.view.SlidingTabFragment;
 
 public class SlidingTabActivity extends AppCompatActivity {
 

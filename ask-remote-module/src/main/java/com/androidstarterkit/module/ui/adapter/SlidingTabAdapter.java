@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.androidstarterkit.module.data.FragmentInfo;
-import com.androidstarterkit.module.ui.ScrollViewFragment;
+import com.androidstarterkit.module.ui.view.ScrollViewFragment;
 
 import java.util.List;
 

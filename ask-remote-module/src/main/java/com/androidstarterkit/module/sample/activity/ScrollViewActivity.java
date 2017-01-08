@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.androidstarterkit.module.R;
-import com.androidstarterkit.module.ui.ScrollViewFragment;
+import com.androidstarterkit.module.ui.view.ScrollViewFragment;
 
 public class ScrollViewActivity extends AppCompatActivity {
 

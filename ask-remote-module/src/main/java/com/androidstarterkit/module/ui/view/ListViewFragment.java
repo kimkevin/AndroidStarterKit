@@ -1,4 +1,4 @@
-package com.androidstarterkit.module.ui;
+package com.androidstarterkit.module.ui.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

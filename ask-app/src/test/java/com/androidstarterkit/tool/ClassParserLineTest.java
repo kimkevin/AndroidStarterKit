@@ -1,123 +1,220 @@
 package com.androidstarterkit.tool;
 
-import com.androidstarterkit.tool.ClassParser;
-
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class ClassParserLineTest {
-  private List<String> actual = new ArrayList<>();
-  private List<String> expected = new ArrayList<>();
 
   @Test
-  public void testListParameterClasses1() {
-    actual = ClassParser.listParameterClasses("  public RecyclerViewAdapter(Context context, List<CoffeeType> dataSet) {");
-    expected = Arrays.asList("Context", "CoffeeType", "List");
+  public void testListConstructedClass() throws Exception {
+    List<ClassInfo> expected = new ArrayList<>();
+    expected.add(new ClassInfo("SlidingTabFragment"));
 
-    assertEquals(expected.size(), actual.size());
-    assertList(actual, expected);
+    final String codeline = "          .add(R.id.container, new SlidingTabFragment())";
+    List<ClassInfo> actual = ClassParser.listConstructedClass(codeline);
+
+    assertList(expected, actual);
   }
 
   @Test
-  public void testListParameterClasses2() {
-    actual = ClassParser.listParameterClasses("  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {");
-    expected = Arrays.asList("LayoutInflater", "ViewGroup", "Bundle");
+  public void testListInheritClass() throws Exception {
+    List<ClassInfo> actual = new ArrayList<>();
+    List<ClassInfo> expected = new ArrayList<>();
+    expected.add(new ClassInfo("BaseActivity1"));
+    expected.add(new ClassInfo("Interface1", new ClassInfo("Interface2")));
+    expected.add(new ClassInfo("Interface3"));
+    expected.add(new ClassInfo("Interface4", new ClassInfo("Interface5")));
+    expected.add(new ClassInfo("Interface6"));
+    expected.add(new ClassInfo("BaseActivity2"));
+    expected.add(new ClassInfo("Interface7"));
+    expected.add(new ClassInfo("Interface8"));
+    expected.add(new ClassInfo("BaseActivity3"));
+    expected.add(new ClassInfo("Interface9", new ClassInfo("Interface10")));
+    expected.add(new ClassInfo("Interface11"));
 
-    assertEquals(expected.size(), actual.size());
-    assertList(actual, expected);
+    final String[] codeLines = {"public class MainActivity extends BaseActivity1",
+        "    implements Interface1.Interface2, Interface3 {",
+        "    implements Interface4.Interface5, Interface6",
+        "    public class MainActivity extends BaseActivity2 implements Interface7, Interface8 {",
+        "    public class MainActivity extends BaseActivity3 implements Interface9.Interface10, Interface11"
+    };
+
+    for (String codeLine : codeLines) {
+      actual.addAll(ClassParser.listInheritClass(codeLine));
+    }
+
+    assertList(expected, actual);
   }
 
   @Test
-  public void testListParameterClasses3() {
-    actual = ClassParser.listParameterClasses("  public void onBindViewHolder(final RecyclerViewAdapter.ViewHolder holder, final int position) {");
-    expected = Arrays.asList("RecyclerViewAdapter");
+  public void testListFieldClasses1() throws Exception {
+    List<ClassInfo> expected = new ArrayList<>();
+    List<ClassInfo> actual = new ArrayList<>();
 
-    assertEquals(expected.size(), actual.size());
-    assertList(actual, expected);
+    expected.add(new ClassInfo("Class1"));
+    expected.add(new ClassInfo("Class2"));
+    expected.add(new ClassInfo("Class3"));
+    expected.add(new ClassInfo("Class4", new ClassInfo("Class5")));
+    expected.add(new ClassInfo("Class6"));
+    expected.add(new ClassInfo("Class7"));
+    expected.add(new ClassInfo("Class8", Arrays.asList(new ClassInfo("Generic1"))));
+    expected.add(new ClassInfo("Class9", Arrays.asList(
+        new ClassInfo("Generic2", Arrays.asList(new ClassInfo("Generic5"))))));
+    expected.add(new ClassInfo("Class10", Arrays.asList(new ClassInfo("Generic3"))));
+    expected.add(new ClassInfo("Class11", Arrays.asList(new ClassInfo("Generic4")),
+        new ClassInfo("Class12", Arrays.asList(new ClassInfo("Generic6")))));
+    expected.add(new ClassInfo("HashMap", Arrays.asList(
+        new ClassInfo("KEY1"), new ClassInfo("SortedMap", Arrays.asList(
+            new ClassInfo("KEY2"), new ClassInfo("VALUE"))))));
+
+    final String[] codeLines = {
+        " Class1 class1=",
+        " Class2 class1 = ",
+        " Class3 class1;",
+        " Class4.Class5 class1;",
+        " Class6[] class1;",
+        " Class7 class1[] =",
+        " Class8<Generic1> class1;",
+        " Class9<Generic2<Generic5>>[] class1 =",
+        " Class10<Generic3> class1[];",
+        " Class11<Generic4>.Class12<Generic6> class1;",
+        " HashMap<KEY1, SortedMap<KEY2, VALUE>> class1 ="
+    };
+
+    for (String codeLine : codeLines) {
+      actual.addAll(ClassParser.listVariableClass(codeLine));
+    }
+
+    assertList(expected, actual);
   }
 
   @Test
-  public void testListParameterClasses4() {
-    actual = ClassParser.listParameterClasses("  holder.title.setOnClickListener(new View.OnClickListener() {");
+  public void testListFieldClasses2() throws Exception {
+    final String[] codeLines = {"    return true;",
+        "    } else if (id == R.id.nav_send) {",
+        "    int id = item.getItemId();",
+        "    public boolean onNavigationItemSelected(MenuItem item) {",
+        "    return super.onOptionsItemSelected(item);",
+        "   //noinspection SimplifiableIfStatement",
+        "package com.androidstarterkit.sample;"};
 
+    for (String codeLine : codeLines) {
+      assertEquals(0, ClassParser.listVariableClass(codeLine).size());
+    }
+  }
+
+  @Test
+  public void testListParameterClass1() throws Exception {
+    List<ClassInfo> actual = ClassParser.listParameterClass("  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {");
+    List<ClassInfo> expected = new ArrayList<>();
+    expected.add(new ClassInfo("LayoutInflater"));
+    expected.add(new ClassInfo("ViewGroup"));
+    expected.add(new ClassInfo("Bundle"));
+
+    assertList(expected, actual);
+  }
+
+  @Test
+  public void testListParameterClass2() {
+    List<ClassInfo> actual = ClassParser.listParameterClass("  public void onBindViewHolder(final RecyclerViewAdapter.ViewHolder holder, final int position) {");
+    List<ClassInfo> expected = new ArrayList<>();
+    expected.add(new ClassInfo("RecyclerViewAdapter", new ClassInfo("ViewHolder")));
+
+    assertList(expected, actual);
+  }
+
+  @Test
+  public void testListClassWithStatic() {
+    List<ClassInfo> expected = new ArrayList<>();
+    List<ClassInfo> actual = ClassParser.listClassWithStatic("      return SlidingTabFragment.newInstance(position);");
+    expected.add(new ClassInfo("SlidingTabFragment"));
+    assertList(expected, actual);
+
+    actual = ClassParser.listClassWithStatic("  http://www.apache.org/licenses/LICENSE-2.0");
     assertEquals(0, actual.size());
-  }
 
-  @Test
-  public void testListParameterClasses5() {
-    actual = ClassParser.listParameterClasses("  SlidingTab slidingTabLayout = (SlidingTab) findViewById(R.id.tabs);");
-
+    actual = ClassParser.listClassWithStatic("  themeForegroundColor = outValue.data;");
     assertEquals(0, actual.size());
-  }
 
-  @Test
-  public void testListStaticClasses1() {
-    actual = ClassParser.listStaticClasses("  http://www.apache.org/licenses/LICENSE-2.0");
-
+    actual = ClassParser.listClassWithStatic("        import com.androidstarterkit.module.widgets.SlidingTab;");
     assertEquals(0, actual.size());
+
+    actual = ClassParser.listClassWithStatic("   Collections.sort(listofcountries);");
+    expected.clear();
+    expected.add(new ClassInfo("Collections"));
+    assertList(expected, actual);
   }
 
   @Test
-  public void testListStaticClasses2() {
-    actual = ClassParser.listStaticClasses("  themeForegroundColor = outValue.data;");
+  public void testSplitClass() throws Exception {
+    final String[] codeLines = {
+        "Machine<CoffeeType<Type.Value>, Coffee>.Coffee<Country>.Latte",
+        "Machine<CoffeeType<Type.Value>, Coffee>.Coffee<Country>",
+        "Map<CoffeeType, Coffee>",
+        "HashMap<Integer, SortedMap<Float, Double>, List<String>>.Class12",
+        "Class11<Generic4>.Class12<Generic6>",
+        "Class11<Generic4>.Class12",
+        "MyClass"
+    };
 
-    assertEquals(1, actual.size());
+    List<ClassInfo> actual = new ArrayList<>();
+    List<ClassInfo> expected = new ArrayList<>();
+    expected.add(new ClassInfo("Machine",
+        Arrays.asList(
+            new ClassInfo("CoffeeType",
+                Arrays.asList(new ClassInfo("Type", new ClassInfo("Value")))),
+            new ClassInfo("Coffee")),
+        new ClassInfo("Coffee",
+            Arrays.asList(new ClassInfo("Country")),
+            new ClassInfo("Latte"))));
+    expected.add(new ClassInfo("Machine",
+        Arrays.asList(
+            new ClassInfo("CoffeeType",
+                Arrays.asList(
+                    new ClassInfo("Type", new ClassInfo("Value")))),
+            new ClassInfo("Coffee")),
+        new ClassInfo("Coffee", Arrays.asList(new ClassInfo("Country")))));
+    expected.add(new ClassInfo("Map",
+        Arrays.asList(
+            new ClassInfo("CoffeeType"),
+            new ClassInfo("Coffee"))));
+    expected.add(new ClassInfo("HashMap",
+        Arrays.asList(new ClassInfo("Integer"),
+            new ClassInfo("SortedMap",
+                Arrays.asList(
+                    new ClassInfo("Float"),
+                    new ClassInfo("Double"))),
+            new ClassInfo("List",
+                Arrays.asList(
+                    new ClassInfo("String")))),
+        new ClassInfo("Class12")));
+    expected.add(new ClassInfo("Class11",
+        Arrays.asList(new ClassInfo("Generic4")),
+        new ClassInfo("Class12",
+            Arrays.asList(new ClassInfo("Generic6")))));
+    expected.add(new ClassInfo("Class11",
+        Arrays.asList(new ClassInfo("Generic4")),
+        new ClassInfo("Class12")));
+    expected.add(new ClassInfo("MyClass"));
+
+    for (String codeLine : codeLines) {
+      actual.add(ClassParser.splitClasses(codeLine));
+    }
+
+    assertList(expected, actual);
   }
 
-  @Test
-  public void testListStaticClasses3() {
-    actual = ClassParser.listStaticClasses("  getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground,");
+  private void assertList(List<ClassInfo> expectedClassInfos, List<ClassInfo> actualClassInfos) {
+    assertEquals(expectedClassInfos.size(), actualClassInfos.size());
 
-    assertEquals(0, actual.size());
-  }
-
-  @Test
-  public void testListStaticClasses4() {
-    actual = ClassParser.listStaticClasses("      return SlidingTabFragment.newInstance(position);");
-
-    assertEquals(1, actual.size());
-  }
-
-  @Test
-  public void testListStaticClasses5() {
-    actual = ClassParser.listStaticClasses("        import com.androidstarterkit.module.widgets.SlidingTab;");
-
-    assertEquals(0, actual.size());
-  }
-
-  @Test
-  public void testListStaticClasses6() {
-    actual = ClassParser.listStaticClasses("      SlidingTabFragment.newInstance ");
-
-    assertEquals(1, actual.size());
-  }
-
-  @Test
-  public void testListClassWithGeneric() {
-    actual = ClassParser.listClassWithGeneric("List<ClassName>");
-    expected = Arrays.asList("List", "ClassName");
-
-    assertEquals(2, actual.size());
-    assertList(actual, expected);
-  }
-
-  @Test
-  public void testInnerClass() {
-    assertEquals("Class", ClassParser.getOuterClass("Class.method()"));
-    assertEquals("Class", ClassParser.getOuterClass("Class.variable"));
-    assertEquals("Class", ClassParser.getOuterClass("Class.StaticClass"));
-  }
-
-  private void assertList(List<String> actual, List<String> expected) {
-    for (String className : actual) {
-      assertThat(true, is(expected.contains(className)));
+    for (int i = 0, li = expectedClassInfos.size(); i < li; i++) {
+      assertTrue(expectedClassInfos.get(i).equals(actualClassInfos.get(i)));
     }
   }
 }

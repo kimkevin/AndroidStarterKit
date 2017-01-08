@@ -1,4 +1,4 @@
-package com.androidstarterkit.module.widget;
+package com.androidstarterkit.module.ui.view;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,14 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.androidstarterkit.module.R;
-import com.androidstarterkit.module.ui.adapter.SlidingTabAdapter;
+import com.androidstarterkit.module.ui.adapter.SlidingIconTabAdapter;
 import com.androidstarterkit.module.data.FragmentInfo;
-import com.androidstarterkit.module.ui.ScrollViewFragment;
+import com.androidstarterkit.module.widget.SlidingTabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SlidingTabFragment extends Fragment{
+
+public class SlidingIconTabFragment extends Fragment {
 
   @Nullable
   @Override
@@ -28,15 +29,13 @@ public class SlidingTabFragment extends Fragment{
     fragmentInfos.add(new FragmentInfo(ScrollViewFragment.class));
     fragmentInfos.add(new FragmentInfo(ScrollViewFragment.class));
 
-    SlidingTabAdapter adapter = new SlidingTabAdapter(getActivity().getSupportFragmentManager(),
-        fragmentInfos);
+    SlidingIconTabAdapter adapter = new SlidingIconTabAdapter(getActivity().getSupportFragmentManager(), fragmentInfos);
 
     ViewPager viewPager = (ViewPager) view.findViewById(R.id.pager);
     viewPager.setAdapter(adapter);
 
     SlidingTabLayout slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.tabs);
-    slidingTabLayout.setCustomTabView(R.layout.tab_txt_layout, R.id.tab_name_txt);
-
+    slidingTabLayout.setCustomTabView(R.layout.tab_img_layout, R.id.tab_name_img);
     slidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
       @Override
       public int getIndicatorColor(int position) {
