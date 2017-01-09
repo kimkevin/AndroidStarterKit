@@ -72,6 +72,7 @@ public class ClassParserLineTest {
     expected.add(new ClassInfo("HashMap", Arrays.asList(
         new ClassInfo("KEY1"), new ClassInfo("SortedMap", Arrays.asList(
             new ClassInfo("KEY2"), new ClassInfo("VALUE"))))));
+    expected.add(new ClassInfo("ScrollViewFragment"));
 
     final String[] codeLines = {
         " Class1 class1=",
@@ -84,7 +85,8 @@ public class ClassParserLineTest {
         " Class9<Generic2<Generic5>>[] class1 =",
         " Class10<Generic3> class1[];",
         " Class11<Generic4>.Class12<Generic6> class1;",
-        " HashMap<KEY1, SortedMap<KEY2, VALUE>> class1 ="
+        " HashMap<KEY1, SortedMap<KEY2, VALUE>> class1 =",
+        "     ScrollViewFragment fragment = new ScrollViewFragment();"
     };
 
     for (String codeLine : codeLines) {
@@ -112,12 +114,11 @@ public class ClassParserLineTest {
   @Test
   public void testListParameterClass1() throws Exception {
     List<ClassInfo> actual = ClassParser.listParameterClass("  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {");
-    List<ClassInfo> expected = new ArrayList<>();
-    expected.add(new ClassInfo("LayoutInflater"));
-    expected.add(new ClassInfo("ViewGroup"));
-    expected.add(new ClassInfo("Bundle"));
+    List<ClassInfo> expected = Arrays.asList(new ClassInfo("LayoutInflater"), new ClassInfo("ViewGroup"), new ClassInfo("Bundle"));
 
     assertList(expected, actual);
+
+    assertEquals(0, ClassParser.listParameterClass("    fab.setOnClickListener(new View.OnClickListener() {").size());
   }
 
   @Test
@@ -130,25 +131,30 @@ public class ClassParserLineTest {
   }
 
   @Test
-  public void testListClassWithStatic() {
-    List<ClassInfo> expected = new ArrayList<>();
-    List<ClassInfo> actual = ClassParser.listClassWithStatic("      return SlidingTabFragment.newInstance(position);");
-    expected.add(new ClassInfo("SlidingTabFragment"));
-    assertList(expected, actual);
+  public void testStaticMethodOfClass() {
+    assertEquals(0, ClassParser.listStaticMethodOfClass("  http://www.apache.org/licenses/LICENSE-2.0").size());
+    assertEquals(0, ClassParser.listStaticMethodOfClass("  themeForegroundColor = outValue.data;").size());
+    assertEquals(0, ClassParser.listStaticMethodOfClass("        import com.androidstarterkit.module.widgets.SlidingTab;").size());
+    assertEquals(0, ClassParser.listStaticMethodOfClass("    fab.setOnClickListener(new View.OnClickListener() {").size());
 
-    actual = ClassParser.listClassWithStatic("  http://www.apache.org/licenses/LICENSE-2.0");
-    assertEquals(0, actual.size());
+    assertList(Arrays.asList(new ClassInfo("Collections")),
+        ClassParser.listStaticMethodOfClass("   Collections.sort(listofcountries);"));
+    assertList(Arrays.asList(new ClassInfo("SlidingTabFragment")),
+        ClassParser.listStaticMethodOfClass("      return SlidingTabFragment.newInstance(position);"));
+    assertList(Arrays.asList(new ClassInfo("Glide")),
+        ClassParser.listStaticMethodOfClass("    Glide.with(context).load(platform.getLogoUrl()).into(viewHolder.logo);"));
+  }
 
-    actual = ClassParser.listClassWithStatic("  themeForegroundColor = outValue.data;");
-    assertEquals(0, actual.size());
+  @Test
+  public void testListDotClass() throws Exception {
+    assertList(Arrays.asList(new ClassInfo("ScrollViewFragment")),
+        ClassParser.listDotClass("    fragmentInfos.add(new FragmentInfo(ScrollViewFragment.class));"));
 
-    actual = ClassParser.listClassWithStatic("        import com.androidstarterkit.module.widgets.SlidingTab;");
-    assertEquals(0, actual.size());
+    assertList(Arrays.asList(new ClassInfo("ListViewFragment")),
+        ClassParser.listDotClass("    fragmentInfos.add(new FragmentInfo(ListViewFragment.class));"));
 
-    actual = ClassParser.listClassWithStatic("   Collections.sort(listofcountries);");
-    expected.clear();
-    expected.add(new ClassInfo("Collections"));
-    assertList(expected, actual);
+    assertList(Arrays.asList(new ClassInfo("User", new ClassInfo("Account"))),
+        ClassParser.listDotClass("    userList.add(User.Account.class);"));
   }
 
   @Test

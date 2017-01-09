@@ -31,7 +31,7 @@ public class SourceModule extends Directory {
 
   private XmlEditor xmlEditor;
 
-  private List<ClassInfo> filteredClassNames;
+  private List<ClassInfo> transformedClassInfos;
   private TabType tabType;
   private List<WidgetType> widgets;
 
@@ -39,7 +39,7 @@ public class SourceModule extends Directory {
     super(modulePathname
         , new String[]{"java", "gradle", "xml"}
         , new String[]{"build", "libs", "test", "androidTest", "res"});
-    filteredClassNames = new ArrayList<>();
+    transformedClassInfos = new ArrayList<>();
 
     remoteModule = new RemoteModule();
     xmlEditor = new XmlEditor(this, remoteModule);
@@ -164,6 +164,7 @@ public class SourceModule extends Directory {
 
       codeLines.add(codeLine);
     }
+
     codeLines = defineImportClasses(codeLines, addedPackageClasses);
 
     FileUtils.writeFile(new File(moduleFilePath), codeLines);
@@ -180,7 +181,7 @@ public class SourceModule extends Directory {
       if (remoteModule.getRelativePathFromJavaDir(className + Extension.JAVA.toString()) != null) {
         String importedClassString = SyntaxConstraints.IDENTIFIER_IMPORT + " "
             + applicationId + "."
-            + remoteModule.getRelativePathFromJavaDir(className + Extension.JAVA.toString()) + "."
+            + remoteModule.getRelativePathFromJavaDir(className + Extension.JAVA.toString()).replaceAll("/", ".") + "."
             + className + ";";
 
         if (!importedClassStrings.contains(importedClassString)) {
@@ -251,15 +252,15 @@ public class SourceModule extends Directory {
       , int depth
       , List<WidgetType> widgets
       , List<ClassInfo> addedPackageClassInfos) throws CommandException {
-    List<ClassInfo> classInfos = ClassParser.getClasses(codeLine);
+    List<ClassInfo> classInfos = ClassParser.extractClasses(codeLine);
     addedPackageClassInfos.addAll(classInfos);
 
-    classInfos = filterClasses(classInfos);
+    classInfos = uniquifyClasses(classInfos);
 
     if (classInfos.size() > 0) {
       for (ClassInfo classInfo : classInfos) {
         if (remoteModule.getRelativePathFromJavaDir(classInfo.getName() + Extension.JAVA.toString()) != null) {
-          filteredClassNames.add(classInfo);
+          transformedClassInfos.add(classInfo);
 
           transformFile(depth + 1, remoteModule.getChildFile(classInfo.getName(), Extension.JAVA), null, widgets);
         } else {
@@ -277,18 +278,35 @@ public class SourceModule extends Directory {
     return codeLine.replace(remoteModule.getApplicationId(), getApplicationId());
   }
 
-  private List<ClassInfo> filterClasses(List<ClassInfo> classInfos) {
-    List<ClassInfo> newFilteredClasses = new ArrayList<>();
+  private List<ClassInfo> uniquifyClasses(List<ClassInfo> extractedClassInfos) {
+    return uniquifyClasses(null, extractedClassInfos);
+  }
 
-    for (ClassInfo classInfo : classInfos) {
-      for (ClassInfo filteredClassInfo : filteredClassNames) {
-        if (!filteredClassInfo.equals(classInfo)) {
-          newFilteredClasses.add(classInfo);
-        }
+  private List<ClassInfo> uniquifyClasses(List<ClassInfo> uniquifiedClassInfos, List<ClassInfo> extractedClassInfos) {
+    if (uniquifiedClassInfos == null) {
+      uniquifiedClassInfos = new ArrayList<>();
+    }
+
+    if (extractedClassInfos.size() <= 0) {
+      return uniquifiedClassInfos;
+    }
+
+    ClassInfo classInfo = extractedClassInfos.get(0);
+    boolean isExisted = false;
+
+    for (ClassInfo transformedClassInfo : transformedClassInfos) {
+      if (transformedClassInfo.equals(classInfo)) {
+        isExisted = true;
       }
     }
 
-    return newFilteredClasses;
+    extractedClassInfos.remove(classInfo);
+
+    if (!isExisted) {
+      uniquifiedClassInfos.add(classInfo);
+    }
+
+    return uniquifyClasses(uniquifiedClassInfos, extractedClassInfos);
   }
 
   public String getJavaPath() {

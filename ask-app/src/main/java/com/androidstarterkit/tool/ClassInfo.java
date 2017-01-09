@@ -9,10 +9,6 @@ public class ClassInfo {
   private ClassInfo nestedClassInfo;
   private List<ClassInfo> genericTypeClassInfos;
 
-  public ClassInfo() {
-    this(null, null, null);
-  }
-
   public ClassInfo(String name) {
     this(name, null, null);
   }
