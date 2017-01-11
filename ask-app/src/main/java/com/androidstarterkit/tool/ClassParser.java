@@ -44,13 +44,14 @@ public class ClassParser {
 
   private static final String CLASS_DECLARATION_REGEX = "((\\w+\\s*(<[^>]+>+)?)\\s*(\\.\\s*\\w+\\s*(<[^>]+>+)?)*)";
   private static final String CLASS_VARIABLE_DECLARATION_REGEX = "\\s*([\\w<>.,\\s]+)(\\[\\s*\\])?\\s+\\w+\\s*(\\[\\s*\\])?\\s*";
+
   private static final String DECLARED_CLASS_VARIABLE_REGEX = CLASS_VARIABLE_DECLARATION_REGEX + "(;|=)";
 
   /**
-   * Get class names from code file
+   * Get {@link ClassInfo} from Java file.
    *
-   * @param file code file
-   * @return String array for class name
+   * @param file Java file
+   * @return Array of ClassInfo
    */
   public static List<ClassInfo> extractClasses(File file) {
     Scanner scanner;
@@ -71,107 +72,98 @@ public class ClassParser {
   }
 
   /**
-   * Get class names from code line
+   * Get ClassInfo from code line.
    *
    * @param codeline String for code line
-   * @return String array for class name
+   * @return Array of ClassInfo
    */
   public static List<ClassInfo> extractClasses(String codeline) {
-    codeline = removeComment(codeline);
-
     List<ClassInfo> classInfos = new ArrayList<>();
 
+    codeline = removeComment(codeline);
+
     classInfos.addAll(listConstructedClass(codeline));
-    classInfos.addAll(listInheritClass(codeline));
+    classInfos.addAll(listInheritanceClass(codeline));
+    classInfos.addAll(listInterfaceClass(codeline));
     classInfos.addAll(listVariableClass(codeline));
-
-    String replacedLine = codeline;
-    replacedLine = replaceIdentifiers(replacedLine, PRIMITIVE_DATA_TYPE);
-    replacedLine = replaceIdentifiers(replacedLine, KEYWORDS_JAVA_ACCESS_MODIFIER);
-    replacedLine = replaceIdentifiers(replacedLine, KEYWORDS_NON_ACCESS_MODIFIER);
-    replacedLine = replaceIdentifiers(replacedLine, KEYWORDS_RESERVED);
-
-    classInfos.addAll(listStaticMethodOfClass(replacedLine));
-    classInfos.addAll(listDotClass(codeline));
     classInfos.addAll(listParameterClass(codeline));
+    classInfos.addAll(listDotClass(codeline));
+    classInfos.addAll(listStaticMethodOfClass(codeline));
     return classInfos;
   }
 
   /**
-   * Get class names when make a instance
-   * ex) new Class
-   *
-   * @param codeline String for code codeline
-   * @return String array for class name
+   * Get an instanced classes.
    */
   public static List<ClassInfo> listConstructedClass(String codeline) {
     List<ClassInfo> classNames = new ArrayList<>();
     String reg = "new\\s+([\\w]+)";
-    Pattern pat = Pattern.compile(reg);
-    Matcher matcher = pat.matcher(codeline);
+    Pattern pattern = Pattern.compile(reg);
+    Matcher matcher = pattern.matcher(codeline);
 
     while (matcher.find()) {
-      String matched = matcher.group(1);
-      classNames.add(new ClassInfo(matched));
+      String classStr = matcher.group(1);
+      classNames.add(new ClassInfo(classStr));
     }
 
     return classNames;
   }
 
   /**
-   * Get class names for inherit class
-   * ex) extends Class, implements Interface
-   *
-   * @param codeline String for code codeline
-   * @return String array for class name
+   * Get inheritance classes.
    */
-  public static List<ClassInfo> listInheritClass(String codeline) {
-    List<ClassInfo> classNames = new ArrayList<>();
+  public static List<ClassInfo> listInheritanceClass(String codeline) {
+    List<ClassInfo> classInfos = new ArrayList<>();
 
     Pattern pat = Pattern.compile("extends\\s+((\\w+\\s*(<[^>]+>+)?)\\s*(\\.\\s*\\w+\\s*(<[^>]+>+)?)*)");
     Matcher matcher = pat.matcher(codeline);
 
     while (matcher.find()) {
-      final String extendCodeline = matcher.group(1).trim();
-      classNames.add(new ClassInfo(extendCodeline));
+      final String classStr = matcher.group(1).trim();
+      classInfos.add(new ClassInfo(classStr));
     }
 
-    pat = Pattern.compile("implements\\s+(.+)\\{?");
-    matcher = pat.matcher(codeline);
-
-    while (matcher.find()) {
-      final String implementCodeline = matcher.group(1).trim();
-      for (String className : CodeSpliter.split(implementCodeline, ',')) {
-        classNames.add(splitClasses(className));
-      }
-    }
-
-    return classNames;
+    return classInfos;
   }
 
   /**
-   * Get class names as field variables which can be instance variable(Non-Static Fields)
-   * and class variable(Static Fields)
-   * We need `;` or `=` on the end of code
-   *
-   * @param codeline String for code codeline
-   * @return List of {@link ClassInfo}
+   * Get interfaces from code line.
+   */
+  public static List<ClassInfo> listInterfaceClass(String codeline) {
+    List<ClassInfo> classInfos = new ArrayList<>();
+
+    Pattern pattern = Pattern.compile("implements\\s+(.+)\\s*\\{?");
+    Matcher matcher = pattern.matcher(codeline);
+
+    while (matcher.find()) {
+      final String interfaceCodeline = matcher.group(1).trim();
+      for (String classStr : CodeSpliter.split(interfaceCodeline, ',')) {
+        classInfos.add(splitClasses(classStr));
+      }
+    }
+
+    return classInfos;
+  }
+
+  /**
+   * Get field variables in class and local variables in method.
+   * But it should have `;` or `=` for the end of code code.
    */
   public static List<ClassInfo> listVariableClass(String codeline) {
-    return listVariableClass(codeline, false);
+    return listVariableClass(codeline, true);
   }
 
   public static List<ClassInfo> listVariableClass(String codeline, boolean hasSemicolonOrAssignment) {
     Pattern pat = Pattern.compile(hasSemicolonOrAssignment ?
-        CLASS_VARIABLE_DECLARATION_REGEX : DECLARED_CLASS_VARIABLE_REGEX);
+        DECLARED_CLASS_VARIABLE_REGEX : CLASS_VARIABLE_DECLARATION_REGEX);
     Matcher matcher = pat.matcher(codeline);
 
     List<ClassInfo> classInfos = new ArrayList<>();
 
     while (matcher.find()) {
-      final String classVariableDeclarationStr = matcher.group(1);
+      final String classStr = matcher.group(1);
 
-      ClassInfo classInfo = splitClasses(classVariableDeclarationStr);
+      ClassInfo classInfo = splitClasses(classStr);
       if (classInfo != null) {
         classInfos.add(classInfo);
       }
@@ -180,6 +172,9 @@ public class ClassParser {
     return classInfos;
   }
 
+  /**
+   * Get generic type classes.
+   */
   public static List<ClassInfo> listGenericTypeClass(String codeline) {
     List<ClassInfo> variableClassInfos = listVariableClass(codeline);
 
@@ -192,11 +187,7 @@ public class ClassParser {
   }
 
   /**
-   * Get class names as parameters
-   * ex) (Context context, AttributeSet attrs, int defStyle)
-   *
-   * @param codeline String for code codeline
-   * @return String array for class name
+   * Get declared classes as parameters.
    */
   public static List<ClassInfo> listParameterClass(String codeline) {
     List<ClassInfo> classInfos = new ArrayList<>();
@@ -211,16 +202,16 @@ public class ClassParser {
     Matcher matcher = pat.matcher(codeline);
 
     while (matcher.find()) {
-      String group = matcher.group(1);
+      final String paramGroupStr = matcher.group(1);
 
-      List<String> paramClassNames = CodeSpliter.split(group, ',');
-      for (String paramStr : paramClassNames) {
+      List<String> paramClassNames = CodeSpliter.split(paramGroupStr, ',');
+      for (String paramClassStr : paramClassNames) {
         // removed ... parameter syntax
-        paramStr = paramStr.replace(ARGUMENTS_SYNTAX, "")
+        paramClassStr = paramClassStr.replace(ARGUMENTS_SYNTAX, "")
             .replace("new", "");
 
-        if (!isStringDeclaration(paramStr)) {
-          classInfos.addAll(listVariableClass(paramStr, true));
+        if (!isStringDeclaration(paramClassStr)) {
+          classInfos.addAll(listVariableClass(paramClassStr, false));
         }
       }
     }
@@ -229,17 +220,7 @@ public class ClassParser {
   }
 
   /**
-   * Get class names which have static method or variable
-   * <p>
-   * ex)
-   * Class.method();
-   * Class.method(Parameters);
-   * Class.class
-   * <p>
-   * warning : It can not distinguish between Class.method() and class.method()
-   *
-   * @param codeline String for code codeline
-   * @return String array for class name
+   * Get classes which have static method or variable.
    */
   public static List<ClassInfo> listStaticMethodOfClass(String codeline) {
     codeline = replaceIdentifiers(codeline, KEYWORDS_RESERVED);
@@ -251,47 +232,56 @@ public class ClassParser {
     Matcher matcher = pat.matcher(codeline);
 
     while (matcher.find()) {
-      final String classInfoStr = matcher.group(1).trim();
+      final String classStr = matcher.group(1).trim();
 
-      classInfos.add(splitClasses(classInfoStr));
+      classInfos.add(splitClasses(classStr));
     }
 
     return classInfos;
   }
 
+  /**
+   * Get classes which are defined as Class.class.
+   */
   public static List<ClassInfo> listDotClass(String codeline) {
     List<ClassInfo> classInfos = new ArrayList<>();
     Matcher matcher = Pattern.compile("(\\w+\\s*(\\.\\w+)*)\\.\\s*class").matcher(codeline);
 
     while (matcher.find()) {
-      final String classInfoStr = matcher.group(1).trim();
+      final String classStr = matcher.group(1).trim();
 
-      classInfos.add(splitClasses(classInfoStr));
+      classInfos.add(splitClasses(classStr));
     }
 
     return classInfos;
   }
 
+  /**
+   * ClassInfo computed by splitting the delimiting comma(.) for nested class.
+   *
+   * @param declaredClassName String of class declaration
+   * @return ClassInfo
+   */
   public static ClassInfo splitClasses(String declaredClassName) {
-    List<String> classInfoStrList = CodeSpliter.split(declaredClassName, '.');
+    List<String> classStrList = CodeSpliter.split(declaredClassName, '.');
     ClassInfo classInfo = null;
 
-    for (String classInfoStr : classInfoStrList) {
-      if (PRIMITIVE_DATA_TYPE.contains(classInfoStr) || KEYWORDS_RESERVED.contains(classInfoStr)) {
+    for (String classStr : classStrList) {
+      if (PRIMITIVE_DATA_TYPE.contains(classStr) || KEYWORDS_RESERVED.contains(classStr)) {
         continue;
       }
 
-      ClassInfo nestedClassInfo = splitClass(classInfoStr, 0);
+      ClassInfo nestedClassStr = splitClass(classStr, 0);
 
       if (classInfo == null) {
-        classInfo = nestedClassInfo;
+        classInfo = nestedClassStr;
       } else {
         ClassInfo parentClassInfo = classInfo;
         while (parentClassInfo.getNestedClassInfo() != null) {
           parentClassInfo = parentClassInfo.getNestedClassInfo();
         }
 
-        parentClassInfo.setNestedClassInfo(nestedClassInfo);
+        parentClassInfo.setNestedClassInfo(nestedClassStr);
       }
     }
 
@@ -299,10 +289,11 @@ public class ClassParser {
   }
 
   /**
+   * ClassInfo computed by the delimiting regular expression for nested class and generic type classes.
    *
-   * @param declaredClassName
-   * @param depth
-   * @return
+   * @param declaredClassName String of nested class declaration
+   * @param depth Depth for debugging
+   * @return ClassInfo
    */
   private static ClassInfo splitClass(String declaredClassName, int depth) {
     Pattern pat = Pattern.compile("\\s*(\\w+)\\s*(<(.+)>)?");
@@ -311,8 +302,8 @@ public class ClassParser {
     ClassInfo classInfo = null;
 
     while (matcher.find()) {
-      final String className = matcher.group(1);
-      classInfo = new ClassInfo(className);
+      final String classStr = matcher.group(1);
+      classInfo = new ClassInfo(classStr);
 
       final String genericTypeClassCodeLine = matcher.group(3);
       if (genericTypeClassCodeLine != null) {
@@ -335,25 +326,30 @@ public class ClassParser {
     return classInfo;
   }
 
-  private static boolean hasGenericTypeClass(String classCodeline) {
-    final String GENERIC_TYPE_REGEX = "\\<(.+)\\>";
+  private static boolean hasGenericTypeClass(String codeline) {
+    final String GENERIC_TYPE_REGEX = "<(.+)>";
 
-    Matcher matcher = Pattern.compile(GENERIC_TYPE_REGEX).matcher(classCodeline);
+    Matcher matcher = Pattern.compile(GENERIC_TYPE_REGEX).matcher(codeline);
     return matcher.find();
   }
 
-  private static boolean isStringDeclaration(String str) {
-    str = str.trim();
+  private static boolean isStringDeclaration(String codeline) {
     final String GENERIC_TYPE_REGEX = "\"(.+)\"";
 
-    Matcher matcher = Pattern.compile(GENERIC_TYPE_REGEX).matcher(str);
+    Matcher matcher = Pattern.compile(GENERIC_TYPE_REGEX).matcher(codeline.trim());
     return matcher.find();
   }
 
-  private static boolean isMethodDeclaration(String str) {
+  /**
+   * Check method declaration
+   *
+   * @param codeline String of code line
+   * @return boolean if it has brackets
+   */
+  private static boolean isMethodDeclaration(String codeline) {
     int stackCnt = 0;
-    for (int i = 0, li = str.length(); i < li; i++) {
-      char c = str.toCharArray()[i];
+    for (int i = 0, li = codeline.length(); i < li; i++) {
+      char c = codeline.toCharArray()[i];
       if (c == '(') {
         stackCnt++;
       } else if (c == ')') {
@@ -364,24 +360,30 @@ public class ClassParser {
     return stackCnt == 0;
   }
 
-  private static String removeComment(String str) {
-    int index = str.indexOf("//");
+  /**
+   * Remove comment
+   *
+   * @param codeline String of code line
+   * @return String of code line of which comment is removed
+   */
+  private static String removeComment(String codeline) {
+    int index = codeline.indexOf("//");
 
-    return index > 0 ? str.substring(0, index) : str;
+    return index > 0 ? codeline.substring(0, index) : codeline;
   }
 
   /**
    * Replace list of identifier to no blank
    *
-   * @param line           String for code line
-   * @param identifierList list of identifiers
-   * @return String that was removed to identifiers
+   * @param codeline String for code codeline
+   * @param identifierList List of identifier
+   * @return String that was removed to identifier
    */
-  private static String replaceIdentifiers(String line, List<String> identifierList) {
+  private static String replaceIdentifiers(String codeline, List<String> identifierList) {
     for (String identifier : identifierList) {
-      line = line.replaceAll(identifier, "");
+      codeline = codeline.replaceAll(identifier, "");
     }
 
-    return line;
+    return codeline;
   }
 }

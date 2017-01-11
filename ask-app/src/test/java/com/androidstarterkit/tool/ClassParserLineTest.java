@@ -23,30 +23,48 @@ public class ClassParserLineTest {
   }
 
   @Test
-  public void testListInheritClass() throws Exception {
+  public void testListInheritanceClass() throws Exception {
     List<ClassInfo> actual = new ArrayList<>();
     List<ClassInfo> expected = new ArrayList<>();
     expected.add(new ClassInfo("BaseActivity1"));
-    expected.add(new ClassInfo("Interface1", new ClassInfo("Interface2")));
-    expected.add(new ClassInfo("Interface3"));
-    expected.add(new ClassInfo("Interface4", new ClassInfo("Interface5")));
-    expected.add(new ClassInfo("Interface6"));
     expected.add(new ClassInfo("BaseActivity2"));
-    expected.add(new ClassInfo("Interface7"));
-    expected.add(new ClassInfo("Interface8"));
     expected.add(new ClassInfo("BaseActivity3"));
-    expected.add(new ClassInfo("Interface9", new ClassInfo("Interface10")));
-    expected.add(new ClassInfo("Interface11"));
 
-    final String[] codeLines = {"public class MainActivity extends BaseActivity1",
-        "    implements Interface1.Interface2, Interface3 {",
-        "    implements Interface4.Interface5, Interface6",
+    final String[] codeLines = {
+        "public class MainActivity extends BaseActivity1",
         "    public class MainActivity extends BaseActivity2 implements Interface7, Interface8 {",
         "    public class MainActivity extends BaseActivity3 implements Interface9.Interface10, Interface11"
     };
 
     for (String codeLine : codeLines) {
-      actual.addAll(ClassParser.listInheritClass(codeLine));
+      actual.addAll(ClassParser.listInheritanceClass(codeLine));
+    }
+
+    assertList(expected, actual);
+  }
+
+  @Test
+  public void testListInterfaceClass() throws Exception {
+    List<ClassInfo> actual = new ArrayList<>();
+    List<ClassInfo> expected = new ArrayList<>();
+    expected.add(new ClassInfo("Interface1", new ClassInfo("Interface2")));
+    expected.add(new ClassInfo("Interface3"));
+    expected.add(new ClassInfo("Interface4", new ClassInfo("Interface5")));
+    expected.add(new ClassInfo("Interface6"));
+    expected.add(new ClassInfo("Interface7"));
+    expected.add(new ClassInfo("Interface8"));
+    expected.add(new ClassInfo("Interface9", new ClassInfo("Interface10")));
+    expected.add(new ClassInfo("Interface11"));
+
+    final String[] codeLines = {
+        "    implements Interface1.Interface2, Interface3 {",
+        "    implements Interface4.Interface5, Interface6 {",
+        "    public class MainActivity extends BaseActivity2 implements Interface7, Interface8 {",
+        "    public class MainActivity extends BaseActivity3 implements Interface9.Interface10, Interface11 {"
+    };
+
+    for (String codeLine : codeLines) {
+      actual.addAll(ClassParser.listInterfaceClass(codeLine));
     }
 
     assertList(expected, actual);
