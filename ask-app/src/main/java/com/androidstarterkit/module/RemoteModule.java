@@ -20,6 +20,6 @@ public class RemoteModule extends Directory {
     } catch (NullPointerException exception) {
       return null;
     }
-    return FileUtils.splitFirstSlash(getChildPath(key).substring(index).replace(applicationIdPath, ""));
+    return FileUtils.removeFirstSlash(getChildPath(key).substring(index).replace(applicationIdPath, ""));
   }
 }

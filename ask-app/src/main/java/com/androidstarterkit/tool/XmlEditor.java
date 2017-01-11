@@ -139,12 +139,12 @@ public class XmlEditor {
     System.out.println(PrintUtils.prefixDash(depth) + resourceTypeName + "/" + moduleXmlFile.getName());
 
     while (scanner.hasNext()) {
-      String xmlCodeLine = scanner.nextLine()
+      String xmlCodeline = scanner.nextLine()
           .replace(remoteModule.getApplicationId(), sourceModule.getApplicationId())
           .replace(remoteModule.getMainActivityName(),
               sourceModule.getMainActivityName());
 
-      ResourceMatcher matcher = new ResourceMatcher(xmlCodeLine,
+      ResourceMatcher matcher = new ResourceMatcher(xmlCodeline,
               ResourceMatcher.MatchType.XML_FILE);
 
       matcher.match((resourceTypeName1, layoutName1) -> {
@@ -155,7 +155,7 @@ public class XmlEditor {
         }
       });
 
-      matcher = new ResourceMatcher(xmlCodeLine,
+      matcher = new ResourceMatcher(xmlCodeline,
               ResourceMatcher.MatchType.XML_VALUE);
       matcher.match((resourceTypeName12, elementName) -> {
         try {
@@ -165,9 +165,9 @@ public class XmlEditor {
         }
       });
 
-      codes += xmlCodeLine + "\n";
+      codes += xmlCodeline + "\n";
 
-      importDependencyToBuildGradle(xmlCodeLine);
+      importDependencyToBuildGradle(xmlCodeline);
     }
 
     FileUtils.writeFile(sourceModule.getResPath() + "/" + resourceTypeName

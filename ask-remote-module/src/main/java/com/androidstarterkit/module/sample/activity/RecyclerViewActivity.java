@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.androidstarterkit.module.R;
-import com.androidstarterkit.module.ui.RecyclerViewFragment;
+import com.androidstarterkit.module.ui.view.RecyclerViewFragment;
 
 public class RecyclerViewActivity extends AppCompatActivity {
   @Override

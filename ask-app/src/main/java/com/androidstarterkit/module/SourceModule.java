@@ -9,6 +9,7 @@ import com.androidstarterkit.config.RemoteModuleConfig;
 import com.androidstarterkit.SyntaxConstraints;
 import com.androidstarterkit.exception.CommandException;
 import com.androidstarterkit.file.SettingsGradle;
+import com.androidstarterkit.tool.ClassInfo;
 import com.androidstarterkit.tool.ClassParser;
 import com.androidstarterkit.tool.XmlEditor;
 import com.androidstarterkit.util.FileUtils;
@@ -30,7 +31,7 @@ public class SourceModule extends Directory {
 
   private XmlEditor xmlEditor;
 
-  private List<String> filteredClassNames;
+  private List<ClassInfo> transformedClassInfos;
   private TabType tabType;
   private List<WidgetType> widgets;
 
@@ -38,7 +39,7 @@ public class SourceModule extends Directory {
     super(modulePathname
         , new String[]{"java", "gradle", "xml"}
         , new String[]{"build", "libs", "test", "androidTest", "res"});
-    filteredClassNames = new ArrayList<>();
+    transformedClassInfos = new ArrayList<>();
 
     remoteModule = new RemoteModule();
     xmlEditor = new XmlEditor(this, remoteModule);
@@ -143,7 +144,7 @@ public class SourceModule extends Directory {
       throw new CommandException(CommandException.FILE_NOT_FOUND, file.getName());
     }
     List<String> codeLines = new ArrayList<>();
-    List<String> addedPackageClasses = new ArrayList<>();
+    List<ClassInfo> addedPackageClasses = new ArrayList<>();
 
     while (scanner.hasNext()) {
       String codeLine = scanner.nextLine();
@@ -163,6 +164,7 @@ public class SourceModule extends Directory {
 
       codeLines.add(codeLine);
     }
+
     codeLines = defineImportClasses(codeLines, addedPackageClasses);
 
     FileUtils.writeFile(new File(moduleFilePath), codeLines);
@@ -172,14 +174,14 @@ public class SourceModule extends Directory {
     }
   }
 
-  private List<String> defineImportClasses(List<String> codeLines, List<String> addedPackageClassNames) {
+  private List<String> defineImportClasses(List<String> codeLines, List<ClassInfo> addedPackageClassInfos) {
     List<String> importedClassStrings = new ArrayList<>();
-    for (int i = 0, li = addedPackageClassNames.size(); i < li; i++) {
-      String className = addedPackageClassNames.get(i);
+    for (int i = 0, li = addedPackageClassInfos.size(); i < li; i++) {
+      String className = addedPackageClassInfos.get(i).getName();
       if (remoteModule.getRelativePathFromJavaDir(className + Extension.JAVA.toString()) != null) {
         String importedClassString = SyntaxConstraints.IDENTIFIER_IMPORT + " "
             + applicationId + "."
-            + remoteModule.getRelativePathFromJavaDir(className + Extension.JAVA.toString()) + "."
+            + remoteModule.getRelativePathFromJavaDir(className + Extension.JAVA.toString()).replaceAll("/", ".") + "."
             + className + ";";
 
         if (!importedClassStrings.contains(importedClassString)) {
@@ -249,21 +251,21 @@ public class SourceModule extends Directory {
   private String importDeclaredClasses(String codeLine
       , int depth
       , List<WidgetType> widgets
-      , List<String> addedPackageClasses) throws CommandException {
-    List<String> classNames = ClassParser.getClassNames(codeLine);
-    addedPackageClasses.addAll(classNames);
+      , List<ClassInfo> addedPackageClassInfos) throws CommandException {
+    List<ClassInfo> classInfos = ClassParser.extractClasses(codeLine);
+    addedPackageClassInfos.addAll(classInfos);
 
-    classNames = filterClasses(classNames);
+    classInfos = uniquifyClasses(classInfos);
 
-    if (classNames.size() > 0) {
-      for (String className : classNames) {
-        if (remoteModule.getRelativePathFromJavaDir(className + Extension.JAVA.toString()) != null) {
-          filteredClassNames.add(className);
+    if (classInfos.size() > 0) {
+      for (ClassInfo classInfo : classInfos) {
+        if (remoteModule.getRelativePathFromJavaDir(classInfo.getName() + Extension.JAVA.toString()) != null) {
+          transformedClassInfos.add(classInfo);
 
-          transformFile(depth + 1, remoteModule.getChildFile(className, Extension.JAVA), null, widgets);
+          transformFile(depth + 1, remoteModule.getChildFile(classInfo.getName(), Extension.JAVA), null, widgets);
         } else {
           for (String dependencyKey : externalLibrary.getKeys()) {
-            if (className.equals(dependencyKey)) {
+            if (classInfo.getName().equals(dependencyKey)) {
               buildGradleFile.addDependency(externalLibrary.getInfo(dependencyKey).getLibrary());
               androidManifestFile.addPermissions(externalLibrary.getInfo(dependencyKey).getPermissions());
               break;
@@ -276,16 +278,35 @@ public class SourceModule extends Directory {
     return codeLine.replace(remoteModule.getApplicationId(), getApplicationId());
   }
 
-  private List<String> filterClasses(List<String> classNames) {
-    List<String> newFilteredClasses = new ArrayList<>();
+  private List<ClassInfo> uniquifyClasses(List<ClassInfo> extractedClassInfos) {
+    return uniquifyClasses(null, extractedClassInfos);
+  }
 
-    for (String className : classNames) {
-      if (!filteredClassNames.contains(className)) {
-        newFilteredClasses.add(className);
+  private List<ClassInfo> uniquifyClasses(List<ClassInfo> uniquifiedClassInfos, List<ClassInfo> extractedClassInfos) {
+    if (uniquifiedClassInfos == null) {
+      uniquifiedClassInfos = new ArrayList<>();
+    }
+
+    if (extractedClassInfos.size() <= 0) {
+      return uniquifiedClassInfos;
+    }
+
+    ClassInfo classInfo = extractedClassInfos.get(0);
+    boolean isExisted = false;
+
+    for (ClassInfo transformedClassInfo : transformedClassInfos) {
+      if (transformedClassInfo.equals(classInfo)) {
+        isExisted = true;
       }
     }
 
-    return newFilteredClasses;
+    extractedClassInfos.remove(classInfo);
+
+    if (!isExisted) {
+      uniquifiedClassInfos.add(classInfo);
+    }
+
+    return uniquifyClasses(uniquifiedClassInfos, extractedClassInfos);
   }
 
   public String getJavaPath() {

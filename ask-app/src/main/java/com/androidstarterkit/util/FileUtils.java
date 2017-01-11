@@ -265,7 +265,7 @@ public class FileUtils {
     return filename.substring(0, filename.lastIndexOf('.'));
   }
 
-  public static String splitFirstSlash(String path) {
+  public static String removeFirstSlash(String path) {
     if (path.length() > 0 && path.charAt(0) == '/') {
       path = path.substring(1);
     }
