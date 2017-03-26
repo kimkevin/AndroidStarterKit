@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/res/merged/debug/drawable-xhdpi/ic_menu_camera.png",
+        "source": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/generated/res/pngs/debug/drawable-xhdpi/ic_menu_camera.png"
+    },
+    {
+        "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/res/merged/debug/drawable-xhdpi/ic_menu_send.png",
+        "source": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/generated/res/pngs/debug/drawable-xhdpi/ic_menu_send.png"
+    },
+    {
+        "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/res/merged/debug/drawable-xhdpi/ic_menu_manage.png",
+        "source": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/generated/res/pngs/debug/drawable-xhdpi/ic_menu_manage.png"
+    },
+    {
+        "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/res/merged/debug/drawable-xhdpi/ic_menu_gallery.png",
+        "source": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/generated/res/pngs/debug/drawable-xhdpi/ic_menu_gallery.png"
+    },
+    {
+        "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/res/merged/debug/drawable-xhdpi/ic_menu_slideshow.png",
+        "source": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/generated/res/pngs/debug/drawable-xhdpi/ic_menu_slideshow.png"
+    },
+    {
+        "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/res/merged/debug/drawable-xhdpi/ic_menu_share.png",
+        "source": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/generated/res/pngs/debug/drawable-xhdpi/ic_menu_share.png"
+    }
+]

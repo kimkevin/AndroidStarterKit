@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<instant-run
+    abi="x86"
+    api-level="21"
+    density="xxhdpi"
+    format="7"
+    timestamp="1469551520798095000"
+    token="6205955638161082658"
+    verifier="COMPATIBLE" >
+
+    <task
+        name="javac"
+        duration="189" />
+    <task
+        name="instant-run-dex"
+        duration="429" />
+    <task
+        name="instant-run-transform"
+        duration="20" />
+    <task
+        name="verifier"
+        duration="2" />
+
+    <artifact
+        location="/Users/kevin/Documents/git/AndroidStarterKit/ask-sample/com.androidstarterkit.build/intermediates/reload-dex/debug/classes.dex"
+        type="RELOAD_DEX" />
+
+    <com.androidstarterkit.build timestamp="1469551462677508000" >
+        <artifact
+            location="/Users/kevin/Documents/git/AndroidStarterKit/ask-sample/com.androidstarterkit.build/outputs/apk/ask-sample-debug.apk"
+            type="MAIN" />
+    </com.androidstarterkit.build>
+    <com.androidstarterkit.build
+        timestamp="1469551520798095000"
+        verifier="COMPATIBLE" >
+        <artifact
+            location="/Users/kevin/Documents/git/AndroidStarterKit/ask-sample/com.androidstarterkit.build/intermediates/reload-dex/debug/classes.dex"
+            type="RELOAD_DEX" />
+    </com.androidstarterkit.build>
+
+</instant-run>

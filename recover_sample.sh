@@ -22,4 +22,6 @@ cp -R ask-sample.bak/src/main/res/values/* ask-sample/src/main/res/values
 rm -rf ask-sample/src/main/java/com/androidstarterkit/sample/*
 cp -R ask-sample.bak/src/main/java/com/androidstarterkit/sample/* ask-sample/src/main/java/com/androidstarterkit/sample
 
+cp /Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample.bak/projectFiles/build.gradle /Users/kevin/Local/projects/git/AndroidStarterKit/build.gradle
+
 echo 'Success to recover sample project'

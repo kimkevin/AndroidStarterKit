@@ -1,0 +1,4 @@
+REMOVED,/Users/kevin/Documents/git/AndroidStarterKit/ask-sample/com.androidstarterkit.build/intermediates/transforms/instantRun/debug/folders/1/5/main/com/androidstarterkit/sample/CoffeeType.class
+REMOVED,/Users/kevin/Documents/git/AndroidStarterKit/ask-sample/com.androidstarterkit.build/intermediates/transforms/instantRun/debug/folders/1/5/main/com/androidstarterkit/sample/adapter/ListViewAdapter.class
+REMOVED,/Users/kevin/Documents/git/AndroidStarterKit/ask-sample/com.androidstarterkit.build/intermediates/transforms/instantRun/debug/folders/1/5/main/com/androidstarterkit/sample/adapter/ListViewAdapter$ViewHolder.class
+CHANGED,/Users/kevin/Documents/git/AndroidStarterKit/ask-sample/com.androidstarterkit.build/intermediates/transforms/instantRun/debug/folders/1/5/main/com/androidstarterkit/sample/MainActivity.class

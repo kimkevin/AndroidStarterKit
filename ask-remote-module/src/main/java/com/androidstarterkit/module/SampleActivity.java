@@ -13,12 +13,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.androidstarterkit.module.firebase.analytics.WrapperFireBaseAnalytics;
+import com.androidstarterkit.module.firebase.crash.FireBaseCrashReport;
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 public class SampleActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener{
+
+  private static final String TAG = SampleActivity.class.getSimpleName();
+
+  private WrapperFireBaseAnalytics analytics;
+  private FireBaseCrashReport logger;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    analytics = new WrapperFireBaseAnalytics(this, FirebaseAnalytics.getInstance(this));
 
     setContentView(R.layout.activity_main);
 
@@ -52,6 +63,13 @@ public class SampleActivity extends AppCompatActivity
   }
 
   @Override
+  protected void onResume() {
+    super.onResume();
+
+    analytics.recordScreenView(TAG);
+  }
+
+  @Override
   public void onBackPressed() {
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -75,8 +93,8 @@ public class SampleActivity extends AppCompatActivity
     // as you specify a parent activity in AndroidManifest.xml.
     int id = item.getItemId();
 
-    //noinspection SimplifiableIfStatement
     if (id == R.id.action_settings) {
+      analytics.trackEvent("1", "hello world");
       return true;
     }
 

@@ -10,6 +10,9 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -138,6 +141,17 @@ public class FileUtils {
     }
 
     return stringList;
+  }
+
+  public static String readFile(String filePath) throws IOException {
+    final String EoL = System.getProperty("line.separator");
+    List<String> lines = Files.readAllLines(Paths.get(filePath), Charset.defaultCharset());
+
+    StringBuilder sb = new StringBuilder();
+    for (String line : lines) {
+      sb.append(line).append(EoL);
+    }
+    return sb.toString();
   }
 
   /**

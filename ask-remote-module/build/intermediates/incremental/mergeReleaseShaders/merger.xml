@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/src/main/shaders"/></dataSet><dataSet config="release"><source path="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/src/release/shaders"/></dataSet></merger>

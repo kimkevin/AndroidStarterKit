@@ -1,16 +1,61 @@
 {
-  "command" : {
-    "name" : [ "-m", "--menu" ],
-    "description" : "add MenuItem",
-    "import" : [
-      {
-        "class" : "SampleActivity",
-        "method" : "onCreateOptionsMenu"
-      },
-      {
-        "class" : "SampleActivity",
-        "method" : "onOptionsItemSelected"
-      }
-    ]
-  }
+  "layouts" : [
+    {
+      "class" : "ScrollViewFragment",
+      "commands" : [ "sv", "ScrollView" ]
+    },
+    {
+      "class" : "RecyclerViewFragment",
+      "commands" : [ "rv", "RecyclerView" ]
+    },
+    {
+      "class" : "ListViewFragment",
+      "commands" : [ "lv", "ListView" ]
+    },
+    {
+      "class" : "GridViewFragment",
+      "commands" : [ "gv", "GridView" ]
+    }
+  ],
+  "modules" : [
+    {
+      "class" : "WrapperFireBaseAnalytics",
+      "commands" : [ "fa", "FireBaseAnalytics" ]
+    },
+    {
+      "class" : "FireBaseCrashReporting",
+      "commands" : [ "fc", "FireBaseCrashReporting" ],
+      "configs" : [
+        {
+          "path" : "root",
+          "file" : "build.gradle",
+          "codeblocks" : [
+            {
+              "elements" : [ "buildscript", "dependencies" ],
+              "lines" : [ "classpath 'com.google.firebase:firebase-plugins:1.0.4" ]
+            }
+          ]
+        },
+        {
+          "path" : "app",
+          "file" : "build.gradle",
+          "codeblocks" : [
+            {
+              "elements" : [],
+              "lines" : [ "apply plugin: 'com.google.firebase.firebase-crash'" ]
+            },
+            {
+              "elements" : [ "dependencies" ],
+              "lines" : [ "compile 'com.google.firebase:firebase-crash:10.0.1'" ]
+            }
+          ]
+        },
+        {
+          "path" : "app",
+          "file" : "proguard-rules.pro",
+          "codeblocks" : []
+        }
+      ]
+    }
+  ]
 }

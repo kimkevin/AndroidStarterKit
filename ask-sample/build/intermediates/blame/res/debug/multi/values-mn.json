@@ -1,0 +1,26 @@
+[
+    {
+        "outputFile": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/incremental/mergeDebugResources/merged.dir/values-mn/values-mn.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 105,
+                    "endColumn": 208,
+                    "endOffset": 309
+                },
+                "from": {
+                    "file": "/Users/kevin/.android/build-cache/618974327d39fa990baf941f98bb7fe4ac3c8347/output/res/values-mn/values.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 0,
+                        "startOffset": 285,
+                        "endColumn": 208,
+                        "endOffset": 493
+                    }
+                }
+            }
+        ]
+    }
+]

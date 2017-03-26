@@ -7,8 +7,8 @@ import com.androidstarterkit.android.api.IntentConstraints;
 import com.androidstarterkit.android.api.resource.AttributeContraints;
 import com.androidstarterkit.SyntaxConstraints;
 import com.androidstarterkit.file.AndroidManifest;
-import com.androidstarterkit.module.RemoteModule;
-import com.androidstarterkit.module.SourceModule;
+import com.androidstarterkit.file.directory.RemoteDirectory;
+import com.androidstarterkit.file.directory.SourceDirectory;
 import com.androidstarterkit.util.FileUtils;
 import com.androidstarterkit.util.PrintUtils;
 import com.androidstarterkit.util.StringUtils;
@@ -30,20 +30,20 @@ import javax.xml.transform.TransformerException;
 public class XmlEditor {
   private static final String TAG = XmlEditor.class.getSimpleName();
 
-  private SourceModule sourceModule;
-  private RemoteModule remoteModule;
+  private SourceDirectory sourceDirectory;
+  private RemoteDirectory remoteDirectory;
 
   public interface OnEditListener {
     void onFinished();
   }
 
-  public XmlEditor(SourceModule sourceModule, RemoteModule remoteModule) {
-    this.sourceModule = sourceModule;
-    this.remoteModule = remoteModule;
+  public XmlEditor(SourceDirectory sourceDirectory, RemoteDirectory remoteDirectory) {
+    this.sourceDirectory = sourceDirectory;
+    this.remoteDirectory = remoteDirectory;
   }
 
   public void importAttrsOfRemoteMainActivity(OnEditListener onEditListener) {
-    AndroidManifest androidManifestFile = remoteModule.getAndroidManifestFile();
+    AndroidManifest androidManifestFile = remoteDirectory.getAndroidManifestFile();
     System.out.println(PrintUtils.prefixDash(0) + androidManifestFile.getName());
 
     NodeList acitivityNodes = androidManifestFile
@@ -79,7 +79,7 @@ public class XmlEditor {
       Node attributeNode = activityAttributeNodeMap.item(k);
 
       if (!attributeNode.getNodeName().equals(AttributeContraints.NAME)) {
-        Element activityElement = sourceModule.getAndroidManifestFile().getMainActivityElement();
+        Element activityElement = sourceDirectory.getAndroidManifestFile().getMainActivityElement();
         activityElement.setAttribute(attributeNode.getNodeName(), attributeNode.getNodeValue());
 
         ResourceMatcher matcher = new ResourceMatcher(attributeNode.getNodeValue(), ResourceMatcher.MatchType.XML_VALUE);
@@ -95,7 +95,7 @@ public class XmlEditor {
 
     XmlDomWriter writer = new XmlDomWriter();
     try {
-      writer.write(sourceModule.getAndroidManifestFile(), sourceModule.getAndroidManifestFile().getDocument());
+      writer.write(sourceDirectory.getAndroidManifestFile(), sourceDirectory.getAndroidManifestFile().getDocument());
       onEditListener.onFinished();
     } catch (TransformerException | IOException e) {
       e.printStackTrace();
@@ -131,7 +131,7 @@ public class XmlEditor {
    * @throws FileNotFoundException
    */
   private void transferResourceXml(String resourceTypeName, String layoutName, int depth) throws FileNotFoundException {
-    File moduleXmlFile = remoteModule.getChildFile(layoutName, Extension.XML);
+    File moduleXmlFile = remoteDirectory.getChildFile(layoutName, Extension.XML);
 
     String codes = "";
     Scanner scanner = new Scanner(moduleXmlFile);
@@ -140,9 +140,9 @@ public class XmlEditor {
 
     while (scanner.hasNext()) {
       String xmlCodeline = scanner.nextLine()
-          .replace(remoteModule.getApplicationId(), sourceModule.getApplicationId())
-          .replace(remoteModule.getMainActivityName(),
-              sourceModule.getMainActivityName());
+          .replace(remoteDirectory.getApplicationId(), sourceDirectory.getApplicationId())
+          .replace(remoteDirectory.getMainActivityName(),
+              sourceDirectory.getMainActivityName());
 
       ResourceMatcher matcher = new ResourceMatcher(xmlCodeline,
               ResourceMatcher.MatchType.XML_FILE);
@@ -170,7 +170,7 @@ public class XmlEditor {
       importDependencyToBuildGradle(xmlCodeline);
     }
 
-    FileUtils.writeFile(sourceModule.getResPath() + "/" + resourceTypeName
+    FileUtils.writeFile(sourceDirectory.getResPath() + "/" + resourceTypeName
         , moduleXmlFile.getName()
         , codes);
   }
@@ -184,7 +184,7 @@ public class XmlEditor {
    * @throws FileNotFoundException
    */
   private void transferElement(String resourceTypeName, String elementName, int depth) throws FileNotFoundException {
-    List<File> valueFiles = remoteModule.getChildFiles(resourceTypeName + "s", Extension.XML);
+    List<File> valueFiles = remoteDirectory.getChildFiles(resourceTypeName + "s", Extension.XML);
     if (valueFiles == null) {
       throw new FileNotFoundException();
     }
@@ -216,7 +216,7 @@ public class XmlEditor {
 
       if (StringUtils.isValid(elementLines)) {
         String codeLines = "";
-        String sampleValuePathname = FileUtils.linkPathWithSlash(sourceModule.getResPath()
+        String sampleValuePathname = FileUtils.linkPathWithSlash(sourceDirectory.getResPath()
             , relativeValueFolderPath
             , moduleValueFile.getName());
 
@@ -255,9 +255,9 @@ public class XmlEditor {
   }
 
   private void importDependencyToBuildGradle(String codeLine) {
-    for (String dependencyKey : sourceModule.getExternalLibrary().getKeys()) {
+    for (String dependencyKey : sourceDirectory.getExternalLibrary().getKeys()) {
       if (codeLine.contains(dependencyKey)) {
-        sourceModule.getBuildGradleFile().addDependency(sourceModule.getExternalLibrary()
+        sourceDirectory.getAppBuildGradleFile().addDependency(sourceDirectory.getExternalLibrary()
             .getInfo(dependencyKey)
             .getLibrary());
         break;

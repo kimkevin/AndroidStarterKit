@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "13277558673",
+    "firebase_url": "https://ask-remote-module.firebaseio.com",
+    "project_id": "ask-remote-module",
+    "storage_bucket": "ask-remote-module.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:13277558673:android:110a264e0d7898b5",
+        "android_client_info": {
+          "package_name": "com.androidstarterkit.module"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "13277558673-qnm7h6lu0dl51ogeok4e56bqna6qfm15.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArhkWTarBGAIY26XlQaOm2-p-yBeuAtuE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

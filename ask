@@ -7,7 +7,7 @@
 #########################################################
 
 # BIN_PATH='Users/kevin/Documents/git/AndroidStarterKit/'
-BIN_PATH='/Users/kevin/Documents/git/AndroidStarterKit/ask-app/build/classes/main'
+BIN_PATH='/Users/kevin/Documents/git/AndroidStarterKit/ask-app/com.androidstarterkit.build/classes/main'
 cd $BIN_PATH
 java com.androidstarterkit.Ask $@
 

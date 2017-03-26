@@ -2,9 +2,8 @@ package com.androidstarterkit;
 
 import com.androidstarterkit.command.CommandParser;
 import com.androidstarterkit.command.TabType;
-import com.androidstarterkit.command.WidgetType;
 import com.androidstarterkit.exception.CommandException;
-import com.androidstarterkit.module.SourceModule;
+import com.androidstarterkit.file.directory.SourceDirectory;
 
 import java.util.List;
 
@@ -26,10 +25,11 @@ public class Ask {
 
     final String projectPath = commandParser.getPath();
     final TabType tabType = commandParser.getTabType();
-    final List<WidgetType> widgets = commandParser.getWidgets();
+    final List<String> widgets = commandParser.getLayoutCommands();
+    final List<String> modules = commandParser.getModuleCommands();
 
-    SourceModule.load(projectPath)
-        .with(tabType, widgets)
+    SourceDirectory.load(projectPath)
+        .with(tabType, widgets, modules)
         .transform();
   }
 }

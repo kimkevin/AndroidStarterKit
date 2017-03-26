@@ -1,28 +1,33 @@
 package com.androidstarterkit.file;
 
 import com.androidstarterkit.SyntaxConstraints;
+import com.androidstarterkit.model.CodeBlock;
+import com.androidstarterkit.tool.CodeGenerator;
 import com.androidstarterkit.util.FileUtils;
+import com.androidstarterkit.util.SyntaxUtils;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class BuildGradle extends BaseFile {
+public class BuildGradle extends BaseFile implements CodeGenerator {
   private static final String TAG = BuildGradle.class.getSimpleName();
 
   public static final String FILE_NAME = "build.gradle";
   private static final String ELEMENT_DEPENDENCIES_NAME = "dependencies";
   private static final String COMPILE_CONFIGURATION_FORMAT = "compile '" + SyntaxConstraints.REPLACE_STRING + "'";
 
-  private List<String> lineList;
-
   private String applicationId;
   private String supportLibraryVersion;
 
+  private List<CodeBlock> configCodeBlocks;
+
   public BuildGradle(String modulePath) {
     super(modulePath, FILE_NAME);
-
-    lineList = FileUtils.readFile(this);
 
     for (String line : lineList) {
       if (line.contains("applicationId")) {
@@ -58,65 +63,68 @@ public class BuildGradle extends BaseFile {
     }
 
     for (String externalLibrary : externalLibraries) {
-      lineList = addLineToElement(
-          ELEMENT_DEPENDENCIES_NAME,
-          COMPILE_CONFIGURATION_FORMAT.replace(SyntaxConstraints.REPLACE_STRING, externalLibrary),
-          lineList);
+      addCodeBlock(new CodeBlock(Collections.singletonList(ELEMENT_DEPENDENCIES_NAME)
+          , COMPILE_CONFIGURATION_FORMAT.replace(SyntaxConstraints.REPLACE_STRING, externalLibrary)));
+    }
+  }
+
+  @Override
+  public void addCodeBlock(CodeBlock codeBlock) {
+    if (configCodeBlocks == null) {
+      configCodeBlocks = new ArrayList<>();
+    }
+
+    configCodeBlocks.add(codeBlock);
+  }
+
+  @Override
+  public void setCodeBlocks(List<CodeBlock> codeBlocks) {
+    configCodeBlocks = codeBlocks;
+  }
+
+  @Override
+  public void apply() {
+    for (CodeBlock codeblock : configCodeBlocks) {
+      Queue<String> elementQueue = new LinkedList<>();
+      elementQueue.addAll(codeblock.getElements());
+
+      System.out.println(codeblock.toString());
+
+      if (codeblock.getElements().size() > 0) {
+        boolean isFound = false;
+        for (int i = 0, li = lineList.size(); i < li; i++) {
+          String codeline = lineList.get(i);
+
+          final String element = matchedElement(codeline);
+          if (element != null) {
+            String elementPeek = elementQueue.peek();
+
+            if (element.equals(elementPeek)) {
+              elementQueue.remove();
+            }
+
+            if (element.equals(elementPeek) && elementQueue.isEmpty()) {
+              isFound = true;
+            }
+          }
+
+          if (isFound) {
+            lineList.addAll(i + 1, SyntaxUtils.addIndentToCodeline(codeblock.getCodelines(), codeblock.getElements().size()));
+            break;
+          }
+        }
+      } else {
+        lineList.addAll(codeblock.getCodelines());
+      }
     }
 
     FileUtils.writeFile(this, lineList);
   }
 
-  /**
-   * Add line to specific object by a string list of scope
-   *
-   * @param elementName is keyword to find scope
-   * @param dependencyString       is a string that is needed to add
-   * @param lineList is string list of scope
-   * @return string list was added to line such as external library
-   */
-  private List<String> addLineToElement(String elementName, String dependencyString, List<String> lineList) {
-    boolean isFoundScope = false;
-    String indent = "";
-    int scopeCnt = 0;
+  private String matchedElement(String codeline) {
+    Pattern pat = Pattern.compile("\\s*(\\w+)\\s*\\{\\s*");
+    Matcher matcher = pat.matcher(codeline);
 
-    for (int i = 0, li = lineList.size(); i < li; i++) {
-      final String codeLine = lineList.get(i);
-
-      if (codeLine.contains(elementName)) {
-        isFoundScope = true;
-
-        if (i + 1 < li) {
-          indent = FileUtils.getIndentOfLine(lineList.get(i + 1));
-        } else {
-          indent = SyntaxConstraints.DEFAULT_INDENT;
-        }
-      }
-
-      if (isFoundScope) {
-        if (codeLine.contains("{")) {
-          scopeCnt++;
-        } else if (codeLine.contains("}")) {
-          scopeCnt--;
-        }
-      }
-
-      if (isFoundScope && scopeCnt == 0) {
-        if (lineList.contains(indent + dependencyString)) {
-          continue;
-        }
-
-        lineList.add(i, indent + dependencyString);
-        return lineList;
-      }
-    }
-
-    return lineList;
-  }
-
-  public void print() {
-    for (String line : lineList) {
-      System.out.println(line);
-    }
+    return matcher.find() ? matcher.group(1).trim() : null;
   }
 }

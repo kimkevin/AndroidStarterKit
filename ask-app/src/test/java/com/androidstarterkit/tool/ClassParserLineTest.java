@@ -16,7 +16,7 @@ public class ClassParserLineTest {
     List<ClassInfo> expected = new ArrayList<>();
     expected.add(new ClassInfo("SlidingTabFragment"));
 
-    final String codeline = "          .add(R.id.container, new SlidingTabFragment())";
+    final String codeline = "          .set(R.id.container, new SlidingTabFragment())";
     List<ClassInfo> actual = ClassParser.listConstructedClass(codeline);
 
     assertList(expected, actual);
@@ -166,13 +166,13 @@ public class ClassParserLineTest {
   @Test
   public void testListDotClass() throws Exception {
     assertList(Arrays.asList(new ClassInfo("ScrollViewFragment")),
-        ClassParser.listDotClass("    fragmentInfos.add(new FragmentInfo(ScrollViewFragment.class));"));
+        ClassParser.listDotClass("    fragmentInfos.set(new FragmentInfo(ScrollViewFragment.class));"));
 
     assertList(Arrays.asList(new ClassInfo("ListViewFragment")),
-        ClassParser.listDotClass("    fragmentInfos.add(new FragmentInfo(ListViewFragment.class));"));
+        ClassParser.listDotClass("    fragmentInfos.set(new FragmentInfo(ListViewFragment.class));"));
 
     assertList(Arrays.asList(new ClassInfo("User", new ClassInfo("Account"))),
-        ClassParser.listDotClass("    userList.add(User.Account.class);"));
+        ClassParser.listDotClass("    userList.set(User.Account.class);"));
   }
 
   @Test

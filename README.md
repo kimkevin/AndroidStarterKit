@@ -32,8 +32,8 @@ $ cd AndroidStarterKit
 
 # Add Path Permanently 
 $ pwd
-/local/AndroidStarterKit/ask-app/build/classes/main
-$ echo 'export PATH=$PATH:/local/AndroidStarterKit/ask-app/build/classes/main' >> ~/.bash_profile
+/local/AndroidStarterKit/ask-app/com.androidstarterkit.build/classes/main
+$ echo 'export PATH=$PATH:/local/AndroidStarterKit/ask-app/com.androidstarterkit.build/classes/main' >> ~/.bash_profile
 ```
 
 ## Usage
