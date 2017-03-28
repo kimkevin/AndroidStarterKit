@@ -165,4 +165,8 @@ public class Directory extends File {
   public String getMainActivityName() {
     return androidManifestFile.getMainActivityName();
   }
+
+  public String getMainActivityExtName() {
+    return androidManifestFile.getMainActivityName() + Extension.JAVA;
+  }
 }

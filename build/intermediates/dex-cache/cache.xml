@@ -3,75 +3,12 @@
 
     <item
         is-multidex="false"
-        jar="/Users/kevin/.android/build-cache/618974327d39fa990baf941f98bb7fe4ac3c8347/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="756f6297eef79784f5e356dcd4f39865028b2bd0">
-        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_f9778771a4ff9e2001d4e7c6416a402284d90559.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/kevin/.android/build-cache/2b69807cfc4b48bd12fd1ff1655bddfee0b9c7f6/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="e79aa3d9a16f8c9f16377c0608de70a8f31e5d80">
-        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_2713fdc9c2e3f20e23e18e7ee765580caf0e0495.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/kevin/.android/build-cache/2c714fc5e141cbc19a98fcef132d93f8c13384d4/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="ca3c7aa31e2726a400a6e552b93cb9f63c9a1e6d">
-        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_8a99da4fec34dd55bb6b2f42314b2cfd2f01fae8.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/kevin/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.1.0/support-annotations-25.1.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="64cb6b229a8bdfd907bc8dd46839a0053e4c018d">
-        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/support-annotations-25.1.0_7f53d59041ae8c632e9f0832773c10479820b6f8.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="/Users/kevin/.android/build-cache/a360b434961661e7018d41b5de51269e8ef58d1e/output/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
         sha1="433f4d6aa5f21f19552afe0e6c5eff0fedba73ad">
         <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_bfa7ffe907e9454e2e4e9a38202619aea2b76177.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/kevin/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/glide/3.7.0/9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4/glide-3.7.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4">
-        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/glide-3.7.0_8227fedb47aab498d7f61f7c7d41143d640687b5.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/kevin/.android/build-cache/7e7e4778996d64fbb7e9f1ff8243c4a37e9878c8/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="2a53c4f3518116b8c6aee0e477233f0f7da8616f">
-        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_a8081efd3a96d44a2cf6190b1d76471b24373178.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/kevin/.android/build-cache/5c8964f380230d4d95c065283c5c706d3ee0bc14/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="d38084015027549951cbaea5d5f6fb795cc81151">
-        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_0d29387b146de10c5f9760c2a1bff6adbf6d893f.jar" />
     </item>
     <item
         is-multidex="false"
@@ -84,12 +21,57 @@
     </item>
     <item
         is-multidex="false"
-        jar="/Users/kevin/.android/build-cache/415ea432200c4bd3b0b2d9a037d67dd13c609159/output/jars/classes.jar"
+        jar="/Users/kevin/.android/build-cache/655d47ae28bdf1c844f471ed67734b1c155b1b14/output/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="f02263e35e52668dd17b73bf961437e3d562b35f">
-        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_1ce6a69c05eb364768d36cf039a9b0b5e49e1bee.jar" />
+        sha1="c5d103b270b3f3b50d8e6b44aa8e068b0de33426">
+        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_3aa6f80f0d0765e7be9d8aecb712da74a23c6f51.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/kevin/.android/build-cache/c97d61a0fc92cf9691fceee5955d9c4a96248ed2/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="518768f3200963fbfec652f498da2c9d39245234">
+        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_47755128b776f9bead955e5035b77924decbd42a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/kevin/.android/build-cache/571fda4c3e977ef3e8dc89ed98b7724cdfcc241d/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="93c10d68ab5ea070f15782ae6d3a28d1f1d8f45e">
+        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_90d7a264b596ae0a90c8350c2e36358815b2eb7f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/kevin/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/glide/3.7.0/9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4/glide-3.7.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4">
+        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/glide-3.7.0_8227fedb47aab498d7f61f7c7d41143d640687b5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/kevin/.android/build-cache/058345d50cd93049607a3f64f09f6582839be2f2/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_866a000fd7b434a9034dc7c400be149baed18680.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/kevin/.android/build-cache/b351dcb6cb8e9a09950eebcd9efe4dc5b8ed2200/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a3e61044038fb54cddf6b8dc79f41d2b57f42caf">
+        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_40f44351dbb08c565ede61b2bb0086535f0dcd46.jar" />
     </item>
     <item
         is-multidex="false"
@@ -102,66 +84,12 @@
     </item>
     <item
         is-multidex="false"
-        jar="/Users/kevin/.android/build-cache/7df152cfab700581964c619b1332d115cdc3ebec/output/jars/classes.jar"
+        jar="/Users/kevin/.android/build-cache/64584fce38daf912129c5c51d0365102e6078acc/output/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_86c41b0134cc28dd620fa3c6f32d7e9afe8f87d1.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/kevin/.android/build-cache/0b42356df57860558a864d1543bb85deb91f45a1/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="0a0ef86b7fa568a52bf6214a0326ca1f1d618da7">
-        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_29d02fc75b01e521b9116ce607f50e413e77fd9b.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/kevin/.android/build-cache/fac8b518e15b1bbc7e235f39413a555d0c0aaca7/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="1630658fbc2d222b988603c27b4a4249586fbfe7">
-        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_fe64af8928062446cebef66b6d8300195adb7482.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/kevin/.android/build-cache/d0d14bdad6d38f11706d4778784d09d6d337f062/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="de29a39f9260f88151b1ef453140e71c76b6c415">
-        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_ab864d0597b276c7a523a6cd579ad1d28c807493.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/kevin/.android/build-cache/8eca4e169b7f6b2a0003dc721c8b03d41d941829/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="30103d98fa5ed824b54af839c85e2111f9bde8ec">
-        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_0377f460734e53c9fbb18a76b2b2aea689e63d4b.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/kevin/.android/build-cache/e6d6e35ccd662cc4845d791c7f0ea49467c8b114/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="6addaba208e21c6da776d0ca75b6b23a6ccd5499">
-        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_b3ce3bbbce2ece9de86ef58fb22fc20debeffb5f.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/kevin/.android/build-cache/1e940115687093dd210f7b25b277f813f8338c61/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="b266c8faa5af72e579b9da36ef35053ffed6ac64">
-        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_bc63935ee32303aea825d2a605c9e764e5bded50.jar" />
+        sha1="d6a04527c17597019dad82777c5094a3d60d1c33">
+        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_4437d59cee83c89fd1f6d8fd3a5638572c08ea48.jar" />
     </item>
     <item
         is-multidex="false"
@@ -174,30 +102,102 @@
     </item>
     <item
         is-multidex="false"
-        jar="/Users/kevin/.android/build-cache/2a3137fe33ac8b8ba8548417260cae124c0c3872/output/jars/classes.jar"
+        jar="/Users/kevin/.android/build-cache/9f7836684d30b6168d1fd98e51b6b3f90590a8c6/output/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="aee64634871d88a419d59eb743c1258a60f19700">
-        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_2b233938c2d3ecd09e945ab3bab99751fa9ed7f5.jar" />
+        sha1="4b746ef0fd46acb5aaf3d9ab9a4cec22c28d3211">
+        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_73feed4343355c528b6796cdbdd44b38349d436d.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="/Users/kevin/.android/build-cache/f95bd68a1947998295feea155b319eec4be28a74/output/jars/classes.jar"
+        jar="/Users/kevin/.android/build-cache/d0d14bdad6d38f11706d4778784d09d6d337f062/output/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="7f2420506110902f033406b25697cf97ee8c38b2">
-        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_8c39e6aba64cdebabd73b47ff8d6f1ec826f60d3.jar" />
+        sha1="de29a39f9260f88151b1ef453140e71c76b6c415">
+        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_ab864d0597b276c7a523a6cd579ad1d28c807493.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="/Users/kevin/.android/build-cache/33ac7b1b233a48e888425e2762afea0f555e7293/output/jars/classes.jar"
+        jar="/Users/kevin/.android/build-cache/d84ab51c88147d5647b54ad2bd22be695b1d6076/output/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="6fb6ac3e8d3b9013819920d9ea11f3803c4c0033">
-        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_beeb6d0d1f359408a581f4cdfe4c2f5a6647cfd9.jar" />
+        sha1="93c1199fcb0a34b980e6fff8350daff62e696ec2">
+        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_34c98a80ea27cf2867de6d123f3ed3702fb5e8d0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/kevin/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.3.0/support-annotations-25.3.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="dd84903d2e1af25a6081ef9038ad863cb14ca3a0">
+        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/support-annotations-25.3.0_828772580bc7c3b02178060d9ffce4a4731a0522.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/kevin/.android/build-cache/2e4bf1c336c990a39cff0ca300e726ecc8c870b0/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="5cc5ef8347a6bafa14556cbd35230aa9b3431bb0">
+        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_ace5c005c453ccf9b27e35b87d7120e0e714d80b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/kevin/.android/build-cache/618974327d39fa990baf941f98bb7fe4ac3c8347/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="756f6297eef79784f5e356dcd4f39865028b2bd0">
+        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_f9778771a4ff9e2001d4e7c6416a402284d90559.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/kevin/.android/build-cache/46d751f8aeeeb6a18d0ffb23cc2f976676369461/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="425c7b17887e5c3f8cbdf67ba171bc246f29b42c">
+        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_85cf1db670461013e9e1943a36ff08765ec2cbb9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/kevin/.android/build-cache/2054bbddcf316754b457d6c0936379684eb5ecba/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="9ab787a20aae245b5b3651ae0b9c38459eb37715">
+        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_206aaa911503a065b47b137e8c50282b9b93eca6.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/kevin/.android/build-cache/e6d6e35ccd662cc4845d791c7f0ea49467c8b114/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6addaba208e21c6da776d0ca75b6b23a6ccd5499">
+        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_b3ce3bbbce2ece9de86ef58fb22fc20debeffb5f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="70f23cb87278f89aa51e6f57e8f0fd5266572d95">
+        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_0318c9853e48d10c43349814740a2289d8519877.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/kevin/.android/build-cache/a9f683f26df9ff65bf2ade36fe07a6f86e238258/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="fbb206f7a119f66ce171d95aae1225a5b209a8b7">
+        <dex dex="/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/pre-dexed/debug/classes_4b25e28526034d22f6e2e63c4cfa6faaf4ff2fc5.jar" />
     </item>
 
 </items>

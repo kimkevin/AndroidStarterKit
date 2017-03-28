@@ -25,11 +25,12 @@ public class Ask {
 
     final String projectPath = commandParser.getPath();
     final TabType tabType = commandParser.getTabType();
-    final List<String> widgets = commandParser.getLayoutCommands();
+    final List<String> layouts = commandParser.getLayoutCommands();
     final List<String> modules = commandParser.getModuleCommands();
 
     SourceDirectory.load(projectPath)
-        .with(tabType, widgets, modules)
-        .transform();
+        .with(tabType, layouts, modules)
+        .transformLayoutsFromRemote()
+        .transformModule();
   }
 }

@@ -28,6 +28,10 @@
         "source": "/Users/kevin/.android/build-cache/fac8b518e15b1bbc7e235f39413a555d0c0aaca7/output/res/drawable-hdpi-v4/abc_ic_star_black_48dp.png"
     },
     {
+        "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/res/merged/debug/drawable-hdpi-v4/design_ic_visibility.png",
+        "source": "/Users/kevin/.android/build-cache/8eca4e169b7f6b2a0003dc721c8b03d41d941829/output/res/drawable-hdpi-v4/design_ic_visibility.png"
+    },
+    {
         "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_textfield_activated_mtrl_alpha.9.png",
         "source": "/Users/kevin/.android/build-cache/fac8b518e15b1bbc7e235f39413a555d0c0aaca7/output/res/drawable-hdpi-v4/abc_textfield_activated_mtrl_alpha.9.png"
     },
@@ -78,6 +82,10 @@
     {
         "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_scrubber_control_to_pressed_mtrl_000.png",
         "source": "/Users/kevin/.android/build-cache/fac8b518e15b1bbc7e235f39413a555d0c0aaca7/output/res/drawable-hdpi-v4/abc_scrubber_control_to_pressed_mtrl_000.png"
+    },
+    {
+        "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/res/merged/debug/drawable-hdpi-v4/design_ic_visibility_off.png",
+        "source": "/Users/kevin/.android/build-cache/8eca4e169b7f6b2a0003dc721c8b03d41d941829/output/res/drawable-hdpi-v4/design_ic_visibility_off.png"
     },
     {
         "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_list_focused_holo.9.png",

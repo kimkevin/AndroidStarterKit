@@ -128,6 +128,10 @@
         "source": "/Users/kevin/.android/build-cache/fac8b518e15b1bbc7e235f39413a555d0c0aaca7/output/res/drawable-mdpi-v4/abc_ic_star_half_black_36dp.png"
     },
     {
+        "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/res/merged/debug/drawable-mdpi-v4/design_ic_visibility.png",
+        "source": "/Users/kevin/.android/build-cache/8eca4e169b7f6b2a0003dc721c8b03d41d941829/output/res/drawable-mdpi-v4/design_ic_visibility.png"
+    },
+    {
         "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/res/merged/debug/drawable-mdpi-v4/notification_bg_low_pressed.9.png",
         "source": "/Users/kevin/.android/build-cache/fac8b518e15b1bbc7e235f39413a555d0c0aaca7/output/res/drawable-mdpi-v4/notification_bg_low_pressed.9.png"
     },
@@ -186,6 +190,10 @@
     {
         "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/res/merged/debug/drawable-mdpi-v4/notification_bg_low_normal.9.png",
         "source": "/Users/kevin/.android/build-cache/fac8b518e15b1bbc7e235f39413a555d0c0aaca7/output/res/drawable-mdpi-v4/notification_bg_low_normal.9.png"
+    },
+    {
+        "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/res/merged/debug/drawable-mdpi-v4/design_ic_visibility_off.png",
+        "source": "/Users/kevin/.android/build-cache/8eca4e169b7f6b2a0003dc721c8b03d41d941829/output/res/drawable-mdpi-v4/design_ic_visibility_off.png"
     },
     {
         "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/res/merged/debug/drawable-mdpi-v4/abc_popup_background_mtrl_mult.9.png",

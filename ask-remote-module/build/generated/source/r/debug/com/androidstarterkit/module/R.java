@@ -2800,7 +2800,7 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f0d0062;
         public static final int action_mode_bar_stub=0x7f0d0061;
         public static final int action_mode_close_button=0x7f0d0044;
-        public static final int action_settings=0x7f0d00b3;
+        public static final int action_settings=0x7f0d00b2;
         public static final int action_text=0x7f0d0096;
         public static final int actions=0x7f0d00a4;
         public static final int activity_chooser_view_content=0x7f0d0045;
@@ -2875,10 +2875,9 @@ containing a value of this type.
         public static final int mini=0x7f0d0038;
         public static final int multiply=0x7f0d0020;
         public static final int name=0x7f0d0090;
+        public static final int nav_analytics=0x7f0d00b0;
         public static final int nav_camera=0x7f0d00af;
-        public static final int nav_gallery=0x7f0d00b0;
-        public static final int nav_send=0x7f0d00b2;
-        public static final int nav_share=0x7f0d00b1;
+        public static final int nav_crash_report=0x7f0d00b1;
         public static final int nav_view=0x7f0d0075;
         public static final int navigation_header_container=0x7f0d007f;
         public static final int never=0x7f0d003e;

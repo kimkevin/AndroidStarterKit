@@ -2,19 +2,16 @@ package com.androidstarterkit.file;
 
 import com.androidstarterkit.SyntaxConstraints;
 import com.androidstarterkit.model.CodeBlock;
-import com.androidstarterkit.tool.CodeGenerator;
 import com.androidstarterkit.util.FileUtils;
 import com.androidstarterkit.util.SyntaxUtils;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class BuildGradle extends BaseFile implements CodeGenerator {
+public class BuildGradle extends BaseFile {
   private static final String TAG = BuildGradle.class.getSimpleName();
 
   public static final String FILE_NAME = "build.gradle";
@@ -23,8 +20,6 @@ public class BuildGradle extends BaseFile implements CodeGenerator {
 
   private String applicationId;
   private String supportLibraryVersion;
-
-  private List<CodeBlock> configCodeBlocks;
 
   public BuildGradle(String modulePath) {
     super(modulePath, FILE_NAME);
@@ -69,28 +64,13 @@ public class BuildGradle extends BaseFile implements CodeGenerator {
   }
 
   @Override
-  public void addCodeBlock(CodeBlock codeBlock) {
-    if (configCodeBlocks == null) {
-      configCodeBlocks = new ArrayList<>();
-    }
-
-    configCodeBlocks.add(codeBlock);
-  }
-
-  @Override
-  public void setCodeBlocks(List<CodeBlock> codeBlocks) {
-    configCodeBlocks = codeBlocks;
-  }
-
-  @Override
   public void apply() {
     for (CodeBlock codeblock : configCodeBlocks) {
       Queue<String> elementQueue = new LinkedList<>();
-      elementQueue.addAll(codeblock.getElements());
 
-      System.out.println(codeblock.toString());
+      if (codeblock.getElements() != null && codeblock.getElements().size() > 0) {
+        elementQueue.addAll(codeblock.getElements());
 
-      if (codeblock.getElements().size() > 0) {
         boolean isFound = false;
         for (int i = 0, li = lineList.size(); i < li; i++) {
           String codeline = lineList.get(i);
@@ -118,7 +98,7 @@ public class BuildGradle extends BaseFile implements CodeGenerator {
       }
     }
 
-    FileUtils.writeFile(this, lineList);
+    super.apply();
   }
 
   private String matchedElement(String codeline) {

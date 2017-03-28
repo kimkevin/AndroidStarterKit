@@ -1,4 +1,4 @@
-#Sun Mar 26 16:32:23 KST 2017
+#Tue Mar 28 23:47:48 KST 2017
 base.0=/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/transforms/dex/debug/folders/1000/1f/main
 renamed.0=classes.dex
 file.0=/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex

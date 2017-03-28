@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Config {
-  public static final String ROOT_PATH = "root";
-  public static final String APP_PATH = "app";
-
   @SerializedName("path")
   private String path;
 
@@ -23,8 +20,16 @@ public class Config {
     return path;
   }
 
+  public void setPath(String path) {
+    this.path = path;
+  }
+
   public String getFileFullName() {
     return fileFullName;
+  }
+
+  public void setFileFullName(String fileFullName) {
+    this.fileFullName = fileFullName;
   }
 
   public List<CodeBlock> getCodeBlocks() {
@@ -44,7 +49,7 @@ public class Config {
     return "Config{" +
         "path='" + path + '\'' +
         ", fileFullName='" + fileFullName + '\'' +
-        ", codeBlocks=" + codeBlocks.toString() +
+        ", codeBlocks=" + (codeBlocks != null ? codeBlocks.toString() : "") +
         '}';
   }
 }

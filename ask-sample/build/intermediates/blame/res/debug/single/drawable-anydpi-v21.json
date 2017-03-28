@@ -12,6 +12,14 @@
         "source": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/generated/res/pngs/debug/drawable-anydpi-v21/ic_menu_share.xml"
     },
     {
+        "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/res/merged/debug/drawable-anydpi-v21/design_ic_visibility_off.xml",
+        "source": "/Users/kevin/.android/build-cache/8eca4e169b7f6b2a0003dc721c8b03d41d941829/output/res/drawable-anydpi-v21/design_ic_visibility_off.xml"
+    },
+    {
+        "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/res/merged/debug/drawable-anydpi-v21/design_ic_visibility.xml",
+        "source": "/Users/kevin/.android/build-cache/8eca4e169b7f6b2a0003dc721c8b03d41d941829/output/res/drawable-anydpi-v21/design_ic_visibility.xml"
+    },
+    {
         "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/res/merged/debug/drawable-anydpi-v21/ic_menu_slideshow.xml",
         "source": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/generated/res/pngs/debug/drawable-anydpi-v21/ic_menu_slideshow.xml"
     },

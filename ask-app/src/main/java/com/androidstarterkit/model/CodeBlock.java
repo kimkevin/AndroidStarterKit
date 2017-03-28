@@ -29,6 +29,10 @@ public class CodeBlock {
     return elements;
   }
 
+  public void setElements(List<String> elements) {
+    this.elements = elements;
+  }
+
   public List<String> getCodelines() {
     return codelines;
   }
@@ -40,7 +44,7 @@ public class CodeBlock {
   @Override
   public String toString() {
     return "CodeBlock{" +
-        "elements=" + elements.toString() +
+        "elements=" + (elements != null ? elements.toString() : "" ) +
         ", codelines=" + codelines.toString() +
         '}';
   }

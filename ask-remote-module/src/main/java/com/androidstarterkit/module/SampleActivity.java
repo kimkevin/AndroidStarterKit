@@ -1,5 +1,4 @@
 package com.androidstarterkit.module;
-
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -13,23 +12,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.androidstarterkit.module.firebase.analytics.WrapperFireBaseAnalytics;
-import com.androidstarterkit.module.firebase.crash.FireBaseCrashReport;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
-public class SampleActivity extends AppCompatActivity
-    implements NavigationView.OnNavigationItemSelectedListener{
-
-  private static final String TAG = SampleActivity.class.getSimpleName();
-
-  private WrapperFireBaseAnalytics analytics;
-  private FireBaseCrashReport logger;
+public class SampleActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+//  private FireBaseAnalytics analytics;
+//  private FireBaseCrashReport crashReport;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    analytics = new WrapperFireBaseAnalytics(this, FirebaseAnalytics.getInstance(this));
+//    analytics = new FireBaseAnalytics(this, FirebaseAnalytics.getInstance(this));
+//
+//    crashReport = new FireBaseCrashReport();
+//    crashReport.log("Activity Created");
 
     setContentView(R.layout.activity_main);
 
@@ -66,7 +61,7 @@ public class SampleActivity extends AppCompatActivity
   protected void onResume() {
     super.onResume();
 
-    analytics.recordScreenView(TAG);
+//    analytics.recordScreenView("Main");
   }
 
   @Override
@@ -94,7 +89,6 @@ public class SampleActivity extends AppCompatActivity
     int id = item.getItemId();
 
     if (id == R.id.action_settings) {
-      analytics.trackEvent("1", "hello world");
       return true;
     }
 
@@ -104,18 +98,16 @@ public class SampleActivity extends AppCompatActivity
   @SuppressWarnings("StatementWithEmptyBody")
   @Override
   public boolean onNavigationItemSelected(MenuItem item) {
-    // Handle navigation view item clicks here.
-    int id = item.getItemId();
-
-    if (id == R.id.nav_camera) {
-
-    } else if (id == R.id.nav_gallery) {
-
-    } else if (id == R.id.nav_share) {
-
-    } else if (id == R.id.nav_send) {
-
-    }
+//    if (item.getItemId() == R.id.nav_analytics) {
+//      Bundle bundle = new Bundle();
+//      bundle.putString("user_name", "kimkevin");
+//      analytics.trackEvent(bundle);
+//      analytics.setUserProperty("API " + android.os.Build.VERSION.SDK_INT);
+//    }
+//
+//    if (item.getItemId() == R.id.nav_crash_report) {
+//      crashReport.reportError(new Exception("My first Android non-fatal error"));
+//    }
 
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     drawer.closeDrawer(GravityCompat.START);

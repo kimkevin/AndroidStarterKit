@@ -1,34 +1,34 @@
 [
     {
         "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/res/merged/debug/drawable-v21/abc_action_bar_item_background_material.xml",
-        "source": "/Users/kevin/.android/build-cache/fac8b518e15b1bbc7e235f39413a555d0c0aaca7/output/res/drawable-v21/abc_action_bar_item_background_material.xml"
+        "source": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/drawable-v21/abc_action_bar_item_background_material.xml"
     },
     {
         "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/res/merged/debug/drawable-v21/design_bottom_navigation_item_background.xml",
-        "source": "/Users/kevin/.android/build-cache/8eca4e169b7f6b2a0003dc721c8b03d41d941829/output/res/drawable-v21/design_bottom_navigation_item_background.xml"
+        "source": "/Users/kevin/.android/build-cache/2054bbddcf316754b457d6c0936379684eb5ecba/output/res/drawable-v21/design_bottom_navigation_item_background.xml"
     },
     {
         "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/res/merged/debug/drawable-v21/abc_btn_colored_material.xml",
-        "source": "/Users/kevin/.android/build-cache/fac8b518e15b1bbc7e235f39413a555d0c0aaca7/output/res/drawable-v21/abc_btn_colored_material.xml"
+        "source": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/drawable-v21/abc_btn_colored_material.xml"
     },
     {
         "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/res/merged/debug/drawable-v21/notification_action_background.xml",
-        "source": "/Users/kevin/.android/build-cache/fac8b518e15b1bbc7e235f39413a555d0c0aaca7/output/res/drawable-v21/notification_action_background.xml"
+        "source": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/drawable-v21/notification_action_background.xml"
     },
     {
         "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/res/merged/debug/drawable-v21/abc_edit_text_material.xml",
-        "source": "/Users/kevin/.android/build-cache/fac8b518e15b1bbc7e235f39413a555d0c0aaca7/output/res/drawable-v21/abc_edit_text_material.xml"
+        "source": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/drawable-v21/abc_edit_text_material.xml"
     },
     {
         "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/res/merged/debug/drawable-v21/avd_hide_password.xml",
-        "source": "/Users/kevin/.android/build-cache/8eca4e169b7f6b2a0003dc721c8b03d41d941829/output/res/drawable-v21/avd_hide_password.xml"
+        "source": "/Users/kevin/.android/build-cache/2054bbddcf316754b457d6c0936379684eb5ecba/output/res/drawable-v21/avd_hide_password.xml"
     },
     {
         "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/res/merged/debug/drawable-v21/design_password_eye.xml",
-        "source": "/Users/kevin/.android/build-cache/8eca4e169b7f6b2a0003dc721c8b03d41d941829/output/res/drawable-v21/design_password_eye.xml"
+        "source": "/Users/kevin/.android/build-cache/2054bbddcf316754b457d6c0936379684eb5ecba/output/res/drawable-v21/design_password_eye.xml"
     },
     {
         "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/build/intermediates/res/merged/debug/drawable-v21/avd_show_password.xml",
-        "source": "/Users/kevin/.android/build-cache/8eca4e169b7f6b2a0003dc721c8b03d41d941829/output/res/drawable-v21/avd_show_password.xml"
+        "source": "/Users/kevin/.android/build-cache/2054bbddcf316754b457d6c0936379684eb5ecba/output/res/drawable-v21/avd_show_password.xml"
     }
 ]

@@ -3,6 +3,8 @@ package com.androidstarterkit.file.directory;
 import com.androidstarterkit.exception.CommandException;
 import com.androidstarterkit.util.FileUtils;
 
+import java.io.File;
+
 public class RemoteDirectory extends Directory {
   public static final String MODULE_NAME = "ask-remote-module";
 
@@ -27,5 +29,9 @@ public class RemoteDirectory extends Directory {
     } catch (StringIndexOutOfBoundsException exception) {
       return getChildPath(key);
     }
+  }
+
+  public File getMainActivity() {
+    return getChildFile(getMainActivityExtName());
   }
 }

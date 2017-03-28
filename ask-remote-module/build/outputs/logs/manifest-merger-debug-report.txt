@@ -24,12 +24,12 @@ MERGED from [com.google.firebase:firebase-iid:10.0.1] /Users/kevin/.android/buil
 application
 ADDED from /Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/src/main/AndroidManifest.xml:7:5-30:19
 MERGED from [com.google.firebase:firebase-core:9.0.0] /Users/kevin/.android/build-cache/e2da52a14b3274f4b1c5bd792f3f1ff5336e2a81/output/AndroidManifest.xml:5:5-20
-MERGED from [com.android.support:cardview-v7:25.1.0] /Users/kevin/.android/build-cache/f95bd68a1947998295feea155b319eec4be28a74/output/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:design:25.1.0] /Users/kevin/.android/build-cache/8eca4e169b7f6b2a0003dc721c8b03d41d941829/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:appcompat-v7:25.1.0] /Users/kevin/.android/build-cache/fac8b518e15b1bbc7e235f39413a555d0c0aaca7/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:animated-vector-drawable:25.1.0] /Users/kevin/.android/build-cache/33ac7b1b233a48e888425e2762afea0f555e7293/output/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:support-vector-drawable:25.1.0] /Users/kevin/.android/build-cache/2b69807cfc4b48bd12fd1ff1655bddfee0b9c7f6/output/AndroidManifest.xml:23:5-20
-MERGED from [com.android.support:transition:25.1.0] /Users/kevin/.android/build-cache/5c8964f380230d4d95c065283c5c706d3ee0bc14/output/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:cardview-v7:25.3.0] /Users/kevin/.android/build-cache/655d47ae28bdf1c844f471ed67734b1c155b1b14/output/AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:design:25.3.0] /Users/kevin/.android/build-cache/2054bbddcf316754b457d6c0936379684eb5ecba/output/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:appcompat-v7:25.3.0] /Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:animated-vector-drawable:25.3.0] /Users/kevin/.android/build-cache/9f7836684d30b6168d1fd98e51b6b3f90590a8c6/output/AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:support-vector-drawable:25.3.0] /Users/kevin/.android/build-cache/64584fce38daf912129c5c51d0365102e6078acc/output/AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:transition:25.3.0] /Users/kevin/.android/build-cache/a9f683f26df9ff65bf2ade36fe07a6f86e238258/output/AndroidManifest.xml:26:5-20
 MERGED from [com.google.firebase:firebase-crash:10.0.1] /Users/kevin/.android/build-cache/d0d14bdad6d38f11706d4778784d09d6d337f062/output/AndroidManifest.xml:22:5-23:19
 MERGED from [com.google.firebase:firebase-analytics:10.0.1] /Users/kevin/.android/build-cache/a360b434961661e7018d41b5de51269e8ef58d1e/output/AndroidManifest.xml:24:5-33:19
 MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /Users/kevin/.android/build-cache/2757b44c67c484d1d72fd98ac9780883409473de/output/AndroidManifest.xml:24:5-28:19
@@ -37,12 +37,12 @@ MERGED from [com.google.firebase:firebase-iid:10.0.1] /Users/kevin/.android/buil
 MERGED from [com.google.firebase:firebase-common:10.0.1] /Users/kevin/.android/build-cache/7b74b3f5b0324724c7ab676e65e7fc9ea1d2714e/output/AndroidManifest.xml:4:5-7:19
 MERGED from [com.google.android.gms:play-services-tasks:10.0.1] /Users/kevin/.android/build-cache/e6d6e35ccd662cc4845d791c7f0ea49467c8b114/output/AndroidManifest.xml:4:5-19
 MERGED from [com.google.android.gms:play-services-basement:10.0.1] /Users/kevin/.android/build-cache/618974327d39fa990baf941f98bb7fe4ac3c8347/output/AndroidManifest.xml:19:5-21:19
-MERGED from [com.android.support:support-v4:25.1.0] /Users/kevin/.android/build-cache/7df152cfab700581964c619b1332d115cdc3ebec/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-fragment:25.1.0] /Users/kevin/.android/build-cache/7e7e4778996d64fbb7e9f1ff8243c4a37e9878c8/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-media-compat:25.1.0] /Users/kevin/.android/build-cache/415ea432200c4bd3b0b2d9a037d67dd13c609159/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-core-ui:25.1.0] /Users/kevin/.android/build-cache/2a3137fe33ac8b8ba8548417260cae124c0c3872/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-core-utils:25.1.0] /Users/kevin/.android/build-cache/0b42356df57860558a864d1543bb85deb91f45a1/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-compat:25.1.0] /Users/kevin/.android/build-cache/2c714fc5e141cbc19a98fcef132d93f8c13384d4/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v4:25.3.0] /Users/kevin/.android/build-cache/058345d50cd93049607a3f64f09f6582839be2f2/output/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-fragment:25.3.0] /Users/kevin/.android/build-cache/d84ab51c88147d5647b54ad2bd22be695b1d6076/output/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-media-compat:25.3.0] /Users/kevin/.android/build-cache/46d751f8aeeeb6a18d0ffb23cc2f976676369461/output/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-ui:25.3.0] /Users/kevin/.android/build-cache/2e4bf1c336c990a39cff0ca300e726ecc8c870b0/output/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-utils:25.3.0] /Users/kevin/.android/build-cache/c97d61a0fc92cf9691fceee5955d9c4a96248ed2/output/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-compat:25.3.0] /Users/kevin/.android/build-cache/571fda4c3e977ef3e8dc89ed98b7724cdfcc241d/output/AndroidManifest.xml:29:5-20
 	android:label
 		ADDED from /Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/src/main/AndroidManifest.xml:10:9-41
 	android:supportsRtl
@@ -110,13 +110,13 @@ ADDED from /Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/s
 uses-sdk
 INJECTED from /Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/src/main/AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.google.firebase:firebase-core:9.0.0] /Users/kevin/.android/build-cache/e2da52a14b3274f4b1c5bd792f3f1ff5336e2a81/output/AndroidManifest.xml:4:5-42
-MERGED from [com.android.support:cardview-v7:25.1.0] /Users/kevin/.android/build-cache/f95bd68a1947998295feea155b319eec4be28a74/output/AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:design:25.1.0] /Users/kevin/.android/build-cache/8eca4e169b7f6b2a0003dc721c8b03d41d941829/output/AndroidManifest.xml:21:5-23:62
-MERGED from [com.android.support:appcompat-v7:25.1.0] /Users/kevin/.android/build-cache/fac8b518e15b1bbc7e235f39413a555d0c0aaca7/output/AndroidManifest.xml:21:5-23:78
-MERGED from [com.android.support:animated-vector-drawable:25.1.0] /Users/kevin/.android/build-cache/33ac7b1b233a48e888425e2762afea0f555e7293/output/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:25.1.0] /Users/kevin/.android/build-cache/2b69807cfc4b48bd12fd1ff1655bddfee0b9c7f6/output/AndroidManifest.xml:21:5-43
-MERGED from [com.android.support:recyclerview-v7:25.1.0] /Users/kevin/.android/build-cache/1e940115687093dd210f7b25b277f813f8338c61/output/AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:transition:25.1.0] /Users/kevin/.android/build-cache/5c8964f380230d4d95c065283c5c706d3ee0bc14/output/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:25.3.0] /Users/kevin/.android/build-cache/655d47ae28bdf1c844f471ed67734b1c155b1b14/output/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:design:25.3.0] /Users/kevin/.android/build-cache/2054bbddcf316754b457d6c0936379684eb5ecba/output/AndroidManifest.xml:21:5-23:62
+MERGED from [com.android.support:appcompat-v7:25.3.0] /Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:animated-vector-drawable:25.3.0] /Users/kevin/.android/build-cache/9f7836684d30b6168d1fd98e51b6b3f90590a8c6/output/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:25.3.0] /Users/kevin/.android/build-cache/64584fce38daf912129c5c51d0365102e6078acc/output/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:recyclerview-v7:25.3.0] /Users/kevin/.android/build-cache/b351dcb6cb8e9a09950eebcd9efe4dc5b8ed2200/output/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:transition:25.3.0] /Users/kevin/.android/build-cache/a9f683f26df9ff65bf2ade36fe07a6f86e238258/output/AndroidManifest.xml:20:5-44
 MERGED from [com.google.firebase:firebase-crash:10.0.1] /Users/kevin/.android/build-cache/d0d14bdad6d38f11706d4778784d09d6d337f062/output/AndroidManifest.xml:20:5-42
 MERGED from [com.google.firebase:firebase-analytics:10.0.1] /Users/kevin/.android/build-cache/a360b434961661e7018d41b5de51269e8ef58d1e/output/AndroidManifest.xml:17:5-42
 MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /Users/kevin/.android/build-cache/2757b44c67c484d1d72fd98ac9780883409473de/output/AndroidManifest.xml:17:5-42
@@ -124,20 +124,38 @@ MERGED from [com.google.firebase:firebase-iid:10.0.1] /Users/kevin/.android/buil
 MERGED from [com.google.firebase:firebase-common:10.0.1] /Users/kevin/.android/build-cache/7b74b3f5b0324724c7ab676e65e7fc9ea1d2714e/output/AndroidManifest.xml:3:5-42
 MERGED from [com.google.android.gms:play-services-tasks:10.0.1] /Users/kevin/.android/build-cache/e6d6e35ccd662cc4845d791c7f0ea49467c8b114/output/AndroidManifest.xml:3:5-42
 MERGED from [com.google.android.gms:play-services-basement:10.0.1] /Users/kevin/.android/build-cache/618974327d39fa990baf941f98bb7fe4ac3c8347/output/AndroidManifest.xml:17:5-42
-MERGED from [com.android.support:support-v4:25.1.0] /Users/kevin/.android/build-cache/7df152cfab700581964c619b1332d115cdc3ebec/output/AndroidManifest.xml:21:5-23:54
-MERGED from [com.android.support:support-fragment:25.1.0] /Users/kevin/.android/build-cache/7e7e4778996d64fbb7e9f1ff8243c4a37e9878c8/output/AndroidManifest.xml:21:5-23:60
-MERGED from [com.android.support:support-media-compat:25.1.0] /Users/kevin/.android/build-cache/415ea432200c4bd3b0b2d9a037d67dd13c609159/output/AndroidManifest.xml:21:5-23:63
-MERGED from [com.android.support:support-core-ui:25.1.0] /Users/kevin/.android/build-cache/2a3137fe33ac8b8ba8548417260cae124c0c3872/output/AndroidManifest.xml:21:5-23:58
-MERGED from [com.android.support:support-core-utils:25.1.0] /Users/kevin/.android/build-cache/0b42356df57860558a864d1543bb85deb91f45a1/output/AndroidManifest.xml:21:5-23:61
-MERGED from [com.android.support:support-compat:25.1.0] /Users/kevin/.android/build-cache/2c714fc5e141cbc19a98fcef132d93f8c13384d4/output/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-v4:25.3.0] /Users/kevin/.android/build-cache/058345d50cd93049607a3f64f09f6582839be2f2/output/AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-fragment:25.3.0] /Users/kevin/.android/build-cache/d84ab51c88147d5647b54ad2bd22be695b1d6076/output/AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-media-compat:25.3.0] /Users/kevin/.android/build-cache/46d751f8aeeeb6a18d0ffb23cc2f976676369461/output/AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-core-ui:25.3.0] /Users/kevin/.android/build-cache/2e4bf1c336c990a39cff0ca300e726ecc8c870b0/output/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-utils:25.3.0] /Users/kevin/.android/build-cache/c97d61a0fc92cf9691fceee5955d9c4a96248ed2/output/AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-compat:25.3.0] /Users/kevin/.android/build-cache/571fda4c3e977ef3e8dc89ed98b7724cdfcc241d/output/AndroidManifest.xml:21:5-23:58
 	tools:overrideLibrary
-		ADDED from [com.android.support:design:25.1.0] /Users/kevin/.android/build-cache/8eca4e169b7f6b2a0003dc721c8b03d41d941829/output/AndroidManifest.xml:23:9-59
+		ADDED from [com.android.support:design:25.3.0] /Users/kevin/.android/build-cache/2054bbddcf316754b457d6c0936379684eb5ecba/output/AndroidManifest.xml:23:9-59
 	android:targetSdkVersion
 		INJECTED from /Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/src/main/AndroidManifest.xml
 		INJECTED from /Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/src/main/AndroidManifest.xml
 	android:minSdkVersion
 		INJECTED from /Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/src/main/AndroidManifest.xml
 		INJECTED from /Users/kevin/Local/projects/git/AndroidStarterKit/ask-remote-module/src/main/AndroidManifest.xml
+meta-data#android.support.VERSION
+ADDED from [com.android.support:cardview-v7:25.3.0] /Users/kevin/.android/build-cache/655d47ae28bdf1c844f471ed67734b1c155b1b14/output/AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:design:25.3.0] /Users/kevin/.android/build-cache/2054bbddcf316754b457d6c0936379684eb5ecba/output/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:appcompat-v7:25.3.0] /Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:animated-vector-drawable:25.3.0] /Users/kevin/.android/build-cache/9f7836684d30b6168d1fd98e51b6b3f90590a8c6/output/AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:support-vector-drawable:25.3.0] /Users/kevin/.android/build-cache/64584fce38daf912129c5c51d0365102e6078acc/output/AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:recyclerview-v7:25.3.0] /Users/kevin/.android/build-cache/b351dcb6cb8e9a09950eebcd9efe4dc5b8ed2200/output/AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:transition:25.3.0] /Users/kevin/.android/build-cache/a9f683f26df9ff65bf2ade36fe07a6f86e238258/output/AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:support-v4:25.3.0] /Users/kevin/.android/build-cache/058345d50cd93049607a3f64f09f6582839be2f2/output/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-fragment:25.3.0] /Users/kevin/.android/build-cache/d84ab51c88147d5647b54ad2bd22be695b1d6076/output/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-media-compat:25.3.0] /Users/kevin/.android/build-cache/46d751f8aeeeb6a18d0ffb23cc2f976676369461/output/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-core-ui:25.3.0] /Users/kevin/.android/build-cache/2e4bf1c336c990a39cff0ca300e726ecc8c870b0/output/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-core-utils:25.3.0] /Users/kevin/.android/build-cache/c97d61a0fc92cf9691fceee5955d9c4a96248ed2/output/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-compat:25.3.0] /Users/kevin/.android/build-cache/571fda4c3e977ef3e8dc89ed98b7724cdfcc241d/output/AndroidManifest.xml:25:5-27:34
+	android:value
+		ADDED from [com.android.support:cardview-v7:25.3.0] /Users/kevin/.android/build-cache/655d47ae28bdf1c844f471ed67734b1c155b1b14/output/AndroidManifest.xml:24:9-31
+	android:name
+		ADDED from [com.android.support:cardview-v7:25.3.0] /Users/kevin/.android/build-cache/655d47ae28bdf1c844f471ed67734b1c155b1b14/output/AndroidManifest.xml:23:9-47
 uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from [com.google.firebase:firebase-analytics:10.0.1] /Users/kevin/.android/build-cache/a360b434961661e7018d41b5de51269e8ef58d1e/output/AndroidManifest.xml:21:5-78
 MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /Users/kevin/.android/build-cache/2757b44c67c484d1d72fd98ac9780883409473de/output/AndroidManifest.xml:21:5-78

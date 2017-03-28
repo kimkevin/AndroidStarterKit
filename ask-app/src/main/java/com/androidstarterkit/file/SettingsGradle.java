@@ -4,19 +4,18 @@ package com.androidstarterkit.file;
 import com.androidstarterkit.exception.ModuleFileNotFoundException;
 import com.androidstarterkit.tool.MatcherTask;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class SettingsGradle extends File {
+public class SettingsGradle extends BaseFile {
   private static final String TAG = SettingsGradle.class.getSimpleName();
 
   public static final String FILE_NAME = "settings.gradle";
 
   private String appModuleName;
 
-  public SettingsGradle(File file) {
-    super(file.getPath());
+  public SettingsGradle(String pathname) {
+    super(pathname, FILE_NAME);
 
     Scanner scanner;
     try {
