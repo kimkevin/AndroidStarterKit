@@ -6,9 +6,9 @@
                 "to": {
                     "startLine": 2,
                     "startColumn": 4,
-                    "startOffset": 105,
+                    "startOffset": 55,
                     "endColumn": 110,
-                    "endOffset": 211
+                    "endOffset": 161
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-fr-rCA/values-fr-rCA.xml",
@@ -25,9 +25,9 @@
                 "to": {
                     "startLine": 3,
                     "startColumn": 4,
-                    "startOffset": 216,
+                    "startOffset": 166,
                     "endColumn": 107,
-                    "endOffset": 319
+                    "endOffset": 269
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-fr-rCA/values-fr-rCA.xml",
@@ -44,9 +44,9 @@
                 "to": {
                     "startLine": 4,
                     "startColumn": 4,
-                    "startOffset": 324,
+                    "startOffset": 274,
                     "endColumn": 122,
-                    "endOffset": 442
+                    "endOffset": 392
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-fr-rCA/values-fr-rCA.xml",
@@ -63,9 +63,9 @@
                 "to": {
                     "startLine": 5,
                     "startColumn": 4,
-                    "startOffset": 447,
+                    "startOffset": 397,
                     "endColumn": 114,
-                    "endOffset": 557
+                    "endOffset": 507
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-fr-rCA/values-fr-rCA.xml",
@@ -82,9 +82,9 @@
                 "to": {
                     "startLine": 6,
                     "startColumn": 4,
-                    "startOffset": 562,
+                    "startOffset": 512,
                     "endColumn": 110,
-                    "endOffset": 668
+                    "endOffset": 618
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-fr-rCA/values-fr-rCA.xml",
@@ -101,9 +101,9 @@
                 "to": {
                     "startLine": 7,
                     "startColumn": 4,
-                    "startOffset": 673,
+                    "startOffset": 623,
                     "endColumn": 86,
-                    "endOffset": 755
+                    "endOffset": 705
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-fr-rCA/values-fr-rCA.xml",
@@ -120,9 +120,9 @@
                 "to": {
                     "startLine": 8,
                     "startColumn": 4,
-                    "startOffset": 760,
+                    "startOffset": 710,
                     "endColumn": 115,
-                    "endOffset": 871
+                    "endOffset": 821
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-fr-rCA/values-fr-rCA.xml",
@@ -139,9 +139,9 @@
                 "to": {
                     "startLine": 9,
                     "startColumn": 4,
-                    "startOffset": 876,
+                    "startOffset": 826,
                     "endColumn": 129,
-                    "endOffset": 1001
+                    "endOffset": 951
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-fr-rCA/values-fr-rCA.xml",
@@ -158,9 +158,9 @@
                 "to": {
                     "startLine": 10,
                     "startColumn": 4,
-                    "startOffset": 1006,
+                    "startOffset": 956,
                     "endColumn": 82,
-                    "endOffset": 1084
+                    "endOffset": 1034
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-fr-rCA/values-fr-rCA.xml",
@@ -177,9 +177,9 @@
                 "to": {
                     "startLine": 11,
                     "startColumn": 4,
-                    "startOffset": 1089,
+                    "startOffset": 1039,
                     "endColumn": 79,
-                    "endOffset": 1164
+                    "endOffset": 1114
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-fr-rCA/values-fr-rCA.xml",
@@ -196,9 +196,9 @@
                 "to": {
                     "startLine": 12,
                     "startColumn": 4,
-                    "startOffset": 1169,
+                    "startOffset": 1119,
                     "endColumn": 95,
-                    "endOffset": 1260
+                    "endOffset": 1210
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-fr-rCA/values-fr-rCA.xml",
@@ -215,9 +215,9 @@
                 "to": {
                     "startLine": 13,
                     "startColumn": 4,
-                    "startOffset": 1265,
+                    "startOffset": 1215,
                     "endColumn": 109,
-                    "endOffset": 1370
+                    "endOffset": 1320
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-fr-rCA/values-fr-rCA.xml",
@@ -234,9 +234,9 @@
                 "to": {
                     "startLine": 14,
                     "startColumn": 4,
-                    "startOffset": 1375,
+                    "startOffset": 1325,
                     "endColumn": 111,
-                    "endOffset": 1482
+                    "endOffset": 1432
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-fr-rCA/values-fr-rCA.xml",
@@ -253,9 +253,9 @@
                 "to": {
                     "startLine": 15,
                     "startColumn": 4,
-                    "startOffset": 1487,
+                    "startOffset": 1437,
                     "endColumn": 102,
-                    "endOffset": 1585
+                    "endOffset": 1535
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-fr-rCA/values-fr-rCA.xml",
@@ -272,9 +272,9 @@
                 "to": {
                     "startLine": 16,
                     "startColumn": 4,
-                    "startOffset": 1590,
+                    "startOffset": 1540,
                     "endColumn": 110,
-                    "endOffset": 1696
+                    "endOffset": 1646
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-fr-rCA/values-fr-rCA.xml",
@@ -291,9 +291,9 @@
                 "to": {
                     "startLine": 17,
                     "startColumn": 4,
-                    "startOffset": 1701,
+                    "startOffset": 1651,
                     "endColumn": 106,
-                    "endOffset": 1803
+                    "endOffset": 1753
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-fr-rCA/values-fr-rCA.xml",
@@ -310,9 +310,9 @@
                 "to": {
                     "startLine": 18,
                     "startColumn": 4,
-                    "startOffset": 1808,
+                    "startOffset": 1758,
                     "endColumn": 101,
-                    "endOffset": 1905
+                    "endOffset": 1855
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-fr-rCA/values-fr-rCA.xml",
@@ -329,9 +329,9 @@
                 "to": {
                     "startLine": 19,
                     "startColumn": 4,
-                    "startOffset": 1910,
+                    "startOffset": 1860,
                     "endColumn": 121,
-                    "endOffset": 2027
+                    "endOffset": 1977
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-fr-rCA/values-fr-rCA.xml",
@@ -348,9 +348,9 @@
                 "to": {
                     "startLine": 20,
                     "startColumn": 4,
-                    "startOffset": 2032,
+                    "startOffset": 1982,
                     "endColumn": 98,
-                    "endOffset": 2126
+                    "endOffset": 2076
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-fr-rCA/values-fr-rCA.xml",
@@ -367,28 +367,9 @@
                 "to": {
                     "startLine": 21,
                     "startColumn": 4,
-                    "startOffset": 2131,
-                    "endColumn": 219,
-                    "endOffset": 2346
-                },
-                "from": {
-                    "file": "/Users/kevin/.android/build-cache/618974327d39fa990baf941f98bb7fe4ac3c8347/output/res/values-fr-rCA/values.xml",
-                    "position": {
-                        "startLine": 4,
-                        "startColumn": 0,
-                        "startOffset": 289,
-                        "endColumn": 219,
-                        "endOffset": 508
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 22,
-                    "startColumn": 4,
-                    "startOffset": 2351,
+                    "startOffset": 2081,
                     "endColumn": 85,
-                    "endOffset": 2432
+                    "endOffset": 2162
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-fr-rCA/values-fr-rCA.xml",
@@ -403,11 +384,11 @@
             },
             {
                 "to": {
-                    "startLine": 23,
+                    "startLine": 22,
                     "startColumn": 4,
-                    "startOffset": 2437,
+                    "startOffset": 2167,
                     "endColumn": 100,
-                    "endOffset": 2533
+                    "endOffset": 2263
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-fr-rCA/values-fr-rCA.xml",
