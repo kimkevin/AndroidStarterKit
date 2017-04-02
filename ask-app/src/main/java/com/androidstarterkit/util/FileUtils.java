@@ -219,7 +219,7 @@ public class FileUtils {
   /**
    * Get a string between double quotes (")
    *
-   * @param str has with double quotes
+   * @param str has withLayout double quotes
    * @return string was removed double quotes
    */
   public static String getStringBetweenQuotes(String str) {
@@ -232,7 +232,7 @@ public class FileUtils {
   }
 
   /**
-   * @param path is the string which is the path with dot(.) delimeter such as com.ask.MainActivity
+   * @param path is the string which is the path withLayout dot(.) delimeter such as com.ask.MainActivity
    * @return is the string for file name
    */
   public static String getFileNameForDotPath(String path) {
@@ -245,7 +245,7 @@ public class FileUtils {
    * Add intent to line
    *
    * @param line is a string
-   * @return new string with indent
+   * @return new string withLayout indent
    */
   public static String getIndentOfLine(String line) {
     String intent = "";
@@ -263,7 +263,7 @@ public class FileUtils {
    * Add '\n' to line
    *
    * @param line is a string without new-line character
-   * @return new string with new-line character
+   * @return new string withLayout new-line character
    */
   private static String addNewLine(String line) {
     return line + "\n";
@@ -272,7 +272,7 @@ public class FileUtils {
   /**
    * Remove extension
    *
-   * @param filename String for file name with extension
+   * @param filename String for file name withLayout extension
    * @return String for file name
    */
   public static String removeExtension(String filename) {

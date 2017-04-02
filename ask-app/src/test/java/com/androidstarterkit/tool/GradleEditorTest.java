@@ -47,7 +47,7 @@
 //    URL resource = classLoader.getResource(fileName);
 //
 //    try {
-//      return new File(resource.getPath());
+//      return new File(resource.getJustPath());
 //    } catch (NullPointerException exception) {
 //      return null;
 //    }

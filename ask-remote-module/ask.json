@@ -1,5 +1,5 @@
 {
-  "layouts" : [
+  "layoutGroups" : [
     {
       "class" : "ScrollViewFragment",
       "commands" : [ "sv", "ScrollView" ]
@@ -17,42 +17,19 @@
       "commands" : [ "gv", "GridView" ]
     }
   ],
-  "modules" : [
+  "moduleGroups" : [
     {
-      "class" : "FireBaseAnalytics",
-      "commands" : [ "fa", "firebaseanalytics" ],
-      "configs" : [
+      "name" : "Firebase",
+      "config_files" : [ "google-services.json" ],
+      "page": "https://console.firebase.google.com",
+      "group_configs" : [
         {
-          "path" : "[java]",
-          "file" : "[main].java",
+          "path" : "[root]",
+          "file" : "build.gradle",
           "codeblocks" : [
             {
-              "elements" : null,
-              "lines" : [ "import com.google.firebase.analytics.FirebaseAnalytics;",
-                "import com.androidstarterkit.module.firebase.analytics.FireBaseAnalytics;" ]
-            },
-            {
-              "elements" : [ "[main]" ],
-              "lines" : [ "private FireBaseAnalytics analytics;" ]
-            },
-            {
-              "elements" : [ "[main]", "onCreate" ],
-              "lines" : [ "analytics = new FireBaseAnalytics(this, FirebaseAnalytics.getInstance(this));" ]
-            },
-            {
-              "elements" : [ "[main]", "onResume" ],
-              "lines" : [ "analytics.recordScreenView(\"Main\");" ]
-            },
-            {
-              "elements" : [ "[main]", "onNavigationItemSelected" ],
-              "lines" : [
-                "if (item.getItemId() == R.id.nav_analytics) {",
-                "  Bundle bundle = new Bundle();",
-                "  bundle.putString(\"user_name\", \"kimkevin\");",
-                "  analytics.trackEvent(bundle);",
-                "  analytics.setUserProperty(\"API \" + android.os.Build.VERSION.SDK_INT);",
-                "}"
-              ]
+              "elements" : [ "buildscript", "dependencies" ],
+              "lines" : [ "classpath 'com.google.gms:google-services:3.0.0'" ]
             }
           ]
         },
@@ -61,51 +38,105 @@
           "file" : "build.gradle",
           "codeblocks" : [
             {
-              "elements" : [ "dependencies" ],
-              "lines" : [ "compile 'com.google.firebase:firebase-analytics:10.0.1'" ]
+              "elements" : null,
+              "lines" : [ "apply plugin: 'com.google.gms.google-services'" ]
             }
           ]
         }
-      ]
-    },
-    {
-      "class" : "FireBaseCrashReport",
-      "commands" : [ "fc", "firebasecrashreport" ],
-      "configs" : [
+      ],
+      "modules" : [
         {
-          "path" : "[java]",
-          "file" : "[main].java",
-          "codeblocks" : [
+          "class" : "FireBaseAnalytics",
+          "commands" : [ "fa", "firebaseanalytics" ],
+          "configs" : [
             {
-              "elements" : null,
-              "lines" : [ "import com.google.firebase.crash.FirebaseCrash;" ]
+              "path" : "[java]",
+              "file" : "[main].java",
+              "codeblocks" : [
+                {
+                  "elements" : null,
+                  "lines" : [
+                    "import com.google.firebase.analytics.FirebaseAnalytics;",
+                    "import [package].firebase.analytics.FireBaseAnalytics;"
+                  ]
+                },
+                {
+                  "elements" : [ "[main]" ],
+                  "lines" : [ "private FireBaseAnalytics analytics;" ]
+                },
+                {
+                  "elements" : [ "[main]", "onCreate" ],
+                  "lines" : [ "analytics = new FireBaseAnalytics(this, FirebaseAnalytics.getInstance(this));" ]
+                },
+                {
+                  "elements" : [ "[main]", "onResume" ],
+                  "lines" : [ "analytics.recordScreenView(\"Main\");" ]
+                },
+                {
+                  "elements" : [ "[main]", "onNavigationItemSelected" ],
+                  "lines" : [
+                    "if (item.getItemId() == R.id.nav_analytics) {",
+                    "  Bundle bundle = new Bundle();",
+                    "  bundle.putString(\"user_name\", \"kimkevin\");",
+                    "  analytics.trackEvent(bundle);",
+                    "  analytics.setUserProperty(\"API \" + android.os.Build.VERSION.SDK_INT);",
+                    "}"
+                  ]
+                }
+              ]
             },
             {
-              "elements" : [ "[main]" ],
-              "lines" : [ "private FireBaseCrashReport logger;" ]
-            },
-            {
-              "elements" : [ "[main]", "onCreate" ],
-              "lines" : [ "crashReport = new FireBaseCrashReport();",
-                "crashReport.log(\"Activity Created\");" ]
-            },
-            {
-              "elements" : [ "[main]", "onNavigationItemSelected" ],
-              "lines" : [
-                "if (item.getItemId() == R.id.nav_crash_report) {",
-                "  crashReport.reportError(new Exception(\"My first Android non-fatal error\"));",
-                "}"
+              "path" : "[app]",
+              "file" : "build.gradle",
+              "codeblocks" : [
+                {
+                  "elements" : [ "dependencies" ],
+                  "lines" : [ "compile 'com.google.firebase:firebase-core:10.0.1'" ]
+                }
               ]
             }
           ]
         },
         {
-          "path" : "[app]",
-          "file" : "build.gradle",
-          "codeblocks" : [
+          "class" : "FireBaseCrashReport",
+          "commands" : [ "fc", "firebasecrashreport" ],
+          "configs" : [
             {
-              "elements" : [ "dependencies" ],
-              "lines" : [ "compile 'com.google.firebase:firebase-crash:10.0.1'" ]
+              "path" : "[java]",
+              "file" : "[main].java",
+              "codeblocks" : [
+                {
+                  "elements" : null,
+                  "lines" : [ "import [package].firebase.crash.FireBaseCrashReport;" ]
+                },
+                {
+                  "elements" : [ "[main]" ],
+                  "lines" : [ "private FireBaseCrashReport crashReport;" ]
+                },
+                {
+                  "elements" : [ "[main]", "onCreate" ],
+                  "lines" : [ "crashReport = new FireBaseCrashReport();",
+                    "crashReport.log(\"Activity Created\");" ]
+                },
+                {
+                  "elements" : [ "[main]", "onNavigationItemSelected" ],
+                  "lines" : [
+                    "if (item.getItemId() == R.id.nav_crash_report) {",
+                    "  crashReport.reportError(new Exception(\"My first Android non-fatal error\"));",
+                    "}"
+                  ]
+                }
+              ]
+            },
+            {
+              "path" : "[app]",
+              "file" : "build.gradle",
+              "codeblocks" : [
+                {
+                  "elements" : [ "dependencies" ],
+                  "lines" : [ "compile 'com.google.firebase:firebase-crash:10.0.1'" ]
+                }
+              ]
             }
           ]
         }

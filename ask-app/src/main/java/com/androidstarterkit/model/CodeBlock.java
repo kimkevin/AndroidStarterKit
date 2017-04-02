@@ -37,6 +37,10 @@ public class CodeBlock {
     return codelines;
   }
 
+  public void setCodelines(List<String> codelines) {
+    this.codelines = codelines;
+  }
+
   public boolean hasElement() {
     return elements != null;
   }

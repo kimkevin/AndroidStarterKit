@@ -1,10 +1,10 @@
 [
     {
         "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/res/merged/debug/anim-v21/design_bottom_sheet_slide_out.xml",
-        "source": "/Users/kevin/.android/build-cache/8eca4e169b7f6b2a0003dc721c8b03d41d941829/output/res/anim-v21/design_bottom_sheet_slide_out.xml"
+        "source": "/Users/kevin/.android/build-cache/2054bbddcf316754b457d6c0936379684eb5ecba/output/res/anim-v21/design_bottom_sheet_slide_out.xml"
     },
     {
         "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/res/merged/debug/anim-v21/design_bottom_sheet_slide_in.xml",
-        "source": "/Users/kevin/.android/build-cache/8eca4e169b7f6b2a0003dc721c8b03d41d941829/output/res/anim-v21/design_bottom_sheet_slide_in.xml"
+        "source": "/Users/kevin/.android/build-cache/2054bbddcf316754b457d6c0936379684eb5ecba/output/res/anim-v21/design_bottom_sheet_slide_in.xml"
     }
 ]

@@ -8,9 +8,9 @@ import java.io.File;
 public class RemoteDirectory extends Directory {
   public static final String MODULE_NAME = "ask-remote-module";
 
-  public RemoteDirectory() throws CommandException {
-    super(FileUtils.linkPathWithSlash(FileUtils.getRootPath(), MODULE_NAME),
-        new String[] { "java", "xml", "gradle", "json" },
+  public RemoteDirectory(String projectPathname) throws CommandException {
+    super(projectPathname + "/" + MODULE_NAME
+        , new String[] { "java", "xml", "gradle", "json" },
         new String[] { "build", "libs" });
   }
 

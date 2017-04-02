@@ -1,6 +1,7 @@
 package com.androidstarterkit.file;
 
 import com.androidstarterkit.SyntaxConstraints;
+import com.androidstarterkit.file.base.BaseFile;
 import com.androidstarterkit.model.CodeBlock;
 import com.androidstarterkit.util.FileUtils;
 import com.androidstarterkit.util.SyntaxUtils;
@@ -58,9 +59,27 @@ public class BuildGradle extends BaseFile {
     }
 
     for (String externalLibrary : externalLibraries) {
-      addCodeBlock(new CodeBlock(Collections.singletonList(ELEMENT_DEPENDENCIES_NAME)
-          , COMPILE_CONFIGURATION_FORMAT.replace(SyntaxConstraints.REPLACE_STRING, externalLibrary)));
+      CodeBlock newCodeBlock = new CodeBlock(Collections.singletonList(ELEMENT_DEPENDENCIES_NAME)
+          , COMPILE_CONFIGURATION_FORMAT.replace(SyntaxConstraints.REPLACE_STRING, externalLibrary));
+
+      if (configCodeBlocks == null) {
+        addCodeBlock(newCodeBlock);
+      } else {
+        boolean isExisted = false;
+
+        for (CodeBlock codeBlock : configCodeBlocks) {
+          if (codeBlock.getCodelines().get(0).equals(newCodeBlock.getCodelines().get(0))) {
+            isExisted = true;
+          }
+        }
+
+        if (!isExisted) {
+          addCodeBlock(newCodeBlock);
+        }
+      }
     }
+
+    // 찾아서 넣는게 없네 ~~
   }
 
   @Override
@@ -89,12 +108,13 @@ public class BuildGradle extends BaseFile {
           }
 
           if (isFound) {
-            lineList.addAll(i + 1, SyntaxUtils.addIndentToCodeline(codeblock.getCodelines(), codeblock.getElements().size()));
+            lineList.addAll(i + 1, SyntaxUtils.addIndentToCodeline(
+                deduplicatedCodelines(codeblock.getCodelines()), codeblock.getElements().size()));
             break;
           }
         }
       } else {
-        lineList.addAll(codeblock.getCodelines());
+        lineList.addAll(deduplicatedCodelines(codeblock.getCodelines()));
       }
     }
 

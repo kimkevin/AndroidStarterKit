@@ -2,6 +2,7 @@ package com.androidstarterkit.file;
 
 
 import com.androidstarterkit.exception.ModuleFileNotFoundException;
+import com.androidstarterkit.file.base.BaseFile;
 import com.androidstarterkit.tool.MatcherTask;
 
 import java.io.FileNotFoundException;

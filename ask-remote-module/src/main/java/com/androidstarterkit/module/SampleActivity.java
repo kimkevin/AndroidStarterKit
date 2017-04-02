@@ -14,17 +14,10 @@ import android.view.View;
 
 
 public class SampleActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-//  private FireBaseAnalytics analytics;
-//  private FireBaseCrashReport crashReport;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-//    analytics = new FireBaseAnalytics(this, FirebaseAnalytics.getInstance(this));
-//
-//    crashReport = new FireBaseCrashReport();
-//    crashReport.log("Activity Created");
 
     setContentView(R.layout.activity_main);
 
@@ -60,8 +53,6 @@ public class SampleActivity extends AppCompatActivity implements NavigationView.
   @Override
   protected void onResume() {
     super.onResume();
-
-//    analytics.recordScreenView("Main");
   }
 
   @Override
@@ -98,17 +89,6 @@ public class SampleActivity extends AppCompatActivity implements NavigationView.
   @SuppressWarnings("StatementWithEmptyBody")
   @Override
   public boolean onNavigationItemSelected(MenuItem item) {
-//    if (item.getItemId() == R.id.nav_analytics) {
-//      Bundle bundle = new Bundle();
-//      bundle.putString("user_name", "kimkevin");
-//      analytics.trackEvent(bundle);
-//      analytics.setUserProperty("API " + android.os.Build.VERSION.SDK_INT);
-//    }
-//
-//    if (item.getItemId() == R.id.nav_crash_report) {
-//      crashReport.reportError(new Exception("My first Android non-fatal error"));
-//    }
-
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     drawer.closeDrawer(GravityCompat.START);
     return true;

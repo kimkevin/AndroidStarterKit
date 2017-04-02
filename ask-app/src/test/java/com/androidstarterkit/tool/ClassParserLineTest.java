@@ -160,7 +160,7 @@ public class ClassParserLineTest {
     assertList(Arrays.asList(new ClassInfo("SlidingTabFragment")),
         ClassParser.listStaticMethodOfClass("      return SlidingTabFragment.newInstance(position);"));
     assertList(Arrays.asList(new ClassInfo("Glide")),
-        ClassParser.listStaticMethodOfClass("    Glide.with(context).load(platform.getLogoUrl()).into(viewHolder.logo);"));
+        ClassParser.listStaticMethodOfClass("    Glide.withLayout(context).create(platform.getLogoUrl()).into(viewHolder.logo);"));
   }
 
   @Test

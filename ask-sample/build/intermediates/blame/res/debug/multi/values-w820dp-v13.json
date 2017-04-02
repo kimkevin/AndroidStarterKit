@@ -1,0 +1,26 @@
+[
+    {
+        "outputFile": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/incremental/mergeDebugResources/merged.dir/values-w820dp-v13/values-w820dp-v13.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 57,
+                    "endOffset": 108
+                },
+                "from": {
+                    "file": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/src/main/res/values-w820dp/dimens.xml",
+                    "position": {
+                        "startLine": 1,
+                        "startColumn": 4,
+                        "startOffset": 16,
+                        "endColumn": 57,
+                        "endOffset": 69
+                    }
+                }
+            }
+        ]
+    }
+]

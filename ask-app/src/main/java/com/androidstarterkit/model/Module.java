@@ -1,6 +1,7 @@
 package com.androidstarterkit.model;
 
 
+import com.androidstarterkit.android.api.Extension;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -17,6 +18,10 @@ public class Module {
 
   public String getName() {
     return name;
+  }
+
+  public String getNameEx() {
+    return name + Extension.JAVA;
   }
 
   public List<String> getCommands() {

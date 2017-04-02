@@ -19,6 +19,7 @@ public class Directory extends File {
 
   public static final String BUILD_GRADLE_FILE = "build.gradle";
 
+  // Files in moculde
   protected Map<String, Object> fileMap;
   protected String applicationId;
 

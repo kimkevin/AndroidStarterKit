@@ -1,6 +1,8 @@
 package com.androidstarterkit.tool;
 
 
+import com.androidstarterkit.android.api.Extension;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +36,10 @@ public class ClassInfo {
 
   public String getName() {
     return name;
+  }
+
+  public String getNameEx() {
+    return name + Extension.JAVA;
   }
 
   public void setName(String name) {

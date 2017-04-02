@@ -11,7 +11,7 @@ public class Config {
   private String path;
 
   @SerializedName("file")
-  private String fileFullName;
+  private String fileNameEx;
 
   @SerializedName("codeblocks")
   private List<CodeBlock> codeBlocks;
@@ -20,16 +20,20 @@ public class Config {
     return path;
   }
 
+  public String getFullPathname() {
+    return path + "/" + fileNameEx;
+  }
+
   public void setPath(String path) {
     this.path = path;
   }
 
-  public String getFileFullName() {
-    return fileFullName;
+  public String getFileNameEx() {
+    return fileNameEx;
   }
 
-  public void setFileFullName(String fileFullName) {
-    this.fileFullName = fileFullName;
+  public void setFileNameEx(String fileNameEx) {
+    this.fileNameEx = fileNameEx;
   }
 
   public List<CodeBlock> getCodeBlocks() {
@@ -48,7 +52,7 @@ public class Config {
   public String toString() {
     return "Config{" +
         "path='" + path + '\'' +
-        ", fileFullName='" + fileFullName + '\'' +
+        ", fileNameEx='" + fileNameEx + '\'' +
         ", codeBlocks=" + (codeBlocks != null ? codeBlocks.toString() : "") +
         '}';
   }

@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/res/merged/debug/menu/activity_main_drawer.xml",
+        "source": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/src/main/res/menu/activity_main_drawer.xml"
+    },
+    {
+        "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/res/merged/debug/menu/main.xml",
+        "source": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/src/main/res/menu/main.xml"
+    }
+]

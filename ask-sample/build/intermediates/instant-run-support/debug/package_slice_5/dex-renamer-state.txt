@@ -1,0 +1,4 @@
+#Sat Apr 01 16:58:46 KST 2017
+base.0=/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/transforms/dex/debug/folders/1000/5/slice_5
+renamed.0=classes.dex
+file.0=/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/transforms/dex/debug/folders/1000/5/slice_5/classes.dex

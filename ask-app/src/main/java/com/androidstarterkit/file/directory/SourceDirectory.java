@@ -3,196 +3,121 @@ package com.androidstarterkit.file.directory;
 import com.androidstarterkit.SyntaxConstraints;
 import com.androidstarterkit.android.api.Extension;
 import com.androidstarterkit.android.api.resource.ResourceType;
-import com.androidstarterkit.command.AskJson;
 import com.androidstarterkit.command.TabType;
-import com.androidstarterkit.config.AskConfig;
 import com.androidstarterkit.config.RemoteModuleConfig;
 import com.androidstarterkit.exception.CommandException;
 import com.androidstarterkit.file.BuildGradle;
-import com.androidstarterkit.file.JavaFile;
+import com.androidstarterkit.file.MainActivity;
 import com.androidstarterkit.file.ProguardRules;
-import com.androidstarterkit.file.SettingsGradle;
-import com.androidstarterkit.model.Config;
-import com.androidstarterkit.model.Layout;
-import com.androidstarterkit.model.Module;
+import com.androidstarterkit.model.LayoutGroup;
 import com.androidstarterkit.tool.ClassInfo;
 import com.androidstarterkit.tool.ClassParser;
-import com.androidstarterkit.tool.ModuleLoader;
 import com.androidstarterkit.tool.XmlEditor;
 import com.androidstarterkit.util.FileUtils;
 import com.androidstarterkit.util.PrintUtils;
-import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class SourceDirectory extends Directory {
   private RemoteDirectory remoteDirectory;
+
+  private BuildGradle projectBuildGradle;
+  private ProguardRules proguardRules;
+  private MainActivity remoteMainActivity;
 
   private String javaPath;
   private String resPath;
   private String layoutPath;
 
-  private BuildGradle projectBuildGradle;
-  private ProguardRules proguardRules;
-  private JavaFile mainActivity;
-
   private XmlEditor xmlEditor;
-  private ModuleLoader moduleLoader;
+
+  private TabType tabType;
+  private List<LayoutGroup> layoutGroups;
 
   private List<ClassInfo> transformedClassInfos;
 
-  private TabType tabType;
-  private List<Layout> layouts;
-
-  private SourceDirectory(String projectPathname, String modulePathname) {
-    super(modulePathname
+  public SourceDirectory(String projectPathname, String sourceModuleName, RemoteDirectory remoteDirectory) {
+    super(projectPathname + "/" + sourceModuleName
         , new String[]{"java", "gradle", "xml"}
         , new String[]{"build", "libs", "test", "androidTest", "res"});
+
+    this.remoteDirectory = remoteDirectory;
+
     transformedClassInfos = new ArrayList<>();
 
-    remoteDirectory = new RemoteDirectory();
-
-    mainActivity = new JavaFile(remoteDirectory.getMainActivity());
+    // Project level files
+    remoteMainActivity = new MainActivity(remoteDirectory.getMainActivity());
     projectBuildGradle = new BuildGradle(projectPathname);
-    proguardRules = new ProguardRules(modulePathname);
-
+    proguardRules = new ProguardRules(getPath());
     xmlEditor = new XmlEditor(this, remoteDirectory);
 
-    javaPath = FileUtils.linkPathWithSlash(modulePathname, "src/main/java", applicationId.replaceAll("\\.", "/"));
-    resPath = FileUtils.linkPathWithSlash(modulePathname, "src/main/res");
+    // Source directory
+    javaPath = FileUtils.linkPathWithSlash(getPath(), "src/main/java", applicationId.replaceAll("\\.", "/"));
+    resPath = FileUtils.linkPathWithSlash(getPath(), "src/main/res");
     layoutPath = FileUtils.linkPathWithSlash(resPath, ResourceType.LAYOUT.toString());
-
-    moduleLoader = new ModuleLoader();
-    moduleLoader.addCodeGenerator(projectBuildGradle);
-    moduleLoader.addCodeGenerator(proguardRules);
-    moduleLoader.addCodeGenerator(mainActivity);
-    moduleLoader.addCodeGenerator(appBuildGradleFile);
   }
 
-  /**
-   * Begin a replace source project root path
-   *
-   * @param pathname
-   * @return Source instance which has home path
-   */
-  public static SourceDirectory load(String pathname) {
-    String appPathname;
-    if (pathname == null) {
-      pathname = FileUtils.getRootPath();
-      appPathname = FileUtils.linkPathWithSlash(FileUtils.getRootPath(), AskConfig.DEFAULT_SAMPLE_MODULE_NAME);
-    } else {
-      SettingsGradle settingsGradleFile = new SettingsGradle(pathname);
-      appPathname = FileUtils.linkPathWithSlash(pathname, settingsGradleFile.getAppModuleName());
-    }
-
-    return new SourceDirectory(pathname, appPathname);
+  public BuildGradle getProjectBuildGradle() {
+    return projectBuildGradle;
   }
 
-  /**
-   * Set tabtype and widget list to transformFileFromRemote
-   * * @param tabType Type for SlidingTabLayout
-   *
-   * @param layoutCommands Layouts for imported fragments
-   * @return Source instance after loading default Activity
-   */
-  public SourceDirectory with(TabType tabType, List<String> layoutCommands, List<String> moduleCommmands) {
+  public ProguardRules getProguardRules() {
+    return proguardRules;
+  }
+
+  public MainActivity getMainActivity() {
+    return new MainActivity(getChildFile(getMainActivityExtName()));
+  }
+
+  public String getJavaPath() {
+    return javaPath;
+  }
+
+  public String getResPath() {
+    return resPath;
+  }
+
+  public String getLayoutPath() {
+    return layoutPath;
+  }
+
+  public void transform(TabType tabType, List<LayoutGroup> layoutGroups) {
     this.tabType = tabType;
+    this.layoutGroups = layoutGroups;
 
-    Gson gson = new Gson();
-    AskJson askJson;
-    try {
-      askJson = gson.fromJson(FileUtils.readFile(
-          FileUtils.linkPathWithSlash(remoteDirectory.getRelativePathFromJavaDir(AskJson.FILE_NAME), AskJson.FILE_NAME))
-          , AskJson.class);
-      askJson.replace(FileUtils.getRootPath(), getPath(), javaPath, mainActivity.getBaseName());
-    } catch (IOException e) {
-      throw new CommandException(CommandException.NOT_FOUND_ASK_JSON);
-    }
-
-    layouts = new ArrayList<>();
-    layouts.addAll(layoutCommands.stream()
-        .map(askJson::getLayoutClass)
-        .collect(Collectors.toList()));
-
-    List<Module> modules = new ArrayList<>();
-    modules.addAll(moduleCommmands.stream()
-        .map(askJson::getModuleClass)
-        .collect(Collectors.toList()));
-
-    for (Module module : modules) {
-      if (module.getConfigs() != null) {
-        for (Config config : module.getConfigs()) {
-          if (config.getPath().equals(FileUtils.getRootPath() + "/" + BuildGradle.FILE_NAME)) {
-            projectBuildGradle.addCodeBlocks(config.getCodeBlocks());
-          } else if (config.getPath().equals(getPath() + "/" + BuildGradle.FILE_NAME)) {
-            appBuildGradleFile.addCodeBlocks(config.getCodeBlocks());
-          } else if (config.getPath().equals(FileUtils.getRootPath() + "/" + ProguardRules.FILE_NAME)) {
-            proguardRules.addCodeBlocks(config.getCodeBlocks());
-          } else if (config.getFileFullName().equals(mainActivity.getName())) {
-            mainActivity.addCodeBlocks(config.getCodeBlocks());
-          }
-        }
-      }
-    }
-
-    return this;
-  }
-
-  /**
-   * Get started to transformLayoutsFromRemote AndroidManifest for source project
-   */
-  public SourceDirectory transformLayoutsFromRemote() {
-    System.out.println("Analyzing Source Project...");
-    System.out.println("package : " + androidManifestFile.getPackageName());
-    System.out.println("Main Activity : " + androidManifestFile.getMainActivityName());
-    System.out.println("src path : " + javaPath);
-    System.out.println("layout path : " + layoutPath);
-    System.out.println();
-
-    xmlEditor.importAttrsOfRemoteMainActivity(() -> transformFileFromRemote(0, mainActivity));
-
-    System.out.println("Import Successful!");
-    System.out.println("Project path : " + getPath());
-    return this;
-  }
-
-  public void transformModule() {
-    moduleLoader.generateCode();
+    xmlEditor.importAttrsOfRemoteMainActivity(() -> transformFileFromRemote(0, remoteMainActivity));
   }
 
   /**
    * If depth is 0, file is main Activity of askModule
    *
    * @param depth
-   * @param file
+   * @param remoteFile
    */
-  private void transformFileFromRemote(int depth
-      , File file) throws CommandException {
-    String moduleFileNameEx = file.getName();
-    String moduleFilePath;
+  public void transformFileFromRemote(int depth, File remoteFile) throws CommandException {
+    String remoteFileNameEx = remoteFile.getName();
+    String fileFullPathname;
 
     if (depth == 0) {
-      moduleFilePath = FileUtils.linkPathWithSlash(javaPath
+      fileFullPathname = FileUtils.linkPathWithSlash(javaPath
           , androidManifestFile.getMainActivityNameEx());
     } else {
-      moduleFilePath = FileUtils.linkPathWithSlash(javaPath
-          , remoteDirectory.getRelativePathFromJavaDir(moduleFileNameEx)
-          , moduleFileNameEx);
+      fileFullPathname = FileUtils.linkPathWithSlash(javaPath
+          , remoteDirectory.getRelativePathFromJavaDir(remoteFileNameEx)
+          , remoteFileNameEx);
     }
 
-    System.out.println(PrintUtils.prefixDash(depth) + moduleFileNameEx);
+    System.out.println(PrintUtils.prefixDash(depth) + remoteFileNameEx);
 
     Scanner scanner;
     try {
-      scanner = new Scanner(file);
+      scanner = new Scanner(remoteFile);
     } catch (FileNotFoundException e) {
-      throw new CommandException(CommandException.FILE_NOT_FOUND, file.getName());
+      throw new CommandException(CommandException.FILE_NOT_FOUND, remoteFile.getName());
     }
     List<String> codeLines = new ArrayList<>();
     List<ClassInfo> addedPackageClasses = new ArrayList<>();
@@ -203,7 +128,7 @@ public class SourceDirectory extends Directory {
       codeLine = changePackage(codeLine);
 
       if (depth == 0) {
-        codeLine = changeMainActivityName(codeLine, moduleFileNameEx);
+        codeLine = changeMainActivityName(codeLine, remoteFileNameEx);
         codeLine = changeMainFragmentByOptions(codeLine, tabType);
       } else {
         codeLine = importFragments(codeLine);
@@ -218,7 +143,7 @@ public class SourceDirectory extends Directory {
 
     codeLines = defineImportClasses(codeLines, addedPackageClasses);
 
-    FileUtils.writeFile(new File(moduleFilePath), codeLines);
+    FileUtils.writeFile(new File(fileFullPathname), codeLines);
 
     if (depth == 0) {
       System.out.println();
@@ -258,13 +183,12 @@ public class SourceDirectory extends Directory {
         , getMainActivityName());
   }
 
-  private String changeMainFragmentByOptions(String codeLine
-      , TabType tabType) throws CommandException {
+  private String changeMainFragmentByOptions(String codeLine, TabType tabType) throws CommandException {
     if (tabType != null) {
       return codeLine.replace(RemoteModuleConfig.DEFAULT_MODULE_FRAGMENT_NAME, tabType.getFragmentName());
     } else {
       if (codeLine.contains(RemoteModuleConfig.DEFAULT_MODULE_FRAGMENT_NAME)) {
-        return codeLine.replace(RemoteModuleConfig.DEFAULT_MODULE_FRAGMENT_NAME, layouts.get(0).getName());
+        return codeLine.replace(RemoteModuleConfig.DEFAULT_MODULE_FRAGMENT_NAME, layoutGroups.get(0).getName());
       } else {
         return codeLine;
       }
@@ -272,18 +196,18 @@ public class SourceDirectory extends Directory {
   }
 
   private String importFragments(String codeLine) {
-    if (codeLine.contains("fragmentInfos.replace")) {
+    if (codeLine.contains("fragmentInfos.add")) {
       return "";
     }
 
-    if (codeLine.contains("List<FragmentInfo> fragmentInfos = new ArrayList<>();") && layouts.size() > 0) {
-      final String ADD_FRAGMENT_STRING = "fragmentInfos.replace(new FragmentInfo(" + SyntaxConstraints.REPLACE_STRING + ".class));";
+    if (codeLine.contains("List<FragmentInfo> fragmentInfos = new ArrayList<>();") && layoutGroups.size() > 0) {
+      final String ADD_FRAGMENT_STRING = "fragmentInfos.add(new FragmentInfo(" + SyntaxConstraints.REPLACE_STRING + ".class));";
 
       final String intent = FileUtils.getIndentOfLine(codeLine);
 
-      for (Layout layout : layouts) {
+      for (LayoutGroup layoutGroup : layoutGroups) {
         codeLine += "\n";
-        codeLine += intent + ADD_FRAGMENT_STRING.replace(SyntaxConstraints.REPLACE_STRING, layout.getName());
+        codeLine += intent + ADD_FRAGMENT_STRING.replace(SyntaxConstraints.REPLACE_STRING, layoutGroup.getName());
       }
       return codeLine;
     }
@@ -298,10 +222,10 @@ public class SourceDirectory extends Directory {
     return codeLine;
   }
 
-  private String importDeclaredClasses(String codeLine
-      , int depth
+  private String importDeclaredClasses(String codeLine, int depth
       , List<ClassInfo> addedPackageClassInfos) throws CommandException {
     List<ClassInfo> classInfos = ClassParser.extractClasses(codeLine);
+
     addedPackageClassInfos.addAll(classInfos);
 
     classInfos = uniquifyClasses(classInfos);
@@ -341,32 +265,29 @@ public class SourceDirectory extends Directory {
     }
 
     ClassInfo classInfo = extractedClassInfos.get(0);
-    boolean isExisted = false;
+    boolean isExtractedClass = false;
 
     for (ClassInfo transformedClassInfo : transformedClassInfos) {
       if (transformedClassInfo.equals(classInfo)) {
-        isExisted = true;
+        isExtractedClass = true;
       }
     }
 
     extractedClassInfos.remove(classInfo);
 
-    if (!isExisted) {
-      uniquifiedClassInfos.add(classInfo);
+    if (!isExtractedClass) {
+      boolean isUniquifiedClass = false;
+      for (ClassInfo uniquifiedClassInfo : uniquifiedClassInfos) {
+        if (uniquifiedClassInfo.equals(classInfo)) {
+          isUniquifiedClass = true;
+        }
+      }
+
+      if (!isUniquifiedClass) {
+        uniquifiedClassInfos.add(classInfo);
+      }
     }
 
     return uniquifyClasses(uniquifiedClassInfos, extractedClassInfos);
-  }
-
-  public String getJavaPath() {
-    return javaPath;
-  }
-
-  public String getResPath() {
-    return resPath;
-  }
-
-  public String getLayoutPath() {
-    return layoutPath;
   }
 }
