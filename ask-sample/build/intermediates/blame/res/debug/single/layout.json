@@ -12,12 +12,12 @@
         "source": "/Users/kevin/.android/build-cache/2054bbddcf316754b457d6c0936379684eb5ecba/output/res/layout/design_navigation_item_separator.xml"
     },
     {
-        "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/res/merged/debug/layout/select_dialog_multichoice_material.xml",
-        "source": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/layout/select_dialog_multichoice_material.xml"
-    },
-    {
         "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/res/merged/debug/layout/abc_select_dialog_material.xml",
         "source": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/layout/abc_select_dialog_material.xml"
+    },
+    {
+        "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/res/merged/debug/layout/select_dialog_multichoice_material.xml",
+        "source": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/layout/select_dialog_multichoice_material.xml"
     },
     {
         "merged": "/Users/kevin/Local/projects/git/AndroidStarterKit/ask-sample/build/intermediates/res/merged/debug/layout/abc_action_mode_close_item_material.xml",

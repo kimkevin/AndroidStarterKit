@@ -6,9 +6,9 @@
                 "to": {
                     "startLine": 2,
                     "startColumn": 4,
-                    "startOffset": 105,
+                    "startOffset": 55,
                     "endColumn": 119,
-                    "endOffset": 220
+                    "endOffset": 170
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-pt-rPT/values-pt-rPT.xml",
@@ -25,9 +25,9 @@
                 "to": {
                     "startLine": 3,
                     "startColumn": 4,
-                    "startOffset": 225,
+                    "startOffset": 175,
                     "endColumn": 107,
-                    "endOffset": 328
+                    "endOffset": 278
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-pt-rPT/values-pt-rPT.xml",
@@ -44,9 +44,9 @@
                 "to": {
                     "startLine": 4,
                     "startColumn": 4,
-                    "startOffset": 333,
+                    "startOffset": 283,
                     "endColumn": 122,
-                    "endOffset": 451
+                    "endOffset": 401
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-pt-rPT/values-pt-rPT.xml",
@@ -63,9 +63,9 @@
                 "to": {
                     "startLine": 5,
                     "startColumn": 4,
-                    "startOffset": 456,
+                    "startOffset": 406,
                     "endColumn": 105,
-                    "endOffset": 557
+                    "endOffset": 507
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-pt-rPT/values-pt-rPT.xml",
@@ -82,9 +82,9 @@
                 "to": {
                     "startLine": 6,
                     "startColumn": 4,
-                    "startOffset": 562,
+                    "startOffset": 512,
                     "endColumn": 106,
-                    "endOffset": 664
+                    "endOffset": 614
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-pt-rPT/values-pt-rPT.xml",
@@ -101,9 +101,9 @@
                 "to": {
                     "startLine": 7,
                     "startColumn": 4,
-                    "startOffset": 669,
+                    "startOffset": 619,
                     "endColumn": 88,
-                    "endOffset": 753
+                    "endOffset": 703
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-pt-rPT/values-pt-rPT.xml",
@@ -120,9 +120,9 @@
                 "to": {
                     "startLine": 8,
                     "startColumn": 4,
-                    "startOffset": 758,
+                    "startOffset": 708,
                     "endColumn": 100,
-                    "endOffset": 854
+                    "endOffset": 804
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-pt-rPT/values-pt-rPT.xml",
@@ -139,9 +139,9 @@
                 "to": {
                     "startLine": 9,
                     "startColumn": 4,
-                    "startOffset": 859,
+                    "startOffset": 809,
                     "endColumn": 123,
-                    "endOffset": 978
+                    "endOffset": 928
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-pt-rPT/values-pt-rPT.xml",
@@ -158,9 +158,9 @@
                 "to": {
                     "startLine": 10,
                     "startColumn": 4,
-                    "startOffset": 983,
+                    "startOffset": 933,
                     "endColumn": 83,
-                    "endOffset": 1062
+                    "endOffset": 1012
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-pt-rPT/values-pt-rPT.xml",
@@ -177,9 +177,9 @@
                 "to": {
                     "startLine": 11,
                     "startColumn": 4,
-                    "startOffset": 1067,
+                    "startOffset": 1017,
                     "endColumn": 80,
-                    "endOffset": 1143
+                    "endOffset": 1093
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-pt-rPT/values-pt-rPT.xml",
@@ -196,9 +196,9 @@
                 "to": {
                     "startLine": 12,
                     "startColumn": 4,
-                    "startOffset": 1148,
+                    "startOffset": 1098,
                     "endColumn": 86,
-                    "endOffset": 1230
+                    "endOffset": 1180
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-pt-rPT/values-pt-rPT.xml",
@@ -215,9 +215,9 @@
                 "to": {
                     "startLine": 13,
                     "startColumn": 4,
-                    "startOffset": 1235,
+                    "startOffset": 1185,
                     "endColumn": 106,
-                    "endOffset": 1337
+                    "endOffset": 1287
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-pt-rPT/values-pt-rPT.xml",
@@ -234,9 +234,9 @@
                 "to": {
                     "startLine": 14,
                     "startColumn": 4,
-                    "startOffset": 1342,
+                    "startOffset": 1292,
                     "endColumn": 111,
-                    "endOffset": 1449
+                    "endOffset": 1399
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-pt-rPT/values-pt-rPT.xml",
@@ -253,9 +253,9 @@
                 "to": {
                     "startLine": 15,
                     "startColumn": 4,
-                    "startOffset": 1454,
+                    "startOffset": 1404,
                     "endColumn": 101,
-                    "endOffset": 1551
+                    "endOffset": 1501
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-pt-rPT/values-pt-rPT.xml",
@@ -272,9 +272,9 @@
                 "to": {
                     "startLine": 16,
                     "startColumn": 4,
-                    "startOffset": 1556,
+                    "startOffset": 1506,
                     "endColumn": 107,
-                    "endOffset": 1659
+                    "endOffset": 1609
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-pt-rPT/values-pt-rPT.xml",
@@ -291,9 +291,9 @@
                 "to": {
                     "startLine": 17,
                     "startColumn": 4,
-                    "startOffset": 1664,
+                    "startOffset": 1614,
                     "endColumn": 106,
-                    "endOffset": 1766
+                    "endOffset": 1716
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-pt-rPT/values-pt-rPT.xml",
@@ -310,9 +310,9 @@
                 "to": {
                     "startLine": 18,
                     "startColumn": 4,
-                    "startOffset": 1771,
+                    "startOffset": 1721,
                     "endColumn": 106,
-                    "endOffset": 1873
+                    "endOffset": 1823
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-pt-rPT/values-pt-rPT.xml",
@@ -329,9 +329,9 @@
                 "to": {
                     "startLine": 19,
                     "startColumn": 4,
-                    "startOffset": 1878,
+                    "startOffset": 1828,
                     "endColumn": 121,
-                    "endOffset": 1995
+                    "endOffset": 1945
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-pt-rPT/values-pt-rPT.xml",
@@ -348,9 +348,9 @@
                 "to": {
                     "startLine": 20,
                     "startColumn": 4,
-                    "startOffset": 2000,
+                    "startOffset": 1950,
                     "endColumn": 98,
-                    "endOffset": 2094
+                    "endOffset": 2044
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-pt-rPT/values-pt-rPT.xml",
@@ -367,28 +367,9 @@
                 "to": {
                     "startLine": 21,
                     "startColumn": 4,
-                    "startOffset": 2099,
-                    "endColumn": 203,
-                    "endOffset": 2298
-                },
-                "from": {
-                    "file": "/Users/kevin/.android/build-cache/618974327d39fa990baf941f98bb7fe4ac3c8347/output/res/values-pt-rPT/values.xml",
-                    "position": {
-                        "startLine": 4,
-                        "startColumn": 0,
-                        "startOffset": 289,
-                        "endColumn": 203,
-                        "endOffset": 492
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 22,
-                    "startColumn": 4,
-                    "startOffset": 2303,
+                    "startOffset": 2049,
                     "endColumn": 84,
-                    "endOffset": 2383
+                    "endOffset": 2129
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-pt-rPT/values-pt-rPT.xml",
@@ -403,11 +384,11 @@
             },
             {
                 "to": {
-                    "startLine": 23,
+                    "startLine": 22,
                     "startColumn": 4,
-                    "startOffset": 2388,
+                    "startOffset": 2134,
                     "endColumn": 100,
-                    "endOffset": 2484
+                    "endOffset": 2230
                 },
                 "from": {
                     "file": "/Users/kevin/.android/build-cache/b37eb6b99d6f4cfdceeb31a84e91813e856538fc/output/res/values-pt-rPT/values-pt-rPT.xml",
