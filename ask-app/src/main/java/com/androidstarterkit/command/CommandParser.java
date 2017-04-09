@@ -9,21 +9,22 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CommandParser {
-
   private String path;
   private boolean hasIcon;
   private boolean hasHelpCommand;
-  private List<com.androidstarterkit.command.WidgetType> widgets;
+  private List<String> layouts;
+  private List<String> modules;
 
   public CommandParser(String[] args) throws CommandException {
-    widgets = new ArrayList<>();
+    layouts = new ArrayList<>();
+    modules = new ArrayList<>();
 
     if (args.length <= 0) {
       throw new CommandException(CommandException.INVALID_NO_OPTIONS);
     }
 
     for (int i = 0, li = args.length; i < li; i++) {
-      String key = args[i];
+      final String key = args[i];
 
       if (key.contains(CommandOption.HELP_KEY) || key.contains(CommandOption.HELP_LONG_KEY)) {
         hasHelpCommand = true;
@@ -31,33 +32,15 @@ public class CommandParser {
         hasIcon = true;
       } else if (key.contains(CommandOption.LAYOUT_KEY) || key.contains(CommandOption.LAYOUT_LONG_KEY)) {
         if (i + 1 < li && !isCommand(args[++i])) {
-          List<String> splitedWidgets = Arrays.asList(args[i].split(","));
-
-          for (int j = 0; j < splitedWidgets.size(); j++) {
-            String widget = splitedWidgets.get(j).toLowerCase();
-            switch (widget) {
-              case "rv":
-              case "recyclerview":
-                widgets.add(WidgetType.RecyclerView);
-                break;
-              case "gv":
-              case "gridview":
-                widgets.add(WidgetType.GridView);
-                break;
-              case "lv":
-              case "listview":
-                widgets.add(WidgetType.ListView);
-                break;
-              case "sv":
-              case "scrollview":
-                widgets.add(WidgetType.ScrollView);
-                break;
-              default:
-                throw new CommandException(CommandException.WIDGET_NOT_FOUND, widget);
-            }
-          }
+          layouts = Arrays.asList(args[i].split(","));
         } else {
-          throw new CommandException(CommandException.INVAILD_NO_WIDGET);
+          throw new CommandException(CommandException.INVALID_WIDGET);
+        }
+      } else if (key.contains(CommandOption.MODULE_KEY) || key.contains(CommandOption.MODULE_LONG_KEY)) {
+        if (i + 1 < li && !isCommand(args[++i])) {
+          modules = Arrays.asList(args[i].split(","));
+        } else {
+          throw new CommandException(CommandException.INVALID_WIDGET);
         }
       } else if (isCommand(key)) {
         throw new CommandException(CommandException.OPTION_NOT_FOUND, key);
@@ -72,7 +55,7 @@ public class CommandParser {
   }
 
   public TabType getTabType() {
-    if (widgets.size() > 1) {
+    if (layouts.size() > 1) {
       if (hasIcon) {
         return TabType.SlidingIconTab;
       } else {
@@ -91,8 +74,12 @@ public class CommandParser {
     return hasHelpCommand;
   }
 
-  public List<com.androidstarterkit.command.WidgetType> getWidgets() {
-    return widgets;
+  public List<String> getLayoutCommands() {
+    return layouts;
+  }
+
+  public List<String> getModuleCommands() {
+    return modules;
   }
 
   private boolean isCommand(String command) {

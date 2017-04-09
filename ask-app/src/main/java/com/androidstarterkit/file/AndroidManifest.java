@@ -1,12 +1,14 @@
 package com.androidstarterkit.file;
 
+import com.androidstarterkit.SyntaxConstraints;
 import com.androidstarterkit.android.api.ElementConstraints;
+import com.androidstarterkit.android.api.Extension;
 import com.androidstarterkit.android.api.IntentConstraints;
 import com.androidstarterkit.android.api.manifest.Permission;
 import com.androidstarterkit.android.api.resource.AttributeContraints;
-import com.androidstarterkit.SyntaxConstraints;
 import com.androidstarterkit.exception.ActivityNotFoundException;
 import com.androidstarterkit.exception.PackageNotFoundException;
+import com.androidstarterkit.file.base.XmlFile;
 import com.androidstarterkit.tool.MatcherTask;
 import com.androidstarterkit.util.FileUtils;
 
@@ -119,6 +121,10 @@ public class AndroidManifest extends XmlFile {
 
   public String getMainActivityName() {
     return mainActivityName;
+  }
+
+  public String getMainActivityNameEx() {
+    return mainActivityName + Extension.JAVA;
   }
 
   public String getPackageName() {

@@ -27,29 +27,30 @@ public class ResourceMatcher {
 
   public enum MatchType {
     JAVA_FILE("R.("
-            + ResourceType.LAYOUT
-            + "|" + ResourceType.MENU
-            + "|" + ResourceType.DRAWABLE
-            + ").([A-Za-z0-1_]*)"),
+        + ResourceType.LAYOUT
+        + "|" + ResourceType.MENU
+        + "|" + ResourceType.DRAWABLE
+        + ").([\\w_]*)"),
 
     JAVA_VALUE("R.("
-            + ValueType.STRING
-            + "|" + ValueType.DIMEN
-            + ").([A-Za-z0-1_]*)"),
+        + ValueType.STRING
+        + "|" + ValueType.DIMEN
+        + ").([\\w_.]*)"),
 
     XML_FILE("@("
-            + ResourceType.LAYOUT
-            + "|" + ResourceType.MENU
-            + "|" + ResourceType.DRAWABLE
-            + ")/([A-Za-z0-1_]*)"),
+        + ResourceType.LAYOUT
+        + "|" + ResourceType.MENU
+        + "|" + ResourceType.DRAWABLE
+        + ")/([\\w_]*)"),
 
     XML_VALUE("@("
-            + ValueType.STYLE
-            + "|" + ValueType.DIMEN
-            + "|" + ValueType.STRING
-            + ")/([A-Za-z0-1_]*)");
+        + ValueType.STYLE
+        + "|" + ValueType.DIMEN
+        + "|" + ValueType.STRING
+        + ")/([\\w_.]*)");
 
     private Pattern matchPattern;
+
     MatchType(String regex) {
       this.matchPattern = Pattern.compile(regex);
     }

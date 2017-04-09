@@ -7,8 +7,10 @@ public class CommandException extends RuntimeException {
   public static final int FILE_NOT_FOUND = 2;
   public static final int APP_MODULE_NOT_FOUND = 3;
   public static final int WIDGET_NOT_FOUND = 4;
-  public static final int INVAILD_NO_WIDGET = 5;
+  public static final int INVALID_WIDGET = 5;
   public static final int OPTION_NOT_FOUND = 6;
+  public static final int INVALID_MODULE = 7;
+  public static final int NOT_FOUND_ASK_JSON = 8;
 
   private int errCode;
 
@@ -36,10 +38,14 @@ public class CommandException extends RuntimeException {
       return ERROR_MESSAGE_PREFIX + "failed to find module: " + super.getMessage();
     } else if (errCode == WIDGET_NOT_FOUND) {
       return ERROR_MESSAGE_PREFIX + "failed to find widget: " + super.getMessage();
-    } else if (errCode == INVAILD_NO_WIDGET) {
+    } else if (errCode == INVALID_WIDGET) {
       return ERROR_MESSAGE_PREFIX + "there is no widgets";
     } else if (errCode == OPTION_NOT_FOUND) {
       return ERROR_MESSAGE_PREFIX + "failed to find option: " + super.getMessage();
+    } else if (errCode == INVALID_MODULE) {
+      return ERROR_MESSAGE_PREFIX + "failed to find module: " + super.getMessage();
+    } else if (errCode == NOT_FOUND_ASK_JSON) {
+      return ERROR_MESSAGE_PREFIX + "Couldn't find ask.json";
     }
 
     return super.getMessage();
@@ -47,6 +53,6 @@ public class CommandException extends RuntimeException {
 
   public boolean shudShowHelp() {
     return errCode == INVALID_NO_OPTIONS
-        || errCode == INVAILD_NO_WIDGET;
+        || errCode == INVALID_WIDGET;
   }
 }

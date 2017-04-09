@@ -10,6 +10,9 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -140,6 +143,17 @@ public class FileUtils {
     return stringList;
   }
 
+  public static String readFile(String filePath) throws IOException {
+    final String EoL = System.getProperty("line.separator");
+    List<String> lines = Files.readAllLines(Paths.get(filePath), Charset.defaultCharset());
+
+    StringBuilder sb = new StringBuilder();
+    for (String line : lines) {
+      sb.append(line).append(EoL);
+    }
+    return sb.toString();
+  }
+
   /**
    * Copy file of AndroidModule to file of source project.
    *
@@ -205,7 +219,7 @@ public class FileUtils {
   /**
    * Get a string between double quotes (")
    *
-   * @param str has with double quotes
+   * @param str has withLayout double quotes
    * @return string was removed double quotes
    */
   public static String getStringBetweenQuotes(String str) {
@@ -218,7 +232,7 @@ public class FileUtils {
   }
 
   /**
-   * @param path is the string which is the path with dot(.) delimeter such as com.ask.MainActivity
+   * @param path is the string which is the path withLayout dot(.) delimeter such as com.ask.MainActivity
    * @return is the string for file name
    */
   public static String getFileNameForDotPath(String path) {
@@ -231,7 +245,7 @@ public class FileUtils {
    * Add intent to line
    *
    * @param line is a string
-   * @return new string with indent
+   * @return new string withLayout indent
    */
   public static String getIndentOfLine(String line) {
     String intent = "";
@@ -249,7 +263,7 @@ public class FileUtils {
    * Add '\n' to line
    *
    * @param line is a string without new-line character
-   * @return new string with new-line character
+   * @return new string withLayout new-line character
    */
   private static String addNewLine(String line) {
     return line + "\n";
@@ -258,14 +272,14 @@ public class FileUtils {
   /**
    * Remove extension
    *
-   * @param filename String for file name with extension
+   * @param filename String for file name withLayout extension
    * @return String for file name
    */
   public static String removeExtension(String filename) {
     return filename.substring(0, filename.lastIndexOf('.'));
   }
 
-  public static String splitFirstSlash(String path) {
+  public static String removeFirstSlash(String path) {
     if (path.length() > 0 && path.charAt(0) == '/') {
       path = path.substring(1);
     }

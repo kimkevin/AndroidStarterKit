@@ -27,7 +27,7 @@ public class Console {
     System.out.println();
     System.out.println("Options:");
     System.out.println("First option must be a layout specifier");
-    System.out.println("    -l -layout <widget>...   add <widget> support: sv(ScrollView), rv(RecyclerView), lv(ListView), gv(GridView)");
+    System.out.println("    -l -layout <view>...     replace <widget> support: sv(ScrollView), rv(RecyclerView), lv(ListView), gv(GridView)");
     System.out.println("                             defaults to ScrollView");
     System.out.println();
     System.out.println("    -h, --help               output usage information");

@@ -7,3 +7,7 @@
 .DS_Store
 /build
 /captures
+/ask-app/build
+/ask-remote-module/build
+/ask-sample.bak/build
+/ask-sample/build

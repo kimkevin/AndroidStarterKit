@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Andorid Starter Kit</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The application generator command-line tool">
+  <link href="static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/app.css" rel="stylesheet">
+  <link rel="stylesheet/less" type="text/css" href="static/app-theme.less"/>
+  <link href="static/highlight/styles/default.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300italic,100,100italic,300" rel="stylesheet"
+        type="text/css">
+  <!--[if lt IE 9]>
+  <script src="static/html5shiv.min.js"></script><![endif]-->
+</head>
+<body>
+<header>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-5">
+        <h1>Android Starter Kit</h1>
+      </div>
+      <div class="col-xs-7">
+        <menu>
+          <ul>
+            <li><a href="https://github.com/kimkevin/AndroidStarterKit" data-title="View GitHub Project"
+                   class="menu github"><img src="static/icon-github.png" alt="GitHub"/></a></li>
+          </ul>
+        </menu>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div id="body">
+  <div class="container">
+    <div class="row">
+      <nav class="col-xs-3 bs-docs-sidebar">
+        <div class="content-nav" data-spy="affix" data-offset-top="80">
+          <ul id="sidebar" class="nav nav-stacked fixed">
+            <li>
+              <a href="#introduction">Introduction</a>
+            </li>
+            <li>
+              <a href="#layout">Layout</a>
+            </li>
+            <li>
+              <a href="#module">Module</a>
+              <ul class="nav nav-stacked">
+                <li><a href="#firebase">Firebase</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#contributing">Contributing</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="col-xs-9">
+        <section id="introduction">
+          <h1 class="h1-header">Introduction</h1>
+
+          <p>
+            <a href="https://github.com/kimkevin/AndroidStarterKit/blob/master/assets/ask_demo.gif"
+               target="_blank">
+              <img src="https://github.com/kimkevin/AndroidStarterKit/raw/master/assets/ask_demo.gif"
+                   alt="" style="max-width:100%;">
+            </a>
+          </p>
+
+          <p>Use <strong>the application generator command-line tool</strong> for a new android project to create an
+            application skeleton simply and quickly</p>
+
+          <p>Download and Run:</p>
+
+          <pre><code class="bash">$ git clone git@github.com:kimkevin/AndroidStarterKit.git
+$ cd AndroidStarterKit
+
+# Add Path Permanently
+$ echo 'export PATH=$PATH:/path/to/AndroidStarterKit/ask-app/build/classes/main' >> ~/.bash_profile</code></pre>
+
+          <p>For example, the following command generate the Android project of the following path which included in the
+            <code>GridView</code> and <code>RecyclerView</code> for layouts and the <strong>Firebase Analytics</strong>
+            and <strong>Crash Reporting</strong>.
+            Use the following command to do so.</p>
+
+          <pre><code calss="bash">$ ask -l gv,rv -m fa,fc /path/to/android/project</code></pre>
+
+          <p>Check the command options with the -h(--help) option:</p>
+
+          <pre><code class="bash">Usage: ask [options] [dir]
+Options:
+  -l, --layout &lt;view&gt;...  add &lt;view&gt; support: sv(ScrollView), rv(RecyclerView), lv(ListView), gv(GridView)
+                          defaults to ScrollView
+  -i, --icon              tab icon instead of text more than 2 views
+
+  -m, —-module &lt;lib&gt;...   add &lt;lib&gt; support: fa(FirebaseAnalytics), fc(FirebaseCrashReporting)
+
+  -h, --help              output usage information</code></pre>
+        </section>
+
+        <section id="layout">
+          <h1 class="h1-header">Layout</h1>
+          <p>The goal of the tool was to create UI deisgn simply and easier for developers. We’re looking forward to
+            expanding this project in the future to help share their custom views which consist of only code without any
+            access to image resources on a GUI supported website. Use the following command to do so.</p>
+          <pre><code class="bash">$ ask -l &lt;view&gt;... /path/to/android/project</code></pre>
+
+          <h2>Available Layout commands</h2>
+          <h3><code>ask -l gv</code> (GridView)</h3>
+          <h3><code>ask -l rv</code> (RecyclerView)</h3>
+          <h3><code>ask -l lv</code> (ListView)</h3>
+          <h3><code>ask -l sc</code> (ScrollView)</h3>
+
+          <h2>If you want to use the multiple layouts</h2>
+          <h3><code>ask -l gv,rv</code> (GridView and RecyclerView)</h3>
+          <p>Generated the <code>ViewPager</code> which has a <code>SlidingTabLayout</code> in case of the multiple
+            layouts. </p>
+
+          <h2>And if you want to show the icon of tab instead of text</h2>
+          <h3><code>ask -l gv,rv --icon</code></h3>
+          <p>Icon option generates <code>SlidingIconTabLayout</code> which has an icon instead of a text on the tab
+          </p>
+
+        </section>
+
+        <section id="module">
+          <h1 class="h1-header">Module - Third Party Support</h1>
+
+          <p>Module option offers some useful tools to help manage your project fast and easily such as Firebase. Use
+            the following command to do so.</p>
+
+          <pre><code class="bash">$ ask -m &lt;lib&gt;... /path/to/android/project</code></pre>
+
+          <div id="firebase">
+            <h2>Firebase</h2>
+
+            <blockquote>Firebase gives you the tools and infrastructure you need to build better apps and grow
+              successful businesses.
+            </blockquote>
+
+            <p>Create new project to add <a href="https://firebase.google.com">Firebase</a> to your Android application
+              or import google project if you already have an existing Google project in <a
+                  href="https://console.firebase.google.com">Firebase console</a>. You&#8217;ll download a <code>google-service.json</code>
+              file and copy it into your project&#8217;s application module folder. <a
+                  href="https://firebase.goo[gle.com/docs/android/setup">For more details</a></p>
+
+            <h2>Available Firebase commands</h2>
+            <h3><code>ask -m fa</code> (Analytics)</h3>
+
+            <p><a href="https://firebase.google.com/docs/analytics/" title="Firebase Analytics Docs">Firebase
+              Analytics</a> is a free app measurement solution that provides insight on app usage and user
+              engagement.</p>
+            <h3><code>ask -m fc</code> (Crash Report)</h3>
+            <p><a href="https://firebase.google.com/docs/crash/" title="Firebase Crash Reporting Docs">Crash
+              Reporting</a> creates detailed reports of the errors in your app.</p>
+            <blockquote></blockquote>
+
+            <h2>If you want to use the multiple modules</h2>
+            <h3><code>ask -m fa,fc</code> (Analytics, Crash Report)</h3>
+          </div>
+        </section>
+
+        <section id="contributing">
+          <h1 class="h1-header">Contributing</h1>
+          <p>We will wait for you <a href="https://github.com/kimkevin/AndroidStarterKit"
+                                     title="AndroidStarterKit Github">here!</a></p>
+        </section>
+      </div>
+    </div>
+    <div class="row">
+      <div class="span12 logo">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="static/less.min.js" type="text/javascript"></script>
+<script src="static/js/bootstrap.min.js"></script>
+<script src="static/jquery.smooth-scroll.min.js"></script>
+<script src="static/jquery-maven-artifact.min.js"></script>
+<script src="static/highlight/highlight.pack.js"></script>
+<script type="text/javascript">
+  $(function () {
+    $('body').scrollspy({
+        target: '.bs-docs-sidebar',
+        offset: 150
+      }
+    );
+
+    $('a').smoothScroll();
+
+    hljs.initHighlightingOnLoad();
+  });
+</script>
+</body>
+</html>

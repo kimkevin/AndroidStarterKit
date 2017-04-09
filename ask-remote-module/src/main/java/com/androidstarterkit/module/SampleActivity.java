@@ -1,5 +1,4 @@
 package com.androidstarterkit.module;
-
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -13,8 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class SampleActivity extends AppCompatActivity
-    implements NavigationView.OnNavigationItemSelectedListener{
+
+public class SampleActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +51,11 @@ public class SampleActivity extends AppCompatActivity
   }
 
   @Override
+  protected void onResume() {
+    super.onResume();
+  }
+
+  @Override
   public void onBackPressed() {
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -75,7 +79,6 @@ public class SampleActivity extends AppCompatActivity
     // as you specify a parent activity in AndroidManifest.xml.
     int id = item.getItemId();
 
-    //noinspection SimplifiableIfStatement
     if (id == R.id.action_settings) {
       return true;
     }
@@ -86,19 +89,6 @@ public class SampleActivity extends AppCompatActivity
   @SuppressWarnings("StatementWithEmptyBody")
   @Override
   public boolean onNavigationItemSelected(MenuItem item) {
-    // Handle navigation view item clicks here.
-    int id = item.getItemId();
-
-    if (id == R.id.nav_camera) {
-
-    } else if (id == R.id.nav_gallery) {
-
-    } else if (id == R.id.nav_share) {
-
-    } else if (id == R.id.nav_send) {
-
-    }
-
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     drawer.closeDrawer(GravityCompat.START);
     return true;
