@@ -3,69 +3,28 @@ ASK - Android Starter Kit
 
 ![](https://github.com/kimkevin/AndroidStarterKit/blob/master/assets/ask_banner.png)
 
-Android Starter Kit is meant to start developing app **simply** and **quickly**.  
-In this project we offer some `Android` modules that are most commonly used imported using command line.
+Use the application generator command-line tool for a new android project to create an application skeleton simply and quickly. For more detail, please visit to [the website](http://androidstarterkit.com/)
 
-> **Creating Android project which has `GridView`, `ListView` and Default `ScrollView` as the multiple sequentially fragments in `ViewPager`**
-
-![](https://github.com/kimkevin/AndroidStarterKit/blob/master/assets/ask_demo.gif)
-
-This `ask-remote-module` contains the following modules:
-
-**Layout**
-
-1. SlidingTabLayout 
-2. SlidingIconTabLayout 
-
-**Widget**
-
-1. RecyclerView
-2. ListView
-3. GridView
-4. ScrollView
-
-## Getting Started
+## Download and Run
 
 ```bash
 $ git clone git@github.com:kimkevin/AndroidStarterKit.git
 $ cd AndroidStarterKit
 
-# Add Path Permanently 
-$ pwd
-/local/AndroidStarterKit/ask-app/build/classes/main
-$ echo 'export PATH=$PATH:/local/AndroidStarterKit/ask-app/build/classes/main' >> ~/.bash_profile
+# Add Path Permanently
+$ echo 'export PATH=$PATH:/path/to/AndroidStarterKit/ask-app/build/classes/main' >> ~/.bash_profile
 ```
 
-## Usage
-```bash
-Usage: ask [options] [dir]
-
-Options:
-First option must be a layout specifier
-  -l -layout <widget>...   add <widget> support: sv(ScrollView), rv(RecyclerView), lv(ListView), gv(GridView)
-                           defaults to ScrollView
-
-  -h, --help               output usage information
-  -i, --icon               tab icon instead of text more than 2 widgets
-```
-
-## Run
+For example, the following command generate the Android project of the following path which included in the GridView and RecyclerView for layouts and the Firebase Analytics and Crash Reporting. Use the following command to do so.
 
 ```bash
-# 1. Make your new project
-
-# 2. If you just want to create one fragment
-$ ask -l <widget> your_project_path 
-# or more than 2 fragments
-$ ask -l <widget>... your_project_path
+$ ask -l gv,rv -m fa,fc /path/to/android/project
 ```
 
-> **Examples**
-```bash
-$ ask -l rv /samples/MyApplication
-$ ask -l gv,lv /samples/MyApplication
-$ ask -l gv,lv --icon /samples/MyApplication
-```
+## How it works
+
+![](https://github.com/kimkevin/AndroidStarterKit/blob/master/assets/ask_demo.gif)
+
 
 ## License
 
