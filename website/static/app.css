@@ -22,15 +22,15 @@ html, body {
 
 body {
     background-color: #ffffff;
-    padding-bottom: 50px;
     padding-top: 80px;
+    padding-bottom: 50px;
     line-height: 1.7;
 }
 
 header {
     min-height: 80px;
     color: #ffffff;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -108,7 +108,7 @@ h2 {
 
 h3 {
     color: #000;
-    font-size: 21px;
+    font-size: 18px;
     font-weight: 400;
 }
 
@@ -160,14 +160,14 @@ pre code {
 
 /* Widescreen : desktop. */
 @media (min-width: 1200px) {
-    .content-nav {
+    .bs-docs-sidebar {
         width: 230px;
     }
 }
 
 /* Smaller width browser : tablets. */
 @media (max-width: 979px) {
-    .content-nav {
+    .bs-docs-sidebar {
         width: 166px;
     }
 }
@@ -186,7 +186,7 @@ pre code {
         display: none;
     }
 
-    .content-nav {
+    .bs-docs-sidebar {
         display: none;
     }
 
@@ -203,29 +203,9 @@ pre code {
     position: fixed;
 }
 
-/*!* sidebar *!*/
-/*.bs-docs-sidebar {*/
-/*padding-left: 20px;*/
-/*margin-top: 50px;*/
-/*margin-bottom: 20px;*/
-/*}*/
-
-/*!*all links *!*/
-/*.bs-docs-sidebar .nav>li>a {*/
-/*color: #999;*/
-/*border-left: 2px solid transparent;*/
-/*padding: 4px 20px;*/
-/*font-size: 13px;*/
-/*font-weight: 400;*/
-/*}*/
-
-/*!* nested links *!*/
-/*.bs-docs-sidebar .nav .nav>li>a {*/
-/*padding-top: 1px;*/
-/*padding-bottom: 1px;*/
-/*padding-left: 30px;*/
-/*font-size: 12px;*/
-/*}*/
+.bs-docs-sidebar.affix {
+    top: 0px;
+}
 
 .bs-docs-sidebar .nav > .active > a,
 .bs-docs-sidebar .nav > li > a:hover,

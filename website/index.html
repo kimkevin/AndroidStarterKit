@@ -14,7 +14,9 @@
   <!--[if lt IE 9]>
   <script src="static/html5shiv.min.js"></script><![endif]-->
 </head>
+
 <body>
+
 <header>
   <div class="container">
     <div class="row">
@@ -36,27 +38,21 @@
 <div id="body">
   <div class="container">
     <div class="row">
-      <nav class="col-xs-3 bs-docs-sidebar">
-        <div class="content-nav" data-spy="affix" data-offset-top="80">
-          <ul id="sidebar" class="nav nav-stacked fixed">
-            <li>
-              <a href="#introduction">Introduction</a>
-            </li>
-            <li>
-              <a href="#layout">Layout</a>
-            </li>
+      <div class="col-xs-3">
+        <nav class="bs-docs-sidebar" data-spy="affix" data-offset-top="80">
+          <ul class="nav nav-stacked">
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#layout">Layout</a></li>
             <li>
               <a href="#module">Module</a>
               <ul class="nav nav-stacked">
                 <li><a href="#firebase">Firebase</a></li>
               </ul>
             </li>
-            <li>
-              <a href="#contributing">Contributing</a>
-            </li>
+            <li><a href="#contributing">Contributing</a></li>
           </ul>
-        </div>
-      </nav>
+        </nav>
+      </div>
 
       <div class="col-xs-9">
         <section id="introduction">
@@ -206,9 +202,10 @@ Options:
 <script src="static/highlight/highlight.pack.js"></script>
 <script type="text/javascript">
   $(function () {
-    $('body').scrollspy({
+    $('body').scrollspy(
+      {
         target: '.bs-docs-sidebar',
-        offset: 150
+        offset: 40
       }
     );
 
