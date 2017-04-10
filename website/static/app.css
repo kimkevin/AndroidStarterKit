@@ -108,7 +108,7 @@ h2 {
 
 h3 {
     color: #000;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 400;
 }
 
@@ -208,12 +208,18 @@ pre code {
 }
 
 .bs-docs-sidebar .nav > .active > a,
-.bs-docs-sidebar .nav > li > a:hover,
-.bs-docs-sidebar .nav > li > a:focus {
+.bs-docs-sidebar .nav > li > a:hover {
     color: #cb3837;
     text-decoration: none;
     background-color: transparent;
     border-left-color: #cb3837;
+}
+
+.bs-docs-sidebar .nav > li > a:focus {
+    /*color: #000000;*/
+    text-decoration: none;
+    background-color: transparent;
+    /*border-left-color: #cb3837;*/
 }
 
 /* all active links */
