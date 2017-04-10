@@ -28,6 +28,6 @@ $ ask -l gv,rv -m fa,fc /path/to/android/project
 
 ## License
 
-Copyright (c) 2016 “KimKevin” Yongjun Kim  
-Licensed under the MIT license.
+[MIT](https://opensource.org/licenses/MIT)  
 
+Copyright (c) 2016-present, “KimKevin” Yongjun Kim  
