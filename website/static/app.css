@@ -266,10 +266,6 @@ div.gallery {
     width: 400px;
 }
 
-/*div.gallery:hover {*/
-/*border: 1px solid #ddd;*/
-/*}*/
-
 div.gallery img {
     width: 100%;
     height: auto;
@@ -283,3 +279,7 @@ div.desc {
     font-weight: 300;
     font-size: 14px;
 }
+
+/*div.gallery:hover {*/
+/*border: 1px solid #ddd;*/
+/*}*/
