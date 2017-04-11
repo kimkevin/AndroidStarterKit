@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Ask {
+  public static final int env = AskConfig.PRODUCTION;
+  public static final int output = AskConfig.OUTPUT_PROJECT;
 
   public static void main(String[] args) {
     CommandParser commandParser;
@@ -48,12 +50,30 @@ public class Ask {
     final List<String> layoutCommands = commandParser.getLayoutCommands();
     final List<String> moduleCommands = commandParser.getModuleCommands();
 
-    // initialize Modules
+    /*
+      * initialize Modules
+      *
+      * AskConfig.OUTPUT_PROJECT : output is project
+      * AskConfig.OUTPUT_ASK_SAMPLE : output is ask-sample
+      */
     String sourceModuleName;
-    if (projectPath == null) {
+    if (output == AskConfig.OUTPUT_ASK_SAMPLE && projectPath == null) {
       projectPath = FileUtils.getRootPath();
       sourceModuleName = AskConfig.DEFAULT_SAMPLE_MODULE_NAME;
-    } else {
+    } else  {
+      if (output == AskConfig.OUTPUT_PROJECT && projectPath == null) {
+        File sampleDirectory = new File(FileUtils.getRootPath() + "/ask-app/AndroidProject");
+        File outputDirectory = new File(FileUtils.getRootPath() + "/output/AndroidProject");
+
+        try {
+          FileUtils.copyDirectory(sampleDirectory, outputDirectory);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+
+        projectPath = outputDirectory.getPath();
+      }
+
       SettingsGradle settingsGradleFile = new SettingsGradle(projectPath);
       sourceModuleName = settingsGradleFile.getAppModuleName();
     }

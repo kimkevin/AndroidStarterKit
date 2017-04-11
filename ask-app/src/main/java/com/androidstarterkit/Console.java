@@ -11,7 +11,7 @@ public class Console {
 
       System.out.println(e.getMessage());
 
-      if (AskConfig.env == AskConfig.DEVELOPMENT) {
+      if (Ask.env == AskConfig.DEVELOPMENT) {
         e.printStackTrace();
       }
 
