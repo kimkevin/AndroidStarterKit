@@ -9,16 +9,16 @@ public class ModuleGroup {
   @SerializedName("name")
   private String name;
 
-  @SerializedName("config_files")
+  @SerializedName("config_file")
   private List<String> configFilenames;
 
   @SerializedName("page")
   private String page;
 
-  @SerializedName("group_configs")
+  @SerializedName("group_config")
   private List<Config> groupConfigs;
 
-  @SerializedName("modules")
+  @SerializedName("module")
   private List<Module> modules;
 
   public String getName() {

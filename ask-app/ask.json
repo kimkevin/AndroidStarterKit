@@ -1,32 +1,32 @@
 {
-  "layoutGroups" : [
+  "layoutGroup" : [
     {
       "class" : "ScrollViewFragment",
-      "commands" : [ "sv", "ScrollView" ]
+      "command" : [ "sv", "ScrollView" ]
     },
     {
       "class" : "RecyclerViewFragment",
-      "commands" : [ "rv", "RecyclerView" ]
+      "command" : [ "rv", "RecyclerView" ]
     },
     {
       "class" : "ListViewFragment",
-      "commands" : [ "lv", "ListView" ]
+      "command" : [ "lv", "ListView" ]
     },
     {
       "class" : "GridViewFragment",
-      "commands" : [ "gv", "GridView" ]
+      "command" : [ "gv", "GridView" ]
     }
   ],
-  "moduleGroups" : [
+  "moduleGroup" : [
     {
       "name" : "Firebase",
-      "config_files" : [ "google-services.json" ],
+      "config_file" : [ "google-services.json" ],
       "page": "https://console.firebase.google.com",
-      "group_configs" : [
+      "group_config" : [
         {
           "path" : "[root]",
           "file" : "build.gradle",
-          "codeblocks" : [
+          "codeblock" : [
             {
               "elements" : [ "buildscript", "dependencies" ],
               "lines" : [ "classpath 'com.google.gms:google-services:3.0.0'" ]
@@ -36,7 +36,7 @@
         {
           "path" : "[app]",
           "file" : "build.gradle",
-          "codeblocks" : [
+          "codeblock" : [
             {
               "elements" : null,
               "lines" : [ "apply plugin: 'com.google.gms.google-services'" ]
@@ -44,15 +44,15 @@
           ]
         }
       ],
-      "modules" : [
+      "module" : [
         {
-          "class" : "FireBaseAnalytics",
-          "commands" : [ "fa", "firebaseanalytics" ],
-          "configs" : [
+          "class" : [ "FireBaseAnalytics" ],
+          "command" : [ "fa", "firebaseanalytics" ],
+          "config" : [
             {
               "path" : "[java]",
               "file" : "[main].java",
-              "codeblocks" : [
+              "codeblock" : [
                 {
                   "elements" : null,
                   "lines" : [
@@ -88,7 +88,7 @@
             {
               "path" : "[app]",
               "file" : "build.gradle",
-              "codeblocks" : [
+              "codeblock" : [
                 {
                   "elements" : [ "dependencies" ],
                   "lines" : [ "compile 'com.google.firebase:firebase-core:10.0.1'" ]
@@ -98,13 +98,13 @@
           ]
         },
         {
-          "class" : "FireBaseCrashReport",
-          "commands" : [ "fc", "firebasecrashreporting" ],
-          "configs" : [
+          "class" : [ "FireBaseCrashReport" ],
+          "command" : [ "fc", "firebasecrashreporting" ],
+          "config" : [
             {
               "path" : "[java]",
               "file" : "[main].java",
-              "codeblocks" : [
+              "codeblock" : [
                 {
                   "elements" : null,
                   "lines" : [ "import [package].firebase.crash.FireBaseCrashReport;" ]
@@ -131,7 +131,7 @@
             {
               "path" : "[app]",
               "file" : "build.gradle",
-              "codeblocks" : [
+              "codeblock" : [
                 {
                   "elements" : [ "dependencies" ],
                   "lines" : [ "compile 'com.google.firebase:firebase-crash:10.0.1'" ]

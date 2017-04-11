@@ -1,27 +1,22 @@
 package com.androidstarterkit.model;
 
 
-import com.androidstarterkit.android.api.Extension;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 public class Module {
   @SerializedName("class")
-  private String name;
+  private List<String> names;
 
-  @SerializedName("commands")
+  @SerializedName("command")
   private List<String> commands;
 
-  @SerializedName("configs")
+  @SerializedName("config")
   private List<Config> configs;
 
-  public String getName() {
-    return name;
-  }
-
-  public String getNameEx() {
-    return name + Extension.JAVA;
+  public List<String> getClassNames() {
+    return names;
   }
 
   public List<String> getCommands() {
@@ -39,7 +34,7 @@ public class Module {
   @Override
   public String toString() {
     return "Module{" +
-        "name='" + name + '\'' +
+        "name='" + names + '\'' +
         ", commands=" + commands +
         ", configs=" + (configs != null ? configs.toString() : "") +
         '}';

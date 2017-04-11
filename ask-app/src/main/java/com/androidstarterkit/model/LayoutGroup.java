@@ -9,10 +9,10 @@ public class LayoutGroup {
   @SerializedName("class")
   private String name;
 
-  @SerializedName("commands")
+  @SerializedName("command")
   private List<String> commands;
 
-  public String getName() {
+  public String getClassName() {
     return name;
   }
 

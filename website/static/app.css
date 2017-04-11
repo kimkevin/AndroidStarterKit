@@ -270,6 +270,6 @@ div.desc {
     font-size: 14px;
 }
 
-/*div.gallery:hover {*/
-/*border: 1px solid #ddd;*/
-/*}*/
+div.gallery:hover {
+    border: 1px solid #ddd;
+}

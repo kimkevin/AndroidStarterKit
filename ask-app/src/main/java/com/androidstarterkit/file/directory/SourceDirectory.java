@@ -188,7 +188,7 @@ public class SourceDirectory extends Directory {
       return codeLine.replace(RemoteModuleConfig.DEFAULT_MODULE_FRAGMENT_NAME, tabType.getFragmentName());
     } else {
       if (codeLine.contains(RemoteModuleConfig.DEFAULT_MODULE_FRAGMENT_NAME)) {
-        return codeLine.replace(RemoteModuleConfig.DEFAULT_MODULE_FRAGMENT_NAME, layoutGroups.get(0).getName());
+        return codeLine.replace(RemoteModuleConfig.DEFAULT_MODULE_FRAGMENT_NAME, layoutGroups.get(0).getClassName());
       } else {
         return codeLine;
       }
@@ -207,7 +207,7 @@ public class SourceDirectory extends Directory {
 
       for (LayoutGroup layoutGroup : layoutGroups) {
         codeLine += "\n";
-        codeLine += intent + ADD_FRAGMENT_STRING.replace(SyntaxConstraints.REPLACE_STRING, layoutGroup.getName());
+        codeLine += intent + ADD_FRAGMENT_STRING.replace(SyntaxConstraints.REPLACE_STRING, layoutGroup.getClassName());
       }
       return codeLine;
     }

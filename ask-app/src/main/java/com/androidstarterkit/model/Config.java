@@ -13,7 +13,7 @@ public class Config {
   @SerializedName("file")
   private String fileNameEx;
 
-  @SerializedName("codeblocks")
+  @SerializedName("codeblock")
   private List<CodeBlock> codeBlocks;
 
   public String getPath() {

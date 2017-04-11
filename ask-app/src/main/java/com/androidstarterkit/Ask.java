@@ -1,5 +1,6 @@
 package com.androidstarterkit;
 
+import com.androidstarterkit.android.api.Extension;
 import com.androidstarterkit.command.AskJson;
 import com.androidstarterkit.command.CommandParser;
 import com.androidstarterkit.command.TabType;
@@ -71,8 +72,8 @@ public class Ask {
     Gson gson = new Gson();
     AskJson askJson;
     try {
-      askJson = gson.fromJson(FileUtils.readFile(FileUtils.linkPathWithSlash(remoteDirectory.getRelativePathFromJavaDir(AskJson.FILE_NAME)
-          , AskJson.FILE_NAME)), AskJson.class);
+      askJson = gson.fromJson(FileUtils.readFile(FileUtils.linkPathWithSlash(FileUtils.getRootPath(), "ask-app", AskJson.FILE_NAME))
+          , AskJson.class);
     } catch (IOException e) {
       throw new CommandException(CommandException.NOT_FOUND_ASK_JSON);
     }
@@ -104,7 +105,9 @@ public class Ask {
 
     // Add module config
     for (Module module : modules) {
-      sourceDirectory.transformFileFromRemote(-1, remoteDirectory.getChildFile(module.getNameEx()));
+      for (String className : module.getClassNames()) {
+        sourceDirectory.transformFileFromRemote(-1, remoteDirectory.getChildFile(className + Extension.JAVA));
+      }
 
       addCodeblockToModuleLoader(module.getConfigs(), sourceDirectory, moduleLoader, projectBuildGradle, appBuildGradleFile, proguardRules, mainActivity);
     }
