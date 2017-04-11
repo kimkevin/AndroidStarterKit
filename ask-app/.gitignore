@@ -1,1 +1,2 @@
-com.androidstarterkit.build
+/build
+*.iml
