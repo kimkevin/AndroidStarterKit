@@ -83,13 +83,13 @@ public class AskJsonTest {
     assertEquals(2, faModule.getConfigs().size());
 
     Config mainJavaConfig = faModule.getConfigs().get(0);
-    assertEquals(AskJson.JAVA_PATH_REPLACEMENT, mainJavaConfig.getPath());
-    assertEquals(AskJson.MAIN_ACTIVITY_REPLACEMENT + Extension.JAVA, mainJavaConfig.getFileNameEx());
+    assertEquals(AskJson.JAVA_PATH_REPLACEMENT.replace("\\", ""), mainJavaConfig.getPath());
+    assertEquals(AskJson.MAIN_ACTIVITY_REPLACEMENT.replace("\\", "") + Extension.JAVA, mainJavaConfig.getFileNameEx());
     assertNotNull(mainJavaConfig.getCodeBlocks());
     assertEquals(5, mainJavaConfig.getCodeBlocks().size());
 
     Config appBuildGradleConfig = faModule.getConfigs().get(1);
-    assertEquals(AskJson.APP_PATH_REPLACEMENT, appBuildGradleConfig.getPath());
+    assertEquals(AskJson.APP_PATH_REPLACEMENT.replace("\\", ""), appBuildGradleConfig.getPath());
     assertEquals(BuildGradle.FILE_NAME, appBuildGradleConfig.getFileNameEx());
     assertNotNull(appBuildGradleConfig.getCodeBlocks());
     assertEquals(1, appBuildGradleConfig.getCodeBlocks().size());
@@ -114,13 +114,13 @@ public class AskJsonTest {
     assertEquals(2, fcModule.getConfigs().size());
 
     Config mainJavaConfig = fcModule.getConfigs().get(0);
-    assertEquals(AskJson.JAVA_PATH_REPLACEMENT, mainJavaConfig.getPath());
-    assertEquals(AskJson.MAIN_ACTIVITY_REPLACEMENT + Extension.JAVA, mainJavaConfig.getFileNameEx());
+    assertEquals(AskJson.JAVA_PATH_REPLACEMENT.replace("\\", ""), mainJavaConfig.getPath());
+    assertEquals(AskJson.MAIN_ACTIVITY_REPLACEMENT.replace("\\", "") + Extension.JAVA, mainJavaConfig.getFileNameEx());
     assertNotNull(mainJavaConfig.getCodeBlocks());
     assertEquals(4, mainJavaConfig.getCodeBlocks().size());
 
     Config appBuildGradleConfig = fcModule.getConfigs().get(1);
-    assertEquals(AskJson.APP_PATH_REPLACEMENT, appBuildGradleConfig.getPath());
+    assertEquals(AskJson.APP_PATH_REPLACEMENT.replace("\\", ""), appBuildGradleConfig.getPath());
     assertEquals(BuildGradle.FILE_NAME, appBuildGradleConfig.getFileNameEx());
     assertNotNull(appBuildGradleConfig.getCodeBlocks());
     assertEquals(1, appBuildGradleConfig.getCodeBlocks().size());

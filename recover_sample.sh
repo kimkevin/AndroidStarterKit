@@ -24,6 +24,6 @@ cp -R ask-sample.bak/src/main/java/com/androidstarterkit/sample/* ask-sample/src
 
 cp ask-sample.bak/projectFiles/build.gradle build.gradle
 
-rm -rf ask-sample/google-services.json
+#rm -rf ask-sample/google-services.json
 
 echo 'Success to recover sample project'

@@ -27,8 +27,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Ask {
-  public static final int env = AskConfig.PRODUCTION;
-  public static final int output = AskConfig.OUTPUT_PROJECT;
+  public static final int env = AskConfig.DEVELOPMENT;
+  public static final int output = AskConfig.OUTPUT_ASK_SAMPLE;
 
   public static void main(String[] args) {
     CommandParser commandParser;
@@ -49,6 +49,10 @@ public class Ask {
     final TabType tabType = commandParser.getTabType();
     final List<String> layoutCommands = commandParser.getLayoutCommands();
     final List<String> moduleCommands = commandParser.getModuleCommands();
+
+    if (layoutCommands.size() <= 0) {
+      layoutCommands.add("sv");
+    }
 
     /*
       * initialize Modules
@@ -120,6 +124,7 @@ public class Ask {
 
     BuildGradle projectBuildGradle = sourceDirectory.getProjectBuildGradle();
     BuildGradle appBuildGradleFile = sourceDirectory.getAppBuildGradleFile();
+
     ProguardRules proguardRules = sourceDirectory.getProguardRules();
     MainActivity mainActivity = sourceDirectory.getMainActivity();
 
