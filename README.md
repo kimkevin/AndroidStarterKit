@@ -15,11 +15,19 @@ $ cd AndroidStarterKit
 $ echo 'export PATH=$PATH:/path/to/AndroidStarterKit/ask-app/build/classes/main' >> ~/.bash_profile
 ```
 
-For example, the following command generate the Android project of the following path which included in the GridView and RecyclerView for layouts and the Firebase Analytics and Crash Reporting. Use the following command to do so.
+For example, the following command generate the Android project of the following path which included in the GridView and RecyclerView for layouts and the Firebase Analytics and Crash Reporting. Use the following command to do so:
 
 ```bash
 $ ask -l gv,rv -m fa,fc /path/to/android/project
 ```
+
+If the command-line doesn’t have the project path for [dir] option, the new project will created in an output folder.
+
+```bash
+$ ask -l gv,rv -m fa,fc
+```
+
+Sync it with Gradle and run it.
 
 ## How it works
 
