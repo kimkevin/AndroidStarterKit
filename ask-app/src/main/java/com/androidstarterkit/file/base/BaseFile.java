@@ -18,6 +18,7 @@ public class BaseFile extends File implements CodeGenerator {
 
   public BaseFile(String fullPathname) {
     super(fullPathname);
+    configCodeBlocks = new ArrayList<>();
 
     lineList = FileUtils.readFile(this);
   }

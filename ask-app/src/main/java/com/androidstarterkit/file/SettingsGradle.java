@@ -29,9 +29,7 @@ public class SettingsGradle extends BaseFile {
       String codeLine = scanner.nextLine();
 
       MatcherTask task = new MatcherTask(":([\\w_-]+)", codeLine);
-      task.start(matcher -> {
-        appModuleName = matcher.group(1);
-      });
+      task.match(1, matched -> appModuleName = matched);
     }
   }
 

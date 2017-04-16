@@ -10,8 +10,8 @@ public class MatcherTask {
   private String input;
   private Pattern pattern;
 
-  public interface OnMatchListener {
-    void onMatched(Matcher matcher);
+  public interface MatchHandler {
+    void handle(String group);
   }
 
   public MatcherTask(String regEx, String input) {
@@ -19,11 +19,11 @@ public class MatcherTask {
     this.input = input;
   }
 
-  public void start(OnMatchListener matchListener) {
+  public void match(int groupIdx, MatchHandler matchListener) {
     Matcher matcher = pattern.matcher(input);
 
     while (matcher.find()) {
-      matchListener.onMatched(matcher);
+      matchListener.handle(matcher.group(groupIdx));
     }
   }
 }

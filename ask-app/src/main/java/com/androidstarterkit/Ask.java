@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 
 public class Ask {
   public static final int env = AskConfig.DEVELOPMENT;
-  public static final int output = AskConfig.OUTPUT_PROJECT;
+  public static final int output = AskConfig.OUTPUT_ASK_SAMPLE;
 
   public static void main(String[] args) {
     CommandParser commandParser;
@@ -120,13 +120,16 @@ public class Ask {
         .map(askJson::getModuleByCommand)
         .collect(Collectors.toList()));
 
-    ModuleLoader moduleLoader = new ModuleLoader();
-
     BuildGradle projectBuildGradle = sourceDirectory.getProjectBuildGradle();
     BuildGradle appBuildGradleFile = sourceDirectory.getAppBuildGradleFile();
-
     ProguardRules proguardRules = sourceDirectory.getProguardRules();
     MainActivity mainActivity = sourceDirectory.getMainActivity();
+
+    ModuleLoader moduleLoader = new ModuleLoader();
+    moduleLoader.addCodeGenerator(projectBuildGradle);
+    moduleLoader.addCodeGenerator(appBuildGradleFile);
+    moduleLoader.addCodeGenerator(proguardRules);
+    moduleLoader.addCodeGenerator(mainActivity);
 
     // Add module config
     for (Module module : modules) {
@@ -179,16 +182,12 @@ public class Ask {
       for (Config config : configs) {
         if (config.getFullPathname().equals(projectBuildGradle.getPath())) {
           projectBuildGradle.addCodeBlocks(config.getCodeBlocks());
-          moduleLoader.addCodeGenerator(projectBuildGradle);
         } else if (config.getFullPathname().equals(appBuildGradleFile.getPath())) {
           appBuildGradleFile.addCodeBlocks(config.getCodeBlocks());
-          moduleLoader.addCodeGenerator(appBuildGradleFile);
         } else if (config.getFullPathname().equals(proguardRules.getPath())) {
           proguardRules.addCodeBlocks(config.getCodeBlocks());
-          moduleLoader.addCodeGenerator(proguardRules);
         } else if (config.getFileNameEx().equals(sourceDirectory.getMainActivityExtName())) {
           mainActivity.addCodeBlocks(config.getCodeBlocks());
-          moduleLoader.addCodeGenerator(mainActivity);
         }
       }
     }

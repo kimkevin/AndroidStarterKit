@@ -14,6 +14,7 @@ import com.androidstarterkit.util.PrintUtils;
 import com.androidstarterkit.util.StringUtils;
 import com.androidstarterkit.util.SyntaxUtils;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -21,11 +22,17 @@ import org.w3c.dom.NodeList;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 public class XmlEditor {
   private static final String TAG = XmlEditor.class.getSimpleName();
@@ -151,7 +158,7 @@ public class XmlEditor {
         try {
           transferResourceXml(resourceTypeName1, layoutName1, depth + 1);
         } catch (FileNotFoundException e) {
-          //TODO : onMatched
+          //TODO : handle
         }
       });
 
@@ -161,7 +168,7 @@ public class XmlEditor {
         try {
           transferElement(resourceTypeName12, elementName, depth + 1);
         } catch (FileNotFoundException e) {
-          //TODO : onMatched
+          //TODO : handle
         }
       });
 
@@ -272,5 +279,24 @@ public class XmlEditor {
     File file = new File(FileUtils.linkPathWithSlash(pathName));
     FileUtils.writeFile(file, codeLines);
     return file;
+  }
+
+  private class XmlDomWriter {
+    private void write(File file, Document document) throws TransformerException, IOException {
+      document.setXmlStandalone(true);
+
+      TransformerFactory tf = TransformerFactory.newInstance();
+      tf.setAttribute("indent-number", new Integer(4));
+
+      Transformer transformer = tf.newTransformer();
+      transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+      transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+      DOMSource source = new DOMSource(document);
+
+      FileWriter fileWriter = new FileWriter(file);
+      StreamResult writeStream = new StreamResult(fileWriter);
+
+      transformer.transform(source, writeStream);
+    }
   }
 }

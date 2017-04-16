@@ -62,9 +62,7 @@ public class AndroidManifest extends XmlFile {
 
               String regEx = ".(\\w+)$";
               MatcherTask task = new MatcherTask(regEx, activityElement.getAttribute(AttributeContraints.NAME));
-              task.start(matcher ->
-                  mainActivityName = matcher.group(1)
-              );
+              task.match(1, matched -> mainActivityName = matched);
             }
           }
         }

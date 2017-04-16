@@ -132,7 +132,7 @@ public class ClassParser {
   public static List<ClassInfo> listInterfaceClass(String codeline) {
     List<ClassInfo> classInfos = new ArrayList<>();
 
-    Pattern pattern = Pattern.compile("implements\\s+(.+)\\s*\\{?");
+    Pattern pattern = Pattern.compile("implements\\s+(.+)\\s*\\{");
     Matcher matcher = pattern.matcher(codeline);
 
     while (matcher.find()) {

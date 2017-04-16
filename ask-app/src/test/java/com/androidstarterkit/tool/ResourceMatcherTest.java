@@ -1,7 +1,5 @@
 package com.androidstarterkit.tool;
 
-import com.androidstarterkit.tool.ResourceMatcher;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,7 +54,7 @@ public class ResourceMatcherTest {
                 "        android:id=\"@+id/nav_view\"\n" +
                 "        android:layout_width=\"wrap_content\"\n" +
                 "        android:layout_height=\"match_parent\"\n" +
-                "        android:layout_gravity=\"start\"\n" +
+                "        android:layout_gravity=\"match\"\n" +
                 "        android:fitsSystemWindows=\"true\"\n" +
                 "        android:background=\"@drawable/some_drawable\"\n"+
                 "        app:headerLayout=\"@layout/nav_header_main\"\n" +
