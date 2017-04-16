@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>ask</title>
+  <title>ASK - Android Starter Kit</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="The application generator command-line tool">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon.png">
@@ -10,30 +10,23 @@
   <link href="static/app.css" rel="stylesheet">
   <link rel="stylesheet/less" type="text/css" href="static/app-theme.less"/>
   <link href="static/highlight/styles/default.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300italic,100,100italic,300" rel="stylesheet"
-        type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;subset=latin-ext" rel="stylesheet">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
   <!--[if lt IE 9]>
   <script src="static/html5shiv.min.js"></script><![endif]-->
 </head>
 
 <body>
-
 <header>
   <div class="container">
-    <div class="row">
-      <div class="col-xs-5">
-        <h1>Android Starter Kit</h1>
-      </div>
-      <div class="col-xs-7">
-        <menu>
-          <ul>
-            <li><a href="https://github.com/kimkevin/AndroidStarterKit" data-title="View GitHub Project"
-                   class="menu github"><img src="static/icon-github.png" alt="GitHub"/></a></li>
-          </ul>
-        </menu>
-      </div>
-    </div>
+    <a class="float-left" href="http://androidstarterkit.com" data-title="Android Starter Kit">
+      <img src="assets/ask_white_icon_100.png" alt="ask icon">
+    </a>
+    <a class="float-left title" href="http://androidstarterkit.com" data-title="Android Starter Kit">ASK</a>
+    <ul class="float-right">
+      <li><a href="https://github.com/kimkevin/AndroidStarterKit" data-title="View GitHub Project"
+             class="menu-icon"><img src="static/icon-github.png" alt="GitHub"/></a></li>
+    </ul>
   </div>
 </header>
 
@@ -85,6 +78,9 @@ $ echo 'export PATH=$PATH:/path/to/AndroidStarterKit/ask-app/build/classes/main'
             Use the following command to do so.</p>
 
           <pre><code calss="bash">$ ask -l gv,rv -m fa,fc /path/to/android/project</code></pre>
+
+          <p>If the command-line doesn’t have the project path for [dir] option, the new project will created in an
+            output folder. Sync it with Gradle and run it.</p>
 
           <p>Check the command options with the -h(--help) option:</p>
 
@@ -147,19 +143,22 @@ Options:
 
             <p>Firebase Console Result:</p>
 
-            <div class="clearfix">
-              <div class="gallery">
-                <a target="_blank" href="assets/firebase_analytics.png">
-                  <img src="assets/firebase_analytics.png" alt="Firebase Analytics" width="400" height="200">
-                </a>
-                <div class="desc">Analytics</div>
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="module-thumb">
+                  <a target="_blank" href="assets/firebase_analytics.png">
+                    <img src="assets/firebase_analytics.png" alt="Firebase Analytics">
+                  </a>
+                  <div class="desc">Analytics</div>
+                </div>
               </div>
-
-              <div class="gallery">
-                <a target="_blank" href="assets/firebase_crashreporting.png">
-                  <img src="assets/firebase_crashreporting.png" alt="Firebase Crash Reporting" width="400" height="200">
-                </a>
-                <div class="desc">Crash Reporting</div>
+              <div class="col-xs-6">
+                <div class="module-thumb">
+                  <a target="_blank" href="assets/firebase_crashreporting.png">
+                    <img src="assets/firebase_crashreporting.png" alt="Firebase Crash Reporting">
+                  </a>
+                  <div class="desc">Crash Reporting</div>
+                </div>
               </div>
             </div>
 
@@ -216,10 +215,17 @@ Options:
     hljs.initHighlightingOnLoad();
   });
 
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
   ga('create', 'UA-62401443-6', 'auto');
   ga('send', 'pageview');
