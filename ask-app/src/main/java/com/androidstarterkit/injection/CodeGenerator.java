@@ -1,7 +1,7 @@
-package com.androidstarterkit.tool;
+package com.androidstarterkit.injection;
 
 
-import com.androidstarterkit.model.CodeBlock;
+import com.androidstarterkit.injection.model.CodeBlock;
 
 import java.util.List;
 

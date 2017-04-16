@@ -1,11 +1,11 @@
 package com.androidstarterkit.file;
 
 
-import com.androidstarterkit.file.base.JavaFile;
+import com.androidstarterkit.injection.file.android.InjectionJavaFile;
 
 import java.io.File;
 
-public class MainActivity extends JavaFile {
+public class MainActivity extends InjectionJavaFile {
   public MainActivity(File file) {
     super(file);
   }

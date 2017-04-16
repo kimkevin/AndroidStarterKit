@@ -1,4 +1,4 @@
-package com.androidstarterkit.tool;
+package com.androidstarterkit.injection;
 
 
 import java.util.ArrayList;
@@ -21,12 +21,6 @@ public class ModuleLoader {
   public void addCodeGenerator(CodeGenerator codeGenerator) {
     if (!codeGenerators.contains(codeGenerator)) {
       codeGenerators.add(codeGenerator);
-    }
-  }
-
-  public void print() {
-    for (CodeGenerator generator : codeGenerators) {
-      System.out.println("code generate: " + generator.getCodeBlocks().toString());
     }
   }
 }

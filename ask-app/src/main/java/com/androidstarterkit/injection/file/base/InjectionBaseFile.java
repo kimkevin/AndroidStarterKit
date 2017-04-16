@@ -1,38 +1,30 @@
-package com.androidstarterkit.file.base;
+package com.androidstarterkit.injection.file.base;
 
-import com.androidstarterkit.model.CodeBlock;
-import com.androidstarterkit.tool.CodeGenerator;
+import com.androidstarterkit.injection.model.CodeBlock;
+import com.androidstarterkit.injection.CodeGenerator;
 import com.androidstarterkit.util.FileUtils;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BaseFile extends File implements CodeGenerator {
-  protected List<String> lineList;
+public class InjectionBaseFile extends File implements CodeGenerator {
+  protected List<String> codelines;
   protected List<CodeBlock> configCodeBlocks;
 
-  public BaseFile(String pathname, String filename) {
-    this(pathname + "/" + filename);
-  }
-
-  public BaseFile(String fullPathname) {
-    super(fullPathname);
+  public InjectionBaseFile(String pathname) {
+    super(pathname);
     configCodeBlocks = new ArrayList<>();
 
-    lineList = FileUtils.readFile(this);
+    codelines = FileUtils.readFile(this);
   }
 
-  public List<String> getLineList() {
-    return lineList;
-  }
-
-  public String getBaseName() {
-    return FileUtils.removeExtension(getName());
+  public List<String> getCodelines() {
+    return codelines;
   }
 
   public void print() {
-    for (String line : lineList) {
+    for (String line : codelines) {
       System.out.println(line);
     }
   }
@@ -62,7 +54,7 @@ public class BaseFile extends File implements CodeGenerator {
 
   @Override
   public void apply() {
-    FileUtils.writeFile(this, lineList);
+    FileUtils.writeFile(this, codelines);
   }
 
   protected List<String> deduplicatedCodelines(List<String> codelines) {
@@ -76,7 +68,7 @@ public class BaseFile extends File implements CodeGenerator {
   }
 
   private boolean isDuplicatedCodeline(String newCodeline) {
-    for (String codeline : lineList) {
+    for (String codeline : codelines) {
       if (codeline.trim().equals(newCodeline)) {
         return true;
       }

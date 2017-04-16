@@ -1,4 +1,4 @@
-package com.androidstarterkit.model;
+package com.androidstarterkit.injection.model;
 
 
 import com.google.gson.annotations.SerializedName;

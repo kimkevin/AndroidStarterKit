@@ -4,10 +4,10 @@ package com.androidstarterkit.command;
 import com.androidstarterkit.android.api.Extension;
 import com.androidstarterkit.exception.CommandException;
 import com.androidstarterkit.file.BuildGradle;
-import com.androidstarterkit.model.Config;
-import com.androidstarterkit.model.LayoutGroup;
-import com.androidstarterkit.model.Module;
-import com.androidstarterkit.model.ModuleGroup;
+import com.androidstarterkit.injection.model.Config;
+import com.androidstarterkit.injection.model.LayoutGroup;
+import com.androidstarterkit.injection.model.Module;
+import com.androidstarterkit.injection.model.ModuleGroup;
 import com.androidstarterkit.util.FileUtils;
 import com.google.gson.Gson;
 

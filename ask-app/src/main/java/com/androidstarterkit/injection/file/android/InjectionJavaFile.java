@@ -1,7 +1,8 @@
-package com.androidstarterkit.file.base;
+package com.androidstarterkit.injection.file.android;
 
 
-import com.androidstarterkit.model.CodeBlock;
+import com.androidstarterkit.injection.file.base.InjectionBaseFile;
+import com.androidstarterkit.injection.model.CodeBlock;
 import com.androidstarterkit.util.SyntaxUtils;
 
 import java.io.File;
@@ -10,9 +11,9 @@ import java.util.Queue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class JavaFile extends BaseFile {
+public class InjectionJavaFile extends InjectionBaseFile {
 
-  public JavaFile(File file) {
+  public InjectionJavaFile(File file) {
     super(file.getPath());
   }
 
@@ -26,8 +27,8 @@ public class JavaFile extends BaseFile {
 
         boolean isClassFound = false;
         boolean isFinalFound = false;
-        for (int i = 0, li = lineList.size(); i < li; i++) {
-          String codeline = lineList.get(i);
+        for (int i = 0, li = codelines.size(); i < li; i++) {
+          String codeline = codelines.get(i);
 
           if (!isClassFound) {
             final String element = matchedClass(codeline);
@@ -63,28 +64,28 @@ public class JavaFile extends BaseFile {
                 int insertedIndex;
                 if (nextIndex < li) {
                   Pattern pat = Pattern.compile("\\s+super\\." + element + "(\\w*)");
-                  Matcher matcher = pat.matcher(lineList.get(nextIndex));
+                  Matcher matcher = pat.matcher(codelines.get(nextIndex));
 
                   insertedIndex = matcher.find() ? nextIndex + 1 : nextIndex;
                 } else {
                   insertedIndex = nextIndex;
                 }
-                lineList.addAll(insertedIndex, SyntaxUtils.addIndentToCodeline(codeblock.getCodelines(), codeblock.getElements().size()));
+                codelines.addAll(insertedIndex, SyntaxUtils.addIndentToCodeline(codeblock.getCodelines(), codeblock.getElements().size()));
                 break;
               }
             } else {
               // below class definition
-              lineList.addAll(nextIndex, SyntaxUtils.addIndentToCodeline(codeblock.getCodelines(), codeblock.getElements().size()));
+              codelines.addAll(nextIndex, SyntaxUtils.addIndentToCodeline(codeblock.getCodelines(), codeblock.getElements().size()));
               break;
             }
           }
         }
       } else {
-        for (int i = 0, li = lineList.size(); i < li; i++) {
-          String codeline = lineList.get(i);
+        for (int i = 0, li = codelines.size(); i < li; i++) {
+          String codeline = codelines.get(i);
 
           if (isFoundPackage(codeline)) {
-            lineList.addAll(1, codeblock.getCodelines());
+            codelines.addAll(1, codeblock.getCodelines());
           }
         }
       }

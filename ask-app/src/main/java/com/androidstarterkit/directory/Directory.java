@@ -1,4 +1,4 @@
-package com.androidstarterkit.file.directory;
+package com.androidstarterkit.directory;
 
 import com.androidstarterkit.android.api.Extension;
 import com.androidstarterkit.exception.CommandException;

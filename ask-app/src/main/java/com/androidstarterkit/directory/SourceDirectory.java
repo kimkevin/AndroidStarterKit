@@ -1,4 +1,4 @@
-package com.androidstarterkit.file.directory;
+package com.androidstarterkit.directory;
 
 import com.androidstarterkit.SyntaxConstraints;
 import com.androidstarterkit.android.api.Extension;
@@ -9,7 +9,7 @@ import com.androidstarterkit.exception.CommandException;
 import com.androidstarterkit.file.BuildGradle;
 import com.androidstarterkit.file.MainActivity;
 import com.androidstarterkit.file.ProguardRules;
-import com.androidstarterkit.model.LayoutGroup;
+import com.androidstarterkit.injection.model.LayoutGroup;
 import com.androidstarterkit.tool.ClassInfo;
 import com.androidstarterkit.tool.ClassParser;
 import com.androidstarterkit.tool.XmlEditor;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class SourceDirectory extends Directory {
-  private RemoteDirectory remoteDirectory;
+  private com.androidstarterkit.directory.RemoteDirectory remoteDirectory;
 
   private BuildGradle projectBuildGradle;
   private ProguardRules proguardRules;
@@ -40,7 +40,7 @@ public class SourceDirectory extends Directory {
 
   private List<ClassInfo> transformedClassInfos;
 
-  public SourceDirectory(String projectPathname, String sourceModuleName, RemoteDirectory remoteDirectory) {
+  public SourceDirectory(String projectPathname, String sourceModuleName, com.androidstarterkit.directory.RemoteDirectory remoteDirectory) {
     super(projectPathname + "/" + sourceModuleName
         , new String[]{"java", "gradle", "xml"}
         , new String[]{"build", "libs", "test", "androidTest", "res"});

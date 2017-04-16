@@ -32,7 +32,7 @@ public class AndroidManifest extends XmlFile {
   private Element activityElement;
 
   public AndroidManifest(String pathname) {
-    super(pathname, FILE_NAME);
+    super(pathname + "/" + FILE_NAME);
 
     packageName = rootNode.getAttribute(SyntaxConstraints.IDENTIFIER_PACKAGE);
 

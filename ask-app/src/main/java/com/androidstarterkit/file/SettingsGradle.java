@@ -2,13 +2,13 @@ package com.androidstarterkit.file;
 
 
 import com.androidstarterkit.exception.ModuleFileNotFoundException;
-import com.androidstarterkit.file.base.BaseFile;
+import com.androidstarterkit.injection.file.android.InjectionGradleFile;
 import com.androidstarterkit.tool.MatcherTask;
 
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class SettingsGradle extends BaseFile {
+public class SettingsGradle extends InjectionGradleFile {
   private static final String TAG = SettingsGradle.class.getSimpleName();
 
   public static final String FILE_NAME = "settings.gradle";
@@ -16,7 +16,7 @@ public class SettingsGradle extends BaseFile {
   private String appModuleName;
 
   public SettingsGradle(String pathname) {
-    super(pathname, FILE_NAME);
+    super(pathname + "/" + FILE_NAME);
 
     Scanner scanner;
     try {
@@ -31,6 +31,11 @@ public class SettingsGradle extends BaseFile {
       MatcherTask task = new MatcherTask(":([\\w_-]+)", codeLine);
       task.match(1, matched -> appModuleName = matched);
     }
+  }
+
+  @Override
+  public void apply() {
+    super.apply();
   }
 
   public String getAppModuleName() {

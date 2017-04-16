@@ -1,10 +1,10 @@
 package com.androidstarterkit.command;
 
-import com.androidstarterkit.model.CodeBlock;
-import com.androidstarterkit.model.Config;
-import com.androidstarterkit.model.LayoutGroup;
-import com.androidstarterkit.model.Module;
-import com.androidstarterkit.model.ModuleGroup;
+import com.androidstarterkit.injection.model.CodeBlock;
+import com.androidstarterkit.injection.model.Config;
+import com.androidstarterkit.injection.model.LayoutGroup;
+import com.androidstarterkit.injection.model.Module;
+import com.androidstarterkit.injection.model.ModuleGroup;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
