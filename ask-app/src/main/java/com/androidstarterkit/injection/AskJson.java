@@ -1,10 +1,12 @@
-package com.androidstarterkit.command;
+package com.androidstarterkit.injection;
 
-import com.androidstarterkit.injection.model.CodeBlock;
-import com.androidstarterkit.injection.model.Config;
+import com.androidstarterkit.injection.model.GradleConfig;
+import com.androidstarterkit.injection.model.JavaConfig;
 import com.androidstarterkit.injection.model.LayoutGroup;
+import com.androidstarterkit.injection.model.Method;
 import com.androidstarterkit.injection.model.Module;
 import com.androidstarterkit.injection.model.ModuleGroup;
+import com.androidstarterkit.injection.model.Snippet;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -14,14 +16,15 @@ import java.util.List;
 public class AskJson {
   public static final String FILE_NAME = "ask.json";
 
-  public static final String PROJECT_PATH_REPLACEMENT = "\\[root\\]";
-  public static final String APP_PATH_REPLACEMENT = "\\[app\\]";
-  public static final String JAVA_PATH_REPLACEMENT = "\\[java\\]";
-  public static final String MAIN_ACTIVITY_REPLACEMENT = "\\[main\\]";
-  public static final String PACKAGE_REPLACEMENT = "\\[package\\]";
+  public static final String PROJECT_PATH_REPLACEMENT = "\\$\\{root\\}";
+  public static final String APP_PATH_REPLACEMENT = "\\$\\{app\\}";
+  public static final String JAVA_PATH_REPLACEMENT = "\\$\\{java\\}";
+  public static final String MAIN_ACTIVITY_REPLACEMENT = "<main>";
+  public static final String PACKAGE_REPLACEMENT = "<package>";
 
   @SerializedName("layoutGroup")
   private List<LayoutGroup> layoutGroups;
+
 
   @SerializedName("moduleGroup")
   private List<ModuleGroup> moduleGroups;
@@ -40,23 +43,30 @@ public class AskJson {
     this.applicationId = applicationId;
 
     for (ModuleGroup moduleGroup : moduleGroups) {
-      for (Config config : moduleGroup.getGroupConfigs()) {
-        replaceConfig(config);
-      }
+      moduleGroup.getGroupGradleConfigs().forEach(this::replaceGradleConfig);
 
       for (Module module : moduleGroup.getModules()) {
-        for (Config config : module.getConfigs()) {
-          replaceConfig(config);
-        }
+        module.getGradleConfigs().forEach(this::replaceGradleConfig);
+        module.getJavaConfigs().forEach(this::replaceJavaConfig);
       }
     }
   }
 
-  private void replaceConfig(Config config) {
+  private void replaceJavaConfig(JavaConfig config) {
+    config.setPath(replacedString(config.getPath()));
+    config.setFileNameEx(replacedString(config.getFileNameEx()));
+    config.replaceImportStrings(PACKAGE_REPLACEMENT, applicationId);
+
+    for (Method block : config.getMethods()) {
+      block.setClassname(replacedString(block.getClassname()));
+    }
+  }
+
+  private void replaceGradleConfig(GradleConfig config) {
     config.setPath(replacedString(config.getPath()));
     config.setFileNameEx(replacedString(config.getFileNameEx()));
 
-    for (CodeBlock block : config.getCodeBlocks()) {
+    for (Snippet block : config.getSnippets()) {
       if (block.getElements() != null) {
         List<String> elements = new ArrayList<>();
         for (String element : block.getElements()) {

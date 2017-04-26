@@ -1,17 +1,13 @@
 package com.androidstarterkit.directory;
 
-import com.androidstarterkit.SyntaxConstraints;
 import com.androidstarterkit.android.api.Extension;
 import com.androidstarterkit.android.api.resource.ResourceType;
-import com.androidstarterkit.command.TabType;
-import com.androidstarterkit.config.RemoteModuleConfig;
 import com.androidstarterkit.exception.CommandException;
 import com.androidstarterkit.file.BuildGradle;
 import com.androidstarterkit.file.MainActivity;
 import com.androidstarterkit.file.ProguardRules;
-import com.androidstarterkit.injection.model.LayoutGroup;
+import com.androidstarterkit.tool.ClassDisassembler;
 import com.androidstarterkit.tool.ClassInfo;
-import com.androidstarterkit.tool.ClassParser;
 import com.androidstarterkit.tool.XmlEditor;
 import com.androidstarterkit.util.FileUtils;
 import com.androidstarterkit.util.PrintUtils;
@@ -21,22 +17,20 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SourceDirectory extends Directory {
   private com.androidstarterkit.directory.RemoteDirectory remoteDirectory;
 
   private BuildGradle projectBuildGradle;
   private ProguardRules proguardRules;
-  private MainActivity remoteMainActivity;
 
   private String javaPath;
   private String resPath;
   private String layoutPath;
 
   private XmlEditor xmlEditor;
-
-  private TabType tabType;
-  private List<LayoutGroup> layoutGroups;
 
   private List<ClassInfo> transformedClassInfos;
 
@@ -50,7 +44,6 @@ public class SourceDirectory extends Directory {
     transformedClassInfos = new ArrayList<>();
 
     // Project level files
-    remoteMainActivity = new MainActivity(remoteDirectory.getMainActivity());
     projectBuildGradle = new BuildGradle(projectPathname);
     proguardRules = new ProguardRules(getPath());
     xmlEditor = new XmlEditor(this, remoteDirectory);
@@ -70,7 +63,7 @@ public class SourceDirectory extends Directory {
   }
 
   public MainActivity getMainActivity() {
-    return new MainActivity(getChildFile(getMainActivityExtName()));
+    return new MainActivity(getChildDirPath(getMainActivityExtName()), getMainActivityExtName());
   }
 
   public String getJavaPath() {
@@ -85,28 +78,19 @@ public class SourceDirectory extends Directory {
     return layoutPath;
   }
 
-  public void transform(TabType tabType, List<LayoutGroup> layoutGroups) {
-    this.tabType = tabType;
-    this.layoutGroups = layoutGroups;
-
+  public void transform(MainActivity remoteMainActivity) {
     xmlEditor.importAttrsOfRemoteMainActivity(() -> transformFileFromRemote(0, remoteMainActivity));
   }
 
-  /**
-   * If depth is 0, file is main Activity of askModule
-   *
-   * @param depth
-   * @param remoteFile
-   */
   public void transformFileFromRemote(int depth, File remoteFile) throws CommandException {
-    String remoteFileNameEx = remoteFile.getName();
-    String fileFullPathname;
+    final String remoteFileNameEx = remoteFile.getName();
+    String sourceFullPathname;
 
-    if (depth == 0) {
-      fileFullPathname = FileUtils.linkPathWithSlash(javaPath
+    if (remoteFile instanceof MainActivity) {
+      sourceFullPathname = FileUtils.linkPathWithSlash(javaPath
           , androidManifestFile.getMainActivityNameEx());
     } else {
-      fileFullPathname = FileUtils.linkPathWithSlash(javaPath
+      sourceFullPathname = FileUtils.linkPathWithSlash(javaPath
           , remoteDirectory.getRelativePathFromJavaDir(remoteFileNameEx)
           , remoteFileNameEx);
     }
@@ -119,175 +103,78 @@ public class SourceDirectory extends Directory {
     } catch (FileNotFoundException e) {
       throw new CommandException(CommandException.FILE_NOT_FOUND, remoteFile.getName());
     }
+
     List<String> codeLines = new ArrayList<>();
-    List<ClassInfo> addedPackageClasses = new ArrayList<>();
 
     while (scanner.hasNext()) {
       String codeLine = scanner.nextLine();
 
       codeLine = changePackage(codeLine);
 
-      if (depth == 0) {
-        codeLine = changeMainActivityName(codeLine, remoteFileNameEx);
-        codeLine = changeMainFragmentByOptions(codeLine, tabType);
-      } else {
-        codeLine = importFragments(codeLine);
+      if (remoteFile instanceof MainActivity) {
+        codeLine = changeMainActivityName(codeLine);
       }
 
-      codeLine = importDeclaredClasses(codeLine, depth, addedPackageClasses);
-
-      xmlEditor.importResourcesForJava(codeLine, depth);
+      xmlEditor.importResourcesFromJava(codeLine, depth);
 
       codeLines.add(codeLine);
     }
 
-    codeLines = defineImportClasses(codeLines, addedPackageClasses);
+    FileUtils.writeFile(new File(sourceFullPathname), codeLines);
 
-    FileUtils.writeFile(new File(fileFullPathname), codeLines);
-
-    if (depth == 0) {
-      System.out.println();
-    }
-  }
-
-  private List<String> defineImportClasses(List<String> codeLines, List<ClassInfo> addedPackageClassInfos) {
-    List<String> importedClassStrings = new ArrayList<>();
-    for (int i = 0, li = addedPackageClassInfos.size(); i < li; i++) {
-      String className = addedPackageClassInfos.get(i).getName();
-      if (remoteDirectory.getRelativePathFromJavaDir(className + Extension.JAVA.toString()) != null) {
-        String importedClassString = SyntaxConstraints.IDENTIFIER_IMPORT + " "
-            + applicationId + "."
-            + remoteDirectory.getRelativePathFromJavaDir(className + Extension.JAVA.toString()).replaceAll("/", ".") + "."
-            + className + ";";
-
-        if (!importedClassStrings.contains(importedClassString)) {
-          importedClassStrings.add(importedClassString);
-        }
-      }
-    }
-
-    for (int i = 0, li = codeLines.size(); i < li; i++) {
-      String line = codeLines.get(i);
-
-      boolean isLastIndex = i + 1 < li;
-      if (line.contains(SyntaxConstraints.IDENTIFIER_PACKAGE) && isLastIndex) {
-        codeLines.addAll(i + 1, importedClassStrings);
-        break;
-      }
-    }
-    return codeLines;
-  }
-
-  private String changeMainActivityName(String codeLine, String moduleActivityName) {
-    return codeLine.replace(FileUtils.removeExtension(moduleActivityName)
-        , getMainActivityName());
-  }
-
-  private String changeMainFragmentByOptions(String codeLine, TabType tabType) throws CommandException {
-    if (tabType != null) {
-      return codeLine.replace(RemoteModuleConfig.DEFAULT_MODULE_FRAGMENT_NAME, tabType.getFragmentName());
-    } else {
-      if (codeLine.contains(RemoteModuleConfig.DEFAULT_MODULE_FRAGMENT_NAME)) {
-        return codeLine.replace(RemoteModuleConfig.DEFAULT_MODULE_FRAGMENT_NAME, layoutGroups.get(0).getClassName());
-      } else {
-        return codeLine;
-      }
-    }
-  }
-
-  private String importFragments(String codeLine) {
-    if (codeLine.contains("fragmentInfos.add")) {
-      return "";
-    }
-
-    if (codeLine.contains("List<FragmentInfo> fragmentInfos = new ArrayList<>();") && layoutGroups.size() > 0) {
-      final String ADD_FRAGMENT_STRING = "fragmentInfos.add(new FragmentInfo(" + SyntaxConstraints.REPLACE_STRING + ".class));";
-
-      final String intent = FileUtils.getIndentOfLine(codeLine);
-
-      for (LayoutGroup layoutGroup : layoutGroups) {
-        codeLine += "\n";
-        codeLine += intent + ADD_FRAGMENT_STRING.replace(SyntaxConstraints.REPLACE_STRING, layoutGroup.getClassName());
-      }
-      return codeLine;
-    }
-    return codeLine;
+    findDeclaredClasses(depth, remoteFile.getPath());
   }
 
   private String changePackage(String codeLine) {
-    if (codeLine.contains("package")) {
+    if (codeLine.contains("package") || codeLine.contains("import")) {
       return codeLine.replace(remoteDirectory.getApplicationId(), getApplicationId());
     }
 
     return codeLine;
   }
 
-  private String importDeclaredClasses(String codeLine, int depth
-      , List<ClassInfo> addedPackageClassInfos) throws CommandException {
-    List<ClassInfo> classInfos = ClassParser.extractClasses(codeLine);
+  private String changeMainActivityName(String codeLine) {
+    return codeLine.replace(remoteDirectory.getMainActivityName(), getMainActivityName());
+  }
 
-    addedPackageClassInfos.addAll(classInfos);
+  private void findDeclaredClasses(int depth, String pathname) throws CommandException {
+    Pattern pattern = Pattern.compile(".+(com/androidstarterkit/module/.+)");
+    Matcher matcher = pattern.matcher(pathname);
 
-    classInfos = uniquifyClasses(classInfos);
+    while (matcher.find()) {
+      pathname = FileUtils.removeExtension(matcher.group(1));
+    }
 
-    if (classInfos.size() > 0) {
-      for (ClassInfo classInfo : classInfos) {
-        if (remoteDirectory.getRelativePathFromJavaDir(classInfo.getName() + Extension.JAVA.toString()) != null) {
+    ClassDisassembler javap = new ClassDisassembler(FileUtils.getRootPath() + "/ask-remote-module/build/intermediates/classes/debug"
+        , RemoteDirectory.PACKAGE_NAME);
+    javap.extractClasses(pathname);
+
+    javap.getInternalClassInfos().stream()
+        .filter(classInfo -> remoteDirectory.getRelativePathFromJavaDir(classInfo.getName() + Extension.JAVA.toString()) != null)
+        .filter(classInfo -> !isTransformed(classInfo))
+        .forEach(classInfo -> {
           transformedClassInfos.add(classInfo);
 
           transformFileFromRemote(depth + 1, remoteDirectory.getChildFile(classInfo.getName(), Extension.JAVA));
-        } else {
-          for (String dependencyKey : externalLibrary.getKeys()) {
-            if (classInfo.getName().equals(dependencyKey)) {
-              appBuildGradleFile.addDependency(externalLibrary.getInfo(dependencyKey).getLibrary());
-              androidManifestFile.addPermissions(externalLibrary.getInfo(dependencyKey).getPermissions());
-              break;
-            }
-          }
+        });
+
+    javap.getExternalClassInfos().forEach(classInfo -> {
+      for (String dependencyKey : externalLibrary.getKeys()) {
+        if (classInfo.getName().equals(dependencyKey)) {
+          appBuildGradleFile.addDependency(externalLibrary.getInfo(dependencyKey).getLibrary());
+          androidManifestFile.addPermissions(externalLibrary.getInfo(dependencyKey).getPermissions());
+          break;
         }
       }
-    }
-
-    return codeLine.replace(remoteDirectory.getApplicationId(), getApplicationId());
+    });
   }
 
-  private List<ClassInfo> uniquifyClasses(List<ClassInfo> extractedClassInfos) {
-    return uniquifyClasses(null, extractedClassInfos);
-  }
-
-  private List<ClassInfo> uniquifyClasses(List<ClassInfo> uniquifiedClassInfos, List<ClassInfo> extractedClassInfos) {
-    if (uniquifiedClassInfos == null) {
-      uniquifiedClassInfos = new ArrayList<>();
-    }
-
-    if (extractedClassInfos.size() <= 0) {
-      return uniquifiedClassInfos;
-    }
-
-    ClassInfo classInfo = extractedClassInfos.get(0);
-    boolean isExtractedClass = false;
-
+  private boolean isTransformed(ClassInfo classInfo) {
     for (ClassInfo transformedClassInfo : transformedClassInfos) {
-      if (transformedClassInfo.equals(classInfo)) {
-        isExtractedClass = true;
+      if (classInfo.equals(transformedClassInfo)) {
+        return true;
       }
     }
-
-    extractedClassInfos.remove(classInfo);
-
-    if (!isExtractedClass) {
-      boolean isUniquifiedClass = false;
-      for (ClassInfo uniquifiedClassInfo : uniquifiedClassInfos) {
-        if (uniquifiedClassInfo.equals(classInfo)) {
-          isUniquifiedClass = true;
-        }
-      }
-
-      if (!isUniquifiedClass) {
-        uniquifiedClassInfos.add(classInfo);
-      }
-    }
-
-    return uniquifyClasses(uniquifiedClassInfos, extractedClassInfos);
+    return false;
   }
 }

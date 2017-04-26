@@ -1,91 +1,53 @@
 package com.androidstarterkit.injection.file.android;
 
 
+import com.androidstarterkit.constraints.SyntaxConstraints;
 import com.androidstarterkit.injection.file.base.InjectionBaseFile;
-import com.androidstarterkit.injection.model.CodeBlock;
+import com.androidstarterkit.injection.model.JavaConfig;
+import com.androidstarterkit.injection.model.Method;
+import com.androidstarterkit.util.FileUtils;
 import com.androidstarterkit.util.SyntaxUtils;
 
-import java.io.File;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.ListIterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class InjectionJavaFile extends InjectionBaseFile {
+public class InjectionJavaFile extends InjectionBaseFile<JavaConfig> {
 
-  public InjectionJavaFile(File file) {
-    super(file.getPath());
+  public InjectionJavaFile(String pathname) {
+    super(pathname);
   }
 
   @Override
   public void apply() {
-    for (CodeBlock codeblock : configCodeBlocks) {
-      Queue<String> elementQueue = new LinkedList<>();
+    for (JavaConfig config : configs) {
+      ListIterator<String> iterator = codelines.listIterator();
+      while (iterator.hasNext()) {
+        String codeline = iterator.next();
 
-      if (codeblock.getElements() != null && codeblock.getElements().size() > 0) {
-        elementQueue.addAll(codeblock.getElements());
+        if (isFoundPackage(codeline)) {
+          config.getImports().forEach(iterator::add);
+        }
 
-        boolean isClassFound = false;
-        boolean isFinalFound = false;
-        for (int i = 0, li = codelines.size(); i < li; i++) {
-          String codeline = codelines.get(i);
-
-          if (!isClassFound) {
-            final String element = matchedClass(codeline);
-            if (element != null) {
-              String elementPeek = elementQueue.peek();
-
-              if (element.equals(elementPeek)) {
-                elementQueue.remove();
-                isClassFound = true;
-              }
-            }
-          }
-
-          if (isClassFound) {
-            int nextIndex = i + 1;
-
-            if (!elementQueue.isEmpty()) {
-              final String element = matchedMethod(codeline);
-
-              if (element != null) {
-                String elementPeek = elementQueue.peek();
-
-                if (element.equals(elementPeek)) {
-                  elementQueue.remove();
-
-                  if (elementQueue.isEmpty()) {
-                    isFinalFound = true;
-                  }
-                }
-              }
-
-              if (isFinalFound) {
-                int insertedIndex;
-                if (nextIndex < li) {
-                  Pattern pat = Pattern.compile("\\s+super\\." + element + "(\\w*)");
-                  Matcher matcher = pat.matcher(codelines.get(nextIndex));
-
-                  insertedIndex = matcher.find() ? nextIndex + 1 : nextIndex;
-                } else {
-                  insertedIndex = nextIndex;
-                }
-                codelines.addAll(insertedIndex, SyntaxUtils.addIndentToCodeline(codeblock.getCodelines(), codeblock.getElements().size()));
-                break;
-              }
-            } else {
-              // below class definition
-              codelines.addAll(nextIndex, SyntaxUtils.addIndentToCodeline(codeblock.getCodelines(), codeblock.getElements().size()));
-              break;
-            }
+        String classIndent = "";
+        if (config.getFileName().equalsIgnoreCase(matchedClass(codeline))) {
+          classIndent = FileUtils.getIndentOfLine(codeline);
+          for (String field : config.getFields()) {
+            iterator.add(classIndent + SyntaxConstraints.DEFAULT_INDENT + field);
           }
         }
-      } else {
-        for (int i = 0, li = codelines.size(); i < li; i++) {
-          String codeline = codelines.get(i);
 
-          if (isFoundPackage(codeline)) {
-            codelines.addAll(1, codeblock.getCodelines());
+        for (Method method : config.getMethods()) {
+          if (method.getName().equalsIgnoreCase(matchedMethod(codeline))) {
+            Pattern pat = Pattern.compile("\\s+super\\." + method.getName() + "(\\w*)");
+            Matcher matcher = pat.matcher(codelines.get(iterator.nextIndex()));
+            if (matcher.find()) {
+              iterator.next();
+            }
+
+            for (String line : method.getLines()) {
+              iterator.add(SyntaxUtils.addIndentToCodeline(classIndent + line, 2));
+            }
           }
         }
       }

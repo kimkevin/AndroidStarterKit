@@ -1,20 +1,20 @@
 package com.androidstarterkit.injection.model;
 
 
+import com.androidstarterkit.util.FileUtils;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Config {
   @SerializedName("path")
-  private String path;
+  protected String path;
 
   @SerializedName("file")
-  private String fileNameEx;
+  protected String fileNameEx;
 
-  @SerializedName("codeblock")
-  private List<CodeBlock> codeBlocks;
+  public Config(String path, String fileNameEx) {
+    this.path = path;
+    this.fileNameEx = fileNameEx;
+  }
 
   public String getPath() {
     return path;
@@ -28,6 +28,10 @@ public class Config {
     this.path = path;
   }
 
+  public String getFileName() {
+    return FileUtils.removeExtension(fileNameEx);
+  }
+
   public String getFileNameEx() {
     return fileNameEx;
   }
@@ -36,24 +40,11 @@ public class Config {
     this.fileNameEx = fileNameEx;
   }
 
-  public List<CodeBlock> getCodeBlocks() {
-    return codeBlocks;
-  }
-
-  public void addCodeBlock(CodeBlock codeBlock) {
-    if (codeBlocks == null) {
-      codeBlocks = new ArrayList<>();
-    }
-
-    codeBlocks.add(codeBlock);
-  }
-
   @Override
   public String toString() {
     return "Config{" +
         "path='" + path + '\'' +
         ", fileNameEx='" + fileNameEx + '\'' +
-        ", codeBlocks=" + (codeBlocks != null ? codeBlocks.toString() : "") +
         '}';
   }
 }

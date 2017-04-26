@@ -1,4 +1,4 @@
-package com.androidstarterkit;
+package com.androidstarterkit.constraints;
 
 public class SyntaxConstraints {
   public static final String IDENTIFIER_PACKAGE = "package";

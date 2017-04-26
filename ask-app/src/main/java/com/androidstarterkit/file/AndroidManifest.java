@@ -1,6 +1,6 @@
 package com.androidstarterkit.file;
 
-import com.androidstarterkit.SyntaxConstraints;
+import com.androidstarterkit.constraints.SyntaxConstraints;
 import com.androidstarterkit.android.api.ElementConstraints;
 import com.androidstarterkit.android.api.Extension;
 import com.androidstarterkit.android.api.IntentConstraints;

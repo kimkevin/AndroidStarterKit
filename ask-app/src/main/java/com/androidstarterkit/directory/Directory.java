@@ -42,11 +42,11 @@ public class Directory extends File {
       throw new CommandException(CommandException.FILE_NOT_FOUND, getName());
     }
 
-    String buildGradlePath = getChildPath(BUILD_GRADLE_FILE);
+    String buildGradlePath = getChildDirPath(BUILD_GRADLE_FILE);
     appBuildGradleFile = new BuildGradle(buildGradlePath);
     this.applicationId = appBuildGradleFile.getApplicationId();
 
-    androidManifestFile = new AndroidManifest(getChildPath(ANDROID_MANIFEST_FILE));
+    androidManifestFile = new AndroidManifest(getChildDirPath(ANDROID_MANIFEST_FILE));
 
     externalLibrary = new ExternalLibrary(appBuildGradleFile.getSupportLibraryVersion());
   }
@@ -100,7 +100,7 @@ public class Directory extends File {
     this.applicationId = applicationId;
   }
 
-  public String getChildPath(String key) {
+  public String getChildDirPath(String key) {
     Object value = fileMap.get(key);
     if (value instanceof String) {
       return (String) value;
@@ -135,7 +135,7 @@ public class Directory extends File {
   }
 
   public File getChildFile(String fileName) {
-    String path = getChildPath(fileName);
+    String path = getChildDirPath(fileName);
     if (path == null) {
       return null;
     }

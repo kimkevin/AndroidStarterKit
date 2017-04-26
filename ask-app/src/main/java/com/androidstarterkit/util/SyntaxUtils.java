@@ -1,7 +1,7 @@
 package com.androidstarterkit.util;
 
 
-import com.androidstarterkit.SyntaxConstraints;
+import com.androidstarterkit.constraints.SyntaxConstraints;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ public class SyntaxUtils {
     return indentCodelines;
   }
 
-  private static String addIndentToCodeline(String codeline, int indentCount) {
+  public static String addIndentToCodeline(String codeline, int indentCount) {
     String indent = "";
     for (int i = 0; i < indentCount; i++) {
       indent += SyntaxConstraints.DEFAULT_INDENT;

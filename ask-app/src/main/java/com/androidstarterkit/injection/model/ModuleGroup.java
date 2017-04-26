@@ -15,8 +15,8 @@ public class ModuleGroup {
   @SerializedName("page")
   private String page;
 
-  @SerializedName("group_config")
-  private List<Config> groupConfigs;
+  @SerializedName("group_gradle_config")
+  private List<GradleConfig> groupGradleConfigs;
 
   @SerializedName("module")
   private List<Module> modules;
@@ -33,11 +33,22 @@ public class ModuleGroup {
     return page;
   }
 
-  public List<Config> getGroupConfigs() {
-    return groupConfigs;
+  public List<GradleConfig> getGroupGradleConfigs() {
+    return groupGradleConfigs;
   }
 
   public List<Module> getModules() {
     return modules;
+  }
+
+  @Override
+  public String toString() {
+    return "ModuleGroup{" +
+        "name='" + name + '\'' +
+        ", configFilenames=" + configFilenames +
+        ", page='" + page + '\'' +
+        ", groupGradleConfigs=" + groupGradleConfigs +
+        ", modules=" + modules +
+        '}';
   }
 }

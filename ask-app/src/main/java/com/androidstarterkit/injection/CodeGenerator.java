@@ -1,13 +1,13 @@
 package com.androidstarterkit.injection;
 
 
-import com.androidstarterkit.injection.model.CodeBlock;
+import com.androidstarterkit.injection.model.Config;
 
 import java.util.List;
 
-public interface CodeGenerator {
-  void addCodeBlock(CodeBlock codeBlock);
-  void addCodeBlocks(List<CodeBlock> codeBlocks);
-  List<CodeBlock> getCodeBlocks();
+public interface CodeGenerator<T extends Config> {
+  void addConfig(T config);
+  void addConfig(List<T> configs);
+  List<T> getConfigs();
   void apply();
 }

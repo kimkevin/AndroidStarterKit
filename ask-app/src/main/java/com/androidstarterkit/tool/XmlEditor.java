@@ -5,7 +5,7 @@ import com.androidstarterkit.android.api.ElementConstraints;
 import com.androidstarterkit.android.api.Extension;
 import com.androidstarterkit.android.api.IntentConstraints;
 import com.androidstarterkit.android.api.resource.AttributeContraints;
-import com.androidstarterkit.SyntaxConstraints;
+import com.androidstarterkit.constraints.SyntaxConstraints;
 import com.androidstarterkit.file.AndroidManifest;
 import com.androidstarterkit.directory.RemoteDirectory;
 import com.androidstarterkit.directory.SourceDirectory;
@@ -109,7 +109,7 @@ public class XmlEditor {
     }
   }
 
-  public void importResourcesForJava(String codeLine, int depth) {
+  public void importResourcesFromJava(String codeLine, int depth) {
     ResourceMatcher matcher = new ResourceMatcher(codeLine,
             ResourceMatcher.MatchType.JAVA_FILE);
     matcher.match((resourceTypeName, layoutName) -> {

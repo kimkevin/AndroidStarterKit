@@ -1,7 +1,5 @@
 package com.androidstarterkit.util;
 
-import com.androidstarterkit.SyntaxConstraints;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -263,14 +261,19 @@ public class FileUtils {
     return null;
   }
 
-  /**
-   * @param path is the string which is the path withLayout dot(.) delimeter such as com.ask.MainActivity
-   * @return is the string for file name
-   */
-  public static String getFileNameForDotPath(String path) {
-    final String[] token = path.split("\\.");
-    final int lastIndex = token.length - 1;
-    return token[lastIndex];
+  public static String getFilenameFromPath(String fullPath) {
+    int index = fullPath.lastIndexOf("/");
+    if (index < 0) {
+      index = 0;
+    } else {
+      index += 1;
+    }
+    return fullPath.substring(index, fullPath.length());
+  }
+
+  public static String getRelativePath(String fullPath) {
+    int index = fullPath.lastIndexOf("/");
+    return fullPath.substring(index + 1);
   }
 
   /**
@@ -288,7 +291,7 @@ public class FileUtils {
         return intent;
       }
     }
-    return SyntaxConstraints.DEFAULT_INDENT;
+    return intent;
   }
 
   /**

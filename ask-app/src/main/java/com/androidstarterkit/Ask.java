@@ -1,22 +1,20 @@
 package com.androidstarterkit;
 
 import com.androidstarterkit.android.api.Extension;
-import com.androidstarterkit.command.AskJson;
 import com.androidstarterkit.command.CommandParser;
 import com.androidstarterkit.command.TabType;
 import com.androidstarterkit.config.AskConfig;
-import com.androidstarterkit.exception.CommandException;
-import com.androidstarterkit.file.BuildGradle;
-import com.androidstarterkit.file.MainActivity;
-import com.androidstarterkit.file.ProguardRules;
-import com.androidstarterkit.file.SettingsGradle;
 import com.androidstarterkit.directory.RemoteDirectory;
 import com.androidstarterkit.directory.SourceDirectory;
-import com.androidstarterkit.injection.model.Config;
+import com.androidstarterkit.exception.CommandException;
+import com.androidstarterkit.file.SettingsGradle;
+import com.androidstarterkit.injection.AskJson;
+import com.androidstarterkit.injection.ModuleLoader;
+import com.androidstarterkit.injection.model.GradleConfig;
 import com.androidstarterkit.injection.model.LayoutGroup;
 import com.androidstarterkit.injection.model.Module;
 import com.androidstarterkit.injection.model.ModuleGroup;
-import com.androidstarterkit.injection.ModuleLoader;
+import com.androidstarterkit.tool.ExecuteShellComand;
 import com.androidstarterkit.util.FileUtils;
 import com.google.gson.Gson;
 
@@ -104,14 +102,32 @@ public class Ask {
     askJson.replace(FileUtils.getRootPath(), sourceDirectory.getPath()
         , sourceDirectory.getJavaPath(), sourceDirectory.getMainActivityName(), sourceDirectory.getApplicationId());
 
-    // Transform layouts
+    // [START] Transform layouts
     List<LayoutGroup> layoutGroups = new ArrayList<>();
     layoutGroups.addAll(layoutCommands.stream()
         .map(askJson::getLayoutGroupByCommand)
         .collect(Collectors.toList()));
 
+    // Change remote repository by layout option
+    remoteDirectory.changeMainFragmentByTabType(tabType, layoutGroups);
+    remoteDirectory.injectLayoutModulesToFragment(layoutGroups);
+
+    // Build remote repository
+    ExecuteShellComand.execute(FileUtils.getRootPath() + "/gradlew :ask-remote-module:clean :ask-remote-module:assembleDebug");
+
+    // Transform files to source repository
     System.out.println("Layout is loading...");
-    sourceDirectory.transform(tabType, layoutGroups);
+    sourceDirectory.transform(remoteDirectory.getMainActivity());
+
+    // Recover remote repository
+    remoteDirectory.recover();
+    // [END]
+
+    ModuleLoader moduleLoader = new ModuleLoader();
+    moduleLoader.addCodeGenerator(sourceDirectory.getProjectBuildGradle());
+    moduleLoader.addCodeGenerator(sourceDirectory.getAppBuildGradleFile());
+    moduleLoader.addCodeGenerator(sourceDirectory.getProguardRules());
+    moduleLoader.addCodeGenerator(sourceDirectory.getMainActivity());
 
     System.out.println("Module is loading...");
     // Transform modules
@@ -120,37 +136,27 @@ public class Ask {
         .map(askJson::getModuleByCommand)
         .collect(Collectors.toList()));
 
-    BuildGradle projectBuildGradle = sourceDirectory.getProjectBuildGradle();
-    BuildGradle appBuildGradleFile = sourceDirectory.getAppBuildGradleFile();
-    ProguardRules proguardRules = sourceDirectory.getProguardRules();
-    MainActivity mainActivity = sourceDirectory.getMainActivity();
-
-    ModuleLoader moduleLoader = new ModuleLoader();
-    moduleLoader.addCodeGenerator(projectBuildGradle);
-    moduleLoader.addCodeGenerator(appBuildGradleFile);
-    moduleLoader.addCodeGenerator(proguardRules);
-    moduleLoader.addCodeGenerator(mainActivity);
-
-    // Add module config
     for (Module module : modules) {
       for (String className : module.getClassNames()) {
-        sourceDirectory.transformFileFromRemote(-1, remoteDirectory.getChildFile(className + Extension.JAVA));
+        System.out.println(className + Extension.JAVA);
+        sourceDirectory.transformFileFromRemote(0, remoteDirectory.getChildFile(className + Extension.JAVA));
       }
 
-      addCodeblockToModuleLoader(module.getConfigs(), sourceDirectory, moduleLoader, projectBuildGradle, appBuildGradleFile, proguardRules, mainActivity);
+      moduleLoader.addJavaConfigs(module.getJavaConfigs());
+      moduleLoader.addGradleConfigs(module.getGradleConfigs());
     }
 
-    // Add group config
-    List<Config> groupConfigs = new ArrayList<>();
+    // Add group configs
+    List<GradleConfig> groupGradleConfigs = new ArrayList<>();
     for (String command : moduleCommands) {
       ModuleGroup moduleGroup = askJson.getModuleGroupByCommand(command);
 
-      if (!groupConfigs.containsAll(moduleGroup.getGroupConfigs())) {
-        groupConfigs.addAll(moduleGroup.getGroupConfigs());
+      if (!groupGradleConfigs.containsAll(moduleGroup.getGroupGradleConfigs())) {
+        groupGradleConfigs.addAll(moduleGroup.getGroupGradleConfigs());
       }
     }
-    addCodeblockToModuleLoader(groupConfigs, sourceDirectory, moduleLoader, projectBuildGradle, appBuildGradleFile, proguardRules, mainActivity);
 
+    moduleLoader.addGradleConfigs(groupGradleConfigs);
     moduleLoader.generateCode();
 
     System.out.println();
@@ -172,22 +178,6 @@ public class Ask {
         File configFile = new File(sourceDirectory.getPath() + "/" + filename);
         if (!configFile.exists()) {
           System.out.println("  warning: File " + filename + " is missing, download " + moduleGroup.getPage());
-        }
-      }
-    }
-  }
-
-  private static void addCodeblockToModuleLoader(List<Config> configs, SourceDirectory sourceDirectory, ModuleLoader moduleLoader, BuildGradle projectBuildGradle, BuildGradle appBuildGradleFile, ProguardRules proguardRules, MainActivity mainActivity) {
-    if (configs != null) {
-      for (Config config : configs) {
-        if (config.getFullPathname().equals(projectBuildGradle.getPath())) {
-          projectBuildGradle.addCodeBlocks(config.getCodeBlocks());
-        } else if (config.getFullPathname().equals(appBuildGradleFile.getPath())) {
-          appBuildGradleFile.addCodeBlocks(config.getCodeBlocks());
-        } else if (config.getFullPathname().equals(proguardRules.getPath())) {
-          proguardRules.addCodeBlocks(config.getCodeBlocks());
-        } else if (config.getFileNameEx().equals(sourceDirectory.getMainActivityExtName())) {
-          mainActivity.addCodeBlocks(config.getCodeBlocks());
         }
       }
     }

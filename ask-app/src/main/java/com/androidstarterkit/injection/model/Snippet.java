@@ -6,12 +6,14 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CodeBlock {
+public class Snippet {
+  @SerializedName("element")
   private List<String> elements;
+
   @SerializedName("lines")
   private List<String> codelines;
 
-  public CodeBlock(List<String> elements, String codeline) {
+  public Snippet(List<String> elements, String codeline) {
     this.elements = elements;
 
     if (codelines == null) {
@@ -20,7 +22,7 @@ public class CodeBlock {
     codelines.add(codeline);
   }
 
-  public CodeBlock(List<String> elements, List<String> codelines) {
+  public Snippet(List<String> elements, List<String> codelines) {
     this.elements = elements;
     this.codelines = codelines;
   }

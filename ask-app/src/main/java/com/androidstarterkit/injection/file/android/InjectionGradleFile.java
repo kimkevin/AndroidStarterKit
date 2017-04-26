@@ -1,18 +1,20 @@
 package com.androidstarterkit.injection.file.android;
 
 
-import com.androidstarterkit.SyntaxConstraints;
+import com.androidstarterkit.constraints.SyntaxConstraints;
 import com.androidstarterkit.injection.file.base.InjectionBaseFile;
-import com.androidstarterkit.injection.model.CodeBlock;
+import com.androidstarterkit.injection.model.GradleConfig;
+import com.androidstarterkit.injection.model.Snippet;
 import com.androidstarterkit.util.SyntaxUtils;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class InjectionGradleFile extends InjectionBaseFile {
+public class InjectionGradleFile extends InjectionBaseFile<GradleConfig> {
   private static final String ELEMENT_DEPENDENCIES_NAME = "dependencies";
   private static final String COMPILE_CONFIGURATION_FORMAT = "compile '" + SyntaxConstraints.REPLACE_STRING + "'";
 
@@ -26,65 +28,51 @@ public class InjectionGradleFile extends InjectionBaseFile {
    * @param externalLibraries is strings
    */
   public void addDependency(String... externalLibraries) {
-    if (externalLibraries.length <= 0) {
-      return;
-    }
-
     for (String externalLibrary : externalLibraries) {
-      CodeBlock newCodeBlock = new CodeBlock(Collections.singletonList(ELEMENT_DEPENDENCIES_NAME)
+      GradleConfig config = new GradleConfig(getPath().substring(0, getPath().lastIndexOf(File.separator)), getName());
+      Snippet dependencySnippet = new Snippet(Collections.singletonList(ELEMENT_DEPENDENCIES_NAME)
           , COMPILE_CONFIGURATION_FORMAT.replace(SyntaxConstraints.REPLACE_STRING, externalLibrary));
+      config.addSnippet(dependencySnippet);
 
-      if (configCodeBlocks == null) {
-        addCodeBlock(newCodeBlock);
-      } else {
-        boolean isExisted = false;
-
-        for (CodeBlock codeBlock : configCodeBlocks) {
-          if (codeBlock.getCodelines().get(0).equals(newCodeBlock.getCodelines().get(0))) {
-            isExisted = true;
-          }
-        }
-
-        if (!isExisted) {
-          addCodeBlock(newCodeBlock);
-        }
-      }
+      addConfig(config);
     }
   }
 
   @Override
   public void apply() {
-    for (CodeBlock codeblock : configCodeBlocks) {
-      Queue<String> elementQueue = new LinkedList<>();
+    for (GradleConfig gradleConfig : configs) {
+      for (Snippet snippet : gradleConfig.getSnippets()) {
+        Queue<String> elementQueue = new LinkedList<>();
 
-      if (codeblock.getElements() != null && codeblock.getElements().size() > 0) {
-        elementQueue.addAll(codeblock.getElements());
+        if (snippet.getElements() != null && snippet.getElements().size() > 0) {
+          elementQueue.addAll(snippet.getElements());
 
-        boolean isFound = false;
-        for (int i = 0, li = codelines.size(); i < li; i++) {
-          String codeline = codelines.get(i);
+          boolean isFound = false;
+          for (int i = 0, li = codelines.size(); i < li; i++) {
+            String codeline = codelines.get(i);
 
-          final String element = matchedElement(codeline);
-          if (element != null) {
-            String elementPeek = elementQueue.peek();
+            final String element = matchedElement(codeline);
+            if (element != null) {
+              String elementPeek = elementQueue.peek();
 
-            if (element.equals(elementPeek)) {
-              elementQueue.remove();
+              if (element.equals(elementPeek)) {
+                elementQueue.remove();
+              }
+
+              if (element.equals(elementPeek) && elementQueue.isEmpty()) {
+                isFound = true;
+              }
             }
 
-            if (element.equals(elementPeek) && elementQueue.isEmpty()) {
-              isFound = true;
+            if (isFound) {
+              codelines.addAll(i + 1, SyntaxUtils.addIndentToCodeline(deduplicatedCodelines(snippet.getCodelines())
+                  , snippet.getElements().size()));
+              break;
             }
           }
-
-          if (isFound) {
-            codelines.addAll(i + 1, SyntaxUtils.addIndentToCodeline(
-                deduplicatedCodelines(codeblock.getCodelines()), codeblock.getElements().size()));
-            break;
-          }
+        } else {
+          codelines.addAll(deduplicatedCodelines(snippet.getCodelines()));
         }
-      } else {
-        codelines.addAll(deduplicatedCodelines(codeblock.getCodelines()));
       }
     }
 
