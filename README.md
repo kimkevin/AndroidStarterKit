@@ -1,7 +1,9 @@
 ASK - Android Starter Kit
 =====
 
-![](https://github.com/kimkevin/AndroidStarterKit/blob/master/assets/ask_banner.png)
+[![Build Status](https://travis-ci.org/kimkevin/AndroidStarterKit.svg?branch=master)](https://travis-ci.org/kimkevin/AndroidStarterKit)
+
+![](https://github.com/kimkevin/AndroidStarterKit/blob/master/assets/ask_logo_200.jpg)
 
 Use the application generator command-line tool for a new android project to create an application skeleton simply and quickly. For more detail, please visit to [the website](http://androidstarterkit.com/)
 
