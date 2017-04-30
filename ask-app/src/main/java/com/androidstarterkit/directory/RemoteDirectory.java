@@ -2,7 +2,6 @@ package com.androidstarterkit.directory;
 
 import com.androidstarterkit.android.api.Extension;
 import com.androidstarterkit.command.TabType;
-import com.androidstarterkit.config.RemoteModuleConfig;
 import com.androidstarterkit.constraints.SyntaxConstraints;
 import com.androidstarterkit.exception.CommandException;
 import com.androidstarterkit.file.MainActivity;
@@ -15,10 +14,12 @@ import com.androidstarterkit.util.FileUtils;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RemoteDirectory extends Directory {
   public static final String MODULE_NAME = "ask-remote-module";
-  private static final String SAMPLE_ACTIVITY_NAME = "SampleActivity.java";
+  public static final String SAMPLE_ACTIVITY_NAME = "SampleActivity.java";
   public static final String PACKAGE_NAME = "com/androidstarterkit/module";
 
   private MainActivity mainActivity;
@@ -67,11 +68,14 @@ public class RemoteDirectory extends Directory {
       fragmentName = layoutGroups.get(0).getClassName();
     }
 
+    Pattern pattern = Pattern.compile("\\.add\\(R\\.id\\.\\w+,\\s*new\\s*(\\w+)\\s*\\(");
+
     List<String> codelines = mainActivity.getCodelines();
     for (int i = 0, li = codelines.size(); i < li; i++) {
       String codeline = codelines.get(i);
-      if (codeline.contains(RemoteModuleConfig.DEFAULT_MODULE_FRAGMENT_NAME)) {
-        codelines.set(i, codeline.replace(RemoteModuleConfig.DEFAULT_MODULE_FRAGMENT_NAME, fragmentName));
+      Matcher matcher = pattern.matcher(codeline);
+      if (matcher.find()) {
+        codelines.set(i, codeline.replace(matcher.group(1), fragmentName));
       }
     }
 
@@ -83,6 +87,10 @@ public class RemoteDirectory extends Directory {
   }
 
   public void injectLayoutModulesToFragment(List<LayoutGroup> layoutGroups) {
+    if (layoutGroups.size() <= 1) {
+      return;
+    }
+
     bakSampleTabFragment = new SlidingTabFragment(sampleTabFragment.getPath());
 
     List<String> codelines = sampleTabFragment.getCodelines();

@@ -47,9 +47,6 @@ public class ModuleLoader {
   private CodeGenerator findCodeGenerator(Config config) {
     for (CodeGenerator codeGenerator : codeGenerators) {
       File file = (File) codeGenerator;
-      if (config instanceof JavaConfig) {
-        System.out.println("check: " + config.getFullPathname() + " , " + file.getPath());
-      }
       if (config.getFullPathname().equalsIgnoreCase(file.getPath())) {
         return codeGenerator;
       }

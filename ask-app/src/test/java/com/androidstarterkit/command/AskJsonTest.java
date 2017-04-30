@@ -1,6 +1,7 @@
 package com.androidstarterkit.command;
 
 
+import com.androidstarterkit.config.AskConfig;
 import com.androidstarterkit.exception.CommandException;
 import com.androidstarterkit.injection.AskJson;
 import com.androidstarterkit.injection.model.LayoutGroup;
@@ -22,8 +23,8 @@ public class AskJsonTest {
   public void setUp() throws Exception {
     Gson gson = new Gson();
     try {
-      askJson = gson.fromJson(FileUtils.readFile(FileUtils.linkPathWithSlash(FileUtils.getRootPath(), "ask-app", AskJson.FILE_NAME))
-          , AskJson.class);
+      askJson = gson.fromJson(FileUtils.readFile(FileUtils.linkPathWithSlash(FileUtils.getRootPath()
+          , AskConfig.DEFAULT_ASK_APP_NAME, AskJson.FILE_NAME)), AskJson.class);
     } catch (IOException e) {
       throw new CommandException(CommandException.NOT_FOUND_ASK_JSON);
     }

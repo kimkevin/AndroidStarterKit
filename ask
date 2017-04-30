@@ -1,12 +1,14 @@
-#!/bin/bash
+#/bin/bash
 
-#########################################################
-##
-##  ask start up script for UNIX
-##
-#########################################################
+ASK_APP_BUILD_PATH=$PWD'/ask-app/build'
+ASK_REMOTE_MODULE_BUILD_PATH=$PWD'/ask-remote-module/build'
 
-BIN_PATH='/Users/kevin/Local/projects/git/AndroidStarterKit/ask-app/build/classes/main'
-cd $BIN_PATH
-java com.androidstarterkit.Ask $@
+if [[ ! -d $ASK_REMOTE_MODULE_BUILD_PATH ]]; then
+  ./gradlew :ask-remote-module:build &>/dev/null
+fi
 
+if [[ ! -d $ASK_APP_BUILD_PATH ]]; then
+  ./gradlew :ask-app:build &>/dev/null
+fi
+
+java -cp '.:'$PWD'/ask-app/build/libs/ask-app.jar:'$PWD'/ask-app/libs/gson-2.7.jar' com.androidstarterkit.Ask $@

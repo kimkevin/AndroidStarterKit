@@ -1,6 +1,7 @@
 package com.androidstarterkit.config;
 
 public class AskConfig {
+  public static final String DEFAULT_ASK_APP_NAME = "ask-app";
   public static final String DEFAULT_SAMPLE_MODULE_NAME = "ask-sample";
   public static final String DEFAULT_REMOTE_MODULE_NAME = "ask-remote-module";
 

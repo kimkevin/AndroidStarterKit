@@ -1,21 +1,11 @@
 apply plugin: 'java'
 
-version = '0.9.7'
-
 sourceSets {
-    test {
-//        java {
-//            srcDirs = ['src/main/java']
-//        }
-        resources {
-            srcDirs = ['src/test/res']
-        }
-    }
+
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.19'
-    compile 'com.google.code.gson:gson:2.4'
 }

@@ -1,5 +1,7 @@
 package com.androidstarterkit.util;
 
+import com.androidstarterkit.config.AskConfig;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,17 +22,22 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FileUtils {
-  public static final String CLASSES_PATH = "/ask-app/build/classes/main";
-
   /**
    * Get root path in this project
    *
    * @return the string for project root path
    */
   public static String getRootPath() {
-    File rootPath = new File(".");
+    File projectDir = new File(".");
+
     try {
-      return rootPath.getCanonicalPath().replace(CLASSES_PATH, "");
+      final int index = projectDir.getCanonicalPath().indexOf(AskConfig.DEFAULT_ASK_APP_NAME);
+
+      if (index > 0) {
+        return projectDir.getCanonicalPath().substring(0, index - 1);
+      }
+
+      return projectDir.getCanonicalPath();
     } catch (IOException e) {
       e.printStackTrace();
     }

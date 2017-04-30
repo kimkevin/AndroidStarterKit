@@ -182,4 +182,8 @@ public class Ask {
       }
     }
   }
+
+  private static String getFile(String fileName) {
+    return Ask.class.getClassLoader().getResource(fileName).getFile();
+  }
 }
