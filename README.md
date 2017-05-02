@@ -13,8 +13,8 @@ Use the application generator command-line tool for a new android project to cre
 $ git clone git@github.com:kimkevin/AndroidStarterKit.git
 $ cd AndroidStarterKit
 
-# Add Path Permanently
-$ echo 'export PATH=$PATH:/path/to/AndroidStarterKit/ask-app/build/classes/main' >> ~/.bash_profile
+# Add new path
+$ echo 'export PATH=$PATH:/path/to/AndroidStarterKit'
 ```
 
 For example, the following command generate the Android project of the following path which included in the GridView and RecyclerView for layouts and the Firebase Analytics and Crash Reporting. Use the following command to do so:
