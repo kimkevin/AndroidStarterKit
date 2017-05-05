@@ -22,15 +22,9 @@ showprogress() {
 }
 
 APP_HOME=`dirname "$0"`
-REMOTE_MODULE_BUILD_PATH=$APP_HOME/ask-remote-module/build
 JAR_PATH=$APP_HOME/ask-app/outputs/ask-app.jar
 
 cd "$APP_HOME" >/dev/null
-
-# if [[ ! -d $REMOTE_MODULE_BUILD_PATH ]]; then
-#  ./gradlew :ask-remote-module:build >/dev/null 2>&1 &
-#  showprogress "Android Remote Module"
-# fi
 
 if [ ! -f $JAR_PATH ]; then
   ./gradlew :ask-app:createjar >/dev/null 2>&1 &

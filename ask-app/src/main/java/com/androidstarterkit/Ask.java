@@ -84,10 +84,10 @@ public class Ask {
     SourceDirectory sourceDirectory = new SourceDirectory(projectPath, sourceModuleName, remoteDirectory);
 
     System.out.println("Analyzing Source Project...");
-    System.out.println("  package: " + sourceDirectory.getAndroidManifestFile().getPackageName());
-    System.out.println("  main activity: " + sourceDirectory.getAndroidManifestFile().getMainActivityName());
-    System.out.println("  src path: " + sourceDirectory.getJavaPath());
-    System.out.println("  layout path: " + sourceDirectory.getLayoutPath());
+    System.out.println("- package: " + sourceDirectory.getAndroidManifestFile().getPackageName());
+    System.out.println("- main activity: " + sourceDirectory.getAndroidManifestFile().getMainActivityName());
+    System.out.println("- src path: " + sourceDirectory.getJavaPath());
+    System.out.println("- layout path: " + sourceDirectory.getLayoutPath());
     System.out.println();
 
     // Parsing ask.json
@@ -113,7 +113,8 @@ public class Ask {
     remoteDirectory.injectLayoutModulesToFragment(layoutGroups);
 
     // Build remote repository
-    ExecuteShellComand.execute(FileUtils.getRootPath() + "/gradlew :ask-remote-module:clean :ask-remote-module:assembleDebug");
+    ExecuteShellComand.executeAssemble(FileUtils.getRootPath() + "/assembleModule.sh " + AskConfig.DEFAULT_REMOTE_MODULE_NAME, true);
+    System.out.println();
 
     // Transform files to source repository
     System.out.println("Layout is loading...");
@@ -129,12 +130,15 @@ public class Ask {
     moduleLoader.addCodeGenerator(sourceDirectory.getProguardRules());
     moduleLoader.addCodeGenerator(sourceDirectory.getMainActivity());
 
-    System.out.println("Module is loading...");
     // Transform modules
     List<Module> modules = new ArrayList<>();
     modules.addAll(moduleCommands.stream()
         .map(askJson::getModuleByCommand)
         .collect(Collectors.toList()));
+
+    if (modules.size() > 0) {
+      System.out.println("\nModule is loading...");
+    }
 
     for (Module module : modules) {
       for (String className : module.getClassNames()) {
@@ -159,9 +163,7 @@ public class Ask {
     moduleLoader.addGradleConfigs(groupGradleConfigs);
     moduleLoader.generateCode();
 
-    System.out.println();
-    System.out.println("  Project path: " + sourceDirectory.getPath());
-    System.out.println();
+    System.out.println("\nProject path: " + sourceDirectory.getPath() + "\n");
 
     // Check config file and show warning
     List<ModuleGroup> distinctModuleGroups = new ArrayList<>();
@@ -177,7 +179,7 @@ public class Ask {
       for (String filename : moduleGroup.getConfigFilenames()) {
         File configFile = new File(sourceDirectory.getPath() + "/" + filename);
         if (!configFile.exists()) {
-          System.out.println("  warning: File " + filename + " is missing, download " + moduleGroup.getPage());
+          System.out.println("warning: File " + filename + " is missing, download " + moduleGroup.getPage());
         }
       }
     }

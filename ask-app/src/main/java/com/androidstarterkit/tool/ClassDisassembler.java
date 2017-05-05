@@ -28,7 +28,7 @@ public class ClassDisassembler {
         "| awk '{ print $6 }' " +
         "| sort -u";
 
-    extractedPackagePathnames = Arrays.stream(ExecuteShellComand.execute(shellCommand).split("\n"))
+    extractedPackagePathnames = Arrays.stream(ExecuteShellComand.executeCommand(shellCommand, false).split("\n"))
         .filter(classPathname -> !isExcluded(classPathname) && !classPathname.contains(classPackagePathname))
         .collect(Collectors.toList());
   }
