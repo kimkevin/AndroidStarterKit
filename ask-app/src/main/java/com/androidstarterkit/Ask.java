@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Ask {
-  public static final int env = AskConfig.DEVELOPMENT;
-  public static final int output = AskConfig.OUTPUT_ASK_SAMPLE;
+  public static final int env = AskConfig.PRODUCTION;
+  public static final int output = AskConfig.OUTPUT_PROJECT;
 
   public static void main(String[] args) {
     CommandParser commandParser;
@@ -183,9 +183,5 @@ public class Ask {
         }
       }
     }
-  }
-
-  private static String getFile(String fileName) {
-    return Ask.class.getClassLoader().getResource(fileName).getFile();
   }
 }
