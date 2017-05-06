@@ -12,13 +12,12 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class AskJson {
   public static final String FILE_NAME = "ask.json";
 
-  public static final String PROJECT_PATH_REPLACEMENT = "\\$\\{root\\}";
-  public static final String APP_PATH_REPLACEMENT = "\\$\\{app\\}";
-  public static final String JAVA_PATH_REPLACEMENT = "\\$\\{java\\}";
+  public static final String PROJECT_PATH_REPLACEMENT = "\\$\\{projectDir\\}";
+  public static final String APP_PATH_REPLACEMENT = "\\$\\{appDir\\}";
+  public static final String JAVA_PATH_REPLACEMENT = "\\$\\{javaDir\\}";
   public static final String MAIN_ACTIVITY_REPLACEMENT = "<main>";
   public static final String PACKAGE_REPLACEMENT = "<package>";
 

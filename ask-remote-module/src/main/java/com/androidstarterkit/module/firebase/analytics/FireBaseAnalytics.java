@@ -10,10 +10,10 @@ public class FireBaseAnalytics {
   /**
    * The {@code FirebaseAnalytics} used to record screen views.
    */
-  private com.google.firebase.analytics.FirebaseAnalytics analytics;
+  private FirebaseAnalytics analytics;
   private Activity activity;
 
-  public FireBaseAnalytics(Activity activity, com.google.firebase.analytics.FirebaseAnalytics analytics) {
+  public FireBaseAnalytics(Activity activity, FirebaseAnalytics analytics) {
     this.activity = activity;
     this.analytics = analytics;
   }
@@ -26,7 +26,7 @@ public class FireBaseAnalytics {
   }
 
   public void trackEvent(Bundle bundle) {
-    analytics.logEvent(com.google.firebase.analytics.FirebaseAnalytics.Event.SIGN_UP, bundle);
+    analytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle);
   }
 
   public void setUserProperty(String version) {

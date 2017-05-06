@@ -38,7 +38,7 @@
       "page": "https://console.firebase.google.com",
       "group_gradle_config": [
         {
-          "path": "${root}",
+          "path": "${projectDir}",
           "file": "build.gradle",
           "snippet": [
             {
@@ -53,7 +53,7 @@
           ]
         },
         {
-          "path": "${app}",
+          "path": "${appDir}",
           "file": "build.gradle",
           "snippet": [
             {
@@ -76,7 +76,7 @@
           ],
           "java_config": [
             {
-              "path": "${java}",
+              "path": "${javaDir}",
               "file": "<main>.java",
               "import": [
                 "import com.google.firebase.analytics.FirebaseAnalytics;",
@@ -145,7 +145,7 @@
           ],
           "gradle_config": [
             {
-              "path": "${app}",
+              "path": "${appDir}",
               "file": "build.gradle",
               "snippet": [
                 {
@@ -170,7 +170,7 @@
           ],
           "java_config": [
             {
-              "path": "${java}",
+              "path": "${javaDir}",
               "file": "<main>.java",
               "import": [
                 "import <package>.firebase.crash.FireBaseCrashReport;"
@@ -223,7 +223,7 @@
           ],
           "gradle_config": [
             {
-              "path": "${app}",
+              "path": "${appDir}",
               "file": "build.gradle",
               "snippet": [
                 {

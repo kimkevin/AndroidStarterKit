@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Ask {
-  public static final int env = AskConfig.PRODUCTION;
-  public static final int output = AskConfig.OUTPUT_PROJECT;
+  static final int env = AskConfig.PRODUCTION;
+  static final int output = AskConfig.OUTPUT_ASK_SAMPLE;
 
   public static void main(String[] args) {
     CommandParser commandParser;

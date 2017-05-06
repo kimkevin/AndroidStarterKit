@@ -12,7 +12,7 @@ task deleteJar(type: Delete) {
 
 task createJar(type: Copy) {
     from('build/libs/')
-    into('outputs/')
+    into('libs')
 }
 
 tasks.findByName('build').mustRunAfter 'deleteJar'

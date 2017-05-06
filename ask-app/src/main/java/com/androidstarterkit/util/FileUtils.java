@@ -31,7 +31,7 @@ public class FileUtils {
     File projectDir = new File(".");
 
     try {
-      final int index = projectDir.getCanonicalPath().indexOf(AskConfig.DEFAULT_ASK_APP_NAME);
+      int index = projectDir.getCanonicalPath().indexOf(AskConfig.DEFAULT_ASK_APP_NAME);
 
       if (index > 0) {
         return projectDir.getCanonicalPath().substring(0, index - 1);
@@ -144,7 +144,7 @@ public class FileUtils {
         stringList.add(e);
       }
     } catch (FileNotFoundException e) {
-      e.printStackTrace();
+      throw new RuntimeException("Failed to find : " + file.getPath());
     }
 
     return stringList;
