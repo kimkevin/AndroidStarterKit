@@ -12,9 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -132,7 +129,7 @@ public class FileUtils {
    * @param file is target file to read
    * @return content is the strings in file
    */
-  public static List<String> readFile(File file) {
+  public static List<String> readFileAsString(File file) {
     Scanner scanner;
     List<String> stringList = new ArrayList<>();
 
@@ -148,17 +145,6 @@ public class FileUtils {
     }
 
     return stringList;
-  }
-
-  public static String readFile(String filePath) throws IOException {
-    final String EoL = System.getProperty("line.separator");
-    List<String> lines = Files.readAllLines(Paths.get(filePath), Charset.defaultCharset());
-
-    StringBuilder sb = new StringBuilder();
-    for (String line : lines) {
-      sb.append(line).append(EoL);
-    }
-    return sb.toString();
   }
 
   /**
@@ -309,6 +295,17 @@ public class FileUtils {
    */
   private static String addNewLine(String line) {
     return line + "\n";
+  }
+
+  public static String convertListStringToString(List<String> codelines) throws IOException {
+    final String EoL = System.getProperty("line.separator");
+
+    StringBuilder sb = new StringBuilder();
+    for (String line : codelines) {
+      sb.append(line).append(EoL);
+    }
+
+    return sb.toString();
   }
 
   /**

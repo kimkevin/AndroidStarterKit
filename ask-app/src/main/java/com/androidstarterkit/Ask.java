@@ -8,15 +8,15 @@ import com.androidstarterkit.directory.RemoteDirectory;
 import com.androidstarterkit.directory.SourceDirectory;
 import com.androidstarterkit.exception.CommandException;
 import com.androidstarterkit.file.SettingsGradle;
-import com.androidstarterkit.injection.AskJson;
+import com.androidstarterkit.injection.AskJsonBuilder;
 import com.androidstarterkit.injection.ModuleLoader;
+import com.androidstarterkit.injection.model.AskJson;
 import com.androidstarterkit.injection.model.GradleConfig;
 import com.androidstarterkit.injection.model.LayoutGroup;
 import com.androidstarterkit.injection.model.Module;
 import com.androidstarterkit.injection.model.ModuleGroup;
 import com.androidstarterkit.tool.ExecuteShellComand;
 import com.androidstarterkit.util.FileUtils;
-import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.IOException;
@@ -90,17 +90,15 @@ public class Ask {
     System.out.println("- layout path: " + sourceDirectory.getLayoutPath());
     System.out.println();
 
-    // Parsing ask.json
-    Gson gson = new Gson();
-    AskJson askJson;
-    try {
-      askJson = gson.fromJson(FileUtils.readFile(FileUtils.linkPathWithSlash(FileUtils.getRootPath(), "ask-app", AskJson.FILE_NAME))
-          , AskJson.class);
-    } catch (IOException e) {
-      throw new CommandException(CommandException.NOT_FOUND_ASK_JSON);
-    }
-    askJson.replace(FileUtils.getRootPath(), sourceDirectory.getPath()
-        , sourceDirectory.getJavaPath(), sourceDirectory.getMainActivityName(), sourceDirectory.getApplicationId());
+    // Parsing ask json files
+    AskJsonBuilder askJsonBuilder = new AskJsonBuilder(FileUtils.getRootPath()
+        + "/" + AskConfig.DEFAULT_ASK_APP_NAME);
+    askJsonBuilder.addProperty("\\$\\{projectDir\\}", FileUtils.getRootPath());
+    askJsonBuilder.addProperty("\\$\\{appDir\\}", sourceDirectory.getPath());
+    askJsonBuilder.addProperty("\\$\\{javaDir\\}", sourceDirectory.getJavaPath());
+    askJsonBuilder.addProperty("<main>", sourceDirectory.getMainActivityName());
+    askJsonBuilder.addProperty("<package>", sourceDirectory.getApplicationId());
+    AskJson askJson = askJsonBuilder.build();
 
     // [START] Transform layouts
     List<LayoutGroup> layoutGroups = new ArrayList<>();

@@ -79,7 +79,7 @@ public class AndroidManifest extends XmlFile {
       return;
     }
 
-    List<String> lineList = FileUtils.readFile(this);
+    List<String> lineList = FileUtils.readFileAsString(this);
 
     for (Permission permission : permissions) {
       lineList = addLineToElement("manifest",

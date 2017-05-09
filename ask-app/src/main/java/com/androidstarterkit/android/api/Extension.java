@@ -1,7 +1,7 @@
 package com.androidstarterkit.android.api;
 
 public enum Extension {
-  JAVA(".java"), XML(".xml"), GRADLE(".gradle"), PRO(".pro");
+  JAVA(".java"), XML(".xml"), GRADLE(".gradle"), PRO(".pro"), JSON(".json");
 
   private String extensionName;
 

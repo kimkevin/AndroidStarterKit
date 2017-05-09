@@ -15,7 +15,7 @@ public class InjectionBaseFile<T extends Config> extends File implements CodeGen
   public InjectionBaseFile(String pathname) {
     super(pathname);
 
-    codelines = FileUtils.readFile(this);
+    codelines = FileUtils.readFileAsString(this);
     configs = new ArrayList<>();
   }
 

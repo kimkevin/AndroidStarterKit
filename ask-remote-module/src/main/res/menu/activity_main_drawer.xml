@@ -3,21 +3,18 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_share"
             android:icon="@drawable/ic_menu_share"
             android:title="Share"/>
     </group>
 
-    <item android:title="Firebase">
+    <item
+        android:title="Menu">
         <menu>
             <item
-                android:id="@+id/nav_analytics"
+                android:id="@+id/nav_manage"
                 android:icon="@drawable/ic_menu_manage"
-                android:title="Analytics"/>
-            <item
-                android:id="@+id/nav_crash_report"
-                android:icon="@drawable/ic_menu_manage"
-                android:title="Crash Report"/>
+                android:title="Tool" />
         </menu>
     </item>
 

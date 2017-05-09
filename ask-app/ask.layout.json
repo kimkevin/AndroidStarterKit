@@ -1,0 +1,32 @@
+{
+  "layoutGroup": [
+    {
+      "class": "ScrollViewFragment",
+      "command": [
+        "sv",
+        "ScrollView"
+      ]
+    },
+    {
+      "class": "RecyclerViewFragment",
+      "command": [
+        "rv",
+        "RecyclerView"
+      ]
+    },
+    {
+      "class": "ListViewFragment",
+      "command": [
+        "lv",
+        "ListView"
+      ]
+    },
+    {
+      "class": "GridViewFragment",
+      "command": [
+        "gv",
+        "GridView"
+      ]
+    }
+  ]
+}

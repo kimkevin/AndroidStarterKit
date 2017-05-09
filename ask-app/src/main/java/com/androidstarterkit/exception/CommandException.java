@@ -45,7 +45,7 @@ public class CommandException extends RuntimeException {
     } else if (errCode == INVALID_MODULE) {
       return ERROR_MESSAGE_PREFIX + "failed to find module: " + super.getMessage();
     } else if (errCode == NOT_FOUND_ASK_JSON) {
-      return ERROR_MESSAGE_PREFIX + "Couldn't find ask.json";
+      return ERROR_MESSAGE_PREFIX + "failed to find ask json file";
     }
 
     return super.getMessage();
