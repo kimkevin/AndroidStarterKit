@@ -1,4 +1,5 @@
 package com.androidstarterkit.module;
+import com.androidstarterkit.module.ui.view.RecyclerViewFragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -24,7 +25,7 @@ public class SampleActivity extends AppCompatActivity implements NavigationView.
     if (savedInstanceState == null) {
       getSupportFragmentManager()
           .beginTransaction()
-          .add(R.id.container, new SampleFragment())
+          .add(R.id.container, new RecyclerViewFragment())
           .commit();
     }
 

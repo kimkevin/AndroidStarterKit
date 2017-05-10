@@ -14,12 +14,12 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-public class XmlDomParser {
-  private static final String TAG = XmlDomParser.class.getSimpleName();
+public class XmlDomReader {
+  private static final String TAG = XmlDomReader.class.getSimpleName();
 
   private Document document;
 
-  public XmlDomParser(File file) {
+  public XmlDomReader(File file) {
     DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
 
     DocumentBuilder documentBuilder;

@@ -1,7 +1,7 @@
 package com.androidstarterkit.file.base;
 
 
-import com.androidstarterkit.tool.XmlDomParser;
+import com.androidstarterkit.tool.XmlDomReader;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -16,7 +16,7 @@ public class XmlFile extends File {
   public XmlFile(String pathName) {
     super(pathName);
 
-    XmlDomParser xmlDomParser = new XmlDomParser(this);
+    XmlDomReader xmlDomParser = new XmlDomReader(this);
     document = xmlDomParser.getDocument();
     rootNode = document.getDocumentElement();
   }

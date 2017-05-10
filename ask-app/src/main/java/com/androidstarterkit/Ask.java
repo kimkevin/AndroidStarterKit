@@ -116,11 +116,11 @@ public class Ask {
 
     // Transform files to source repository
     System.out.println("Layout is loading...");
-    sourceDirectory.transform(remoteDirectory.getMainActivity());
+    sourceDirectory.transformAndroidManifest();
+    sourceDirectory.takeFileFromRemote(remoteDirectory.getMainActivity(), 0);
 
     // Recover remote repository
     remoteDirectory.recover();
-    // [END]
 
     ModuleLoader moduleLoader = new ModuleLoader();
     moduleLoader.addCodeGenerator(sourceDirectory.getProjectBuildGradle());
@@ -141,7 +141,7 @@ public class Ask {
     for (Module module : modules) {
       for (String className : module.getClassNames()) {
         System.out.println(className + Extension.JAVA);
-        sourceDirectory.transformFileFromRemote(0, remoteDirectory.getChildFile(className + Extension.JAVA));
+        sourceDirectory.takeFileFromRemote(remoteDirectory.getChildFile(className + Extension.JAVA), 0);
       }
 
       moduleLoader.addJavaConfigs(module.getJavaConfigs());

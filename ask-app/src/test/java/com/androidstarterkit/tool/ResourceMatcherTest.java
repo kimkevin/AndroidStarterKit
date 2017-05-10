@@ -5,10 +5,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static com.androidstarterkit.tool.ResourceMatcher.MatchType.JAVA_FILE;
-import static com.androidstarterkit.tool.ResourceMatcher.MatchType.JAVA_VALUE;
-import static com.androidstarterkit.tool.ResourceMatcher.MatchType.XML_FILE;
-import static com.androidstarterkit.tool.ResourceMatcher.MatchType.XML_VALUE;
+import static com.androidstarterkit.tool.ResourceMatcher.MatchType.RES_FILE_IN_JAVA;
+import static com.androidstarterkit.tool.ResourceMatcher.MatchType.RES_VALUE_IN_JAVA;
+import static com.androidstarterkit.tool.ResourceMatcher.MatchType.RES_FILE_IN_XML;
+import static com.androidstarterkit.tool.ResourceMatcher.MatchType.RES_VALUE_IN_XML;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -28,7 +28,7 @@ public class ResourceMatcherTest {
                 "context.getResource().getDrawable(R.drawable.ic_title);\n" +
                 "R.menu.home";
 
-        ResourceMatcher matcher = new ResourceMatcher(codeLine, JAVA_FILE);
+        ResourceMatcher matcher = new ResourceMatcher(codeLine, RES_FILE_IN_JAVA);
         matcher.match(mockHandler);
 
         verify(mockHandler).handle("layout", "main");
@@ -41,7 +41,7 @@ public class ResourceMatcherTest {
         String codeLine = "editTextView.setText(getString(R.string.title));" +
                 "imageView.getLayoutParam().width = getResource().getDimen(R.dimen.width);";
 
-        ResourceMatcher matcher = new ResourceMatcher(codeLine, JAVA_VALUE);
+        ResourceMatcher matcher = new ResourceMatcher(codeLine, RES_VALUE_IN_JAVA);
         matcher.match(mockHandler);
 
         verify(mockHandler).handle("string", "title");
@@ -60,7 +60,7 @@ public class ResourceMatcherTest {
                 "        app:headerLayout=\"@layout/nav_header_main\"\n" +
                 "        app:menu=\"@menu/activity_main_drawer\"/>";
 
-        ResourceMatcher matcher = new ResourceMatcher(codeLine, XML_FILE);
+        ResourceMatcher matcher = new ResourceMatcher(codeLine, RES_FILE_IN_XML);
         matcher.match(mockHandler);
 
         verify(mockHandler).handle("layout", "nav_header_main");
@@ -85,7 +85,7 @@ public class ResourceMatcherTest {
                 "        android:text=\"@string/hello_world\" />\n" +
                 "</RelativeLayout>";
 
-        ResourceMatcher matcher = new ResourceMatcher(codeLine, XML_VALUE);
+        ResourceMatcher matcher = new ResourceMatcher(codeLine, RES_VALUE_IN_XML);
         matcher.match(mockHandler);
 
         verify(mockHandler).handle("dimen", "activity_vertical_margin");
@@ -110,7 +110,7 @@ public class ResourceMatcherTest {
                 "        android:text=\"@string/hello_world\" />\n" +
                 "</RelativeLayout>";
 
-        ResourceMatcher matcher = new ResourceMatcher(codeLine, XML_VALUE);
+        ResourceMatcher matcher = new ResourceMatcher(codeLine, RES_VALUE_IN_XML);
         matcher.match(mockHandler);
         matcher.match(mockHandler);
 

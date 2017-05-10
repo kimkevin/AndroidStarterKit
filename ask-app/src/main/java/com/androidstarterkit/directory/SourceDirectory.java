@@ -1,14 +1,16 @@
 package com.androidstarterkit.directory;
 
 import com.androidstarterkit.android.api.Extension;
+import com.androidstarterkit.android.api.resource.AttributeContraints;
 import com.androidstarterkit.android.api.resource.ResourceType;
 import com.androidstarterkit.exception.CommandException;
+import com.androidstarterkit.file.AndroidManifest;
 import com.androidstarterkit.file.BuildGradle;
 import com.androidstarterkit.file.MainActivity;
 import com.androidstarterkit.file.ProguardRules;
 import com.androidstarterkit.tool.ClassDisassembler;
 import com.androidstarterkit.tool.ClassInfo;
-import com.androidstarterkit.tool.XmlEditor;
+import com.androidstarterkit.tool.XmlLineTransfer;
 import com.androidstarterkit.util.FileUtils;
 import com.androidstarterkit.util.PrintUtils;
 
@@ -16,12 +18,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SourceDirectory extends Directory {
-  private com.androidstarterkit.directory.RemoteDirectory remoteDirectory;
+  private RemoteDirectory remoteDirectory;
 
   private BuildGradle projectBuildGradle;
   private ProguardRules proguardRules;
@@ -30,11 +33,11 @@ public class SourceDirectory extends Directory {
   private String resPath;
   private String layoutPath;
 
-  private XmlEditor xmlEditor;
+  private XmlLineTransfer xmlLineTransfer;
 
   private List<ClassInfo> transformedClassInfos;
 
-  public SourceDirectory(String projectPathname, String sourceModuleName, com.androidstarterkit.directory.RemoteDirectory remoteDirectory) {
+  public SourceDirectory(String projectPathname, String sourceModuleName, RemoteDirectory remoteDirectory) {
     super(projectPathname + "/" + sourceModuleName
         , new String[]{"java", "gradle", "xml"}
         , new String[]{"build", "libs", "test", "androidTest", "res"});
@@ -46,7 +49,7 @@ public class SourceDirectory extends Directory {
     // Project level files
     projectBuildGradle = new BuildGradle(projectPathname);
     proguardRules = new ProguardRules(getPath());
-    xmlEditor = new XmlEditor(this, remoteDirectory);
+    xmlLineTransfer = new XmlLineTransfer(this);
 
     // Source directory
     javaPath = FileUtils.linkPathWithSlash(getPath(), "src/main/java", applicationId.replaceAll("\\.", "/"));
@@ -78,12 +81,33 @@ public class SourceDirectory extends Directory {
     return layoutPath;
   }
 
-  public void transform(MainActivity remoteMainActivity) {
-    xmlEditor.importAttrsOfRemoteMainActivity(() -> transformFileFromRemote(0, remoteMainActivity));
+  public void transformAndroidManifest() {
+    AndroidManifest remoteAndroidManifestFile = remoteDirectory.getAndroidManifestFile();
+
+    System.out.println(PrintUtils.prefixDash(0) + remoteAndroidManifestFile.getName());
+
+    Map<String, String> remoteActivityAttributes = remoteAndroidManifestFile.getActivityAttributes();
+    remoteActivityAttributes.keySet().stream()
+        .filter(key -> !key.equals(AttributeContraints.NAME))
+        .forEach(key -> {
+          androidManifestFile.addActivityAttribute(key, remoteActivityAttributes.get(key));
+
+          xmlLineTransfer.retrievalValuesInXml(remoteActivityAttributes.get(key)
+              , (String resourceTypeName, String elementName) -> {
+                try {
+                  xmlLineTransfer.transferValueFromRemote(remoteDirectory, resourceTypeName, elementName, 1);
+                } catch (FileNotFoundException e) {
+                  e.printStackTrace();
+                }
+              });
+        });
+
+    androidManifestFile.writeDocument();
   }
 
-  public void transformFileFromRemote(int depth, File remoteFile) throws CommandException {
+  public void takeFileFromRemote(File remoteFile, int depth) throws CommandException {
     final String remoteFileNameEx = remoteFile.getName();
+
     String sourceFullPathname;
 
     if (remoteFile instanceof MainActivity) {
@@ -115,7 +139,21 @@ public class SourceDirectory extends Directory {
         codeLine = changeMainActivityName(codeLine);
       }
 
-      xmlEditor.importResourcesFromJava(codeLine, depth);
+      xmlLineTransfer.retrievalResourceFileInJava(codeLine, (resourceTypeName, layoutName) -> {
+        try {
+          xmlLineTransfer.transferResourceFileFromRemote(remoteDirectory, resourceTypeName, layoutName, depth + 1);
+        } catch (FileNotFoundException e) {
+          e.printStackTrace();
+        }
+      });
+
+      xmlLineTransfer.retrievalValuesInJava(codeLine, (resourceTypeName, elementName) -> {
+        try {
+          xmlLineTransfer.transferValueFromRemote(remoteDirectory, resourceTypeName, elementName, depth + 1);
+        } catch (FileNotFoundException e) {
+          e.printStackTrace();
+        }
+      });
 
       codeLines.add(codeLine);
     }
@@ -155,7 +193,7 @@ public class SourceDirectory extends Directory {
         .forEach(classInfo -> {
           transformedClassInfos.add(classInfo);
 
-          transformFileFromRemote(depth + 1, remoteDirectory.getChildFile(classInfo.getName(), Extension.JAVA));
+          takeFileFromRemote(remoteDirectory.getChildFile(classInfo.getName(), Extension.JAVA), depth + 1);
         });
 
     javap.getExternalClassInfos().forEach(classInfo -> {

@@ -26,24 +26,24 @@ public class ResourceMatcher {
   }
 
   public enum MatchType {
-    JAVA_FILE("R.("
+    RES_FILE_IN_JAVA("R.("
         + ResourceType.LAYOUT
         + "|" + ResourceType.MENU
         + "|" + ResourceType.DRAWABLE
         + ").([\\w_]*)"),
 
-    JAVA_VALUE("R.("
+    RES_VALUE_IN_JAVA("R.("
         + ValueType.STRING
         + "|" + ValueType.DIMEN
         + ").([\\w_.]*)"),
 
-    XML_FILE("@("
+    RES_FILE_IN_XML("@("
         + ResourceType.LAYOUT
         + "|" + ResourceType.MENU
         + "|" + ResourceType.DRAWABLE
         + ")/([\\w_]*)"),
 
-    XML_VALUE("@("
+    RES_VALUE_IN_XML("@("
         + ValueType.STYLE
         + "|" + ValueType.DIMEN
         + "|" + ValueType.STRING

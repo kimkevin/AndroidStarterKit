@@ -98,9 +98,7 @@ public class FileUtils {
     }
   }
 
-  public static void writeFile(String pathName
-      , String fileName
-      , String content) {
+  public static void writeFile(String pathName, String fileName, String content) {
     File destDir = new File(pathName);
     if (!destDir.exists() && !destDir.mkdirs()) {
       return;
