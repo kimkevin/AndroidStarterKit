@@ -10,7 +10,7 @@ import com.androidstarterkit.file.MainActivity;
 import com.androidstarterkit.file.ProguardRules;
 import com.androidstarterkit.tool.ClassDisassembler;
 import com.androidstarterkit.tool.ClassInfo;
-import com.androidstarterkit.tool.XmlLineTransfer;
+import com.androidstarterkit.tool.ResourceTransfer;
 import com.androidstarterkit.util.FileUtils;
 import com.androidstarterkit.util.PrintUtils;
 
@@ -33,7 +33,7 @@ public class SourceDirectory extends Directory {
   private String resPath;
   private String layoutPath;
 
-  private XmlLineTransfer xmlLineTransfer;
+  private ResourceTransfer resourceTransfer;
 
   private List<ClassInfo> transformedClassInfos;
 
@@ -49,7 +49,7 @@ public class SourceDirectory extends Directory {
     // Project level files
     projectBuildGradle = new BuildGradle(projectPathname);
     proguardRules = new ProguardRules(getPath());
-    xmlLineTransfer = new XmlLineTransfer(this);
+    resourceTransfer = new ResourceTransfer(this);
 
     // Source directory
     javaPath = FileUtils.linkPathWithSlash(getPath(), "src/main/java", applicationId.replaceAll("\\.", "/"));
@@ -92,10 +92,10 @@ public class SourceDirectory extends Directory {
         .forEach(key -> {
           androidManifestFile.addActivityAttribute(key, remoteActivityAttributes.get(key));
 
-          xmlLineTransfer.retrievalValuesInXml(remoteActivityAttributes.get(key)
+          resourceTransfer.extractValuesInXml(remoteActivityAttributes.get(key)
               , (String resourceTypeName, String elementName) -> {
                 try {
-                  xmlLineTransfer.transferValueFromRemote(remoteDirectory, resourceTypeName, elementName, 1);
+                  resourceTransfer.transferValueFromRemote(remoteDirectory, resourceTypeName, elementName, 1);
                 } catch (FileNotFoundException e) {
                   e.printStackTrace();
                 }
@@ -139,17 +139,17 @@ public class SourceDirectory extends Directory {
         codeLine = changeMainActivityName(codeLine);
       }
 
-      xmlLineTransfer.retrievalResourceFileInJava(codeLine, (resourceTypeName, layoutName) -> {
+      resourceTransfer.extractResourceFileInJava(codeLine, (resourceTypeName, layoutName) -> {
         try {
-          xmlLineTransfer.transferResourceFileFromRemote(remoteDirectory, resourceTypeName, layoutName, depth + 1);
+          resourceTransfer.transferResourceFileFromRemote(remoteDirectory, resourceTypeName, layoutName, depth + 1);
         } catch (FileNotFoundException e) {
           e.printStackTrace();
         }
       });
 
-      xmlLineTransfer.retrievalValuesInJava(codeLine, (resourceTypeName, elementName) -> {
+      resourceTransfer.extractValuesInJava(codeLine, (resourceTypeName, elementName) -> {
         try {
-          xmlLineTransfer.transferValueFromRemote(remoteDirectory, resourceTypeName, elementName, depth + 1);
+          resourceTransfer.transferValueFromRemote(remoteDirectory, resourceTypeName, elementName, depth + 1);
         } catch (FileNotFoundException e) {
           e.printStackTrace();
         }

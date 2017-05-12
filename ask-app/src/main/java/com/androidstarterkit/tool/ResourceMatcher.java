@@ -7,7 +7,7 @@ import com.androidstarterkit.android.api.resource.ValueType;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ResourceMatcher {
+class ResourceMatcher {
   private final Matcher matcher;
 
   public interface Handler {

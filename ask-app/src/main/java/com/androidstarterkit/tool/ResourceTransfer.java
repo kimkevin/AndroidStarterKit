@@ -16,35 +16,40 @@ import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
 
-public class XmlLineTransfer {
-  private static final String TAG = XmlLineTransfer.class.getSimpleName();
+public class ResourceTransfer implements ResourceExtractable, ResourceTransferable {
+  private static final String TAG = ResourceTransfer.class.getSimpleName();
 
   private SourceDirectory sourceDirectory;
 
-  public XmlLineTransfer(SourceDirectory sourceDirectory) {
+  public ResourceTransfer(SourceDirectory sourceDirectory) {
     this.sourceDirectory = sourceDirectory;
   }
 
-  public void retrievalResourceFileInJava(String input, ResourceMatcher.Handler handler) {
+  @Override
+  public void extractResourceFileInJava(String input, ResourceMatcher.Handler handler) {
     ResourceMatcher matcher = new ResourceMatcher(input, ResourceMatcher.MatchType.RES_FILE_IN_JAVA);
     matcher.match(handler);
   }
 
-  public void retrievalValuesInJava(String codeLine, ResourceMatcher.Handler handler) {
+  @Override
+  public void extractValuesInJava(String codeLine, ResourceMatcher.Handler handler) {
     ResourceMatcher matcher = new ResourceMatcher(codeLine, ResourceMatcher.MatchType.RES_VALUE_IN_JAVA);
     matcher.match(handler);
   }
 
-  public void retrievalResourceFileInXml(String input, ResourceMatcher.Handler handler) {
+  @Override
+  public void extractResourceFileInXml(String input, ResourceMatcher.Handler handler) {
     ResourceMatcher matcher = new ResourceMatcher(input, ResourceMatcher.MatchType.RES_FILE_IN_XML);
     matcher.match(handler);
   }
 
-  public void retrievalValuesInXml(String input, ResourceMatcher.Handler handler) {
+  @Override
+  public void extractValuesInXml(String input, ResourceMatcher.Handler handler) {
     ResourceMatcher matcher = new ResourceMatcher(input, ResourceMatcher.MatchType.RES_VALUE_IN_XML);
     matcher.match(handler);
   }
 
+  @Override
   public void transferResourceFileFromRemote(RemoteDirectory remoteDirectory, String resourceTypeName, String layoutName
       , int depth) throws FileNotFoundException {
     File moduleXmlFile = remoteDirectory.getChildFile(layoutName, Extension.XML);
@@ -59,7 +64,7 @@ public class XmlLineTransfer {
           .replace(remoteDirectory.getApplicationId(), sourceDirectory.getApplicationId())
           .replace(remoteDirectory.getMainActivityName(), sourceDirectory.getMainActivityName());
 
-      retrievalResourceFileInXml(xmlCodeline, (resourceTypeName1, layoutName1) -> {
+      extractResourceFileInXml(xmlCodeline, (resourceTypeName1, layoutName1) -> {
         try {
           transferResourceFileFromRemote(remoteDirectory, resourceTypeName1, layoutName1, depth + 1);
         } catch (FileNotFoundException e) {
@@ -67,7 +72,7 @@ public class XmlLineTransfer {
         }
       });
 
-      retrievalValuesInXml(xmlCodeline, (resourceTypeName12, elementName) -> {
+      extractValuesInXml(xmlCodeline, (resourceTypeName12, elementName) -> {
         try {
           transferValueFromRemote(remoteDirectory, resourceTypeName12, elementName, depth + 1);
         } catch (FileNotFoundException e) {
@@ -86,7 +91,7 @@ public class XmlLineTransfer {
   }
 
   public void transferValueFromRemote(RemoteDirectory remoteDirectory, String resourceTypeName
-      , String elementName, int depth) throws FileNotFoundException {
+      , String valueName, int depth) throws FileNotFoundException {
     List<File> valueFiles = remoteDirectory.getChildFiles(resourceTypeName + "s", Extension.XML);
     if (valueFiles == null) {
       throw new FileNotFoundException();
@@ -106,7 +111,7 @@ public class XmlLineTransfer {
       while (scanner.hasNext()) {
         String xmlCodeLine = scanner.nextLine();
 
-        if (xmlCodeLine.contains(elementName) || isCopying) {
+        if (xmlCodeLine.contains(valueName) || isCopying) {
           elementLines += xmlCodeLine + SyntaxConstraints.NEWLINE;
 
           if (SyntaxUtils.hasEndElement(xmlCodeLine, resourceTypeName)) {
@@ -138,7 +143,7 @@ public class XmlLineTransfer {
           String xmlCodeLine = scanner.nextLine();
 
           // Check if it has already element
-          if (isDuplicatedElement || xmlCodeLine.contains(elementName)) {
+          if (isDuplicatedElement || xmlCodeLine.contains(valueName)) {
             isDuplicatedElement = !SyntaxUtils.hasEndElement(xmlCodeLine, resourceTypeName);
             continue;
           }
