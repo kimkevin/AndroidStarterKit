@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>ASK - Android Starter Kit</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="keywords" content = "Android Starter Kit, ASK">
+  <meta name="keywords" content="Android Starter Kit, ASK">
   <meta name="description"
         content="Use the application generator command-line tool for a new android project to create an application skeleton simply and quickly.">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon.png">
@@ -44,6 +44,7 @@
               <a href="#module">Module</a>
               <ul class="nav nav-stacked">
                 <li><a href="#firebase">Firebase</a></li>
+                <li><a href="#stetho">Stetho</a></li>
               </ul>
             </li>
             <li><a href="#contributing">Contributing</a></li>
@@ -109,10 +110,10 @@ Options:
           <pre><code class="bash">$ ask -l &lt;view&gt;... /path/to/android/project</code></pre>
 
           <h2>Available Layout commands</h2>
-          <h3><code>ask -l gv</code> (GridView)</h3>
-          <h3><code>ask -l rv</code> (RecyclerView)</h3>
-          <h3><code>ask -l lv</code> (ListView)</h3>
-          <h3><code>ask -l sc</code> (ScrollView)</h3>
+          <h3><code>ask -l gv</code> or <code>GridView</code></h3>
+          <h3><code>ask -l rv</code> or <code>RecyclerView</code></h3>
+          <h3><code>ask -l lv</code> or <code>ListView</code></h3>
+          <h3><code>ask -l sc</code> or <code>ScrollView</code></h3>
 
           <h2>If you want to use the multiple layouts</h2>
           <h3><code>ask -l gv,rv</code> (GridView and RecyclerView)</h3>
@@ -135,7 +136,7 @@ Options:
           <pre><code class="bash">$ ask -m &lt;lib&gt;... /path/to/android/project</code></pre>
 
           <div id="firebase">
-            <h2>Firebase</h2>
+            <h2 class="module-header">Firebase</h2>
 
             <blockquote>Firebase gives you the tools and infrastructure you need to build better apps and grow
               successful businesses.
@@ -168,22 +169,56 @@ Options:
               </div>
             </div>
 
-            <p></p>
-
             <h2>Available Firebase commands</h2>
-            <h3><code>ask -m fa</code> (Analytics)</h3>
+            <h3><code>ask -m fa</code> or <code>FirebaseAnalytics</code></h3>
 
             <p><a href="https://firebase.google.com/docs/analytics/" title="Firebase Analytics Docs">Firebase
               Analytics</a> is a free app measurement solution that provides insight on app usage and user
               engagement.</p>
-            <h3><code>ask -m fc</code> (Crash Report)</h3>
+            <h3><code>ask -m fc</code> or <code>FirebaseCrashreporting</code></h3>
             <p><a href="https://firebase.google.com/docs/crash/" title="Firebase Crash Reporting Docs">Crash
               Reporting</a> creates detailed reports of the errors in your app.</p>
-            <blockquote></blockquote>
 
             <h2>If you want to use the multiple modules</h2>
             <h3><code>ask -m fa,fc</code> (Analytics, Crash Report)</h3>
 
+          </div>
+
+          <div id="stetho">
+            <h2 class="module-header">Stetho</h2>
+
+            <blockquote><a hreft="http://facebook.github.io/stetho/">Stetho</a> is a sophisticated debug bridge for
+              Android applications. When enabled, developers have
+              access to the Chrome Developer Tools feature natively part of the Chrome desktop browser. Developers can
+              also choose to enable the optional dumpapp tool which offers a powerful command-line interface to
+              application internals.
+            </blockquote>
+
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="module-thumb">
+                  <a target="_blank" href="assets/stetho_chrome_devtools.png">
+                    <img src="assets/stetho_chrome_devtools.png" alt="Stetho Chrome Devtools">
+                  </a>
+                  <div class="desc">Analytics</div>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="module-thumb">
+                  <a target="_blank" href="assets/stetho_database_inspection.png">
+                    <img src="assets/stetho_database_inspection.png" alt="Stetho Database Inspection">
+                  </a>
+                  <div class="desc">Crash Reporting</div>
+                </div>
+              </div>
+            </div>
+
+            <h2>Features</h2>
+            <p><strong>Chrome DevTools</strong> provides the navigation to chrome://inspect, <strong>Network Inspection</strong>, <strong>Database Inspection</strong>,
+              <strong>View Hierarchy</strong>, <strong>Dumpapp</strong>, and <strong>Javascript Console</strong>.</p>
+
+            <h2 class="subtitle">Available Stetho commands</h2>
+            <h3><code>ask -m st</code> or <code>Stetho</code></h3>
           </div>
         </section>
 
