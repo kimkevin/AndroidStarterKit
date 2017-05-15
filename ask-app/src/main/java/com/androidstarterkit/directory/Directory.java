@@ -3,8 +3,10 @@ package com.androidstarterkit.directory;
 import com.androidstarterkit.android.api.Extension;
 import com.androidstarterkit.exception.CommandException;
 import com.androidstarterkit.file.AndroidManifest;
+import com.androidstarterkit.file.Application;
 import com.androidstarterkit.file.BuildGradle;
 import com.androidstarterkit.tool.ExternalLibrary;
+import com.androidstarterkit.util.FileUtils;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -92,6 +94,16 @@ public class Directory extends File {
     }
   };
 
+  public Application getApplication() {
+    try {
+      String relativePathname = androidManifestFile.getApplicationRelativePathname();
+      String filenameEx = FileUtils.getFilenameFromDotPath(relativePathname) + Extension.JAVA;
+      return new Application(getChildDirPath(filenameEx) + "/" + filenameEx);
+    } catch (NullPointerException exception) {
+      return null;
+    }
+  }
+
   public String getApplicationId() {
     return applicationId;
   }
@@ -155,19 +167,19 @@ public class Directory extends File {
     return appBuildGradleFile;
   }
 
-  public void printFileMap() {
-    System.out.println("[DEBUG START]");
-    for (String key : fileMap.keySet()) {
-      System.out.println(key + " , " + fileMap.get(key));
-    }
-    System.out.println("[END]");
-  }
-
   public String getMainActivityName() {
     return androidManifestFile.getMainActivityName();
   }
 
   public String getMainActivityExtName() {
     return androidManifestFile.getMainActivityName() + Extension.JAVA;
+  }
+
+  public void printFileMap() {
+    System.out.println("[DEBUG START]");
+    for (String key : fileMap.keySet()) {
+      System.out.println(key + " , " + fileMap.get(key));
+    }
+    System.out.println("[END]");
   }
 }

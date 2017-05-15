@@ -10,7 +10,7 @@ public class ClassInfo {
 
   public ClassInfo(String packageFullPathname) {
     this.packageFullPathname = packageFullPathname;
-    this.name = FileUtils.getFilenameFromPath(packageFullPathname);
+    this.name = FileUtils.getFilenameFromSlashPath(packageFullPathname);
   }
 
   public String getName() {

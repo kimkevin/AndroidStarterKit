@@ -252,14 +252,24 @@ public class FileUtils {
     return null;
   }
 
-  public static String getFilenameFromPath(String fullPath) {
-    int index = fullPath.lastIndexOf("/");
+  public static String getFilenameFromDotPath(String pathname) {
+    int index = pathname.lastIndexOf(".");
     if (index < 0) {
       index = 0;
     } else {
       index += 1;
     }
-    return fullPath.substring(index, fullPath.length());
+    return pathname.substring(index, pathname.length());
+  }
+
+  public static String getFilenameFromSlashPath(String pathname) {
+    int index = pathname.lastIndexOf("/");
+    if (index < 0) {
+      index = 0;
+    } else {
+      index += 1;
+    }
+    return pathname.substring(index, pathname.length());
   }
 
   public static String getRelativePath(String fullPath) {
@@ -306,12 +316,6 @@ public class FileUtils {
     return sb.toString();
   }
 
-  /**
-   * Remove extension
-   *
-   * @param filename String for file name withLayout extension
-   * @return String for file name
-   */
   public static String removeExtension(String filename) {
     return filename.substring(0, filename.lastIndexOf('.'));
   }

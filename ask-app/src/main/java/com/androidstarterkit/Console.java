@@ -30,7 +30,7 @@ public class Console {
     System.out.println("                             defaults to ScrollView");
     System.out.println("    -i, --icon               tab icon instead of text more than 2 widgets");
     System.out.println();
-    System.out.println("    -m, —-module <lib>...    add <lib> support: fa(FirebaseAnalytics), fc(FirebaseCrashReporting)");
+    System.out.println("    -m, —-module <lib>...    add <lib> support: fa(FirebaseAnalytics), fc(FirebaseCrashReporting), st(stetho)");
     System.out.println();
     System.out.println("    -h, --help               output usage information");
     System.out.println();

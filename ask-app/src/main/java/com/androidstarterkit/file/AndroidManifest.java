@@ -131,6 +131,11 @@ public class AndroidManifest extends XmlFile {
     return null;
   }
 
+  public void addApplicationAttribute(String key, String value) {
+    Element applicationElement = (Element) applicationNode;
+    applicationElement.setAttribute(key, value);
+  }
+
   public void addActivityAttribute(String key, String value) {
     Element activityElement = (Element) activityNode;
     activityElement.setAttribute(key, value);

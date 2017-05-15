@@ -21,6 +21,7 @@ import java.util.Set;
 public class AskJsonBuilder {
   private PropertyLineConverter propertyLineConverter;
   private String dirPath;
+  private AskJson askJson;
 
   public AskJsonBuilder(String dirPath) {
     this.dirPath = dirPath;
@@ -33,16 +34,13 @@ public class AskJsonBuilder {
   }
 
   public AskJson build() {
-    AskJson askJson = null;
-
+    askJson = null;
     List<File> jsonFiles = getJsonFiles(dirPath);
-
     Gson gson = new Gson();
 
     for (File jsonFile : jsonFiles) {
       try {
         List<String> codelines = Files.readAllLines(Paths.get(jsonFile.getPath()), Charset.defaultCharset());
-
         AskJson newAskJson = gson.fromJson(FileUtils.convertListStringToString(propertyLineConverter.replace(codelines))
             , AskJson.class);
 

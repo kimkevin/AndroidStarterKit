@@ -1,10 +1,12 @@
 package com.androidstarterkit.injection.model;
 
 
-import com.androidstarterkit.constraints.SyntaxConstraints;
+import com.androidstarterkit.util.SyntaxUtils;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Method {
   @SerializedName("class")
@@ -28,6 +30,8 @@ public class Method {
   @SerializedName("lines")
   private List<String> lines;
 
+  private boolean isImported;
+
   public class Parameter {
     @SerializedName("type")
     private String type;
@@ -44,14 +48,6 @@ public class Method {
     }
   }
 
-  public String getClassname() {
-    return classname;
-  }
-
-  public void setClassname(String classname) {
-    this.classname = classname;
-  }
-
   public String getName() {
     return name;
   }
@@ -60,44 +56,71 @@ public class Method {
     this.name = name;
   }
 
-  public List<String> getAnnotations() {
-    return annotations;
-  }
-
-  public void setAnnotations(List<String> annotations) {
-    this.annotations = annotations;
-  }
-
-  public String getAccessModifier() {
-    return accessModifier;
-  }
-
-  public void setAccessModifier(String accessModifier) {
-    this.accessModifier = accessModifier;
-  }
-
-  public String getReturnType() {
-    return returnType;
-  }
-
-  public void setReturnType(String returnType) {
-    this.returnType = returnType;
-  }
-
-  public List<Parameter> getParameters() {
-    return parameters;
-  }
-
-  public void setParameters(List<Parameter> parameters) {
-    this.parameters = parameters;
-  }
-
   public List<String> getLines() {
     return lines;
   }
 
-  public void setLines(List<String> lines) {
-    this.lines = lines;
+  public boolean isImported() {
+    return isImported;
+  }
+
+  public void setImported(boolean imported) {
+    isImported = imported;
+  }
+
+  public List<String> createMethodAsString(int indentCount) {
+    List<String> result = new ArrayList<>();
+    result.add("");
+
+    result.addAll(annotations.stream()
+        .map(annotation -> SyntaxUtils.createIndentAsString(indentCount) + annotation)
+        .collect(Collectors.toList()));
+
+    String newCodeline = SyntaxUtils.createIndentAsString(indentCount);
+    if (accessModifier != null) {
+      newCodeline += accessModifier + " ";
+    }
+
+    if (returnType != null) {
+      newCodeline += returnType + " ";
+    }
+
+    if (name != null) {
+      newCodeline += name;
+    }
+
+    newCodeline += "(";
+    if (parameters != null) {
+      for (int i = 0, li = parameters.size(); i < li; i++) {
+        newCodeline += parameters.get(i).type + " " + parameters.get(i).variable;
+        if (i < li - 1) {
+          newCodeline += ", ";
+        }
+      }
+    }
+
+    newCodeline += ") {";
+    result.add(newCodeline);
+
+    if (annotations.contains("@Override")) {
+      newCodeline = SyntaxUtils.createIndentAsString(indentCount + 1) + "super." + name + "(";
+      for (int i = 0, li = parameters.size(); i < li; i++) {
+        newCodeline += parameters.get(i).variable;
+        if (i < li - 1) {
+          newCodeline += ", ";
+        }
+      }
+      newCodeline += ");";
+      result.add(newCodeline);
+    }
+
+    result.addAll(lines.stream()
+        .map(line -> SyntaxUtils.createIndentAsString(indentCount + 1) + line)
+        .collect(Collectors.toList()));
+
+    result.add(SyntaxUtils.createIndentAsString(indentCount) + "}");
+
+    return result;
   }
 
   @Override
@@ -110,47 +133,7 @@ public class Method {
         ", returnType='" + returnType + '\'' +
         ", parameters=" + parameters +
         ", lines=" + lines +
+        ", isImported=" + isImported +
         '}';
-  }
-
-  public String createMethodAsString() {
-    String result = "";
-    for (String annotation : annotations) {
-      result += annotation + "\n";
-    }
-
-    if (accessModifier != null) {
-      result += accessModifier + " ";
-    }
-
-    if (returnType != null) {
-      result += returnType + " ";
-    }
-
-    if (name != null) {
-      result += name;
-    }
-
-    result += "(";
-    for (int i = 0, li = parameters.size(); i < li; i++) {
-      result += parameters.get(i).type + " " + parameters.get(i).variable;
-      if (i < li - 1) {
-        result += ", ";
-      }
-    }
-    result += ") {\n";
-    if (annotations.contains("@Override")) {
-      result += SyntaxConstraints.DEFAULT_INDENT + "super." + name + "(";
-      for (int i = 0, li = parameters.size(); i < li; i++) {
-        result += parameters.get(i).variable;
-        if (i < li - 1) {
-          result += ", ";
-        }
-      }
-      result += ");\n";
-    }
-    result += "}\n";
-
-    return result;
   }
 }

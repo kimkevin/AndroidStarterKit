@@ -20,12 +20,4 @@ public class PrintUtils {
 
     return dash + (depth > 0 ? " " : "");
   }
-
-  public static String getIntent(int depth) {
-    String intent = "";
-    for (int i = 0; i < depth; i++) {
-      intent += "  ";
-    }
-    return intent;
-  }
 }

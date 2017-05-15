@@ -26,9 +26,7 @@ import java.util.regex.Pattern;
 public class SourceDirectory extends Directory {
   private RemoteDirectory remoteDirectory;
 
-  private BuildGradle projectBuildGradle;
-  private ProguardRules proguardRules;
-
+  private String projectPathname;
   private String javaPath;
   private String resPath;
   private String layoutPath;
@@ -41,14 +39,11 @@ public class SourceDirectory extends Directory {
     super(projectPathname + "/" + sourceModuleName
         , new String[]{"java", "gradle", "xml"}
         , new String[]{"build", "libs", "test", "androidTest", "res"});
-
+    this.projectPathname = projectPathname;
     this.remoteDirectory = remoteDirectory;
 
     transformedClassInfos = new ArrayList<>();
 
-    // Project level files
-    projectBuildGradle = new BuildGradle(projectPathname);
-    proguardRules = new ProguardRules(getPath());
     resourceTransfer = new ResourceTransfer(this);
 
     // Source directory
@@ -58,11 +53,11 @@ public class SourceDirectory extends Directory {
   }
 
   public BuildGradle getProjectBuildGradle() {
-    return projectBuildGradle;
+    return new BuildGradle(projectPathname);
   }
 
   public ProguardRules getProguardRules() {
-    return proguardRules;
+    return new ProguardRules(getPath());
   }
 
   public MainActivity getMainActivity() {
@@ -115,7 +110,7 @@ public class SourceDirectory extends Directory {
           , androidManifestFile.getMainActivityNameEx());
     } else {
       sourceFullPathname = FileUtils.linkPathWithSlash(javaPath
-          , remoteDirectory.getRelativePathFromJavaDir(remoteFileNameEx)
+          , FileUtils.removeFirstSlash(remoteDirectory.getFilePathFromJavaDir(remoteFileNameEx))
           , remoteFileNameEx);
     }
 
@@ -158,7 +153,9 @@ public class SourceDirectory extends Directory {
       codeLines.add(codeLine);
     }
 
-    FileUtils.writeFile(new File(sourceFullPathname), codeLines);
+    File sourceFile = new File(sourceFullPathname);
+    FileUtils.writeFile(sourceFile, codeLines);
+    fileMap.put(sourceFile.getName(), sourceFile.getPath().replaceAll("/" + sourceFile.getName(), ""));
 
     findDeclaredClasses(depth, remoteFile.getPath());
   }
@@ -188,7 +185,7 @@ public class SourceDirectory extends Directory {
     javap.extractClasses(pathname);
 
     javap.getInternalClassInfos().stream()
-        .filter(classInfo -> remoteDirectory.getRelativePathFromJavaDir(classInfo.getName() + Extension.JAVA.toString()) != null)
+        .filter(classInfo -> remoteDirectory.getFilePathFromJavaDir(classInfo.getName() + Extension.JAVA.toString()) != null)
         .filter(classInfo -> !isTransformed(classInfo))
         .forEach(classInfo -> {
           transformedClassInfos.add(classInfo);

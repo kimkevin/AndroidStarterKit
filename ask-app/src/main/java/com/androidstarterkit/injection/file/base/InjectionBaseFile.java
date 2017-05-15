@@ -12,8 +12,15 @@ public class InjectionBaseFile<T extends Config> extends File implements CodeGen
   protected List<String> codelines;
   protected List<T> configs;
 
-  public InjectionBaseFile(String pathname) {
-    super(pathname);
+  public InjectionBaseFile(String fullPathname) {
+    super(fullPathname);
+
+    codelines = FileUtils.readFileAsString(this);
+    configs = new ArrayList<>();
+  }
+
+  public InjectionBaseFile(String pathname, String filenameEx) {
+    super(pathname + "/" + filenameEx);
 
     codelines = FileUtils.readFileAsString(this);
     configs = new ArrayList<>();

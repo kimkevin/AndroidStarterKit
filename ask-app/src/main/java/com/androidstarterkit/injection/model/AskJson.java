@@ -78,4 +78,15 @@ public class AskJson {
     }
     return null;
   }
+
+  public boolean hasApplicationProperty(List<Module> inputModules) {
+    for (Module module : inputModules) {
+      for (JavaConfig javaConfig : module.getJavaConfigs()) {
+        if (javaConfig.getFileName().contains("<application>")) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 }

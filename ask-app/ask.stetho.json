@@ -1,0 +1,55 @@
+{
+  "moduleGroup": [
+    {
+      "name": "Stetho",
+      "config_file": null,
+      "page": "http://facebook.github.io/stetho",
+      "group_gradle_config": null,
+      "module": [
+        {
+          "class": null,
+          "command": [
+            "st", "stetho"
+          ],
+          "java_config": [
+            {
+              "path": "${javaDir}",
+              "file": "<application>.java",
+              "import": [ "import com.facebook.stetho.Stetho;" ],
+              "field": null,
+              "method": [
+                {
+                  "class": "<application>",
+                  "name": "onCreate",
+                  "annotation": [ "@Override" ],
+                  "access_modifier": "public",
+                  "return_type": "void",
+                  "parameter": null,
+                  "lines": [
+                    "Stetho.initializeWithDefaults(this);"
+                  ]
+                }
+              ]
+            }
+          ],
+          "gradle_config": [
+            {
+              "path": "${appDir}",
+              "file": "build.gradle",
+              "snippet": [
+                {
+                  "element": [
+                    "dependencies"
+                  ],
+                  "lines": [
+                    "compile 'com.facebook.stetho:stetho-okhttp3:1.5.0'"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -65,7 +65,7 @@ public class InjectionGradleFile extends InjectionBaseFile<GradleConfig> {
             }
 
             if (isFound) {
-              codelines.addAll(i + 1, SyntaxUtils.addIndentToCodeline(deduplicatedCodelines(snippet.getCodelines())
+              codelines.addAll(i + 1, SyntaxUtils.appendIndentForPrefix(deduplicatedCodelines(snippet.getCodelines())
                   , snippet.getElements().size()));
               break;
             }

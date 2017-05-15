@@ -1,6 +1,7 @@
 package com.androidstarterkit;
 
 import com.androidstarterkit.android.api.Extension;
+import com.androidstarterkit.android.api.resource.AttributeContraints;
 import com.androidstarterkit.command.CommandParser;
 import com.androidstarterkit.command.TabType;
 import com.androidstarterkit.config.AskConfig;
@@ -48,10 +49,6 @@ public class Ask {
     final List<String> layoutCommands = commandParser.getLayoutCommands();
     final List<String> moduleCommands = commandParser.getModuleCommands();
 
-    if (layoutCommands.size() <= 0) {
-      layoutCommands.add("sv");
-    }
-
     /*
       * initialize Modules
       *
@@ -62,7 +59,7 @@ public class Ask {
     if (output == AskConfig.OUTPUT_ASK_SAMPLE && projectPath == null) {
       projectPath = FileUtils.getRootPath();
       sourceModuleName = AskConfig.DEFAULT_SAMPLE_MODULE_NAME;
-    } else  {
+    } else {
       if (output == AskConfig.OUTPUT_PROJECT && projectPath == null) {
         File sampleDirectory = new File(FileUtils.getRootPath() + "/ask-app/AndroidProject");
         File outputDirectory = new File(FileUtils.getRootPath() + "/output/AndroidProject");
@@ -106,27 +103,23 @@ public class Ask {
         .map(askJson::getLayoutGroupByCommand)
         .collect(Collectors.toList()));
 
-    // Change remote repository by layout option
-    remoteDirectory.changeMainFragmentByTabType(tabType, layoutGroups);
-    remoteDirectory.injectLayoutModulesToFragment(layoutGroups);
+    if (layoutGroups.size() > 0) {
+      // Change remote repository by layout option
+      remoteDirectory.changeMainFragmentByTabType(tabType, layoutGroups);
+      remoteDirectory.injectLayoutModulesToFragment(layoutGroups);
 
-    // Build remote repository
-    ExecuteShellComand.executeAssemble(FileUtils.getRootPath() + "/assembleModule.sh " + AskConfig.DEFAULT_REMOTE_MODULE_NAME, true);
-    System.out.println();
+      // Build remote repository
+      ExecuteShellComand.executeAssemble(FileUtils.getRootPath() + "/assembleModule.sh " + AskConfig.DEFAULT_REMOTE_MODULE_NAME, true);
+      System.out.println();
 
-    // Transform files to source repository
-    System.out.println("Layout is loading...");
-    sourceDirectory.transformAndroidManifest();
-    sourceDirectory.takeFileFromRemote(remoteDirectory.getMainActivity(), 0);
+      // Transform files to source repository
+      System.out.println("Layout is loading...");
+      sourceDirectory.transformAndroidManifest();
+      sourceDirectory.takeFileFromRemote(remoteDirectory.getMainActivity(), 0);
 
-    // Recover remote repository
-    remoteDirectory.recover();
-
-    ModuleLoader moduleLoader = new ModuleLoader();
-    moduleLoader.addCodeGenerator(sourceDirectory.getProjectBuildGradle());
-    moduleLoader.addCodeGenerator(sourceDirectory.getAppBuildGradleFile());
-    moduleLoader.addCodeGenerator(sourceDirectory.getProguardRules());
-    moduleLoader.addCodeGenerator(sourceDirectory.getMainActivity());
+      // Recover remote repository
+      remoteDirectory.recover();
+    }
 
     // Transform modules
     List<Module> modules = new ArrayList<>();
@@ -134,14 +127,44 @@ public class Ask {
         .map(askJson::getModuleByCommand)
         .collect(Collectors.toList()));
 
-    if (modules.size() > 0) {
-      System.out.println("\nModule is loading...");
+    if (modules.size() <= 0) {
+      return;
     }
 
+    ModuleLoader moduleLoader = new ModuleLoader();
+    moduleLoader.addCodeGenerator(sourceDirectory.getProjectBuildGradle());
+    moduleLoader.addCodeGenerator(sourceDirectory.getAppBuildGradleFile());
+    moduleLoader.addCodeGenerator(sourceDirectory.getProguardRules());
+    moduleLoader.addCodeGenerator(sourceDirectory.getMainActivity());
+
+    if (askJson.hasApplicationProperty(modules)) {
+      if (sourceDirectory.getApplication() == null) {
+        sourceDirectory.takeFileFromRemote(remoteDirectory.getApplication(), 0);
+
+        String applicationNameExt = remoteDirectory.getApplication().getName();
+
+        sourceDirectory.getAndroidManifestFile().addApplicationAttribute(AttributeContraints.NAME,
+            "." + remoteDirectory.getFilePathFromJavaDir(applicationNameExt).replaceAll("/", ".")
+                + FileUtils.removeExtension(applicationNameExt));
+        sourceDirectory.getAndroidManifestFile().writeDocument();
+      }
+      moduleLoader.addCodeGenerator(sourceDirectory.getApplication());
+
+      askJsonBuilder.addProperty("<application>", FileUtils.removeExtension(sourceDirectory.getApplication().getName()));
+      askJson = askJsonBuilder.build();
+
+      modules.clear();
+      modules.addAll(moduleCommands.stream()
+          .map(askJson::getModuleByCommand)
+          .collect(Collectors.toList()));
+    }
+
+    System.out.println("\nModule is loading...");
     for (Module module : modules) {
-      for (String className : module.getClassNames()) {
-        System.out.println(className + Extension.JAVA);
-        sourceDirectory.takeFileFromRemote(remoteDirectory.getChildFile(className + Extension.JAVA), 0);
+      if (module.getClassNames() != null) {
+        for (String className : module.getClassNames()) {
+          sourceDirectory.takeFileFromRemote(remoteDirectory.getChildFile(className + Extension.JAVA), 0);
+        }
       }
 
       moduleLoader.addJavaConfigs(module.getJavaConfigs());
@@ -153,7 +176,8 @@ public class Ask {
     for (String command : moduleCommands) {
       ModuleGroup moduleGroup = askJson.getModuleGroupByCommand(command);
 
-      if (!groupGradleConfigs.containsAll(moduleGroup.getGroupGradleConfigs())) {
+      if (moduleGroup.getGroupGradleConfigs() != null
+          && !groupGradleConfigs.containsAll(moduleGroup.getGroupGradleConfigs())) {
         groupGradleConfigs.addAll(moduleGroup.getGroupGradleConfigs());
       }
     }
@@ -174,10 +198,12 @@ public class Ask {
     }
 
     for (ModuleGroup moduleGroup : distinctModuleGroups) {
-      for (String filename : moduleGroup.getConfigFilenames()) {
-        File configFile = new File(sourceDirectory.getPath() + "/" + filename);
-        if (!configFile.exists()) {
-          System.out.println("warning: File " + filename + " is missing, download " + moduleGroup.getPage());
+      if (moduleGroup.getConfigFilenames() != null) {
+        for (String filename : moduleGroup.getConfigFilenames()) {
+          File configFile = new File(sourceDirectory.getPath() + "/" + filename);
+          if (!configFile.exists()) {
+            System.out.println("warning: File " + filename + " is missing, download " + moduleGroup.getPage());
+          }
         }
       }
     }

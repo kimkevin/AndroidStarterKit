@@ -23,22 +23,30 @@ public class SyntaxUtils {
     return codeLine.contains("</" + resourceTypeName) || codeLine.contains("/>");
   }
 
-  public static List<String> addIndentToCodeline(List<String> codelines, int indentCount) {
+  public static List<String> appendIndentForPrefix(List<String> codelines, int indentCount) {
     List<String> indentCodelines = new ArrayList<>();
 
     for (String codeline : codelines) {
-      indentCodelines.add(addIndentToCodeline(codeline, indentCount));
+      indentCodelines.add(appendIndentForPrefix(codeline, indentCount));
     }
 
     return indentCodelines;
   }
 
-  public static String addIndentToCodeline(String codeline, int indentCount) {
+  public static String appendIndentForPrefix(String codeline, int indentCount) {
     String indent = "";
     for (int i = 0; i < indentCount; i++) {
       indent += SyntaxConstraints.DEFAULT_INDENT;
     }
 
     return indent + codeline;
+  }
+
+  public static String createIndentAsString(int depth) {
+    String intent = "";
+    for (int i = 0; i < depth; i++) {
+      intent += "  ";
+    }
+    return intent;
   }
 }

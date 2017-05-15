@@ -37,7 +37,7 @@ public class RemoteDirectory extends Directory {
     sampleTabFragment = new SlidingTabFragment(getChildDirPath(SlidingTabFragment.FILE_NAME) + "/" + SlidingTabFragment.FILE_NAME);
   }
 
-  public String getRelativePathFromJavaDir(String key) {
+  public String getFilePathFromJavaDir(String key) {
     String applicationIdPath = FileUtils.changeDotToSlash(applicationId);
 
     int index;
@@ -48,7 +48,7 @@ public class RemoteDirectory extends Directory {
     }
 
     try {
-      return FileUtils.removeFirstSlash(getChildDirPath(key).substring(index).replace(applicationIdPath, ""));
+      return getChildDirPath(key).substring(index).replace(applicationIdPath, "");
     } catch (StringIndexOutOfBoundsException exception) {
       return getChildDirPath(key);
     }
@@ -128,10 +128,10 @@ public class RemoteDirectory extends Directory {
     List<String> importedClassStrings = new ArrayList<>();
     for (int i = 0, li = addedClassInfos.size(); i < li; i++) {
       String classname = addedClassInfos.get(i).getName();
-      if (getRelativePathFromJavaDir(classname + Extension.JAVA.toString()) != null) {
+      if (getFilePathFromJavaDir(classname + Extension.JAVA.toString()) != null) {
         String importedClassString = SyntaxConstraints.IDENTIFIER_IMPORT + " "
-            + applicationId + "."
-            + getRelativePathFromJavaDir(classname + Extension.JAVA.toString()).replaceAll("/", ".") + "."
+            + applicationId
+            + getFilePathFromJavaDir(classname + Extension.JAVA.toString()).replaceAll("/", ".") + "."
             + classname + ";";
         if (!importedClassStrings.contains(importedClassString)) {
           importedClassStrings.add(importedClassString);

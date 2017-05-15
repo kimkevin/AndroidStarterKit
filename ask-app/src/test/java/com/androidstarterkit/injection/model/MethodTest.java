@@ -7,6 +7,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class MethodTest {
   private String elementStr = "{\n" +
       "                  \"class\": \"<main>\",\n" +
@@ -27,11 +30,11 @@ public class MethodTest {
       "                  ]\n" +
       "                }";
 
-  private String expected =
-      "@Override\n"
-      + "protected void onCreate(Bundle savedInstanceState) {\n"
-      + "  super.onCreate(savedInstanceState);\n"
-      + "}\n";
+  private List<String> expected = Arrays.asList("", "@Override"
+          , "protected void onCreate(Bundle savedInstanceState) {"
+          , "  super.onCreate(savedInstanceState);"
+          , "  analytics = new FireBaseAnalytics(this, FirebaseAnalytics.getInstance(this));"
+          , "}");
 
   private Method method;
 
@@ -43,7 +46,7 @@ public class MethodTest {
 
   @Test
   public void createMethodAsStringTest() throws Exception {
-    Assert.assertNotNull(method.createMethodAsString());
-    Assert.assertEquals(expected, method.createMethodAsString());
+    Assert.assertNotNull(method.createMethodAsString(0));
+    Assert.assertEquals(expected, method.createMethodAsString(0));
   }
 }
