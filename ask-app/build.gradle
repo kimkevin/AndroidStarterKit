@@ -1,5 +1,7 @@
 apply plugin: 'java'
 
+version = '0.9.7'
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
@@ -7,12 +9,17 @@ dependencies {
 }
 
 task deleteJar(type: Delete) {
-    delete 'build/libs/ask-app.jar'
+    delete "libs/ask.jar"
+
+    delete fileTree('build/libs') {
+        include '**/*.jar'
+    }
 }
 
 task createJar(type: Copy) {
-    from('build/libs/')
-    into('libs')
+    from("build/libs/ask-app-${version}.jar")
+    into("libs/")
+    rename("ask-app-${version}.jar", 'ask.jar')
 }
 
 tasks.findByName('build').mustRunAfter 'deleteJar'

@@ -207,7 +207,7 @@ public class Ask {
     moduleLoader.addManifestConfigs(groupManifestConfigs);
     moduleLoader.generateCode();
 
-    System.out.println("\nProject path: " + sourceDirectory.getPath() + "\n");
+    System.out.println("\nProject path: " + sourceDirectory.getParentFile().getPath() + "\n");
 
     // Check config file and show warning
     List<ModuleGroup> distinctModuleGroups = new ArrayList<>();

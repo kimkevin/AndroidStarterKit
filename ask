@@ -22,7 +22,7 @@ showprogress() {
 }
 
 APP_HOME=`dirname "$0"`
-JAR_PATH=$APP_HOME/ask-app/libs/ask-app.jar
+JAR_PATH=$APP_HOME/ask-app/libs/ask.jar
 
 cd "$APP_HOME" >/dev/null
 
@@ -53,7 +53,7 @@ Please set the JAVA_HOME variable in your environment to match the
 location of your Java installation."
 fi
 
-CLASSPATH=$APP_HOME/ask-app/libs/ask-app.jar:$APP_HOME/ask-app/libs/gson-2.7.jar
+CLASSPATH=$APP_HOME/ask-app/libs/ask.jar:$APP_HOME/ask-app/libs/gson-2.7.jar
 
 exec "$JAVACMD" -cp "$CLASSPATH" com.androidstarterkit.Ask "$@"
 
