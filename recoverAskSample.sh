@@ -26,4 +26,6 @@ cp ask-sample.bak/projectFiles/build.gradle build.gradle
 
 #rm -rf ask-sample/google-services.json
 
+rm -rf output
+
 echo 'Success to recover sample project'

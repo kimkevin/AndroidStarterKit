@@ -14,7 +14,7 @@ $ git clone git@github.com:kimkevin/AndroidStarterKit.git
 $ cd AndroidStarterKit
 
 # Add new path
-$ echo 'export PATH=$PATH:/path/to/AndroidStarterKit'
+$ export PATH=$PATH:$(pwd) >> ~/.bash_profile
 ```
 
 For example, the following command generate the Android project of the following path which included in the GridView and RecyclerView for layouts and the Firebase Analytics and Crash Reporting. Use the following command to do so:
