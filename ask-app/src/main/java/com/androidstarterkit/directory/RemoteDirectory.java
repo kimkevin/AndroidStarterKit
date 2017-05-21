@@ -111,7 +111,7 @@ public class RemoteDirectory extends Directory {
 
         String layoutCodeline = "";
 
-        final String intent = FileUtils.getIndentOfLine(codeline);
+        final String intent = FileUtils.extractIndentInLine(codeline);
 
         for (LayoutGroup layoutGroup : layoutGroups) {
           layoutCodeline += intent + ADD_FRAGMENT_TO_LIST_STRING.replace(SyntaxConstraints.REPLACE_STRING, layoutGroup.getClassName()) + "\n";

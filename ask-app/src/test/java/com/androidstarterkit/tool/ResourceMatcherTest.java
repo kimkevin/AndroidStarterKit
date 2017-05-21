@@ -38,7 +38,7 @@ public class ResourceMatcherTest {
 
     @Test
     public void testJavaValueMatcher() throws Exception {
-        String codeLine = "editTextView.setText(getString(R.string.title));" +
+        String codeLine = "editTextView.setText(toString(R.string.title));" +
                 "imageView.getLayoutParam().width = getResource().getDimen(R.dimen.width);";
 
         ResourceMatcher matcher = new ResourceMatcher(codeLine, RES_VALUE_IN_JAVA);

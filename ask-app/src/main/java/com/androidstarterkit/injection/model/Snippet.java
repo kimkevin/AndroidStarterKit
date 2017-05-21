@@ -28,6 +28,9 @@ public class Snippet {
   }
 
   public List<String> getElements() {
+    if (elements == null) {
+      elements = new ArrayList<>();
+    }
     return elements;
   }
 

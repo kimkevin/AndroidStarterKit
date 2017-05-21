@@ -49,11 +49,4 @@ public class JavaLineScannerTest {
     assertEquals(12, javaLineScanner.getCloseBracketIndex(CLASS_SAMPLE_1));
     assertEquals(12, javaLineScanner.getCloseBracketIndex(CLASS_SAMPLE_2));
   }
-
-  @Test
-  public void replaceCommentTest() throws Exception {
-    javaLineScanner = new JavaLineScanner();
-    assertEquals("", javaLineScanner.replaceComment("// comment blah blah }"));
-    assertEquals("}", javaLineScanner.replaceComment("} // comment blah blah }").trim());
-  }
 }

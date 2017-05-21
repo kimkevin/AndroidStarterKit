@@ -41,7 +41,7 @@ public class AskJsonBuilder {
     for (File jsonFile : jsonFiles) {
       try {
         List<String> codelines = Files.readAllLines(Paths.get(jsonFile.getPath()), Charset.defaultCharset());
-        AskJson newAskJson = gson.fromJson(FileUtils.convertListStringToString(propertyLineConverter.replace(codelines))
+        AskJson newAskJson = gson.fromJson(FileUtils.toString(propertyLineConverter.replace(codelines))
             , AskJson.class);
 
         if (askJson == null) {

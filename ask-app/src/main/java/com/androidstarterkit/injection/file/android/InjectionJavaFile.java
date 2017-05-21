@@ -22,10 +22,6 @@ public class InjectionJavaFile extends InjectionBaseFile<JavaConfig> {
     super(fullPathname);
   }
 
-  public InjectionJavaFile(String pathname, String filenameEx) {
-    super(pathname, filenameEx);
-  }
-
   @Override
   public void apply() {
     for (JavaConfig config : configs) {
@@ -39,7 +35,7 @@ public class InjectionJavaFile extends InjectionBaseFile<JavaConfig> {
 
         String classIndent = "";
         if (config.getFileName().equalsIgnoreCase(matchedClass(codeline)) && config.getFields() != null) {
-          classIndent = FileUtils.getIndentOfLine(codeline);
+          classIndent = FileUtils.extractIndentInLine(codeline);
           for (String field : config.getFields()) {
             iterator.add(classIndent + SyntaxConstraints.DEFAULT_INDENT + field);
           }

@@ -41,10 +41,12 @@
             <li><a href="#introduction">Introduction</a></li>
             <li><a href="#layout">Layout</a></li>
             <li>
-              <a href="#module">Module</a>
+              <a href="#tool">Tool</a>
               <ul class="nav nav-stacked">
                 <li><a href="#firebase">Firebase</a></li>
+                <li><a href="#fabric">Fabric</a></li>
                 <li><a href="#stetho">Stetho</a></li>
+                <li><a href="#leakcanary">LeakCanary</a></li>
               </ul>
             </li>
             <li><a href="#contributing">Contributing</a></li>
@@ -72,12 +74,12 @@ $ echo 'export PATH=$PATH:/path/to/AndroidStarterKit/ask-app/build/classes/main'
             and <strong>Crash Reporting</strong>.
             Use the following command to do so:</p>
 
-          <pre><code calss="bash">$ ask -l gv,rv -m fa,fc /path/to/android/project</code></pre>
+          <pre><code calss="bash">$ ask -l gv,rv -t fa,fc /path/to/android/project</code></pre>
 
           <p>If the command-line doesn’t have the project path for [dir] option, the new project will created in an
             output folder.</p>
 
-          <pre><code calss="bash">$ ask -l gv,rv -m fa,fc</code></pre>
+          <pre><code calss="bash">$ ask -l gv,rv -t fa,fc</code></pre>
 
           <p>Sync it with Gradle and run it.</p>
 
@@ -97,7 +99,7 @@ Options:
                           defaults to ScrollView
   -i, --icon              tab icon instead of text more than 2 views
 
-  -m, —-module &lt;lib&gt;...   add &lt;lib&gt; support: fa(FirebaseAnalytics), fc(FirebaseCrashReporting)
+  -t, —-tool &lt;lib&gt;...   add &lt;lib&gt; support: fa(FirebaseAnalytics), fc(FirebaseCrashReporting)
 
   -h, --help              output usage information</code></pre>
         </section>
@@ -127,13 +129,13 @@ Options:
 
         </section>
 
-        <section id="module">
-          <h1 class="h1-header">Module - Third Party Support</h1>
+        <section id="tool">
+          <h1 class="h1-header">Tool - Third Party Support</h1>
 
-          <p>Module option offers some useful tools to help manage your project fast and easily such as Firebase. Use
+          <p>Tool option offers some useful tools to help manage your project fast and easily such as Firebase. Use
             the following command to do so.</p>
 
-          <pre><code class="bash">$ ask -m &lt;lib&gt;... /path/to/android/project</code></pre>
+          <pre><code class="bash">$ ask -t &lt;lib&gt;... /path/to/android/project</code></pre>
 
           <div id="firebase">
             <h2 class="module-header">Firebase</h2>
@@ -148,7 +150,7 @@ Options:
               file and copy it into your project&#8217;s application module folder. <a
                   href="https://firebase.goo[gle.com/docs/android/setup">For more details</a></p>
 
-            <p>Firebase Console Result:</p>
+            <p>Firebase Console :</p>
 
             <div class="row">
               <div class="col-xs-6">
@@ -170,18 +172,72 @@ Options:
             </div>
 
             <h2>Available Firebase commands</h2>
-            <h3><code>ask -m fa</code> or <code>FirebaseAnalytics</code></h3>
-
-            <p><a href="https://firebase.google.com/docs/analytics/" title="Firebase Analytics Docs">Firebase
+            <h3><code>ask -t fa</code> or <code>FirebaseAnalytics</code></h3>
+            <blockquote><a href="https://firebase.google.com/docs/analytics/" title="Firebase Analytics Docs">Firebase
               Analytics</a> is a free app measurement solution that provides insight on app usage and user
-              engagement.</p>
-            <h3><code>ask -m fc</code> or <code>FirebaseCrashreporting</code></h3>
-            <p><a href="https://firebase.google.com/docs/crash/" title="Firebase Crash Reporting Docs">Crash
-              Reporting</a> creates detailed reports of the errors in your app.</p>
+              engagement.
+            </blockquote>
 
-            <h2>If you want to use the multiple modules</h2>
-            <h3><code>ask -m fa,fc</code> (Analytics, Crash Report)</h3>
+            <h3><code>ask -t fc</code> or <code>FirebaseCrashreporting</code></h3>
+            <blockquote><a href="https://firebase.google.com/docs/crash/" title="Firebase Crash Reporting Docs">Crash
+              Reporting</a> creates detailed reports of the errors in your app.
+            </blockquote>
 
+            <h2>If you want to use the multiple tools</h2>
+            <h3><code>ask -t fa,fc</code> (Analytics, Crash Report)</h3>
+
+          </div>
+
+          <div id="fabric">
+            <h2 class="module-header">Fabric</h2>
+
+            <blockquote>Fabric is a platform that helps your mobile team build better apps, understand your users, and
+              grow your business.
+            </blockquote>
+
+            <p>Create new project to add <a href="https://www.fabric.io/settings/apps">Fabric console</a> to your
+              Android application. If you are using the Android Studio or IntelliJ for development environment, install
+              <a href="https://fabric.io/downloads/android">Fabric IDE plugin</a>. <a href="https://fabric.io/kits">For
+                more details</a></p>
+
+            <p>Fabric Console :</p>
+
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="module-thumb">
+                  <a target="_blank" href="assets/fabric_answers.png">
+                    <img src="assets/fabric_answers.png" alt="Fabric Answers">
+                  </a>
+                  <div class="desc">Answers</div>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="module-thumb">
+                  <a target="_blank" href="assets/fabric_crashlytics.png">
+                    <img src="assets/fabric_crashlytics.png" alt="Fabric Crashlytics">
+                  </a>
+                  <div class="desc">Crashlytics</div>
+                </div>
+              </div>
+            </div>
+
+            <h2>Available Fabric commands</h2>
+            <h3><code>ask -t an</code> or <code>Answers</code></h3>
+
+            <blockquote><a href="https://fabric.io/kits/android/answers/summary"
+                           title="Fabric Answers Summary">Answers</a> is
+              Fabric’s mobile analytics SDK. With one click, you can enable real-time analytics that help you understand
+              what's happening in your app. Fabric provides insights into your core goals, such as growth, retention,
+              and engagement
+            </blockquote>
+
+            <h3><code>ask -t cr</code> or <code>Crashlytics</code></h3>
+            <blockquote><a href="https://fabric.io/kits/android/crashlytics/summary" title="Fabric Crashlytics Summary">Fabric
+              Crashlytics</a> is the most powerful, yet lightest weight crash reporting solution.
+            </blockquote>
+
+            <h2>If you want to use the multiple tools</h2>
+            <h3><code>ask -t an,cr</code> (Answers, Crashlytics)</h3>
           </div>
 
           <div id="stetho">
@@ -214,11 +270,34 @@ Options:
             </div>
 
             <h2>Features</h2>
-            <p><strong>Chrome DevTools</strong> provides the navigation to chrome://inspect, <strong>Network Inspection</strong>, <strong>Database Inspection</strong>,
+            <p><strong>Chrome DevTools</strong> provides the navigation to chrome://inspect, <strong>Network
+              Inspection</strong>, <strong>Database Inspection</strong>,
               <strong>View Hierarchy</strong>, <strong>Dumpapp</strong>, and <strong>Javascript Console</strong>.</p>
 
-            <h2 class="subtitle">Available Stetho commands</h2>
-            <h3><code>ask -m st</code> or <code>Stetho</code></h3>
+            <h2 class="subtitle">Available commands</h2>
+            <h3><code>ask -t st</code> or <code>Stetho</code></h3>
+          </div>
+
+          <div id="leakcanary">
+            <h2 class="module-header">LeakCanary</h2>
+
+            <blockquote><a href="https://github.com/square/leakcanary">LeakCanary</a> will automatically show a
+              notification when an activity memory leak is detected in your debug build.
+            </blockquote>
+
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="module-thumb">
+                  <a target="_blank" href="assets/leakcanary.png">
+                    <img src="assets/leakcanary.png" alt="Leak Canary">
+                  </a>
+                  <div class="desc">LeakCanary</div>
+                </div>
+              </div>
+            </div>
+
+            <h2 class="subtitle">Available commands</h2>
+            <h3><code>ask -t lc</code> or <code>Leakcanary</code></h3>
           </div>
         </section>
 

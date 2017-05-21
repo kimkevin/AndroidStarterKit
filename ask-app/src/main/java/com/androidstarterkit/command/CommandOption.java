@@ -7,6 +7,6 @@ class CommandOption {
   static String ICON_LONG_KEY = "--icon";
   static String LAYOUT_KEY = "-l";
   static String LAYOUT_LONG_KEY = "--layout";
-  static String MODULE_KEY = "-m";
-  static String MODULE_LONG_KEY = "--module";
+  static String TOOL_KEY = "-t";
+  static String TOOL_LONG_KEY = "--tool";
 }

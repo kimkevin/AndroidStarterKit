@@ -8,6 +8,6 @@ public class AskConfig {
   public static final int DEVELOPMENT = 0;
   public static final int PRODUCTION = 1;
 
-  public static final int OUTPUT_PROJECT = 0;
-  public static final int OUTPUT_ASK_SAMPLE = 1;
+  public static final int OUTPUT_PROD_PROJECT = 0;
+  public static final int OUTPUT_DEV_ASK_SAMPLE = 1;
 }

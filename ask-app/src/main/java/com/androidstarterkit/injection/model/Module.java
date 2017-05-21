@@ -12,6 +12,9 @@ public class Module {
   @SerializedName("command")
   private List<String> commands;
 
+  @SerializedName("manifest_config")
+  private List<ManifestConfig> manifestConfigs;
+
   @SerializedName("java_config")
   private List<JavaConfig> javaConfigs;
 
@@ -28,6 +31,10 @@ public class Module {
 
   public List<String> getNames() {
     return names;
+  }
+
+  public List<ManifestConfig> getManifestConfigs() {
+    return manifestConfigs;
   }
 
   public List<JavaConfig> getJavaConfigs() {
@@ -47,6 +54,7 @@ public class Module {
     return "Module{" +
         "names=" + names +
         ", commands=" + commands +
+        ", manifestConfigs=" + manifestConfigs +
         ", javaConfigs=" + javaConfigs +
         ", gradleConfigs=" + gradleConfigs +
         '}';

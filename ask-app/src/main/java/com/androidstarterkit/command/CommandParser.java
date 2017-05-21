@@ -36,7 +36,7 @@ public class CommandParser {
         } else {
           throw new CommandException(CommandException.INVALID_WIDGET);
         }
-      } else if (key.contains(CommandOption.MODULE_KEY) || key.contains(CommandOption.MODULE_LONG_KEY)) {
+      } else if (key.contains(CommandOption.TOOL_KEY) || key.contains(CommandOption.TOOL_LONG_KEY)) {
         if (i + 1 < li && !isCommand(args[++i])) {
           modules = Arrays.asList(args[i].split(","));
         } else {

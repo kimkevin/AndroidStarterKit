@@ -15,6 +15,6 @@ public class AskTest {
 
   @Test
   public void outputTest() throws Exception {
-    assertEquals(Ask.output, AskConfig.OUTPUT_PROJECT);
+    assertEquals(Ask.output, AskConfig.OUTPUT_PROD_PROJECT);
   }
 }

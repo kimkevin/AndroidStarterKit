@@ -19,13 +19,6 @@ public class InjectionBaseFile<T extends Config> extends File implements CodeGen
     configs = new ArrayList<>();
   }
 
-  public InjectionBaseFile(String pathname, String filenameEx) {
-    super(pathname + "/" + filenameEx);
-
-    codelines = FileUtils.readFileAsString(this);
-    configs = new ArrayList<>();
-  }
-
   public List<String> getCodelines() {
     return codelines;
   }
@@ -76,25 +69,6 @@ public class InjectionBaseFile<T extends Config> extends File implements CodeGen
   @Override
   public void apply() {
     FileUtils.writeFile(this, codelines);
-  }
-
-  protected List<String> deduplicatedCodelines(List<String> codelines) {
-    List<String> result = new ArrayList<>();
-    for (String codeline : codelines) {
-      if (!isDuplicatedCodeline(codeline)) {
-        result.add(codeline);
-      }
-    }
-    return result;
-  }
-
-  private boolean isDuplicatedCodeline(String newCodeline) {
-    for (String codeline : codelines) {
-      if (codeline.trim().equals(newCodeline)) {
-        return true;
-      }
-    }
-    return false;
   }
 
   public void print() {

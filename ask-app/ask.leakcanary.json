@@ -1,0 +1,62 @@
+{
+  "moduleGroup": [
+    {
+      "name": "Leak Canary",
+      "config_file": null,
+      "page": "https://github.com/square/leakcanary",
+      "group_gradle_config": null,
+      "module": [
+        {
+          "class": null,
+          "command": [
+            "lc", "LeakCanary"
+          ],
+          "java_config": [
+            {
+              "path": "${javaDir}",
+              "file": "<application>.java",
+              "import": [ "import com.squareup.leakcanary.LeakCanary;" ],
+              "field": null,
+              "method": [
+                {
+                  "class": "<application>",
+                  "name": "onCreate",
+                  "annotation": [ "@Override" ],
+                  "access_modifier": "public",
+                  "return_type": "void",
+                  "parameter": null,
+                  "lines": [
+                    "if (LeakCanary.isInAnalyzerProcess(this)) {",
+                    "  // This process is dedicated to LeakCanary for heap analysis.",
+                    "  // You should not init your app in this process.",
+                    "  return;",
+                    "}",
+                    "LeakCanary.install(this);"
+                  ]
+                }
+              ]
+            }
+          ],
+          "gradle_config": [
+            {
+              "path": "${appDir}",
+              "file": "build.gradle",
+              "snippet": [
+                {
+                  "element": [
+                    "dependencies"
+                  ],
+                  "lines": [
+                    "debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'",
+                    "releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'",
+                    "testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

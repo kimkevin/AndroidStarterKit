@@ -68,6 +68,7 @@ public class Directory extends File {
         if (valueObject == null) {
           fileMap.put(file.getName(), pathname);
         } else {
+          System.out.println(valueObject.toString());
           String savedValue = (String) valueObject;
           List<String> values = new ArrayList<>();
           values.add(savedValue);

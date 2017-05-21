@@ -12,11 +12,17 @@ public class ModuleGroup {
   @SerializedName("config_file")
   private List<String> configFilenames;
 
+  @SerializedName("alert_message")
+  private String alertMessage;
+
   @SerializedName("page")
   private String page;
 
   @SerializedName("group_gradle_config")
   private List<GradleConfig> groupGradleConfigs;
+
+  @SerializedName("manifest_gradle_config")
+  private List<ManifestConfig> groupManifestConfigs;
 
   @SerializedName("module")
   private List<Module> modules;
@@ -29,12 +35,20 @@ public class ModuleGroup {
     return configFilenames;
   }
 
+  public String getAlertMessage() {
+    return alertMessage;
+  }
+
   public String getPage() {
     return page;
   }
 
   public List<GradleConfig> getGroupGradleConfigs() {
     return groupGradleConfigs;
+  }
+
+  public List<ManifestConfig> getGroupManifestConfigs() {
+    return groupManifestConfigs;
   }
 
   public List<Module> getModules() {

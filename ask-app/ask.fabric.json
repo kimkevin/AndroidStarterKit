@@ -1,0 +1,194 @@
+{
+  "moduleGroup": [
+    {
+      "name": "Fabric",
+      "config_file": null,
+      "alert_message": "Insert API key to AndroidManifest.xml",
+      "page": "https://www.fabric.io",
+      "group_gradle_config": [
+        {
+          "path": "${appDir}",
+          "file": "build.gradle",
+          "snippet": [
+            {
+              "element": [
+                "buildscript", "repositories"
+              ],
+              "lines": [
+                "maven { ",
+                "  url 'https://maven.fabric.io/public'",
+                "}"
+              ]
+            },
+            {
+              "element": [
+                "buildscript", "dependencies"
+              ],
+              "lines": [
+                "classpath 'io.fabric.tools:gradle:1.+'"
+              ]
+            },
+            {
+              "element": null,
+              "lines": [
+                "apply plugin: 'io.fabric'"
+              ]
+            },
+            {
+              "element": [
+                "repositories"
+              ],
+              "lines": [
+                "maven {",
+                "  url 'https://maven.fabric.io/public'",
+                "}"
+              ]
+            }
+          ]
+        }
+      ],
+      "manifest_gradle_config": [
+        {
+          "path": "${mainDir}",
+          "file": "AndroidManifest.xml",
+          "element": [
+            {
+              "node": [
+                "manifest",
+                "uses-permission"
+              ],
+              "attribute": {
+                "android:name": "android.permission.INTERNET"
+              }
+            },
+            {
+              "node": [
+                "manifest",
+                "application",
+                "meta-data"
+              ],
+              "attribute": {
+                "android:name": "io.fabric.ApiKey",
+                "android:value": "API_KEY"
+              }
+            }
+          ]
+        }
+      ],
+      "module": [
+        {
+          "class": null,
+          "command": [
+            "an", "Answers"
+          ],
+          "manifest_config": null,
+          "java_config": [
+            {
+              "path": "${javaDir}",
+              "file": "<main>.java",
+              "import": [
+                "import com.crashlytics.android.answers.Answers;",
+                "import io.fabric.sdk.android.Fabric;"
+              ],
+              "field": null,
+              "method": [
+                {
+                  "class": "<main>",
+                  "name": "onCreate",
+                  "annotation": [
+                    "@Override"
+                  ],
+                  "access_modifier": "protected",
+                  "return_type": "void",
+                  "parameter": [
+                    {
+                      "type": "Bundle",
+                      "variable": "savedInstanceState"
+                    }
+                  ],
+                  "lines": [
+                    "Fabric.with(this, new Answers());"
+                  ]
+                }
+              ]
+            }
+          ],
+          "gradle_config": [
+            {
+              "path": "${appDir}",
+              "file": "build.gradle",
+              "snippet": [
+                {
+                  "element": [
+                    "dependencies"
+                  ],
+                  "lines": [
+                    "compile('com.crashlytics.sdk.android:answers:1.3.13@aar') {",
+                    "  transitive = true;",
+                    "}"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "class": null,
+          "command": [
+            "cr", "Crashlytics"
+          ],
+          "manifest_config": null,
+          "java_config": [
+            {
+              "path": "${javaDir}",
+              "file": "<main>.java",
+              "import": [
+                "import com.crashlytics.android.Crashlytics;",
+                "import io.fabric.sdk.android.Fabric;"
+              ],
+              "field": null,
+              "method": [
+                {
+                  "class": "<main>",
+                  "name": "onCreate",
+                  "annotation": [
+                    "@Override"
+                  ],
+                  "access_modifier": "protected",
+                  "return_type": "void",
+                  "parameter": [
+                    {
+                      "type": "Bundle",
+                      "variable": "savedInstanceState"
+                    }
+                  ],
+                  "lines": [
+                    "Fabric.with(this, new Crashlytics());"
+                  ]
+                }
+              ]
+            }
+          ],
+          "gradle_config": [
+            {
+              "path": "${appDir}",
+              "file": "build.gradle",
+              "snippet": [
+                {
+                  "element": [
+                    "dependencies"
+                  ],
+                  "lines": [
+                    "compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {",
+                    "  transitive = true;",
+                    "}"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

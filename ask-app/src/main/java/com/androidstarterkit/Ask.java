@@ -14,6 +14,7 @@ import com.androidstarterkit.injection.ModuleLoader;
 import com.androidstarterkit.injection.model.AskJson;
 import com.androidstarterkit.injection.model.GradleConfig;
 import com.androidstarterkit.injection.model.LayoutGroup;
+import com.androidstarterkit.injection.model.ManifestConfig;
 import com.androidstarterkit.injection.model.Module;
 import com.androidstarterkit.injection.model.ModuleGroup;
 import com.androidstarterkit.tool.ExecuteShellComand;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 
 public class Ask {
   static final int env = AskConfig.PRODUCTION;
-  static final int output = AskConfig.OUTPUT_PROJECT;
+  static final int output = AskConfig.OUTPUT_PROD_PROJECT;
 
   public static void main(String[] args) {
     CommandParser commandParser;
@@ -43,24 +44,21 @@ public class Ask {
       return;
     }
 
-    // initialize CommandParser
     String projectPath = commandParser.getPath();
     final TabType tabType = commandParser.getTabType();
     final List<String> layoutCommands = commandParser.getLayoutCommands();
     final List<String> moduleCommands = commandParser.getModuleCommands();
 
     /*
-      * initialize Modules
-      *
-      * AskConfig.OUTPUT_PROJECT : output is project
-      * AskConfig.OUTPUT_ASK_SAMPLE : output is ask-sample
+      * AskConfig.OUTPUT_PROD_PROJECT : output is project
+      * AskConfig.OUTPUT_DEV_ASK_SAMPLE : output is ask-sample
       */
     String sourceModuleName;
-    if (output == AskConfig.OUTPUT_ASK_SAMPLE && projectPath == null) {
+    if (output == AskConfig.OUTPUT_DEV_ASK_SAMPLE && projectPath == null) {
       projectPath = FileUtils.getRootPath();
       sourceModuleName = AskConfig.DEFAULT_SAMPLE_MODULE_NAME;
     } else {
-      if (output == AskConfig.OUTPUT_PROJECT && projectPath == null) {
+      if (output == AskConfig.OUTPUT_PROD_PROJECT && projectPath == null) {
         File sampleDirectory = new File(FileUtils.getRootPath() + "/ask-app/AndroidProject");
         File outputDirectory = new File(FileUtils.getRootPath() + "/output/AndroidProject");
 
@@ -93,6 +91,7 @@ public class Ask {
     askJsonBuilder.addProperty("\\$\\{projectDir\\}", FileUtils.getRootPath());
     askJsonBuilder.addProperty("\\$\\{appDir\\}", sourceDirectory.getPath());
     askJsonBuilder.addProperty("\\$\\{javaDir\\}", sourceDirectory.getJavaPath());
+    askJsonBuilder.addProperty("\\$\\{mainDir\\}", sourceDirectory.getMainPath());
     askJsonBuilder.addProperty("<main>", sourceDirectory.getMainActivityName());
     askJsonBuilder.addProperty("<package>", sourceDirectory.getApplicationId());
     AskJson askJson = askJsonBuilder.build();
@@ -135,6 +134,7 @@ public class Ask {
     moduleLoader.addCodeGenerator(sourceDirectory.getProjectBuildGradle());
     moduleLoader.addCodeGenerator(sourceDirectory.getAppBuildGradleFile());
     moduleLoader.addCodeGenerator(sourceDirectory.getProguardRules());
+    moduleLoader.addCodeGenerator(sourceDirectory.getAndroidManifestFile());
     moduleLoader.addCodeGenerator(sourceDirectory.getMainActivity());
 
     if (askJson.hasApplicationProperty(modules)) {
@@ -146,7 +146,7 @@ public class Ask {
         sourceDirectory.getAndroidManifestFile().addApplicationAttribute(AttributeContraints.NAME,
             "." + remoteDirectory.getFilePathFromJavaDir(applicationNameExt).replaceAll("/", ".")
                 + FileUtils.removeExtension(applicationNameExt));
-        sourceDirectory.getAndroidManifestFile().writeDocument();
+        sourceDirectory.getAndroidManifestFile().apply();
       }
       moduleLoader.addCodeGenerator(sourceDirectory.getApplication());
 
@@ -167,12 +167,15 @@ public class Ask {
         }
       }
 
+      moduleLoader.addManifestConfigs(module.getManifestConfigs());
       moduleLoader.addJavaConfigs(module.getJavaConfigs());
       moduleLoader.addGradleConfigs(module.getGradleConfigs());
     }
 
     // Add group configs
     List<GradleConfig> groupGradleConfigs = new ArrayList<>();
+    List<ManifestConfig> groupManifestConfigs = new ArrayList<>();
+    List<String> alertMessages = new ArrayList<>();
     for (String command : moduleCommands) {
       ModuleGroup moduleGroup = askJson.getModuleGroupByCommand(command);
 
@@ -180,9 +183,28 @@ public class Ask {
           && !groupGradleConfigs.containsAll(moduleGroup.getGroupGradleConfigs())) {
         groupGradleConfigs.addAll(moduleGroup.getGroupGradleConfigs());
       }
+
+      if (moduleGroup.getGroupManifestConfigs() != null
+          && !groupManifestConfigs.containsAll(moduleGroup.getGroupManifestConfigs())) {
+        groupManifestConfigs.addAll(moduleGroup.getGroupManifestConfigs());
+      }
+
+      if (moduleGroup.getAlertMessage() != null) {
+        if (!alertMessages.contains(moduleGroup.getAlertMessage())) {
+          alertMessages.add(moduleGroup.getAlertMessage());
+        }
+      }
+    }
+
+    if (alertMessages.size() > 0) {
+      System.out.println();
+      for (String message : alertMessages) {
+        System.out.println("warning: " + message);
+      }
     }
 
     moduleLoader.addGradleConfigs(groupGradleConfigs);
+    moduleLoader.addManifestConfigs(groupManifestConfigs);
     moduleLoader.generateCode();
 
     System.out.println("\nProject path: " + sourceDirectory.getPath() + "\n");

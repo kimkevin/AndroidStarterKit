@@ -27,6 +27,7 @@ public class SourceDirectory extends Directory {
   private RemoteDirectory remoteDirectory;
 
   private String projectPathname;
+  private String mainPath;
   private String javaPath;
   private String resPath;
   private String layoutPath;
@@ -47,8 +48,9 @@ public class SourceDirectory extends Directory {
     resourceTransfer = new ResourceTransfer(this);
 
     // Source directory
-    javaPath = FileUtils.linkPathWithSlash(getPath(), "src/main/java", applicationId.replaceAll("\\.", "/"));
-    resPath = FileUtils.linkPathWithSlash(getPath(), "src/main/res");
+    mainPath = FileUtils.linkPathWithSlash(getPath(), "src/main");
+    javaPath = FileUtils.linkPathWithSlash(mainPath, "java", applicationId.replaceAll("\\.", "/"));
+    resPath = FileUtils.linkPathWithSlash(mainPath, "res");
     layoutPath = FileUtils.linkPathWithSlash(resPath, ResourceType.LAYOUT.toString());
   }
 
@@ -62,6 +64,10 @@ public class SourceDirectory extends Directory {
 
   public MainActivity getMainActivity() {
     return new MainActivity(getChildDirPath(getMainActivityExtName()), getMainActivityExtName());
+  }
+
+  public String getMainPath() {
+    return mainPath;
   }
 
   public String getJavaPath() {
@@ -81,11 +87,11 @@ public class SourceDirectory extends Directory {
 
     System.out.println(PrintUtils.prefixDash(0) + remoteAndroidManifestFile.getName());
 
-    Map<String, String> remoteActivityAttributes = remoteAndroidManifestFile.getActivityAttributes();
+    Map<String, String> remoteActivityAttributes = remoteAndroidManifestFile.getMainActivityAttributes();
     remoteActivityAttributes.keySet().stream()
         .filter(key -> !key.equals(AttributeContraints.NAME))
         .forEach(key -> {
-          androidManifestFile.addActivityAttribute(key, remoteActivityAttributes.get(key));
+          androidManifestFile.addMainActivityAttribute(key, remoteActivityAttributes.get(key));
 
           resourceTransfer.extractValuesInXml(remoteActivityAttributes.get(key)
               , (String resourceTypeName, String elementName) -> {
@@ -97,7 +103,7 @@ public class SourceDirectory extends Directory {
               });
         });
 
-    androidManifestFile.writeDocument();
+    androidManifestFile.apply();
   }
 
   public void takeFileFromRemote(File remoteFile, int depth) throws CommandException {
@@ -202,6 +208,8 @@ public class SourceDirectory extends Directory {
         }
       }
     });
+
+    androidManifestFile.apply();
   }
 
   private boolean isTransformed(ClassInfo classInfo) {

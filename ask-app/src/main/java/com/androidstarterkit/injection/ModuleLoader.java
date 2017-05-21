@@ -4,6 +4,7 @@ package com.androidstarterkit.injection;
 import com.androidstarterkit.injection.model.Config;
 import com.androidstarterkit.injection.model.GradleConfig;
 import com.androidstarterkit.injection.model.JavaConfig;
+import com.androidstarterkit.injection.model.ManifestConfig;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,12 +28,22 @@ public class ModuleLoader {
     }
   }
 
+  public void addManifestConfigs(List<ManifestConfig> configs) {
+    if (configs != null) {
+      configs.forEach(this::addConfig);
+    }
+  }
+
   public void addJavaConfigs(List<JavaConfig> configs) {
-    configs.forEach(this::addConfig);
+    if (configs != null) {
+      configs.forEach(this::addConfig);
+    }
   }
 
   public void addGradleConfigs(List<GradleConfig> configs) {
-    configs.forEach(this::addConfig);
+    if (configs != null) {
+      configs.forEach(this::addConfig);
+    }
   }
 
   private void addConfig(Config config) {

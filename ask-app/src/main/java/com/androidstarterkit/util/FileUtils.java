@@ -19,11 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FileUtils {
-  /**
-   * Get root path in this project
-   *
-   * @return the string for project root path
-   */
+
   public static String getRootPath() {
     File projectDir = new File(".");
 
@@ -33,7 +29,6 @@ public class FileUtils {
       if (index > 0) {
         return projectDir.getCanonicalPath().substring(0, index - 1);
       }
-
       return projectDir.getCanonicalPath();
     } catch (IOException e) {
       e.printStackTrace();
@@ -41,25 +36,6 @@ public class FileUtils {
     return null;
   }
 
-  /**
-   * Get file in directory
-   *
-   * @param dirPath  to find the file by name in directory
-   * @param fileName to get the file
-   * @return the file was found in directory
-   */
-  public static File getFileInDirectory(String dirPath, String fileName) {
-    File dir = new File(dirPath);
-    File file = new File(dir, fileName);
-    return file;
-  }
-
-  /**
-   * Adding a slash between arguments for new path
-   *
-   * @param args are paths which are needed to one path
-   * @return path was made by args
-   */
   public static String linkPathWithSlash(String... args) {
     String path = "";
     for (int i = 0, li = args.length; i < li; i++) {
@@ -73,15 +49,9 @@ public class FileUtils {
   }
 
   public static void writeFile(File file, List<String> lineList) {
-    writeFile(file, getString(lineList));
+    writeFile(file, toString(lineList));
   }
 
-  /**
-   * Write content you want to file
-   *
-   * @param file    is target file to importLayout
-   * @param content is the string you want to importLayout
-   */
   public static void writeFile(File file, String content) {
     if (!file.getParentFile().exists() && !file.getParentFile().mkdirs()) {
       return;
@@ -121,12 +91,6 @@ public class FileUtils {
     }
   }
 
-  /**
-   * Read content from file
-   *
-   * @param file is target file to read
-   * @return content is the strings in file
-   */
   public static List<String> readFileAsString(File file) {
     Scanner scanner;
     List<String> stringList = new ArrayList<>();
@@ -145,12 +109,6 @@ public class FileUtils {
     return stringList;
   }
 
-  /**
-   * Copy file of AndroidModule to file of source project.
-   *
-   * @param sourceFilePath is path of source
-   * @throws IOException
-   */
   public static void copyFile(File moduleFile,
                               String sourceFilePath) throws IOException {
     File destDir = new File(sourceFilePath);
@@ -218,31 +176,10 @@ public class FileUtils {
     }
   }
 
-  /**
-   * Get String from String List
-   *
-   * @param strList is a content of file
-   * @return String of a content
-   */
-  public static String getString(List<String> strList) {
-    StringBuffer stringBuffer = new StringBuffer();
-    for (String str : strList) {
-      stringBuffer.append(FileUtils.addNewLine(str));
-    }
-
-    return stringBuffer.toString();
-  }
-
   public static String changeDotToSlash(String str) {
     return str.replaceAll("\\.", "/");
   }
 
-  /**
-   * Get a string between double quotes (")
-   *
-   * @param str has withLayout double quotes
-   * @return string was removed double quotes
-   */
   public static String getStringBetweenQuotes(String str) {
     Pattern pattern = Pattern.compile("\"([^\"]*)\"");
     Matcher matcher = pattern.matcher(str);
@@ -272,18 +209,19 @@ public class FileUtils {
     return pathname.substring(index, pathname.length());
   }
 
-  public static String getRelativePath(String fullPath) {
-    int index = fullPath.lastIndexOf("/");
-    return fullPath.substring(index + 1);
+  public static String removeExtension(String filename) {
+    return filename.substring(0, filename.lastIndexOf('.'));
   }
 
-  /**
-   * Add intent to line
-   *
-   * @param line is a string
-   * @return new string withLayout indent
-   */
-  public static String getIndentOfLine(String line) {
+  public static String removeFirstSlash(String path) {
+    if (path.length() > 0 && path.charAt(0) == '/') {
+      path = path.substring(1);
+    }
+
+    return path;
+  }
+
+  public static String extractIndentInLine(String line) {
     String intent = "";
     for (int i = 0, li = line.length(); i < li; i++) {
       if (line.toCharArray()[i] == ' ') {
@@ -295,36 +233,38 @@ public class FileUtils {
     return intent;
   }
 
-  /**
-   * Add '\n' to line
-   *
-   * @param line is a string without new-line character
-   * @return new string withLayout new-line character
-   */
-  private static String addNewLine(String line) {
-    return line + "\n";
-  }
-
-  public static String convertListStringToString(List<String> codelines) throws IOException {
+  public static String toString(List<String> strList) {
     final String EoL = System.getProperty("line.separator");
 
     StringBuilder sb = new StringBuilder();
-    for (String line : codelines) {
+    for (String line : strList) {
       sb.append(line).append(EoL);
     }
 
     return sb.toString();
   }
 
-  public static String removeExtension(String filename) {
-    return filename.substring(0, filename.lastIndexOf('.'));
+  public static String getStringWithRemovedComment(String line) {
+    return line.replaceAll("//.*", "");
   }
 
-  public static String removeFirstSlash(String path) {
-    if (path.length() > 0 && path.charAt(0) == '/') {
-      path = path.substring(1);
+  public static int getOpenCurlyBracketCount(String line) {
+    int count = 0;
+    for ( int i = 0; i < line.length(); i++ ) {
+      if (line.charAt(i) == '{') {
+        count++;
+      }
     }
+    return count;
+  }
 
-    return path;
+  public static int getCloseCurlyBracketCount(String line) {
+    int count = 0;
+    for ( int i = 0; i < line.length(); i++ ) {
+      if (line.charAt(i) == '}') {
+        count++;
+      }
+    }
+    return count;
   }
 }
