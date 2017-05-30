@@ -47,7 +47,6 @@ public class SourceDirectory extends Directory {
 
     resourceTransfer = new ResourceTransfer(this);
 
-    // Source directory
     mainPath = FileUtils.linkPathWithSlash(getPath(), "src/main");
     javaPath = FileUtils.linkPathWithSlash(mainPath, "java", applicationId.replaceAll("\\.", "/"));
     resPath = FileUtils.linkPathWithSlash(mainPath, "res");

@@ -26,7 +26,7 @@ import java.util.Map;
 public class AndroidManifest extends InjectionXmlFile {
   private static final String TAG = AndroidManifest.class.getSimpleName();
 
-  private static final String FILE_NAME = "AndroidManifest.xml";
+  public static final String FILE_NAME = "AndroidManifest.xml";
 
   private Node applicationNode;
   private Node mainActivityNode;

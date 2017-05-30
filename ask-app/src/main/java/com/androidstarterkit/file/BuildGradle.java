@@ -1,8 +1,10 @@
 package com.androidstarterkit.file;
 
+import com.androidstarterkit.exception.MultipleFlavorsException;
 import com.androidstarterkit.injection.file.android.InjectionGradleFile;
 import com.androidstarterkit.util.FileUtils;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,6 +32,8 @@ public class BuildGradle extends InjectionGradleFile {
         }
       }
     }
+
+    checkMultipleFlavors();
   }
 
   public String getApplicationId() {
@@ -38,5 +42,30 @@ public class BuildGradle extends InjectionGradleFile {
 
   public String getSupportLibraryVersion() {
     return supportLibraryVersion;
+  }
+
+  private void checkMultipleFlavors() {
+    List<GradleElement> gradleElements = createGradleElements();
+
+    GradleElement androidGradleElement = getGradleElement(gradleElements, "android");
+    if (androidGradleElement != null) {
+      GradleElement productFlavorsGradleElement = getGradleElement(
+          androidGradleElement.getChildElements(), "productFlavors");
+
+      if (productFlavorsGradleElement != null
+          && productFlavorsGradleElement.getChildElements().size() > 0) {
+        throw new MultipleFlavorsException();
+      }
+    }
+  }
+
+  private GradleElement getGradleElement(List<GradleElement> childElements, String name) {
+    for (GradleElement childGradleElement : childElements) {
+      if (childGradleElement.getName().equals(name)) {
+        return childGradleElement;
+      }
+    }
+
+    return null;
   }
 }

@@ -88,7 +88,8 @@ public class Ask {
     // Parsing ask json files
     AskJsonBuilder askJsonBuilder = new AskJsonBuilder(FileUtils.getRootPath()
         + "/" + AskConfig.DEFAULT_ASK_APP_NAME);
-    askJsonBuilder.addProperty("\\$\\{projectDir\\}", FileUtils.getRootPath());
+
+    askJsonBuilder.addProperty("\\$\\{projectDir\\}", sourceDirectory.getParentFile().getPath());
     askJsonBuilder.addProperty("\\$\\{appDir\\}", sourceDirectory.getPath());
     askJsonBuilder.addProperty("\\$\\{javaDir\\}", sourceDirectory.getJavaPath());
     askJsonBuilder.addProperty("\\$\\{mainDir\\}", sourceDirectory.getMainPath());

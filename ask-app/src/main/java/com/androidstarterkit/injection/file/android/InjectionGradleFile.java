@@ -77,7 +77,7 @@ public class InjectionGradleFile extends InjectionBaseFile<GradleConfig> {
     super.apply();
   }
 
-  private List<GradleElement> createGradleElements() {
+  protected List<GradleElement> createGradleElements() {
     List<GradleElement> gradleElements = new ArrayList<>();
     Stack<GradleElement> allElementStack = new Stack<>();
 
@@ -146,21 +146,25 @@ public class InjectionGradleFile extends InjectionBaseFile<GradleConfig> {
   }
 
   private String getValidElement(String codeline) {
-    Pattern pat = Pattern.compile("\\s*(\\w+)\\s*\\{\\s*");
+    Pattern pat = Pattern.compile("^\\s*([A-Za-z]+)\\s*\\{\\s*");
     Matcher matcher = pat.matcher(codeline);
 
     return matcher.find() ? matcher.group(1).trim() : null;
   }
 
-
   private boolean isInvalidOpenBracket(String codeline) {
-    String[] invalidPattern = {
+    String[] invalidPatterns = {
         "\\s*\\w+\\s*\\('[\\w.\\-_@:]+'\\s*\\)\\s*\\{", // INVALID : compile('com.crashlytics.sdk.android:answers:1.3.13@aar') {
         "\\s*\\w+\\s*\\('[\\w.\\-_@:]+'\\s*,\\s*\\{\\s*", // INVALID : androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        "\\s*task\\s+\\w+\\s*\\(\\s*\\w+\\s*:\\s*\\w+\\)\\s*\\{" // INVALID : task clean(type: Delete) {
+        "\\s*task\\s+\\w+\\s*\\(\\s*\\w+\\s*:\\s*\\w+\\)\\s*\\{", // INVALID : task clean(type: Delete) {
+        "\\s*\\w+\\s*(\\.\\w+\\s*)+\\s*\\{", // INVALID : applicationVariants.all {
+        "\\s*if\\s*\\(.+\\)+\\s*\\{", // INVALID : if (buildTypeName.equals("SNAPSHOT")) {
+        "\\s*else\\s*\\{", // INVALID : else {
+        "\\s*def\\s+\\w+\\(.*\\)\\s*\\{", // INVALID : def getStoreName(flavorName) {
+        "\\$\\{.+\\}" // INVALID : ${version}
     };
 
-    for (String pattern : invalidPattern) {
+    for (String pattern : invalidPatterns) {
       Pattern pat = Pattern.compile(pattern);
       Matcher matcher = pat.matcher(codeline);
       if (matcher.find()) {
@@ -177,7 +181,7 @@ public class InjectionGradleFile extends InjectionBaseFile<GradleConfig> {
     }
   }
 
-  private class GradleElement {
+  protected class GradleElement {
     private String name;
     private int openBracketIndex;
     private int closeBracketIndex;
@@ -200,6 +204,10 @@ public class InjectionGradleFile extends InjectionBaseFile<GradleConfig> {
 
     void addChildElement(GradleElement element) {
       childElements.add(element);
+    }
+
+    public List<GradleElement> getChildElements() {
+      return childElements;
     }
 
     @Override

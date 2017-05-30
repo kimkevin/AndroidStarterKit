@@ -46,6 +46,7 @@ public class Directory extends File {
 
     String buildGradlePath = getChildDirPath(BUILD_GRADLE_FILE);
     appBuildGradleFile = new BuildGradle(buildGradlePath);
+
     this.applicationId = appBuildGradleFile.getApplicationId();
 
     androidManifestFile = new AndroidManifest(getChildDirPath(ANDROID_MANIFEST_FILE));
@@ -63,16 +64,25 @@ public class Directory extends File {
         }
 
         Object valueObject = fileMap.get(file.getName());
-        String pathname = file.getPath().replace("/" + file.getName(), "");
+        String newPathname = file.getPath().replace("/" + file.getName(), "");
 
         if (valueObject == null) {
-          fileMap.put(file.getName(), pathname);
-        } else {
-          System.out.println(valueObject.toString());
+          fileMap.put(file.getName(), newPathname);
+        } else if (valueObject instanceof List) {
+          List<String> values = (List<String>) valueObject;
+
+          if (!values.contains(newPathname)) {
+            values.add(newPathname);
+          }
+
+          fileMap.put(file.getName(), values);
+        } else if (valueObject instanceof String) {
           String savedValue = (String) valueObject;
           List<String> values = new ArrayList<>();
           values.add(savedValue);
-          values.add(pathname);
+          if (!savedValue.equals(newPathname)) {
+            values.add(newPathname);
+          }
 
           fileMap.put(file.getName(), values);
         }
@@ -113,10 +123,40 @@ public class Directory extends File {
     this.applicationId = applicationId;
   }
 
-  public String getChildDirPath(String key) {
-    Object value = fileMap.get(key);
+  public String getChildDirPath(String filename) {
+    Object value = fileMap.get(filename);
+
     if (value instanceof String) {
       return (String) value;
+    } else if (value instanceof List) {
+      List<String> pathnames = (List<String>) value;
+      if (filename.equals(BuildGradle.FILE_NAME)) {
+        return getModuleLevelBuildGradlePathname(pathnames);
+      } else if (filename.equals(AndroidManifest.FILE_NAME)) {
+        return getModuleLevelAndroidManifestPathname(pathnames);
+      }
+    }
+
+    return null;
+  }
+
+  private String getModuleLevelBuildGradlePathname(List<String> pathnames) {
+    for (String pathname : pathnames) {
+      String replacedPathname = pathname.replace(getPath(), "");
+      if (replacedPathname.length() <= 0 || replacedPathname.equals("/")) {
+        return pathname;
+      }
+    }
+
+    return null;
+  }
+
+  private String getModuleLevelAndroidManifestPathname(List<String> pathnames) {
+    for (String pathname : pathnames) {
+      String replacedPathname = pathname.replace(getPath(), "");
+      if (replacedPathname.equals("/src/main")) {
+        return pathname;
+      }
     }
 
     return null;
