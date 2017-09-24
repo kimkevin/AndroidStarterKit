@@ -17,7 +17,7 @@ $ cd AndroidStarterKit
 $ export PATH=$PATH:$(pwd) >> ~/.bash_profile
 ```
 
-For example, the following command generate the Android project of the following path which included in the GridView and RecyclerView for layouts and the Firebase Analytics and Crash Reporting. Use the following command to do so:
+For example, the following command generate the Android project of the following path which included in the `GridView` and `RecyclerView` for layouts and the `Firebase Analytics` and `Firebase Crash Reporting`. Use the following command to do so:
 
 ```bash
 $ ask -l gv,rv -m fa,fc /path/to/android/project
